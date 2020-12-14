@@ -10,7 +10,9 @@ django = "*"
 pillow = "*"
 django-urls = "*"
 django-braces = "==1.14.0"
-braces = "*"
+psycopg2 = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"

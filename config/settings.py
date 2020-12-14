@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'courses.apps.CoursesConfig',
-
+    'accounts.apps.AccountsConfig',
+    'announcements.apps.AnnouncementsConfig',
+    'assignments.apps.AssignmentsConfig',
+    'students.apps.StudentsConfig',
 ]
 
 MIDDLEWARE = [

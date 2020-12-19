@@ -1,5 +1,12 @@
 @import url(//fonts.googleapis.com/css?family=Roboto:500,300,400);
 
+.dot {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
 body {
     margin:0;
     font-family:'Roboto', sans-serif;
@@ -235,6 +242,34 @@ ul#course-modules li:hover {
 }
 
 #module-contents div:hover {
+    cursor:move;
+}
+
+.moveable-list-contents {
+    border: 1px solid black;
+}
+
+.moveable-list-contents div {
+    padding:10px 20px;
+    border:1px solid #ccc;
+    background:#fff
+}
+
+div.moveable-list-contents form {
+    margin:0;
+    padding:0;
+}
+
+div.moveable-list-contents input[type=submit] {
+    color:#3fad37;
+    background:none;
+    margin:-20px 0 0;
+    padding:0;
+    float:left;
+    text-transform:none;
+}
+
+div.moveable-list-contents div:hover {
     cursor:move;
 }
 

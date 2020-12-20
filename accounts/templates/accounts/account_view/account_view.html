@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Account
+    Account {{ user_details.userid }}
 {% endblock %}
 {% block content %}
 
     <div id="selection-pane-div" style="float: left">
         <table>
-            <tr><th><a href="/account/profile/{{ user_details.username }}">Account</a></th></tr>
-            <tr><th><a href="/account/edit/{{ user_details.username }}">Settings</a></th></tr>
-            <tr><th><a href="/account/analytics/{{ user_details.username }}">Analytics</a></th></tr>
+            <tr><th><a href="/account/profile/{{ user_details.userid }}">Account</a></th></tr>
+            <tr><th><a href="/account/edit/{{ user_details.userid }}">Settings</a></th></tr>
+            <tr><th><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></th></tr>
         </table>
     </div>
     <div id="user-details-div" style="float: left">
-        <p>userID: {{ user_details.username }}</p>
+        <p>userID: {{ user_details.userid }}</p>
         <p>Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
         <div id="contacts-div" style="overflow: hidden">
             <table style="border: 1px solid black">

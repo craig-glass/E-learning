@@ -14,14 +14,14 @@ class AccountDisplayView(View):
     """
     template_name = 'accounts/account_view/account_view.html'
 
-    def get(self, request: HttpRequest, username: str = None) -> HttpResponse:
+    def get(self, request: HttpRequest, userid: str = None) -> HttpResponse:
         current_user = request.user
-        if username is None:
+        if userid is None:
             if current_user.is_authenticated:
-                return redirect('/account/profile/' + current_user.username)
+                return redirect('/account/profile/' + current_user.userid)
             else:
                 return redirect('/accounts/login')
-        user_details = get_user_details(Profile.objects.get(username=username), current_user)
+        user_details = get_user_details(Profile.objects.get(userid=userid), current_user)
         can_edit = False
         context = {
             "user_details": user_details,
@@ -37,8 +37,8 @@ def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
     reader -- Profile instance of the user sending the request
     """
     user_details = {}
-    if reader.is_authenticated and (account == reader or reader.has_perm('accounts.')):
-        user_details["username"] = account.username
+    if reader.is_authenticated and (account == reader or reader.has_perm('accounts.readall')):
+        user_details["userid"] = account.userid
         user_details["firstname"] = account.first_name
         user_details["lastname"] = account.last_name
 

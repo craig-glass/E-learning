@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <title>{% block title %}Educate{% endblock %}</title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{ csrf_token }}' }
+        })
+    </script>
 </head>
 <body>
 <header>
@@ -29,6 +35,7 @@
         {% endblock %}
     });
 </script>
+{% block extrajavascript %}{% endblock %}
 
 </body>
 </html>

@@ -146,6 +146,14 @@ form p {
     overflow:auto;
 }
 
+span.error {
+    display: none;
+}
+
+span.error_show {
+    color: red;
+}
+
 .errorlist {
     color:#ae2c2c;
     margin:0;
@@ -166,6 +174,14 @@ input, select, textarea {
     float:left;
     clear:both;
     width:300px;
+}
+
+input.invalid, textarea.invalid {
+    border: 2px solid red;
+}
+
+input.valid, textarea.valid {
+    border: 2px solid green;
 }
 
 textarea {

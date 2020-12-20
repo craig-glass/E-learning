@@ -16,10 +16,12 @@ class AccountDisplayView(View):
 
     def get(self, request: HttpRequest, userid: str = None) -> HttpResponse:
         current_user = request.user
-        if userid is None:
+        if userid is None: # No userid specified in url
             if current_user.is_authenticated:
+                # Redirect to current user's account page
                 return redirect('/account/profile/' + current_user.userid)
             else:
+                # Redirect to login page to authenticate
                 return redirect('/accounts/login')
         user_details = get_user_details(Profile.objects.get(userid=userid), current_user)
         can_edit = False
@@ -30,6 +32,21 @@ class AccountDisplayView(View):
         return render(request, self.template_name, context)
 
 
+class AccountCreateView(View):
+    """
+    View for staff to create new accounts
+    """
+    template_name = 'accounts/account_create/account_create.html'
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        current_user = request.user
+        if not current_user.is_authenticated:
+            return redirect('/accounts/login')
+        elif not current_user.has_perm('accounts.create_user'):
+            return redirect('/')
+        return render(request, self.template_name)
+
+
 def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
     """
     Get details from account based on permissions held by reader
@@ -37,7 +54,7 @@ def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
     reader -- Profile instance of the user sending the request
     """
     user_details = {}
-    if reader.is_authenticated and (account == reader or reader.has_perm('accounts.readall')):
+    if reader.is_authenticated and (account == reader or reader.has_perm('accounts.read_all')):
         user_details["userid"] = account.userid
         user_details["firstname"] = account.first_name
         user_details["lastname"] = account.last_name
@@ -50,5 +67,5 @@ def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
         user_details["staff"] = account.is_staff
         user_details["superuser"] = account.is_superuser
 
-        user_details["online"] = account.is_active
+        user_details["online"] = True
     return user_details

@@ -176,7 +176,7 @@ input, select, textarea {
     width:300px;
 }
 
-input.invalid textarea.invalid {
+input.invalid, textarea.invalid {
     border: 2px solid red;
 }
 

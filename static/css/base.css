@@ -147,11 +147,11 @@ form p {
 }
 
 span.error {
-    display: none;
+    color: red;
 }
 
-span.error_show {
-    color: red;
+span.success {
+    color: #3f3f3f;
 }
 
 .errorlist {

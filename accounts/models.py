@@ -1,12 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+import random
 
 
 class ProfileManager(BaseUserManager):
     def create_user(self, userid, email, password=None):
-        if not userid:
-            raise ValueError('Users must have an ID')
-
         user = self.model(
             email=self.normalize_email(email),
         )
@@ -27,9 +25,10 @@ class ProfileManager(BaseUserManager):
 
 
 class Profile(AbstractBaseUser):
-    userid = models.CharField(max_length=50, unique=True, null=False)
 
-    first_name = models.CharField(max_length=150, null=False)
+    userid = models.CharField(max_length=50, unique=True, blank=True, null=False)
+
+    first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
 
     email = models.EmailField(max_length=254, unique=True, null=False)
@@ -45,11 +44,16 @@ class Profile(AbstractBaseUser):
     USERNAME_FIELD = 'userid'
     REQUIRED_FIELDS = ['email']
 
-    def __str__(self):
-        return self.userid
+    # def save(self, *args, **kwargs):
+    #     if self.userid is None or self.userid == "":
+    #         self.userid = "u" + str(self.id)
+    #     super().save(*args, **kwargs)
 
     def has_perm(self, perm, obj=None):
         return True
 
     def has_module_perms(self, app_label):
         return True
+
+    def __str__(self):
+        return self.userid

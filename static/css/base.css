@@ -36,6 +36,13 @@ h1 {
     border-bottom:6px solid #303030;
 }
 
+.dot {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
 .module {
     padding:10px 20px;
     float:left;
@@ -154,6 +161,14 @@ form p {
     overflow:auto;
 }
 
+span.error {
+    color: red;
+}
+
+span.success {
+    color: #3f3f3f;
+}
+
 .errorlist {
     color:#ae2c2c;
     margin:0;
@@ -174,6 +189,14 @@ input, select, textarea {
     float:left;
     clear:both;
     width:300px;
+}
+
+input.invalid, textarea.invalid {
+    border: 2px solid red;
+}
+
+input.valid, textarea.valid {
+    border: 2px solid green;
 }
 
 textarea {
@@ -250,6 +273,34 @@ ul#course-modules li:hover {
 }
 
 #module-contents div:hover {
+    cursor:move;
+}
+
+.moveable-list-contents {
+    border: 1px solid black;
+}
+
+.moveable-list-contents div {
+    padding:10px 20px;
+    border:1px solid #ccc;
+    background:#fff
+}
+
+div.moveable-list-contents form {
+    margin:0;
+    padding:0;
+}
+
+div.moveable-list-contents input[type=submit] {
+    color:#3fad37;
+    background:none;
+    margin:-20px 0 0;
+    padding:0;
+    float:left;
+    text-transform:none;
+}
+
+div.moveable-list-contents div:hover {
     cursor:move;
 }
 

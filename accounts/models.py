@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-import random
 
 
 class ProfileManager(BaseUserManager):
     def create_user(self, userid, email, password=None):
         user = self.model(
+            userid=userid,
+            password=password,
             email=self.normalize_email(email),
         )
 
@@ -19,7 +20,8 @@ class ProfileManager(BaseUserManager):
             password=password,
             email=email,
         )
-        user.is_admin = True
+        user.is_superuser = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -41,15 +43,15 @@ class Profile(AbstractBaseUser):
 
     date_joined = models.DateTimeField(blank=True, null=True)
 
+    objects = ProfileManager()
+
     USERNAME_FIELD = 'userid'
     REQUIRED_FIELDS = ['email']
 
-    # def save(self, *args, **kwargs):
-    #     if self.userid is None or self.userid == "":
-    #         self.userid = "u" + str(self.id)
-    #     super().save(*args, **kwargs)
-
     def has_perm(self, perm, obj=None):
+        return True
+
+    def has_perms(self, perms, obj=None):
         return True
 
     def has_module_perms(self, app_label):

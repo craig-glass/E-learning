@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.hashers import make_password
 import random
 
 from .models import Profile
@@ -21,6 +22,9 @@ class UserCreationForm(forms.ModelForm):
                     return userid
             raise FailedGenerationError("Failed to generate unique userid")
         return userid
+
+    def clean_password(self):
+        return make_password(self.cleaned_data['password'])
 
     def save(self, commit=True):
         user = super().save(commit=False)

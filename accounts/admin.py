@@ -18,13 +18,18 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('userid', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
         ('Contact info', {'fields': ('email', 'phone_number', 'term_address')}),
-        ('Permissions', {'fields': ('is_student', 'is_staff', 'is_superuser')}),
+        ('Permissions', {'fields': ('is_student', 'is_staff', 'is_superuser',
+                                    'user_permissions')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name', 'password1', 'password2')
-        })
+            'fields': ('userid', 'email', 'password',
+                       'is_student', 'is_staff', 'is_superuser'),
+        }),
+        ('Optional', {
+            'fields': ('first_name', 'last_name', 'phone_number', 'term_address')
+        }),
     )
     search_fields = ('userid', 'email')
     ordering = ('userid', 'email')

@@ -15,6 +15,11 @@ All courses
     All courses
     {% endif %}
 </h1>
+
+<div class="row">
+<div class="col-sm-3">
+<a href="#menu" id="toggle"><span></span></a>
+<div id="menu">
 <div class="contents">
     <h3>Subjects</h3>
     <ul id="modules">
@@ -31,6 +36,9 @@ All courses
         {% endfor %}
     </ul>
 </div>
+</div>
+    </div>
+<div class="col-sm-9">
 <div class="module">
     {% for course in courses %}
         {% with subject=course.subject %}
@@ -47,4 +55,49 @@ All courses
         {% endwith %}
     {% endfor %}
 </div>
+</div>
+</div>
+<script>
+var theToggle = document.getElementById('toggle');
+
+
+function hasClass(elem, className) {
+	return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+}
+// addClass
+function addClass(elem, className) {
+    if (!hasClass(elem, className)) {
+    	elem.className += ' ' + className;
+    }
+}
+// removeClass
+function removeClass(elem, className) {
+	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
+	if (hasClass(elem, className)) {
+        while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
+            newClass = newClass.replace(' ' + className + ' ', ' ');
+        }
+        elem.className = newClass.replace(/^\s+|\s+$/g, '');
+    }
+}
+// toggleClass
+function toggleClass(elem, className) {
+	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
+    if (hasClass(elem, className)) {
+        while (newClass.indexOf(" " + className + " ") >= 0 ) {
+            newClass = newClass.replace( " " + className + " " , " " );
+        }
+        elem.className = newClass.replace(/^\s+|\s+$/g, '');
+    } else {
+        elem.className += ' ' + className;
+    }
+}
+
+document.getElementById('toggle').onclick = function() {
+   toggleClass(this, 'on');
+   return false;
+}
+</script>
+
+
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Student Home{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center">
+    Student Home Page
+</h1>
+
+<div id="studentHome">
+    <p>This is the student homepage/dashboard</p>
+</div>
+<div id="sideMenu">
+<ul>
+    <li><a href="#">Announcements</a></li>
+    <li><a href="{% url 'student_course_detail' course.id %}">Modules</a></li>
+    <li><a href="#">Assignments</a></li>
+    <li><a href="#">Calendar</a></li>
+    <li><a href="#">Account</a></li>
+</ul>
+</div>
+{% endblock %}

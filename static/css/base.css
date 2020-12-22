@@ -48,10 +48,10 @@ h1 {
 }
 
 header {
-    background:#4dcc43;
+    background:dodgerblue;
     overflow:auto;
     padding:10px 20px;
-    border-bottom:6px solid #3fad37;
+    border-bottom:6px solid royalblue;
 }
 
 header .logo {
@@ -119,16 +119,28 @@ header .menu {
 }
 
 .contents ul a:hover {
-    color:#4dcc43;
+    color:dodgerblue;
     cursor:move;
 }
-
+.contents a {
+    color: dodgerblue;
+}
+.contents a:hover {
+    color: royalblue;
+}
 ul.content-types li {
     list-style:none;
     float:left;
     margin:10px;
     background:#efefef;
     padding:8px 14px;
+}
+.content-types a {
+    color: dodgerblue;
+}
+
+.content-types a:hover {
+    color: royalblue;
 }
 
 .hidden {
@@ -171,7 +183,7 @@ select {
 
 input[type=submit], a.button {
     border-radius:5px;
-    background:#4dcc43;
+    background:dodgerblue;
     color:#fff;
     font-size:16px;
     text-transform:uppercase;
@@ -181,13 +193,13 @@ input[type=submit], a.button {
 }
 
 a.secondary-button {
-    border:3px solid #4dcc43;
+    border:3px solid dodgerblue;
     padding:10px 20px;
     margin:10px 0;
 }
 
 input[type=submit]:hover, a.button:hover {
-    background:#3fad37;
+    background:royalblue;
 }
 
 ul#course-modules {
@@ -224,14 +236,24 @@ ul#course-modules li:hover {
     margin:0;
     padding:0;
 }
+#module-contents a {
+    color: dodgerblue;
+}
+#module-contents a:hover {
+    color: royalblue;
+}
 
 #module-contents input[type=submit] {
-    color:#3fad37;
+    color:dodgerblue;
     background:none;
     margin:-20px 0 0;
     padding:0;
     float:left;
     text-transform:none;
+}
+#module-contents input:hover {
+    color: royalblue;
+    cursor: pointer;
 }
 
 #module-contents div:hover {
@@ -248,6 +270,10 @@ ul#course-modules li:hover {
 
 .course-info a {
     margin-right:10px;
+    color: dodgerblue;
+}
+.course-info a:hover {
+    color: royalblue;
 }
 
 .helptext {
@@ -306,4 +332,22 @@ ul#course-modules li:hover {
     margin-right:2%;
     padding-left:0;
     padding-right:0;
+}
+
+#studentHome {
+    margin-left: 30%;
+    margin-right: 30%;
+}
+#sideMenu {
+    float: right;
+    margin-right: 2%;
+}
+#sideMenu ul {
+    list-style: none;
+}
+#sideMenu a {
+    color: dodgerblue;
+}
+#sideMenu a:hover {
+    color: royalblue;
 }

@@ -7,7 +7,7 @@
     {% for course in object_list %}
     <div class="course-info">
         <h3>{{ course.title }}</h3>
-        <p><a href="{% url 'student_course_detail' course.id %}">
+        <p><a href="{% url 'student_home_page' course.id %}">
             Access contents
         </a></p>
     </div>

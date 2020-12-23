@@ -10,7 +10,7 @@
         {% for m in course.modules.all %}
         <li data-id="{{ m.id }}"{% if m == module %}
         class="selected"{% endif %}>
-        <a href="{% url "assignments_content_list" m.id %}">
+        <a href="{% url "assignments_list" m.id %}">
             <span>
                 Module<span class="order">
                 {{ m.order|add:1 }}
@@ -29,10 +29,10 @@
 
     <h3>Add new content:</h3>
     <ul class="content-types">
-        <li><a href="{% url "module_content_create" module.id "text" %}">Text</a></li>
-        <li><a href="{% url "module_content_create" module.id "image" %}">Image</a></li>
-        <li><a href="{% url "module_content_create" module.id "video" %}">Video</a></li>
-        <li><a href="{% url "module_content_create" module.id "file" %}">File</a></li>
+        <li><a href="{% url "assignment_content_create" module.id "text" %}">Text</a></li>
+        <li><a href="{% url "assignment_content_create" module.id "image" %}">Image</a></li>
+        <li><a href="{% url "assignment_content_create" module.id "video" %}">Video</a></li>
+        <li><a href="{% url "assignment_content_create" module.id "file" %}">File</a></li>
     </ul>
 </div>
 {% endwith %}

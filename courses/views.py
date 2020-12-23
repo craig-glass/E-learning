@@ -160,7 +160,6 @@ class ModuleContentListView(TemplateResponseMixin,
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
-        assignments = Module.objects.filter(contents__is_assignment=True)
         return self.render_to_response({'module': module})
 
 

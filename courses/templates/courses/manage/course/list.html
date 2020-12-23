@@ -14,7 +14,7 @@
                 <a href="{% url 'module_content_list' course.modules.first.id %}">
                     Manage contents
                 </a>
-                <a href="{% url 'assignments_content_list' course.modules.first.id %}">Manage Assignments</a>
+                <a href="{% url 'assignments_list' course.modules.first.id %}">Manage Assignments</a>
                 {% endif %}
             </p>
         </div>

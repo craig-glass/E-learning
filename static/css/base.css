@@ -412,8 +412,8 @@ div.moveable-list-contents div:hover {
     list-style: none;
 }
 #sideMenu a {
-    color: dodgerblue;
+    color: white;
 }
 #sideMenu a:hover {
-    color: royalblue;
+    color: black;
 }

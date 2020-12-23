@@ -174,11 +174,11 @@ form p {
 }
 
 span.error {
-    display: none;
+    color: red;
 }
 
-span.error_show {
-    color: red;
+span.success {
+    color: #3f3f3f;
 }
 
 .errorlist {
@@ -401,5 +401,19 @@ div.moveable-list-contents div:hover {
 }
 
 #studentHome {
-    padding-left: 100px;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+#sideMenu {
+    float: right;
+    margin-right: 2%;
+}
+#sideMenu ul {
+    list-style: none;
+}
+#sideMenu a {
+    color: white;
+}
+#sideMenu a:hover {
+    color: black;
 }

@@ -127,13 +127,15 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
                              instance=self.obj,
                              data=request.POST,
                              files=request.FILES)
+
         if form.is_valid():
             obj = form.save(commit=False)
             obj.owner = request.user
             obj.save()
             if not id:
                 Content.objects.create(module=self.module,
-                                       item=obj)
+                                       item=obj,
+                                       is_assignment=True)
             return redirect('module_content_list', self.module.id)
         return self.render_to_response({'form': form,
                                         'object': self.obj})
@@ -158,6 +160,7 @@ class ModuleContentListView(TemplateResponseMixin,
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
+        assignments = Module.objects.filter(contents__is_assignment=True)
         return self.render_to_response({'module': module})
 
 
@@ -207,5 +210,3 @@ class CourseDetailView(DeleteView):
             initial={'course': self.object}
         )
         return context
-
-

@@ -28,6 +28,9 @@ urlpatterns = [
     path('course/', include('courses.urls')),
     path('', HomePageView.as_view(), name='homepage'),
     path('students/', include('students.urls')),
+    path('account/', include('accounts.urls')),
+    path('', CourseListView.as_view(), name='course_list'),
+
 ]
 
 if settings.DEBUG:

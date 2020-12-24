@@ -38,6 +38,17 @@ class AccountDisplayView(View):
         return render(request, self.template_name, context)
 
 
+class AccountSettingsView(View):
+    template_name = "accounts/account_view/account_settings.html"
+
+    def get(self, request: HttpRequest, userid: str) -> HttpResponse:
+        account = Profile.objects.get(userid=userid)
+        context = {
+            "account": account,
+        }
+        return render(request, self.template_name, context)
+
+
 class AccountCreateView(View):
     """
     View for staff to create new accounts
@@ -99,23 +110,23 @@ def get_user_details(account: Profile, reader: User) -> Tuple[bool, Dict[str, an
 
 def parse_details(account: Profile, allowed_details: Sequence[str]) -> Dict[str, any]:
     details = {}
-    if "userid" in allowed_details:
+    if 'userid' in allowed_details:
         details["userid"] = account.userid
-    if "firstname" in allowed_details:
+    if 'firstname' in allowed_details:
         details["firstname"] = account.first_name
-    if "lastname" in allowed_details:
+    if 'lastname' in allowed_details:
         details["lastname"] = account.last_name
-    if "contacts" in allowed_details or "email" in allowed_details:
+    if 'contacts' in allowed_details or 'email' in allowed_details:
         details["contacts"] = {}
         details["contacts"]["email"] = account.email
         if "contacts" in allowed_details:
             details["contacts"]["phone"] = account.phone_number
             details["contacts"]["term address"] = account.term_address
-    if "student" in allowed_details:
+    if 'student' in allowed_details:
         details["student"] = account.is_student
-    if "staff" in allowed_details:
+    if 'staff' in allowed_details:
         details["staff"] = account.is_staff
-    if "superuser" in allowed_details:
+    if 'superuser' in allowed_details:
         details["superuser"] = account.is_superuser
     return details
 

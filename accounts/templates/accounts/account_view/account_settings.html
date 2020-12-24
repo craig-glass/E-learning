@@ -24,7 +24,7 @@
                     </tr>
                 {% endfor %}
                 <tr>
-                    <th><input id="account-update-submit" type="submit" value="Submit"></th>
+                    <th><input id="account-update-submit" type="submit" value="Save"></th>
                     <th><span id="response-span"></span></th>
                 </tr>
             </table>
@@ -71,7 +71,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#email').on('input', function () {
+            $('#contact-email').on('input', function () {
                 let input = $(this);
                 let value = input.val();
                 if (value.match("^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$")) {
@@ -80,7 +80,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#phone').on('input', function () {
+            $('#contact-phone').on('input', function () {
                 let input = $(this);
                 let value = input.val()
                 if (!value.match("^ +$") && value.match("[0-9]")) {
@@ -89,7 +89,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#address').on('input', function () {
+            $('#contact-address').on('input', function () {
                 let input = $(this);
                 let value = input.val()
                 if (!value.match("^ +$")) {
@@ -104,17 +104,17 @@
                 return false;
             });
             // Call ajax on form submit
-            $('#account-create-submit').click(function(e) {
+            $('#account-update-submit').click(function(e) {
                 let isValid = true;
-                let form = $('#account-create-form *');
-                let formData = {}
+                let form = $('#account-update-form *');
+                let formData = {"userid": "{{ user_details.userid }}"}
 
                 // Ensure no inputs are invalid
                 form.filter(':input').each(function () {
                     isValid = isValid && !$(this).hasClass('invalid');
                     switch ($(this).attr('type')) {
                         case 'text':
-                            formData[$(this).attr('name')] = $(this).val() === '' ? null : $(this).val();
+                            formData[$(this).attr('name')] = $(this).val();
                             break;
                         case 'checkbox':
                             formData[$(this).attr('name')] = $(this).is(':checked');
@@ -128,6 +128,26 @@
                     responseSpan.removeClass('success').addClass('error');
                     return;
                 }
+                console.log(formData);
+
+                $.ajax({
+                    url: "/account/updateAccountAjax",
+                    type: "POST",
+                    data: formData,
+                    dataType: "json",
+                    headers: {"X-CSRFToken": '{{ csrf_token }}'},
+                    success: function(response) {
+                        let responseSpan = $('#response-span');
+                        responseSpan.html('Success!');
+                        responseSpan.removeClass('error').addClass('success');
+                    },
+                    error: function(response) {
+                        let responseSpan = $('#response-span');
+                        // e.g. "Error 500: Internal Server Error"
+                        responseSpan.html('Error ' + response.status + ': ' + response.statusText);
+                        responseSpan.removeClass('success').addClass('error');
+                    }
+                })
             })
         });
     </script>

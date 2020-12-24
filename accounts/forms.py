@@ -38,10 +38,32 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('userid', 'email', 'password', 'is_student', 'is_staff', 'is_superuser')
+        fields = ('userid', 'first_name', 'last_name', 'email', 'password', 'is_student', 'is_staff', 'is_superuser')
 
     def clean_password(self):
         return self.initial["password"]
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
+
+
+class UserUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ('userid', 'first_name', 'last_name', 'email', 'phone_number', 'term_address')
+
+    def clean_password(self):
+        return make_password(self.cleaned_data['password'])
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
 
 
 class FailedGenerationError(Exception):

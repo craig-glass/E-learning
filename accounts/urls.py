@@ -7,4 +7,5 @@ urlpatterns = [
     path('edit/<str:userid>', views.AccountSettingsView.as_view()),
     path('create', views.AccountCreateView.as_view()),
     path('createAccountAjax', views.AccountCreateAjax.as_view()),
+    path('updateAccountAjax', views.AccountUpdateAjax.as_view()),
 ]

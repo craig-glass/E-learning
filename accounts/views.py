@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View, TemplateResponseMixin
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from typing import Dict, Tuple, Sequence
@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.views.generic.edit import FormView, CreateView
 
 from .models import Profile
-from .forms import UserCreationForm
+from .forms import UserCreationForm, UserUpdateForm
 
 
 class AccountDisplayView(View):
@@ -40,6 +40,9 @@ class AccountDisplayView(View):
 
 
 class AccountSettingsView(View):
+    """
+    View for displaying editable user details and other preferences
+    """
     template_name = "accounts/account_view/account_settings.html"
 
     def get(self, request: HttpRequest, userid: str) -> HttpResponse:
@@ -76,17 +79,41 @@ class AccountCreateAjax(View):
     """
     Ajax submission for creating new accounts
     """
-    def post(self, request):
+    def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
         if current_user.is_authenticated and current_user.has_perm('accounts.add_profile'):
             form = UserCreationForm(request.POST)
-            print(request.POST)
             if form.is_valid():
                 user = form.save()
                 user.clean()
                 return JsonResponse({})
             else:
-                print("ERRORS " + str(form.errors))
+                response = JsonResponse({})
+                response.status_code = 422
+                return response
+        else:
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+
+
+class AccountUpdateAjax(View):
+    """
+    Ajax submission for updating existing accounts
+    """
+    def post(self, request: HttpRequest) -> JsonResponse:
+        print(request.POST)
+        current_user = request.user
+        account = Profile.objects.get(userid=request.POST['userid'])
+        print(account.last_name)
+        if current_user.is_authenticated and current_user == account:
+            form = UserUpdateForm(request.POST, instance=account)
+            if form.is_valid():
+                user = form.save()
+                user.clean()
+                print(user.last_name)
+                return JsonResponse({})
+            else:
                 response = JsonResponse({})
                 response.status_code = 422
                 return response

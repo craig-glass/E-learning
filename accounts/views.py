@@ -30,10 +30,11 @@ class AccountDisplayView(View):
             if not (current_user.is_authenticated or account.is_staff):
                 # Unauthenticated users can only view staff accounts, otherwise redirect home
                 return redirect('/')
-        can_edit, user_details = get_user_details(account, current_user)
+        user_details = get_user_details(account, current_user)
         context = {
             "user_details": user_details,
-            "can_edit": can_edit,
+            "is_user": current_user == account,
+            "show_analytics": current_user == account or current_user.has_perm('accounts.view_profile'),
         }
         return render(request, self.template_name, context)
 
@@ -42,11 +43,18 @@ class AccountSettingsView(View):
     template_name = "accounts/account_view/account_settings.html"
 
     def get(self, request: HttpRequest, userid: str) -> HttpResponse:
+        current_user = request.user
         account = Profile.objects.get(userid=userid)
-        context = {
-            "account": account,
-        }
-        return render(request, self.template_name, context)
+        if current_user == account:
+            user_details = get_user_details(account, current_user)
+            context = {
+                "user_details": user_details,
+                "is_user": True,
+                "show_analytics": True,
+            }
+            return render(request, self.template_name, context)
+        else:
+            return redirect('/')
 
 
 class AccountCreateView(View):
@@ -88,7 +96,7 @@ class AccountCreateAjax(View):
             return response
 
 
-def get_user_details(account: Profile, reader: User) -> Tuple[bool, Dict[str, any]]:
+def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
     """
     Get details from account based on permissions held by reader
     account -- Profile instance of the account being read
@@ -99,13 +107,11 @@ def get_user_details(account: Profile, reader: User) -> Tuple[bool, Dict[str, an
     if reader.is_authenticated and (account == reader or reader.has_perm('accounts.view_profile')):
         # Reader has permissions to fully view this account, or is this account
         user_details = parse_details(account, FULL_VIEW)
-        if account == reader or reader.has_perm('accounts.change_profile'):
-            can_edit = True
     elif account.is_staff:
         user_details = parse_details(account, PARTIAL_STAFF_VIEW)
     else:
         user_details = parse_details(account, PARTIAL_VIEW)
-    return can_edit, user_details
+    return user_details
 
 
 def parse_details(account: Profile, allowed_details: Sequence[str]) -> Dict[str, any]:
@@ -117,11 +123,11 @@ def parse_details(account: Profile, allowed_details: Sequence[str]) -> Dict[str,
     if 'lastname' in allowed_details:
         details["lastname"] = account.last_name
     if 'contacts' in allowed_details or 'email' in allowed_details:
-        details["contacts"] = {}
-        details["contacts"]["email"] = account.email
+        details["contacts"] = []
+        details["contacts"].append({"name": "email", "value": account.email, "show_as": "Email"})
         if "contacts" in allowed_details:
-            details["contacts"]["phone"] = account.phone_number
-            details["contacts"]["term address"] = account.term_address
+            details["contacts"].append({"name": "phone_number", "value": account.phone_number, "show_as": "Phone Number"})
+            details["contacts"].append({"name": "term_address", "value": account.term_address, "show_as": "Term Address"})
     if 'student' in allowed_details:
         details["student"] = account.is_student
     if 'staff' in allowed_details:

@@ -1,10 +1,134 @@
 {% extends "accounts/account_view/account_view_base.html" %}
 
-{% block title %}
-    Account
-{% endblock %}
 {% block account_view_content %}
-    <div id="user-details-div">
-        <p>userID: {{ account.userid }}</p>
+    <div id="user-details-div" style="float: left">
+        <p>UserID: {{ user_details.userid }}</p>
+        <form id="account-update-form" method="post" action="">
+            <table style="border: 1px solid black">
+                <tr>
+                    <th><label for="first-name">First Name(s):</label></th>
+                    <th><input id="first-name" type="text" name="first_name"
+                               value="{{ user_details.firstname }}"></th>
+                </tr>
+                <tr>
+                    <th><label for="last-name">Last Name:</label></th>
+                    <th><input id="last-name" type="text" name="last_name"
+                               value="{{ user_details.lastname }}"></th>
+                </tr>
+                <th>Contacts</th>
+                {% for contact in user_details.contacts %}
+                    <tr>
+                        <th><label for="contact-{{ contact.name }}">{{ contact.show_as }}:</label></th>
+                        <th><input id="contact-{{ contact.name }}" type="text" name="{{ contact.name }}"
+                                   value="{{ contact.value }}"></th>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <th><input id="account-update-submit" type="submit" value="Submit"></th>
+                    <th><span id="response-span"></span></th>
+                </tr>
+            </table>
+        </form>
     </div>
+{% endblock %}
+{% block extrajavascript %}
+    <script>
+        $(document).ready(function () {
+            // Form validation functions
+            $('#userid').on('input', function () {
+                let input = $(this);
+                let value = input.val();
+                if (!value.match("^ *$")) {
+                    input.removeClass("invalid").addClass("valid");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                }
+            });
+            $('#password').on('input', function () {
+                let input = $(this);
+                let value = input.val()
+                if (!value.match("^ *$")) {
+                    input.removeClass("invalid").addClass("valid");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                }
+            });
+            $('#first-name').on('input', function () {
+                let input = $(this);
+                let value = input.val()
+                if (!value.match("^ *$")) {
+                    input.removeClass("invalid").addClass("valid");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                }
+            });
+            $('#last-name').on('input', function () {
+                let input = $(this);
+                let value = input.val()
+                if (!value.match("^ *$")) {
+                    input.removeClass("invalid").addClass("valid");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                }
+            });
+            $('#email').on('input', function () {
+                let input = $(this);
+                let value = input.val();
+                if (value.match("^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$")) {
+                    input.removeClass("invalid").addClass("valid");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                }
+            });
+            $('#phone').on('input', function () {
+                let input = $(this);
+                let value = input.val()
+                if (!value.match("^ +$") && value.match("[0-9]")) {
+                    input.removeClass("invalid").addClass("valid");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                }
+            });
+            $('#address').on('input', function () {
+                let input = $(this);
+                let value = input.val()
+                if (!value.match("^ +$")) {
+                    input.removeClass("invalid").addClass("valid");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                }
+            });
+
+            // Prevent form from ever redirecting
+            $('#account-update-form').submit(function(e) {
+                return false;
+            });
+            // Call ajax on form submit
+            $('#account-create-submit').click(function(e) {
+                let isValid = true;
+                let form = $('#account-create-form *');
+                let formData = {}
+
+                // Ensure no inputs are invalid
+                form.filter(':input').each(function () {
+                    isValid = isValid && !$(this).hasClass('invalid');
+                    switch ($(this).attr('type')) {
+                        case 'text':
+                            formData[$(this).attr('name')] = $(this).val() === '' ? null : $(this).val();
+                            break;
+                        case 'checkbox':
+                            formData[$(this).attr('name')] = $(this).is(':checked');
+                            break;
+                    }
+                })
+
+                if (!isValid) {
+                    let responseSpan = $('#response-span');
+                    responseSpan.html('Invalid inputs');
+                    responseSpan.removeClass('success').addClass('error');
+                    return;
+                }
+            })
+        });
+    </script>
 {% endblock %}

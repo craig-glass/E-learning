@@ -12,28 +12,40 @@ class UserAdmin(BaseUserAdmin):
 
     list_display = ('userid', 'email', 'first_name', 'last_name',
                     'is_student', 'is_staff', 'is_superuser')
-    list_filter = ('is_superuser', 'is_staff', 'is_student')
+    list_filter = ('is_superuser',)
 
     fieldsets = (
         (None, {'fields': ('userid', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
         ('Contact info', {'fields': ('email', 'phone_number', 'term_address')}),
-        ('Permissions', {'fields': ('is_student', 'is_staff', 'is_superuser',
-                                    'user_permissions')}),
+        ('Permissions', {'fields': ('is_superuser', 'groups', 'user_permissions')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('userid', 'email', 'password',
-                       'is_student', 'is_staff', 'is_superuser'),
+            'fields': ('userid', 'email', 'password'),
         }),
         ('Optional', {
-            'fields': ('first_name', 'last_name', 'phone_number', 'term_address')
+            'fields': ('first_name', 'last_name',
+                       'phone_number', 'term_address')
+        }),
+        ('Permissions', {
+            'fields': ('is_superuser', 'groups', 'user_permissions'),
         }),
     )
     search_fields = ('userid', 'email')
     ordering = ('userid', 'email')
-    filter_horizontal = ()
+    filter_horizontal = ('user_permissions', 'groups')
+
+    def is_staff(self, obj):
+        return obj.is_staff
+
+    is_staff.boolean = True
+
+    def is_student(self, obj):
+        return obj.is_student
+
+    is_student.boolean = True
 
 
 admin.site.register(Profile, UserAdmin)

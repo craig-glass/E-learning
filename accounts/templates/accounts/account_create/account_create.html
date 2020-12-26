@@ -75,7 +75,7 @@
     <script>
         $(document).ready(function () {
             // Form validation functions
-            $('#userid').on('input', function() {
+            $('#userid').on('input', function () {
                 let input = $(this);
                 let value = input.val();
                 if (!value.match("^ +$")) {
@@ -84,7 +84,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#password').on('input', function() {
+            $('#password').on('input', function () {
                 let input = $(this);
                 let value = input.val()
                 if (!value.match("^ +$")) {
@@ -93,7 +93,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#first-name').on('input', function() {
+            $('#first-name').on('input', function () {
                 let input = $(this);
                 let value = input.val()
                 if (!value.match("^ +$")) {
@@ -102,7 +102,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#last-name').on('input', function() {
+            $('#last-name').on('input', function () {
                 let input = $(this);
                 let value = input.val()
                 if (!value.match("^ +$")) {
@@ -120,7 +120,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#phone').on('input', function() {
+            $('#phone').on('input', function () {
                 let input = $(this);
                 let value = input.val()
                 if (!value.match("^ +$") && value.match("[0-9]")) {
@@ -129,7 +129,7 @@
                     input.removeClass("valid").addClass("invalid");
                 }
             });
-            $('#address').on('input', function() {
+            $('#address').on('input', function () {
                 let input = $(this);
                 let value = input.val()
                 if (!value.match("^ +$")) {
@@ -140,11 +140,11 @@
             });
 
             // Prevent form from ever redirecting
-            $('#account-create-form').submit(function(e) {
+            $('#account-create-form').submit(function (e) {
                 return false;
             });
             // Call ajax on form submit
-            $('#account-create-submit').click(function(e) {
+            $('#account-create-submit').click(function (e) {
                 let isValid = true;
                 let form = $('#account-create-form *');
                 let formData = {}
@@ -175,7 +175,6 @@
                     responseSpan.removeClass('success').addClass('error');
                     return;
                 }
-                console.log(formData);
 
                 $.ajax({
                     url: "/account/createAccountAjax",
@@ -183,13 +182,12 @@
                     data: formData,
                     dataType: "json",
                     headers: {"X-CSRFToken": '{{ csrf_token }}'},
-                    success: function(response) {
+                    success: function (response) {
                         let responseSpan = $('#response-span');
                         responseSpan.html('Success!');
                         responseSpan.removeClass('error').addClass('success');
                     },
-                    error: function(response) {
-                        console.log(response);
+                    error: function (response) {
                         let responseSpan = $('#response-span');
                         // e.g. "Error 500: Internal Server Error"
                         responseSpan.html('Error ' + response.status + ': ' + response.statusText);

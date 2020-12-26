@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic.base import View, TemplateResponseMixin
+from django.views.generic.base import View
 from django.http import HttpResponse, HttpRequest, JsonResponse
-from typing import Dict, Tuple, Sequence
+from typing import Dict, Sequence
 from django.contrib.auth.models import User
-from django.views.generic.edit import FormView, CreateView
 
 from .models import Profile
 from .forms import UserCreationForm, UserUpdateForm
@@ -26,7 +25,7 @@ class AccountDisplayView(View):
                 # Redirect to login page to authenticate
                 return redirect('/accounts/login')
         else:
-            account = Profile.objects.get(userid=userid)
+            account = get_object_or_404(Profile, userid=userid)
             if not (current_user.is_authenticated or account.is_staff):
                 # Unauthenticated users can only view staff accounts, otherwise redirect home
                 return redirect('/')
@@ -47,8 +46,10 @@ class AccountSettingsView(View):
 
     def get(self, request: HttpRequest, userid: str) -> HttpResponse:
         current_user = request.user
-        account = Profile.objects.get(userid=userid)
-        if current_user == account:
+        account = get_object_or_404(Profile, userid=userid)
+        if not current_user.is_authenticated:
+            return redirect('login')
+        elif current_user == account:
             user_details = get_user_details(account, current_user)
             context = {
                 "user_details": user_details,
@@ -79,6 +80,7 @@ class AccountCreateAjax(View):
     """
     Ajax submission for creating new accounts
     """
+
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
         if current_user.is_authenticated and current_user.has_perm('accounts.add_profile'):
@@ -88,10 +90,12 @@ class AccountCreateAjax(View):
                 user.clean()
                 return JsonResponse({})
             else:
+                # Form validation failed
                 response = JsonResponse({})
                 response.status_code = 422
                 return response
         else:
+            # User does not have permission
             response = JsonResponse({})
             response.status_code = 401
             return response
@@ -101,10 +105,11 @@ class AccountUpdateAjax(View):
     """
     Ajax submission for updating existing accounts
     """
+
     def post(self, request: HttpRequest) -> JsonResponse:
         print(request.POST)
         current_user = request.user
-        account = Profile.objects.get(userid=request.POST['userid'])
+        account = get_object_or_404(Profile, userid=request.POST['userid'])
         print(account.last_name)
         if current_user.is_authenticated and current_user == account:
             form = UserUpdateForm(request.POST, instance=account)
@@ -129,8 +134,6 @@ def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
     account -- Profile instance of the account being read
     reader -- Profile instance of the user sending the request
     """
-    can_edit = False
-    user_details = {}
     if reader.is_authenticated and (account == reader or reader.has_perm('accounts.view_profile')):
         # Reader has permissions to fully view this account, or is this account
         user_details = parse_details(account, FULL_VIEW)
@@ -151,10 +154,16 @@ def parse_details(account: Profile, allowed_details: Sequence[str]) -> Dict[str,
         details["lastname"] = account.last_name
     if 'contacts' in allowed_details or 'email' in allowed_details:
         details["contacts"] = []
-        details["contacts"].append({"name": "email", "value": account.email, "show_as": "Email"})
+        details["contacts"].append({"name": "email",
+                                    "value": account.email,
+                                    "show_as": "Email"})
         if "contacts" in allowed_details:
-            details["contacts"].append({"name": "phone_number", "value": account.phone_number, "show_as": "Phone Number"})
-            details["contacts"].append({"name": "term_address", "value": account.term_address, "show_as": "Term Address"})
+            details["contacts"].append({"name": "phone_number",
+                                        "value": account.phone_number,
+                                        "show_as": "Phone Number"})
+            details["contacts"].append({"name": "term_address",
+                                        "value": account.term_address,
+                                        "show_as": "Term Address"})
     if 'student' in allowed_details:
         details["student"] = account.is_student
     if 'staff' in allowed_details:

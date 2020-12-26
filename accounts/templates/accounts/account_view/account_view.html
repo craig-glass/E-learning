@@ -9,7 +9,8 @@
                 <th>Contacts</th>
                 {% for contact in user_details.contacts %}
                     <tr>
-                        <th>{{ contact.show_as }}:</th> <th>{{ contact.value }}</th>
+                        <th>{{ contact.show_as }}:</th>
+                        <th>{{ contact.value }}</th>
                     </tr>
                 {% endfor %}
             </table>

@@ -6,12 +6,18 @@
 {% block content %}
     <div id="selection-pane-div" style="float: left">
         <table>
-            <tr><th><a href="/account/profile/{{ user_details.userid }}">Account</a></th></tr>
+            <tr>
+                <th><a href="/account/profile/{{ user_details.userid }}">Account</a></th>
+            </tr>
             {% if is_user %}
-                <tr><th><a href="/account/edit/{{ user_details.userid }}">Settings</a></th></tr>
+                <tr>
+                    <th><a href="/account/edit/{{ user_details.userid }}">Settings</a></th>
+                </tr>
             {% endif %}
             {% if show_analytics %}
-                <tr><th><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></th></tr>
+                <tr>
+                    <th><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></th>
+                </tr>
             {% endif %}
         </table>
     </div>

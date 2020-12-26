@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.hashers import make_password
 import random
@@ -8,7 +7,6 @@ from .models import Profile
 
 
 class UserCreationForm(forms.ModelForm):
-
     class Meta:
         model = Profile
         fields = '__all__'
@@ -38,7 +36,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('userid', 'first_name', 'last_name', 'email', 'password', 'is_student', 'is_staff', 'is_superuser')
+        fields = ('userid', 'first_name', 'last_name', 'email', 'password')
 
     def clean_password(self):
         return self.initial["password"]
@@ -51,10 +49,9 @@ class UserChangeForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-
     class Meta:
         model = Profile
-        fields = ('userid', 'first_name', 'last_name', 'email', 'phone_number', 'term_address')
+        fields = ('first_name', 'last_name', 'email', 'phone_number', 'term_address')
 
     def clean_password(self):
         return make_password(self.cleaned_data['password'])

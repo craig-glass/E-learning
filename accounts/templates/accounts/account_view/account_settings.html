@@ -100,11 +100,11 @@
             });
 
             // Prevent form from ever redirecting
-            $('#account-update-form').submit(function(e) {
+            $('#account-update-form').submit(function (e) {
                 return false;
             });
             // Call ajax on form submit
-            $('#account-update-submit').click(function(e) {
+            $('#account-update-submit').click(function (e) {
                 let isValid = true;
                 let form = $('#account-update-form *');
                 let formData = {"userid": "{{ user_details.userid }}"}
@@ -128,7 +128,6 @@
                     responseSpan.removeClass('success').addClass('error');
                     return;
                 }
-                console.log(formData);
 
                 $.ajax({
                     url: "/account/updateAccountAjax",
@@ -136,12 +135,12 @@
                     data: formData,
                     dataType: "json",
                     headers: {"X-CSRFToken": '{{ csrf_token }}'},
-                    success: function(response) {
+                    success: function (response) {
                         let responseSpan = $('#response-span');
-                        responseSpan.html('Success!');
+                        responseSpan.html('Updated account at ' + (new Date().toLocaleTimeString()));
                         responseSpan.removeClass('error').addClass('success');
                     },
-                    error: function(response) {
+                    error: function (response) {
                         let responseSpan = $('#response-span');
                         // e.g. "Error 500: Internal Server Error"
                         responseSpan.html('Error ' + response.status + ': ' + response.statusText);

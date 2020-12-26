@@ -65,7 +65,7 @@
             </tr>
             <tr>
                 <th><input id="account-create-submit" type="submit" value="Submit"></th>
-                <th><span id="response-span"></span></th>
+                <th><pre id="response-pre"></pre></th>
             </tr>
         </table>
     </form>
@@ -74,69 +74,27 @@
 {% block extrajavascript %}
     <script>
         $(document).ready(function () {
-            // Form validation functions
+            // Assign form validation functions
             $('#userid').on('input', function () {
-                let input = $(this);
-                let value = input.val();
-                if (!value.match("^ +$")) {
-                    input.removeClass("invalid").addClass("valid");
-                } else {
-                    input.removeClass("valid").addClass("invalid");
-                }
+                regexValidateInput($(this), "^ +$");
             });
             $('#password').on('input', function () {
-                let input = $(this);
-                let value = input.val()
-                if (!value.match("^ +$")) {
-                    input.removeClass("invalid").addClass("valid");
-                } else {
-                    input.removeClass("valid").addClass("invalid");
-                }
+                regexValidateInput($(this), "^ +$");
             });
             $('#first-name').on('input', function () {
-                let input = $(this);
-                let value = input.val()
-                if (!value.match("^ +$")) {
-                    input.removeClass("invalid").addClass("valid");
-                } else {
-                    input.removeClass("valid").addClass("invalid");
-                }
+                regexValidateInput($(this), "^ +$");
             });
             $('#last-name').on('input', function () {
-                let input = $(this);
-                let value = input.val()
-                if (!value.match("^ +$")) {
-                    input.removeClass("invalid").addClass("valid");
-                } else {
-                    input.removeClass("valid").addClass("invalid");
-                }
+                regexValidateInput($(this), "^ +$");
             });
             $('#email').on('input', function () {
-                let input = $(this);
-                let value = input.val();
-                if (value.match("^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$")) {
-                    input.removeClass("invalid").addClass("valid");
-                } else {
-                    input.removeClass("valid").addClass("invalid");
-                }
+                regexValidateInput($(this), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
             });
             $('#phone').on('input', function () {
-                let input = $(this);
-                let value = input.val()
-                if (!value.match("^ +$") && value.match("[0-9]")) {
-                    input.removeClass("invalid").addClass("valid");
-                } else {
-                    input.removeClass("valid").addClass("invalid");
-                }
+                regexValidateInput($(this), ["^ +$", "[0-9]"], [false, true]);
             });
             $('#address').on('input', function () {
-                let input = $(this);
-                let value = input.val()
-                if (!value.match("^ +$")) {
-                    input.removeClass("invalid").addClass("valid");
-                } else {
-                    input.removeClass("valid").addClass("invalid");
-                }
+                regexValidateInput($(this), "^ +$");
             });
 
             // Prevent form from ever redirecting
@@ -145,37 +103,17 @@
             });
             // Call ajax on form submit
             $('#account-create-submit').click(function (e) {
-                let isValid = true;
                 let form = $('#account-create-form *');
-                let formData = {}
-
-                // Ensure no inputs are invalid
-                form.filter(':input').each(function () {
-                    isValid = isValid && !$(this).hasClass('invalid');
-                    switch ($(this).attr('type')) {
-                        case 'text':
-                            formData[$(this).attr('name')] = $(this).val() === '' ? null : $(this).val();
-                            break;
-                        case 'checkbox':
-                            formData[$(this).attr('name')] = $(this).is(':checked');
-                            break;
-                    }
-                })
-                // Ensure all required inputs are valid
-                form.filter(':input').filter('.required_field').each(function () {
-                    if (!$(this).hasClass('valid')) {
-                        isValid = false;
-                        $(this).addClass("invalid")
-                    }
-                })
+                let isValid = validateForm(form);
 
                 if (!isValid) {
-                    let responseSpan = $('#response-span');
-                    responseSpan.html('Invalid inputs');
-                    responseSpan.removeClass('success').addClass('error');
+                    let responsePre = $('#response-pre');
+                    responsePre.html('Invalid inputs');
+                    responsePre.removeClass('success').addClass('error');
                     return;
                 }
 
+                let formData = parseFormData(form);
                 $.ajax({
                     url: "/account/createAccountAjax",
                     type: "POST",
@@ -183,15 +121,12 @@
                     dataType: "json",
                     headers: {"X-CSRFToken": '{{ csrf_token }}'},
                     success: function (response) {
-                        let responseSpan = $('#response-span');
-                        responseSpan.html('Success!');
-                        responseSpan.removeClass('error').addClass('success');
+                        let responsePre = $('#response-pre');
+                        responsePre.html('Success!');
+                        responsePre.removeClass('error').addClass('success');
                     },
                     error: function (response) {
-                        let responseSpan = $('#response-span');
-                        // e.g. "Error 500: Internal Server Error"
-                        responseSpan.html('Error ' + response.status + ': ' + response.statusText);
-                        responseSpan.removeClass('success').addClass('error');
+                        standardErrorResponse(response, $('#response-pre'))
                     }
                 });
             });

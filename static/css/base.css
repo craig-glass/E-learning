@@ -173,11 +173,11 @@ form p {
     overflow:auto;
 }
 
-span.error {
+pre.error {
     color: red;
 }
 
-span.success {
+pre.success {
     color: #3f3f3f;
 }
 

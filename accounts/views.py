@@ -91,7 +91,7 @@ class AccountCreateAjax(View):
                 return JsonResponse({})
             else:
                 # Form validation failed
-                response = JsonResponse({})
+                response = JsonResponse({'form': form.errors})
                 response.status_code = 422
                 return response
         else:
@@ -119,7 +119,7 @@ class AccountUpdateAjax(View):
                 print(user.last_name)
                 return JsonResponse({})
             else:
-                response = JsonResponse({})
+                response = JsonResponse({'form': form.errors})
                 response.status_code = 422
                 return response
         else:

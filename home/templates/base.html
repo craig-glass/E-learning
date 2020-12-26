@@ -46,6 +46,100 @@
         {% block domready %}
         {% endblock %}
     });
+
+    /**
+     * Validate given input using a regular expression
+     * @param {jQuery} input Input element being validated
+     * @param {String|String[]} regex Regular expression to compare the input's value against
+     *                                Set to array to assess multiple regular expressions
+     * @param {boolean|boolean[]} regexIsValid Regex will be treated as a valid condition if true else invalid if false
+     *                                         Set to array to treat specific indexes of regex differently
+     *                                         Set as single boolean to apply the same condition to all regex values
+     */
+    function regexValidateInput(input, regex="", regexIsValid=false) {
+        if (typeof regex === "string") {
+            regex = [regex];
+        }
+        if (typeof regexIsValid === 'boolean') {
+            let original = regexIsValid;
+            regexIsValid = [];
+            for (let i = 0; i < regex.length; i++) {
+                regexIsValid.push(original);
+            }
+        }
+        // Ensure arrays are of the same length
+        while (regex.length < regexIsValid.length) {
+            regex.push("");
+        }
+        while (regexIsValid.length < regex.length) {
+            regexIsValid.push(false)
+        }
+        let valid = true;
+        for (let i = 0; i < regex.length; i++) {
+            // Match value with all regular expressions
+            // Same index value of regexIsValid used to assert if the value should or shouldn't match
+            if ((new RegExp(regex[i]).test(input.val())) ^ regexIsValid[i]) {
+                valid = false;
+                break;
+            }
+        }
+        if (valid) {
+            setInputValid(input);
+        } else {
+            setInputInvalid(input);
+        }
+    }
+    function setInputValid(input) {
+        input.removeClass('invalid').addClass('valid');
+    }
+    function setInputInvalid(input) {
+        input.removeClass('valid').addClass('invalid');
+    }
+
+    function parseFormData(form) {
+        let formData = {}
+        form.filter(':input').each(function () {
+            switch ($(this).attr('type')) {
+                case 'text':
+                    formData[$(this).attr('name')] = $(this).val() === '' ? null : $(this).val();
+                    break;
+                case 'checkbox':
+                    formData[$(this).attr('name')] = $(this).is(':checked');
+                    break;
+            }
+        });
+        return formData;
+    }
+    function validateForm(form) {
+        let isValid = true;
+        form.filter(':input').each(function () {
+            isValid = isValid && !$(this).hasClass('invalid');
+        })
+        form.filter(':input').filter('.required_field').each(function () {
+            if (!$(this).hasClass('valid')) {
+                isValid = false;
+                $(this).addClass('invalid');
+            }
+        })
+        return isValid;
+    }
+
+    function standardErrorResponse(response, responseElement) {
+        // e.g. "Error 500: Internal Server Error"
+        switch (response.status) {
+            case 422:
+                let errorText = ['Invalid Inputs: ']
+                for (let item in response.responseJSON.form) {
+                    errorText.push(item + " -> " + response.responseJSON.form[item]);
+                }
+                responseElement.text(errorText.join('\n'));
+                responseElement.removeClass('success').addClass('error');
+                break;
+            default:
+                responseElement.text('Error ' + response.status + ': ' + response.statusText);
+                responseElement.removeClass('success').addClass('error');
+        }
+    }
 </script>
 {% block extrajavascript %}{% endblock %}
 

@@ -60,3 +60,30 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.userid
+
+    class Meta:
+        ordering = ['first_name', 'last_name', 'userid']
+        indexes = [
+            models.Index(fields=['first_name', 'last_name']),
+            models.Index(fields=['email']),
+            models.Index(fields=['date_joined']),
+        ]
+
+
+class AccountSubmission(models.Model):
+    email = models.EmailField(max_length=254, unique=True, null=False)
+    course = models.ForeignKey('courses.Course', on_delete=models.SET_NULL, null=True)
+
+    date_submitted = models.DateTimeField(null=True, auto_now_add=True)
+
+    class Meta:
+        ordering = ['date_submitted']
+        indexes = [
+            models.Index(fields=['date_submitted']),
+            models.Index(fields=['course']),
+        ]
+        permissions = [
+            ('can_accept', 'Can accept submissions'),
+            ('can_reject', 'Can reject submissions'),
+        ]
+        default_permissions = []

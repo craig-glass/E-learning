@@ -1,8 +1,11 @@
+from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from typing import Dict, Sequence
 from django.contrib.auth.models import User
+from django.apps import apps
+import json
 
 from .models import Profile
 from .forms import UserCreationForm, UserUpdateForm
@@ -80,7 +83,6 @@ class AccountCreateAjax(View):
     """
     Ajax submission for creating new accounts
     """
-
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
         if current_user.is_authenticated and current_user.has_perm('accounts.add_profile'):
@@ -105,7 +107,6 @@ class AccountUpdateAjax(View):
     """
     Ajax submission for updating existing accounts
     """
-
     def post(self, request: HttpRequest) -> JsonResponse:
         print(request.POST)
         current_user = request.user

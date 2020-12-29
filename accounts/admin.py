@@ -1,18 +1,35 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
 from .forms import UserCreationForm, UserChangeForm
 from .models import Profile, AccountSubmission
+from courses.models import Course
 
 
 def accept_submissions(modeladmin, request, queryset):
+    failures = []
     for submission in queryset:
-        existing_user = Profile.objects.filter(email=submission.email)
-        if existing_user.exists():
-            print("exists")
+        user = Profile.objects.filter(email=submission.email)
+        if user.exists():
+            user = user.first()
         else:
-            print("not exist")
+            form = UserCreationForm({"email": submission.email})
+            if form.is_valid():
+                user = form.save()
+                user.clean()
+            else:
+                failures.append((submission, form))
+                continue
+        if not user.is_student:
+            Group.objects.get(name='student').user_set.add(user)
+        submission.course.students.add(user)
+        submission.delete()
+    if failures:
+        for s, f in failures:
+            s.valid = False
+            s.save()
+        messages.warning(request, "Some submissions have failed validation.")
 
 
 def reject_submissions(modeladmin, request, queryset):
@@ -23,9 +40,18 @@ accept_submissions.short_description = 'Accept selected submissions'
 reject_submissions.short_description = 'Reject selected submissions'
 
 
+class CourseInline(admin.TabularInline):
+    model = Course.students.through
+    extra = 1
+
+
 class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
+
+    inlines = [
+        CourseInline
+    ]
 
     list_display = ('userid', 'email', 'first_name', 'last_name',
                     'is_student', 'is_staff', 'is_superuser')
@@ -66,8 +92,8 @@ class UserAdmin(BaseUserAdmin):
 
 
 class AccountSubmissionAdmin(admin.ModelAdmin):
-    list_display = ('email', 'course', 'date_submitted')
-    list_filter = ('course', 'date_submitted')
+    list_display = ('email', 'course', 'date_submitted', 'valid')
+    list_filter = ('course', 'date_submitted', 'valid')
     search_fields = ('email', 'course', 'date_submitted')
     ordering = ('date_submitted', 'course', 'email')
 

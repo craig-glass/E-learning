@@ -25,7 +25,8 @@ class ProfileManager(BaseUserManager):
             email=email,
         )
         user.is_superuser = True
-        Group.objects.get(name='staff').user_set.add(user)
+        staff_group, created = Group.objects.get_or_create(name='staff')
+        staff_group.user_set.add(user)
         user.save(using=self._db)
         return user
 
@@ -73,6 +74,8 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 class AccountSubmission(models.Model):
     email = models.EmailField(max_length=254, unique=True, null=False)
     course = models.ForeignKey('courses.Course', on_delete=models.SET_NULL, null=True)
+
+    valid = models.BooleanField(default=True)
 
     date_submitted = models.DateTimeField(null=True, auto_now_add=True)
 

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Join Course
+{% endblock %}
+{% block content %}
+    <form id="course-join-form" method="post" action="">
+        <table>
+            <tr>
+                <th><label for="email">Email:</label></th>
+                <th><input id="email" type="text" name="email" class="required_field"></th>
+            </tr>
+            <tr>
+                <th><label for="subject">Filter Subject:</label></th>
+                <th><select id="subject">
+                    <option value="all">All</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.title }}</option>
+                    {% endfor %}
+                </select></th>
+            </tr>
+            <tr>
+                <th><label for="course">Course:</label></th>
+                <th><select id="course" name="course" class="required_field">
+                    <option disabled selected value>--------</option>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}">{{ course.title }}</option>
+                    {% endfor %}
+                </select></th>
+            </tr>
+            <tr>
+                <th>
+                    <input id="course-join-submit" type="submit" value="Submit">
+                </th>
+                <th>
+                    <pre id="response-pre"></pre>
+                </th>
+            </tr>
+            <tr>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
+
+{% block extrajavascript %}
+    <script>
+        // Generate dictionary of courses to populate course selector with
+        let courses = {};
+        {% for course in courses %}
+            courses[{{ course.id }}] = {
+                title: '{{ course.title }}',
+                subject: '{{ course.subject.id }}',
+            }
+        {% endfor %}
+        $(document).ready(function () {
+            $('#subject').on('change', function () {
+                // Filter course list by selected subject
+                let subject = $(this).val();
+                let courseArray = [];
+                if (subject === 'all') {
+                    for (let key in courses) {
+                        courseArray.push({value: key, text: courses[key].title});
+                    }
+                } else {
+                    for (let key in courses) {
+                        if (courses[key].subject === subject) {
+                            courseArray.push({value: key, text: courses[key].title});
+                        }
+                    }
+                }
+                courseArray.sort(function (x, y) {
+                    return x.text > y.text ? 1 : x.text < y.text ? -1 : 0;
+                });
+                let courseSelect = $('#course');
+                courseSelect.html('<option disabled selected value>--------</option>');
+                for (let option of courseArray) {
+                    courseSelect.append(new Option(option.text, option.value));
+                }
+                console.log(courseArray);
+            });
+            // Assign form validation functions
+            let email = $('#email');
+            email.on('input', function() {
+                regexValidateInput($(this), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
+            });
+            $('#course').on('change', function() {
+                selectValidateInput($(this));
+            });
+
+            // prevent form from redirecting
+            $('#course-join-form').submit(function(e) {
+                return false;
+            });
+            // Call ajax on form submit
+            $('#course-join-submit').click(function(e) {
+                let form = $('#course-join-form *');
+                let isValid = validateForm(form);
+
+                if (!isValid) {
+                    let responsePre = $('#response-pre');
+                    responsePre.html('Invalid inputs');
+                    responsePre.removeClass('success').addClass('error');
+                    return;
+                }
+
+                let formData = parseFormData(form);
+                $.ajax({
+                    url: "/account/courseSubmitAjax",
+                    type: "POST",
+                    data: formData,
+                    dataType: "json",
+                    headers: {"X-CSRFToken": '{{ csrf_token }}'},
+                    success: function (response) {
+                        standardSuccessResponse('Success', $('#response-pre'))
+                    },
+                    error: function (response) {
+                        console.log("asdf");
+                        standardErrorResponse(response, $('#response-pre'));
+                    }
+                })
+            });
+
+            let userEmail = '{{ user.email }}';
+            if (userEmail !== 'None') {
+                email.val(userEmail);
+            }
+        });
+    </script>
+{% endblock %}

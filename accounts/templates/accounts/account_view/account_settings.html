@@ -51,7 +51,7 @@
                 regexValidateInput($(this), "^ *$");
             });
 
-            // Prevent form from ever redirecting
+            // Prevent form from redirecting
             $('#account-update-form').submit(function (e) {
                 return false;
             });
@@ -76,12 +76,13 @@
                     dataType: "json",
                     headers: {"X-CSRFToken": '{{ csrf_token }}'},
                     success: function (response) {
-                        let responsePre = $('#response-pre');
-                        responsePre.html('Updated account at ' + (new Date().toLocaleTimeString()));
-                        responsePre.removeClass('error').addClass('success');
+                        standardSuccessResponse(
+                            'Updated account at ' + (new Date().toLocaleTimeString()),
+                            $('#response-pre')
+                        )
                     },
                     error: function (response) {
-                        standardErrorResponse(response, $('#response-pre'))
+                        standardErrorResponse(response, $('#response-pre'));
                     }
                 })
             })

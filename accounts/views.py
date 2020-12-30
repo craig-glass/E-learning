@@ -4,9 +4,8 @@ from django.views.generic.base import View
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from typing import Dict, Sequence
 from django.contrib.auth.models import User
-from django.apps import apps
-import json
 
+from courses.models import Course, Subject
 from .models import Profile
 from .forms import UserCreationForm, UserUpdateForm
 
@@ -77,6 +76,22 @@ class AccountCreateView(View):
         elif not current_user.has_perm('accounts.add_profile'):
             return redirect('/')
         return render(request, self.template_name)
+
+
+class CourseJoinView(View):
+    """
+    View for students to submit a request to join a course / create a new account
+    """
+    template_name = 'accounts/account_create/course_join.html'
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        current_user = request.user
+        context = {
+            "user": request.user,
+            "subjects": Subject.objects.all(),
+            "courses": Course.objects.all(),
+        }
+        return render(request, self.template_name, context)
 
 
 class AccountCreateAjax(View):

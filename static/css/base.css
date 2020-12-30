@@ -203,11 +203,11 @@ input, select, textarea {
     width:300px;
 }
 
-input.invalid, textarea.invalid {
+.invalid {
     border: 2px solid red;
 }
 
-input.valid, textarea.valid {
+.valid {
     border: 2px solid green;
 }
 

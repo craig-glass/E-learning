@@ -72,7 +72,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 
 
 class AccountSubmission(models.Model):
-    email = models.EmailField(max_length=254, unique=True, null=False)
+    email = models.EmailField(max_length=254, null=False)
     course = models.ForeignKey('courses.Course', on_delete=models.SET_NULL, null=True)
 
     valid = models.BooleanField(default=True)
@@ -80,6 +80,7 @@ class AccountSubmission(models.Model):
     date_submitted = models.DateTimeField(null=True, auto_now_add=True)
 
     class Meta:
+        unique_together = ('email', 'course')
         ordering = ['date_submitted']
         indexes = [
             models.Index(fields=['date_submitted']),

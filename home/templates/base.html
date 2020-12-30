@@ -29,9 +29,9 @@
     <a href="/" class="logo">Logo</a>
     <ul class="menu">
         {% if request.user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Sign Out</a></li>
+            <li><a href="{% url 'logout' %}">Sign Out</a></li>
         {% else %}
-        <li><a href="{% url 'login' %}">Sign In</a></li>
+            <li><a href="{% url 'login' %}">Sign In</a></li>
         {% endif %}
     </ul>
 </header>
@@ -42,7 +42,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         {% block domready %}
         {% endblock %}
     });
@@ -56,7 +56,7 @@
      *                                         Set to array to treat specific indexes of regex differently
      *                                         Set as single boolean to apply the same condition to all regex values
      */
-    function regexValidateInput(input, regex="", regexIsValid=false) {
+    function regexValidateInput(input, regex = "", regexIsValid = false) {
         if (typeof regex === "string") {
             regex = [regex];
         }
@@ -89,13 +89,32 @@
             setInputInvalid(input);
         }
     }
+
+    /**
+     * Validate given input to confirm a valid option is selected
+     * @param {jQuery} input Select element being validated
+     */
+    function selectValidateInput(input) {
+        if (input.find(':selected').prop('disabled')) {
+            setInputInvalid(input);
+        } else {
+            setInputValid(input);
+        }
+    }
+
     function setInputValid(input) {
         input.removeClass('invalid').addClass('valid');
     }
+
     function setInputInvalid(input) {
         input.removeClass('valid').addClass('invalid');
     }
 
+    /**
+     * Retrieve json format form data to be submitted
+     * @param {jQuery} form Form element to be parsed
+     * @return {object} key-value (name-data) object extracted from the form
+     */
     function parseFormData(form) {
         let formData = {}
         form.filter(':input').each(function () {
@@ -106,10 +125,17 @@
                 case 'checkbox':
                     formData[$(this).attr('name')] = $(this).is(':checked');
                     break;
+                case 'select':
+                    formData[$(this).attr('name')] = $(this).val();
             }
         });
         return formData;
     }
+
+    /**
+     * @param {jQuery} form Form element to be validated
+     * @return {boolean} false if inputs are invalid or required inputs are unset else true
+     */
     function validateForm(form) {
         let isValid = true;
         form.filter(':input').each(function () {
@@ -124,6 +150,19 @@
         return isValid;
     }
 
+    /**
+     * @param {String} responseText Text to be shown
+     * @param {jQuery} responseElement Element for the message to be shown on
+     */
+    function standardSuccessResponse(responseText, responseElement) {
+        responseElement.text(responseText);
+        responseElement.removeClass('error').addClass('success');
+    }
+
+    /**
+     * @param {object} response Json response from the server
+     * @param {jQuery} responseElement Element for the message to be shown on
+     */
     function standardErrorResponse(response, responseElement) {
         // e.g. "Error 500: Internal Server Error"
         switch (response.status) {

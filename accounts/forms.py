@@ -3,7 +3,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.hashers import make_password
 import random
 
-from .models import Profile
+from .models import Profile, AccountSubmission
 
 
 class UserCreationForm(forms.ModelForm):
@@ -73,6 +73,18 @@ class UserUpdateForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class CourseRegisterForm(forms.ModelForm):
+    class Meta:
+        model = AccountSubmission
+        fields = ('email', 'course')
+
+    def save(self, commit=True):
+        submission = super().save(commit=False)
+        if commit:
+            submission.save()
+        return submission
 
 
 class FailedGenerationError(Exception):

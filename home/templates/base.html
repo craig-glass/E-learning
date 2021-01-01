@@ -118,15 +118,20 @@
     function parseFormData(form) {
         let formData = {}
         form.filter(':input').each(function () {
-            switch ($(this).attr('type')) {
-                case 'text':
-                    formData[$(this).attr('name')] = $(this).val() === '' ? null : $(this).val();
+            switch ($(this).prop('tagName')) {
+                case 'INPUT':
+                    switch ($(this).attr('type')) {
+                        case 'text':
+                            formData[$(this).attr('name')] = $(this).val() === '' ? null : $(this).val();
+                            break;
+                        case 'checkbox':
+                            formData[$(this).attr('name')] = $(this).is(':checked');
+                            break;
+                    }
                     break;
-                case 'checkbox':
-                    formData[$(this).attr('name')] = $(this).is(':checked');
-                    break;
-                case 'select':
+                case 'SELECT':
                     formData[$(this).attr('name')] = $(this).val();
+                    break;
             }
         });
         return formData;
@@ -175,7 +180,12 @@
                 responseElement.removeClass('success').addClass('error');
                 break;
             default:
-                responseElement.text('Error ' + response.status + ': ' + response.statusText);
+                if (response.responseJSON !== undefined &&
+                    response.responseJSON.responseMessage !== undefined) {
+                    responseElement.text(response.responseJSON.responseMessage);
+                } else {
+                    responseElement.text('Error ' + response.status + ': ' + response.statusText);
+                }
                 responseElement.removeClass('success').addClass('error');
         }
     }

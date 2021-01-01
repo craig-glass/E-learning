@@ -87,7 +87,8 @@ class AccountSubmission(models.Model):
             models.Index(fields=['course']),
         ]
         permissions = [
-            ('can_accept', 'Can accept submissions'),
-            ('can_reject', 'Can reject submissions'),
+            ('can_accept', 'Can accept course submissions'),
+            ('can_reject', 'Can reject course submissions'),
+            ('can_add', 'Can add course submission to any new account')
         ]
         default_permissions = []

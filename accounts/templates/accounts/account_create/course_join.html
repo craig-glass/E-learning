@@ -21,11 +21,8 @@
             </tr>
             <tr>
                 <th><label for="course">Course:</label></th>
-                <th><select id="course" name="course" class="required_field">
+                <th><select id="course" name="course" class="required_field" form="course-join-form">
                     <option disabled selected value>--------</option>
-                    {% for course in courses %}
-                        <option value="{{ course.id }}">{{ course.title }}</option>
-                    {% endfor %}
                 </select></th>
             </tr>
             <tr>
@@ -52,31 +49,36 @@
                 subject: '{{ course.subject.id }}',
             }
         {% endfor %}
-        $(document).ready(function () {
-            $('#subject').on('change', function () {
-                // Filter course list by selected subject
-                let subject = $(this).val();
-                let courseArray = [];
-                if (subject === 'all') {
-                    for (let key in courses) {
+
+        function setCourseList() {
+            // Filter course list by selected subject
+            let subjectVal = $('#subject').val();
+            let courseArray = [];
+            if (subjectVal === 'all') {
+                for (let key in courses) {
+                    courseArray.push({value: key, text: courses[key].title});
+                }
+            } else {
+                for (let key in courses) {
+                    if (courses[key].subject === subjectVal) {
                         courseArray.push({value: key, text: courses[key].title});
                     }
-                } else {
-                    for (let key in courses) {
-                        if (courses[key].subject === subject) {
-                            courseArray.push({value: key, text: courses[key].title});
-                        }
-                    }
                 }
-                courseArray.sort(function (x, y) {
-                    return x.text > y.text ? 1 : x.text < y.text ? -1 : 0;
-                });
-                let courseSelect = $('#course');
-                courseSelect.html('<option disabled selected value>--------</option>');
-                for (let option of courseArray) {
-                    courseSelect.append(new Option(option.text, option.value));
-                }
-                console.log(courseArray);
+            }
+            courseArray.sort(function (x, y) {
+                return x.text > y.text ? 1 : x.text < y.text ? -1 : 0;
+            });
+            let courseSelect = $('#course');
+            courseSelect.html('<option disabled selected value>--------</option>');
+            for (let option of courseArray) {
+                courseSelect.append(new Option(option.text, option.value));
+            }
+        }
+
+        $(document).ready(function () {
+            setCourseList();
+            $('#subject').on('change', function () {
+                setCourseList();
             });
             // Assign form validation functions
             let email = $('#email');
@@ -104,8 +106,9 @@
                 }
 
                 let formData = parseFormData(form);
+                console.log(formData);
                 $.ajax({
-                    url: "/account/courseSubmitAjax",
+                    url: "/account/courseJoinAjax",
                     type: "POST",
                     data: formData,
                     dataType: "json",
@@ -114,15 +117,19 @@
                         standardSuccessResponse('Success', $('#response-pre'))
                     },
                     error: function (response) {
-                        console.log("asdf");
                         standardErrorResponse(response, $('#response-pre'));
                     }
                 })
             });
 
-            let userEmail = '{{ user.email }}';
-            if (userEmail !== 'None') {
+            let userEmail = '{{ request.user.email }}';
+            console.log(userEmail);
+            if (userEmail !== '' && userEmail !== 'None') {
                 email.val(userEmail);
+                {% if not request.user.is_superuser %}
+                    email.prop('disabled', true);
+                {% endif %}
+                email.addClass('valid')
             }
         });
     </script>

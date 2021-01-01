@@ -1,13 +1,14 @@
-from django.core import serializers
+from typing import Dict, Sequence
+
+from django import forms
+from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
-from django.http import HttpResponse, HttpRequest, JsonResponse
-from typing import Dict, Sequence
-from django.contrib.auth.models import User
 
 from courses.models import Course, Subject
+from .forms import UserCreationForm, UserUpdateForm, CourseRegisterForm
 from .models import Profile
-from .forms import UserCreationForm, UserUpdateForm
 
 
 class AccountDisplayView(View):
@@ -87,7 +88,6 @@ class CourseJoinView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         current_user = request.user
         context = {
-            "user": request.user,
             "subjects": Subject.objects.all(),
             "courses": Course.objects.all(),
         }
@@ -98,6 +98,7 @@ class AccountCreateAjax(View):
     """
     Ajax submission for creating new accounts
     """
+
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
         if current_user.is_authenticated and current_user.has_perm('accounts.add_profile'):
@@ -122,26 +123,52 @@ class AccountUpdateAjax(View):
     """
     Ajax submission for updating existing accounts
     """
+
     def post(self, request: HttpRequest) -> JsonResponse:
-        print(request.POST)
         current_user = request.user
         account = get_object_or_404(Profile, userid=request.POST['userid'])
-        print(account.last_name)
         if current_user.is_authenticated and current_user == account:
             form = UserUpdateForm(request.POST, instance=account)
             if form.is_valid():
                 user = form.save()
                 user.clean()
-                print(user.last_name)
                 return JsonResponse({})
             else:
-                response = JsonResponse({'form': form.errors})
-                response.status_code = 422
-                return response
+                return invalid_form_response(form)
         else:
             response = JsonResponse({})
             response.status_code = 401
             return response
+
+
+class CourseJoinAjax(View):
+    def post(self, request: HttpRequest) -> JsonResponse:
+        print(request.POST)
+        current_user = request.user
+        if (current_user.is_authenticated and request.POST['email'] == current_user.email
+                and not current_user.has_perm('accounts.can_add_account_submission')):
+            response = JsonResponse({
+                "responseMessage": "Permission Denied. You do not have authorisation to make changes to this account"
+            })
+            response.status_code = 401
+            return response
+        else:
+            form = CourseRegisterForm({
+                'email': request.POST['email'],
+                'course': Course.objects.get(id=request.POST['course']),
+            })
+            if form.is_valid():
+                submission = form.save()
+                submission.clean()
+                return JsonResponse({})
+            else:
+                return invalid_form_response(form)
+
+
+def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
+    response = JsonResponse({'form': form.errors})
+    response.status_code = 422
+    return response
 
 
 def get_user_details(account: Profile, reader: User) -> Dict[str, any]:

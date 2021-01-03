@@ -8,7 +8,8 @@
         <table>
             <tr>
                 <th><label for="email">Email:</label></th>
-                <th><input id="email" type="text" name="email" class="required_field"></th>
+                <th><input id="email" type="text" name="email"
+                           class="required_field validate_text_email"></th>
             </tr>
             <tr>
                 <th><label for="subject">Filter Subject:</label></th>
@@ -22,7 +23,6 @@
             <tr>
                 <th><label for="course">Course:</label></th>
                 <th><select id="course" name="course" class="required_field" form="course-join-form">
-                    <option disabled selected value>--------</option>
                 </select></th>
             </tr>
             <tr>
@@ -30,7 +30,7 @@
                     <input id="course-join-submit" type="submit" value="Submit">
                 </th>
                 <th>
-                    <pre id="response-pre"></pre>
+                    <pre class="response-text"></pre>
                 </th>
             </tr>
             <tr>
@@ -76,54 +76,28 @@
         }
 
         $(document).ready(function () {
+            let courseForm = $('#course-join-form');
+            assignStandardFormSetup(
+                courseForm,
+                '/account/courseJoinAjax',
+                function (response) {
+                    standardSuccessResponse(
+                        'Registered ' + $('#email').val() +
+                        ' for course ' + $('#course').find('option:selected').text(),
+                        courseForm
+                    );
+                },
+                function (response) {
+                    standardErrorResponse(response, courseForm);
+                },
+            );
             setCourseList();
             $('#subject').on('change', function () {
                 setCourseList();
             });
-            // Assign form validation functions
+
             let email = $('#email');
-            email.on('input', function() {
-                regexValidateInput($(this), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
-            });
-            $('#course').on('change', function() {
-                selectValidateInput($(this));
-            });
-
-            // prevent form from redirecting
-            $('#course-join-form').submit(function(e) {
-                return false;
-            });
-            // Call ajax on form submit
-            $('#course-join-submit').click(function(e) {
-                let form = $('#course-join-form *');
-                let isValid = validateForm(form);
-
-                if (!isValid) {
-                    let responsePre = $('#response-pre');
-                    responsePre.html('Invalid inputs');
-                    responsePre.removeClass('success').addClass('error');
-                    return;
-                }
-
-                let formData = parseFormData(form);
-                console.log(formData);
-                $.ajax({
-                    url: "/account/courseJoinAjax",
-                    type: "POST",
-                    data: formData,
-                    dataType: "json",
-                    headers: {"X-CSRFToken": '{{ csrf_token }}'},
-                    success: function (response) {
-                        standardSuccessResponse('Success', $('#response-pre'))
-                    },
-                    error: function (response) {
-                        standardErrorResponse(response, $('#response-pre'));
-                    }
-                })
-            });
-
             let userEmail = '{{ request.user.email }}';
-            console.log(userEmail);
             if (userEmail !== '' && userEmail !== 'None') {
                 email.val(userEmail);
                 {% if not request.user.is_superuser %}

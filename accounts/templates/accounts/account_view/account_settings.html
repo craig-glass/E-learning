@@ -4,10 +4,12 @@
     <div id="user-details-div" style="float: left">
         <p>UserID: {{ user_details.userid }}</p>
         <form id="account-update-form" method="post" action="">
+            <input type="hidden" name="userid" value="{{ user_details.userid }}">
             <table style="border: 1px solid black">
                 <tr>
                     <th><label for="first-name">First Name(s):</label></th>
                     <th><input id="first-name" type="text" name="first_name"
+                               class="validate_text_not_empty"
                                value="{{ user_details.firstname }}"></th>
                 </tr>
                 <tr>
@@ -20,12 +22,13 @@
                     <tr>
                         <th><label for="contact-{{ contact.name }}">{{ contact.show_as }}:</label></th>
                         <th><input id="contact-{{ contact.name }}" type="text" name="{{ contact.name }}"
+                                   class="validate_text_{{ contact.name }}"
                                    value="{{ contact.value }}"></th>
                     </tr>
                 {% endfor %}
                 <tr>
-                    <th><input id="account-update-submit" type="submit" value="Save"></th>
-                    <th><pre id="response-pre"></pre></th>
+                    <th><input type="submit" value="Save"></th>
+                    <th><pre class="response-text"></pre></th>
                 </tr>
             </table>
         </form>
@@ -34,58 +37,20 @@
 {% block extrajavascript %}
     <script>
         $(document).ready(function () {
-            // Assign form validation functions
-            $('#first-name').on('input', function () {
-                regexValidateInput($(this), "^ +$");
-            });
-            $('#last-name').on('input', function () {
-                regexValidateInput($(this), "^ +$");
-            });
-            $('#contact-email').on('input', function () {
-                regexValidateInput($(this), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
-            });
-            $('#contact-phone').on('input', function () {
-                regexValidateInput($(this), ["^ *$", "[0-9]"], [false, true]);
-            });
-            $('#contact-address').on('input', function () {
-                regexValidateInput($(this), "^ *$");
-            });
-
-            // Prevent form from redirecting
-            $('#account-update-form').submit(function (e) {
-                return false;
-            });
-            // Call ajax on form submit
-            $('#account-update-submit').click(function (e) {
-                let form = $('#account-update-form *');
-                let isValid = validateForm(form);
-
-                if (!isValid) {
-                    let responsePre = $('#response-pre');
-                    responsePre.html('Invalid inputs');
-                    responsePre.removeClass('success').addClass('error');
-                    return;
+            let accountForm = $('#account-update-form');
+            assignStandardFormSetup(
+                accountForm,
+                '/account/updateAccountAjax',
+                function (response) {
+                    standardSuccessResponse(
+                        'Updated account at ' + (new Date().toLocaleTimeString()),
+                        accountForm
+                    );
+                },
+                function (response) {
+                    standardErrorResponse(response, accountForm);
                 }
-
-                let formData = parseFormData(form);
-                formData["userid"] = "{{ user_details.userid }}"
-                $.ajax({
-                    url: "/account/updateAccountAjax",
-                    type: "POST",
-                    data: formData,
-                    dataType: "json",
-                    headers: {"X-CSRFToken": '{{ csrf_token }}'},
-                    success: function (response) {
-                        standardSuccessResponse(
-                            'Updated account at ' + (new Date().toLocaleTimeString()),
-                            $('#response-pre')
-                        )
-                    },
-                    error: function (response) {
-                        standardErrorResponse(response, $('#response-pre'));
-                    }
-                })
-            })
+            );
         });
     </script>
 {% endblock %}

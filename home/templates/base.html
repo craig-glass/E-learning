@@ -48,6 +48,90 @@
     });
 
     /**
+     *
+     * @param {jQuery} form
+     * @param {String} ajaxURL
+     * @param {function} success
+     * @param {function} error
+     */
+    function assignStandardFormSetup(form, ajaxURL, success, error) {
+        assignFormValidators(form);
+        form.submit(function (e) {
+            return false;
+        });
+        form.find(':submit').each(function (index, element) {
+            $(element).on('click', function() {
+                try {
+                    let isValid = validateForm(form);
+                    if (!isValid) {
+                        form.filter('.response-text').each(function (index, element) {
+                            $(element).html('Invalid inputs');
+                            $(element).removeClass('success').addClass('error');
+                        })
+                    }
+
+                    let formData = parseFormData(form);
+                    console.log(formData);
+                    $.ajax({
+                        url: ajaxURL,
+                        type: "POST",
+                        data: formData,
+                        dataType: "json",
+                        headers: {"X-CSRFToken": '{{ csrf_token }}'},
+                        success: success,
+                        error: error,
+                    })
+                } catch (err) {
+                    console.log(err);
+                }
+            });
+        });
+    }
+
+    /**
+     *
+     * @param {jQuery} form
+     */
+    function assignFormValidators(form) {
+        form.find(':input').each(function (index, element) {
+            let validationFunction = function () {
+            }
+            switch ($(element).attr('type')) {
+                case 'text':
+                    validationFunction = function () {
+                        regexValidateInput($(element), '^ +$');
+                    }
+                    if ($(element).hasClass('validate_text_email')) {
+                        validationFunction = function () {
+                            regexValidateInput($(element), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
+                        }
+                    }
+                    if ($(element).hasClass('validate_text_phone_number')) {
+                        validationFunction = function () {
+                            regexValidateInput($(element), ['^ *$', '[0-9]'], [false, true]);
+                        }
+                    }
+                    if ($(element).hasClass('validate_text_not_empty')) {
+                        validationFunction = function () {
+                            regexValidateInput($(element), '^ *$');
+                        }
+                    }
+
+                    if ($(element).val() !== null && $(element).val() !== '') {
+                        validationFunction();
+                    }
+                    $(element).on('input', validationFunction)
+                    break;
+            }
+        });
+        form.find('select').each(function (index, element) {
+            $(element).on('change', function () {
+                selectValidateInput($(element));
+            })
+        })
+    }
+
+    /**
      * Validate given input using a regular expression
      * @param {jQuery} input Input element being validated
      * @param {String|String[]} regex Regular expression to compare the input's value against
@@ -117,20 +201,22 @@
      */
     function parseFormData(form) {
         let formData = {}
-        form.filter(':input').each(function () {
-            switch ($(this).prop('tagName')) {
+        form.find(':input').each(function (index, element) {
+            switch ($(element).prop('tagName')) {
                 case 'INPUT':
-                    switch ($(this).attr('type')) {
+                    switch ($(element).attr('type')) {
                         case 'text':
-                            formData[$(this).attr('name')] = $(this).val() === '' ? null : $(this).val();
+                            formData[$(element).attr('name')] = $(element).val() === '' ? null : $(element).val();
                             break;
                         case 'checkbox':
-                            formData[$(this).attr('name')] = $(this).is(':checked');
+                            formData[$(element).attr('name')] = $(element).is(':checked');
                             break;
+                        case 'hidden':
+                            formData[$(element).attr('name')] = $(element).val();
                     }
                     break;
                 case 'SELECT':
-                    formData[$(this).attr('name')] = $(this).val();
+                    formData[$(element).attr('name')] = $(element).val();
                     break;
             }
         });
@@ -143,13 +229,13 @@
      */
     function validateForm(form) {
         let isValid = true;
-        form.filter(':input').each(function () {
-            isValid = isValid && !$(this).hasClass('invalid');
+        form.filter(':input').each(function (index, element) {
+            isValid = isValid && !$(element).hasClass('invalid');
         })
-        form.filter(':input').filter('.required_field').each(function () {
-            if (!$(this).hasClass('valid')) {
+        form.filter(':input').filter('.required_field').each(function (index, element) {
+            if (!$(element).hasClass('valid')) {
                 isValid = false;
-                $(this).addClass('invalid');
+                $(element).addClass('invalid');
             }
         })
         return isValid;
@@ -157,37 +243,41 @@
 
     /**
      * @param {String} responseText Text to be shown
-     * @param {jQuery} responseElement Element for the message to be shown on
+     * @param {jQuery} form Form to which the response is originated from
      */
-    function standardSuccessResponse(responseText, responseElement) {
-        responseElement.text(responseText);
-        responseElement.removeClass('error').addClass('success');
+    function standardSuccessResponse(responseText, form) {
+        form.find('.response-text').each(function (index, element) {
+            $(element).text(responseText);
+            $(element).removeClass('error').addClass('success');
+        });
     }
 
     /**
      * @param {object} response Json response from the server
-     * @param {jQuery} responseElement Element for the message to be shown on
+     * @param {jQuery} form Form to which the response is originated from
      */
-    function standardErrorResponse(response, responseElement) {
+    function standardErrorResponse(response, form) {
         // e.g. "Error 500: Internal Server Error"
-        switch (response.status) {
-            case 422:
-                let errorText = ['Invalid Inputs: ']
-                for (let item in response.responseJSON.form) {
-                    errorText.push(item + " -> " + response.responseJSON.form[item]);
-                }
-                responseElement.text(errorText.join('\n'));
-                responseElement.removeClass('success').addClass('error');
-                break;
-            default:
-                if (response.responseJSON !== undefined &&
-                    response.responseJSON.responseMessage !== undefined) {
-                    responseElement.text(response.responseJSON.responseMessage);
-                } else {
-                    responseElement.text('Error ' + response.status + ': ' + response.statusText);
-                }
-                responseElement.removeClass('success').addClass('error');
-        }
+        form.find('.response-text').each(function (index, element) {
+            switch (response.status) {
+                case 422:
+                    let errorText = ['Invalid Inputs: ']
+                    for (let item in response.responseJSON.form) {
+                        errorText.push(item + " -> " + response.responseJSON.form[item]);
+                    }
+                    $(element).text(errorText.join('\n'));
+                    $(element).removeClass('success').addClass('error');
+                    break;
+                default:
+                    if (response.responseJSON !== undefined &&
+                        response.responseJSON.responseMessage !== undefined) {
+                        $(element).text(response.responseJSON.responseMessage);
+                    } else {
+                        $(element).text('Error ' + response.status + ': ' + response.statusText);
+                    }
+                    $(element).removeClass('success').addClass('error');
+            }
+        })
     }
 </script>
 {% block extrajavascript %}{% endblock %}

@@ -105,7 +105,7 @@ class CourseJoinAjax(View):
     """
     Ajax submission for course registration
     """
-    
+
     def post(self, request: HttpRequest) -> JsonResponse:
         print(request.POST)
         current_user = request.user

@@ -13,7 +13,6 @@
                 const cookies = document.cookie.split(';');
                 for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
@@ -48,87 +47,101 @@
     });
 
     /**
-     *
-     * @param {jQuery} form
-     * @param {String} ajaxURL
-     * @param {function} success
-     * @param {function} error
+     * Generate and assign validation methods to inputs within the given form and assign an ajax call of given url with
+     * data specified in the form to the submit
+     * @param {jQuery} form Form element being setup
+     * @param {String} ajaxURL URL for the ajax to be called by the form's submit
+     * @param {function(Object)} success Function to be called on successful ajax response
+     *                                   Object - Response object to be retrieved from ajax
+     * @param {function(Object)} error Function to be called on failed ajax response
+     *                                 Object - Response object to be retrieved from ajax
      */
     function assignStandardFormSetup(form, ajaxURL, success, error) {
         assignFormValidators(form);
+        // Disable on-submit redirection
         form.submit(function (e) {
             return false;
         });
+        // Assign ajax call to any present submit buttons
         form.find(':submit').each(function (index, element) {
-            $(element).on('click', function() {
-                try {
-                    let isValid = validateForm(form);
-                    if (!isValid) {
-                        form.filter('.response-text').each(function (index, element) {
-                            $(element).html('Invalid inputs');
-                            $(element).removeClass('success').addClass('error');
-                        })
-                    }
-
-                    let formData = parseFormData(form);
-                    console.log(formData);
-                    $.ajax({
-                        url: ajaxURL,
-                        type: "POST",
-                        data: formData,
-                        dataType: "json",
-                        headers: {"X-CSRFToken": '{{ csrf_token }}'},
-                        success: success,
-                        error: error,
+            $(element).on('click', function () {
+                // Ensure form data is valid
+                let isValid = validateForm(form);
+                if (!isValid) {
+                    form.find('.response-text').each(function (index, element) {
+                        $(element).html('Invalid inputs');
+                        $(element).removeClass('success').addClass('error');
                     })
-                } catch (err) {
-                    console.log(err);
+                    return;
                 }
+
+                // Call ajax with form data
+                let formData = parseFormData(form);
+                console.log(formData);
+                $.ajax({
+                    url: ajaxURL,
+                    type: "POST",
+                    data: formData,
+                    dataType: "json",
+                    headers: {"X-CSRFToken": '{{ csrf_token }}'},
+                    success: success,
+                    error: error,
+                });
             });
         });
     }
 
     /**
-     *
-     * @param {jQuery} form
+     * Assign validation methods to the inputs of the given form element based on input type and predefined classes
+     * @param {jQuery} form Form element to be updated
      */
     function assignFormValidators(form) {
+        // Update every input with validation functions
         form.find(':input').each(function (index, element) {
-            let validationFunction = function () {
+            if ($(element).hasClass('form-exempt')) {
+                return;
             }
-            switch ($(element).attr('type')) {
-                case 'text':
-                    validationFunction = function () {
-                        regexValidateInput($(element), '^ +$');
+            switch ($(element).prop('tagName')) {
+                case 'INPUT':
+                    let validationFunction = function () {
                     }
-                    if ($(element).hasClass('validate_text_email')) {
-                        validationFunction = function () {
-                            regexValidateInput($(element), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
-                        }
-                    }
-                    if ($(element).hasClass('validate_text_phone_number')) {
-                        validationFunction = function () {
-                            regexValidateInput($(element), ['^ *$', '[0-9]'], [false, true]);
-                        }
-                    }
-                    if ($(element).hasClass('validate_text_not_empty')) {
-                        validationFunction = function () {
-                            regexValidateInput($(element), '^ *$');
-                        }
-                    }
+                    switch ($(element).attr('type')) {
+                        case 'text':
+                            validationFunction = function () {
+                                regexValidateInput($(element), '^ +$');
+                            }
+                            if ($(element).hasClass('validate_text_email')) {
+                                validationFunction = function () {
+                                    regexValidateInput($(element), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
+                                }
+                            }
+                            if ($(element).hasClass('validate_text_phone_number')) {
+                                validationFunction = function () {
+                                    regexValidateInput($(element), ['^ *$', '[0-9]'], [false, true]);
+                                }
+                            }
+                            if ($(element).hasClass('validate_text_not_empty')) {
+                                validationFunction = function () {
+                                    regexValidateInput($(element), '^ *$');
+                                }
+                            }
 
-                    if ($(element).val() !== null && $(element).val() !== '') {
-                        validationFunction();
+                            // Validate current value if not empty
+                            if ($(element).val() !== null && $(element).val() !== '') {
+                                validationFunction();
+                            }
+                            // Assign function
+                            $(element).on('input', validationFunction)
+                            break;
                     }
-                    $(element).on('input', validationFunction)
+                    break;
+                case 'SELECT':
+                    $(element).on('change', function () {
+                        selectValidateInput($(element));
+                    });
                     break;
             }
         });
-        form.find('select').each(function (index, element) {
-            $(element).on('change', function () {
-                selectValidateInput($(element));
-            })
-        })
     }
 
     /**
@@ -202,6 +215,10 @@
     function parseFormData(form) {
         let formData = {}
         form.find(':input').each(function (index, element) {
+            if ($(element).hasClass('form-exempt')) {
+                return;
+            }
+            // Retrieve correct format values from element
             switch ($(element).prop('tagName')) {
                 case 'INPUT':
                     switch ($(element).attr('type')) {
@@ -213,6 +230,7 @@
                             break;
                         case 'hidden':
                             formData[$(element).attr('name')] = $(element).val();
+                            break;
                     }
                     break;
                 case 'SELECT':
@@ -225,14 +243,17 @@
 
     /**
      * @param {jQuery} form Form element to be validated
-     * @return {boolean} false if inputs are invalid or required inputs are unset else true
+     * @return {boolean} false if inputs are invalid, or required inputs are unset, else true
      */
     function validateForm(form) {
         let isValid = true;
-        form.filter(':input').each(function (index, element) {
+        // Ensure no inputs are invalid
+        form.find(':input').each(function (index, element) {
             isValid = isValid && !$(element).hasClass('invalid');
         })
-        form.filter(':input').filter('.required_field').each(function (index, element) {
+        // Ensure required inputs are all valid
+        form.find(':input').filter('.required').each(function (index, element) {
+            console.log($(element))
             if (!$(element).hasClass('valid')) {
                 isValid = false;
                 $(element).addClass('invalid');
@@ -253,7 +274,7 @@
     }
 
     /**
-     * @param {object} response Json response from the server
+     * @param {Object} response Json response from the server
      * @param {jQuery} form Form to which the response is originated from
      */
     function standardErrorResponse(response, form) {

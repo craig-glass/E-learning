@@ -64,21 +64,6 @@ class AccountSettingsView(View):
             return redirect('/')
 
 
-class AccountCreateView(View):
-    """
-    View for staff to create new accounts
-    """
-    template_name = 'accounts/account_create/account_create.html'
-
-    def get(self, request: HttpRequest) -> HttpResponse:
-        current_user = request.user
-        if not current_user.is_authenticated:
-            return redirect('/accounts/login')
-        elif not current_user.has_perm('accounts.add_profile'):
-            return redirect('/')
-        return render(request, self.template_name)
-
-
 class CourseJoinView(View):
     """
     View for students to submit a request to join a course / create a new account
@@ -92,31 +77,6 @@ class CourseJoinView(View):
             "courses": Course.objects.all(),
         }
         return render(request, self.template_name, context)
-
-
-class AccountCreateAjax(View):
-    """
-    Ajax submission for creating new accounts
-    """
-
-    def post(self, request: HttpRequest) -> JsonResponse:
-        current_user = request.user
-        if current_user.is_authenticated and current_user.has_perm('accounts.add_profile'):
-            form = UserCreationForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                user.clean()
-                return JsonResponse({})
-            else:
-                # Form validation failed
-                response = JsonResponse({'form': form.errors})
-                response.status_code = 422
-                return response
-        else:
-            # User does not have permission
-            response = JsonResponse({})
-            response.status_code = 401
-            return response
 
 
 class AccountUpdateAjax(View):
@@ -142,6 +102,10 @@ class AccountUpdateAjax(View):
 
 
 class CourseJoinAjax(View):
+    """
+    Ajax submission for course registration
+    """
+    
     def post(self, request: HttpRequest) -> JsonResponse:
         print(request.POST)
         current_user = request.user
@@ -166,6 +130,11 @@ class CourseJoinAjax(View):
 
 
 def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
+    """
+    Generate standard json response for invalid forms
+    (uses error code 422 - Unprocessable Entity)
+    form -- Form, which has been shown to be invalid
+    """
     response = JsonResponse({'form': form.errors})
     response.status_code = 422
     return response
@@ -188,6 +157,10 @@ def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
 
 
 def parse_details(account: Profile, allowed_details: Sequence[str]) -> Dict[str, any]:
+    """
+    account --
+
+    """
     details = {}
     if 'userid' in allowed_details:
         details["userid"] = account.userid

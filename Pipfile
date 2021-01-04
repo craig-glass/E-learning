@@ -15,6 +15,7 @@ whitenoise = "*"
 gunicorn = "*"
 django-heroku = "*"
 django-embed-video = "*"
+version = "*"
 
 [requires]
 python_version = "3.7"

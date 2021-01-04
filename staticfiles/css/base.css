@@ -404,11 +404,11 @@ div.moveable-list-contents div:hover {
     margin-left: 30%;
     margin-right: 30%;
 }
-#sideMenu {
-    float: right;
-    margin-right: 2%;
-}
+
+
 #sideMenu ul {
+    background:grey;
+    text-align:center;
     list-style: none;
 }
 #sideMenu a {

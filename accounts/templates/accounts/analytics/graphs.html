@@ -13,8 +13,9 @@
      *        {Array.<Number>} dataset.data List of numerical values,
      *        {Array.<String>} dataset.label List of labels to map to corresponding index in "data"
      * @param {String} name Unique identifier for the graph
+     * @param {String} type Graph type to display as
      */
-    function setPieChart(element, dataset, name) {
+    function setToGraph(element, dataset, name, type) {
         if (names.includes(name)) {
             throw Error('Graph with name ' + name + ' already exists')
         }
@@ -24,7 +25,7 @@
 
         let canvas = document.createElement('canvas');
         element.appendChild(canvas);
-        generateGraph(canvas, name, dataset, 'pie');
+        generateGraph(canvas, name, dataset, type);
 
         names.push(name);
     }
@@ -54,7 +55,14 @@
                     display: true,
                     text: name
                 },
-                responsive: true
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
             }
         }
 

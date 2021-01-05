@@ -9,12 +9,13 @@
 {% block extrajavascript %}
     {% include "accounts/analytics/graphs.html" %}
     <script>
-        setPieChart(
+        setToGraph(
             document.getElementById('container'),
             {
                 data: [1, 2, 3, 4],
-                label: ['b', 'b', 'c', 'd'],
+                label: ['a', 'b', 'c', 'd'],
             },
+            'c1',
             'pie'
         )
     </script>

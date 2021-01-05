@@ -2,21 +2,56 @@
 
 {% block account_view_content %}
     <p>{{ user_details.userid }}</p>
-
-    <div id="container" style="width:50%">
+    <div id="graphs">
+        <div id="container-assignment-marks" style="max-width: 750px"></div>
+        <div id="container-course-progress" style="max-width: 400px"></div>
     </div>
 {% endblock %}
 {% block extrajavascript %}
     {% include "accounts/analytics/graphs.html" %}
-    <script>
+    <script> 
         setToGraph(
-            document.getElementById('container'),
+            document.getElementById('container-assignment-marks'),
             {
-                data: [1, 2, 3, 4],
-                label: ['a', 'b', 'c', 'd'],
+                data: [50, 70, 65, 80, 95],
+                label: ['05-11-2020', '25-01-2021', '26-01-2021', '20-06-2021', '24-06-2021'],
             },
-            'c1',
-            'pie'
+            'assignment marks',
+            'bar',
+            {
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            }
+                        }]
+                    }
+                }
+            }
+        );
+        setToGraph(
+            document.getElementById('container-course-progress'),
+            {
+                data: [80, 20],
+                label: ['completed', 'uncompleted'],
+                color: ['#0000FF', '#0000AA']
+            },
+            'course progress',
+            'pie',
+            {
+                options: {
+                    scales: {
+                        yAxes: [{
+                            display: false
+                        }],
+                        xAxes: [{
+                            display: false
+                        }]
+                    }
+                }
+            }
         )
     </script>
 {% endblock %}

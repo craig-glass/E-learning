@@ -1,0 +1,91 @@
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+<script>
+    // List for holding names of existing graphs to prevent duplicates
+    let names = []
+
+    /**
+     * Set-up given element to display a pie chart with the given data
+     * @param {HTMLDivElement} element Container to render graph in
+     * @param {Object} dataset Data to be rendered to the graph, should include following:
+     *        {Array.<Number>} dataset.data List of numerical values,
+     *        {Array.<String>} dataset.label List of labels to map to corresponding index in "data"
+     * @param {String} name Unique identifier for the graph
+     */
+    function setPieChart(element, dataset, name) {
+        if (names.includes(name)) {
+            throw Error('Graph with name ' + name + ' already exists')
+        }
+        if (element.tagName.toLowerCase() !== 'div') {
+            throw Error('Element must be of type "div"')
+        }
+
+        let canvas = document.createElement('canvas');
+        element.appendChild(canvas);
+        generateGraph(canvas, name, dataset, 'pie');
+
+        names.push(name);
+    }
+
+    /**
+     * Generate graph on given element with given parameters
+     * @param {HTMLCanvasElement} element Canvas to render graph in
+     * @param {String} name Unique identifier for the graph
+     * @param {Object} dataset Data to be rendered to the graph, should include following:
+     *        {Array.<Number>} dataset.data List of numerical values,
+     *        {Array.<String>} dataset.label List of labels to map to corresponding index in "data"
+     * @param {string} type Type of graph to be displayed
+     */
+    function generateGraph(element, name, dataset, type) {
+        let config = {
+            type: type,
+            data: {
+                datasets: [{
+                    data: dataset.data,
+                    backgroundColor: generateColors(dataset["label"]),
+                    label: name
+                }],
+                labels: dataset.label
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: name
+                },
+                responsive: true
+            }
+        }
+
+        let ctx = element.getContext('2d');
+        window[name] = new Chart(ctx, config);
+    }
+
+    /**
+     * Randomly generate list of colors, each seeded corresponding indexes of the given list
+     * @param {Array.<*>} seeds List of rng seeds to apply to each color
+     * @returns {Array.<String>} List of hex string colors of same length as seeds list
+     */
+    function generateColors(seeds) {
+        let colors = [];
+        let r, g, b, rng;
+        for (let seed of seeds) {
+            rng = new Math.seedrandom(seed);
+            // Generate rgb values for the color
+            r = generate(0, 255, rng);
+            g = generate(0, 255, rng);
+            b = generate(0, 255, rng);
+            // Convert rgb to hex string
+            colors.push('#' + r.toString(16) + g.toString(16) + b.toString(16));
+        }
+        return colors;
+    }
+
+    /**
+     * Generate random positive integer within given range using given generator (max exclusive)
+     */
+    function generate(min, max, rng) {
+        return Math.floor(Math.max(rng() * max, min))
+    }
+</script>

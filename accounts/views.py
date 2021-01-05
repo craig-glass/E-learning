@@ -64,6 +64,29 @@ class AccountSettingsView(View):
             return redirect('/')
 
 
+class AccountAnalyticsView(View):
+    """
+    View for displaying general account analytics of a given user
+    """
+    template_name = "accounts/account_view/account_analytics.html"
+
+    def get(self, request: HttpRequest, userid: str) -> HttpResponse:
+        current_user = request.user
+        account = get_object_or_404(Profile, userid=userid)
+        if not current_user.is_authenticated:
+            return redirect('login')
+        elif current_user == account or current_user.has_perm('accounts.view_account'):
+            user_details = get_user_details(account, current_user)
+            context = {
+                "user_details": user_details,
+                "is_user": current_user == account,
+                "show_analytics": True,
+            }
+            return render(request, self.template_name, context)
+        else:
+            return redirect('/')
+
+
 class CourseJoinView(View):
     """
     View for students to submit a request to join a course / create a new account

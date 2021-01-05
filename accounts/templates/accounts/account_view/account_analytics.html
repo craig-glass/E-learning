@@ -1,0 +1,21 @@
+{% extends "accounts/account_view/account_view_base.html" %}
+
+{% block account_view_content %}
+    <p>{{ user_details.userid }}</p>
+
+    <div id="container" style="width:50%">
+    </div>
+{% endblock %}
+{% block extrajavascript %}
+    {% include "accounts/analytics/graphs.html" %}
+    <script>
+        setPieChart(
+            document.getElementById('container'),
+            {
+                data: [1, 2, 3, 4],
+                label: ['b', 'b', 'c', 'd'],
+            },
+            'pie'
+        )
+    </script>
+{% endblock %}

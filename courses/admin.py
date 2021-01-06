@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from assignments.models import Assignment
 from .models import Subject, Course, Module
 
 
@@ -8,8 +10,19 @@ class SubjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+class AssignmentInline(admin.StackedInline):
+    model = Assignment
+
+
 class ModuleInline(admin.StackedInline):
     model = Module
+
+
+@admin.register(Module)
+class ModuleAdmin(admin.ModelAdmin):
+    list_display = ['title', 'course']
+    search_fields = ['title', 'overview']
+    inlines = [AssignmentInline]
 
 
 @admin.register(Course)

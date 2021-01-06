@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+
+from assignments.models import Assignment
 from .fields import OrderField
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -56,9 +58,6 @@ class Module(models.Model):
 
 
 class Content(models.Model):
-    module = models.ForeignKey(Module,
-                               related_name='contents',
-                               on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType,
                                      on_delete=models.CASCADE,
                                      limit_choices_to={'model__in': (
@@ -69,11 +68,24 @@ class Content(models.Model):
                                      )})
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey('content_type', 'object_id')
-    order = OrderField(blank=True, for_fields=['module'])
-    is_assignment = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['order']
+        abstract = True
+
+
+class ModuleContent(Content):
+    module = models.ForeignKey(Module,
+                               related_name='contents',
+                               on_delete=models.CASCADE)
+    order = OrderField(blank=True, for_fields=['module'])
+
+
+class AssignmentContent(Content):
+    assignment = models.ForeignKey(Assignment,
+                                   related_name='contents',
+                                   on_delete=models.CASCADE)
+    order = OrderField(blank=True, for_fields=['assignment'])
 
 
 class ItemBase(models.Model):

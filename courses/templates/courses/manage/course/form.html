@@ -14,12 +14,22 @@ Create a new course
     Create a new course
     {% endif %}
 </h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 <div class="module">
     <h2>Course info</h2>
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <p><input type="submit" value="Save course"></p>
+
+
+</div>
+</div>
+                <div class="col-12">
+            <p><button class="buttonfx doubletake" type="submit" value="Save course">Save Course</button></p>
+        </div>
     </form>
+</div>
 </div>
 {% endblock %}

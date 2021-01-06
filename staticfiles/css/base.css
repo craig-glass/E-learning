@@ -47,10 +47,10 @@ h1 {
     padding:10px 20px;
     float:left;
     width:90%;
-    background: linear-gradient(90deg, rgba(207,217,223,1) 0%, rgba(226,235,240,1) 35%);
+    background-color: #d9d9d9;
+    background-image: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%);
     text-align: center;
     margin: 5%;
-    margin-top:10%;
 }
 
 .module h3 {
@@ -78,13 +78,14 @@ header .logo {
     font-family:'Courier New', monospace;
     font-weight:bold;
     text-transform:uppercase;
-    font-size:24px;
+    font-size:30px;
     color:#fff;
     float:left;
 }
 
 header a {
     color:#fff;
+    font-size:25px;
 }
 
 header .menu {
@@ -105,6 +106,7 @@ header .menu {
     color: #fff;
     font-family:'Courier New', monospace;
     border: 1px solid #202020;
+    margin-bottom:10%;
 }
 
 .contents ul {
@@ -331,7 +333,6 @@ div.moveable-list-contents div:hover {
     border:1px solid #ccc;
     padding:0 20px;
     margin-bottom:10px;
-    width:400px;
     overflow:auto;
 }
 
@@ -403,7 +404,8 @@ div.moveable-list-contents div:hover {
 
 #studentHome {
     text-align:center;
-    /* background: linear-gradient(90deg, rgba(207,217,223,1) 0%, rgba(226,235,240,1) 35%); */
+    background-color: #e3efe8;
+    background-image: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%);
     font-size:20px;
 }
 
@@ -427,6 +429,150 @@ div.moveable-list-contents div:hover {
     display: block !important;
 }
 
-.module input{
+.module input  {
     float:none !important;
+	border: 0;
+	padding: 7px 0;
+	border-bottom: 3px solid #ccc;
+}
+
+button.btn{
+  background: transparent!important;
+  color: white;
+  font-size: 200%;
+  font-weight:bold;
+  letter-spacing: 2px;
+  padding: 25px 80px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-block;
+  margin: 15px 30px;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+button.btn-2{
+  overflow: hidden;
+  position: relative;
+}
+
+button.btn-2:hover{
+  color: black;
+}
+
+
+button.btn-2:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+  width: 100%;
+  height: 0;
+  top: 0;
+  left: 0;
+  background: linear-gradient(90deg, rgba(207,217,223,1) 0%, rgba(226,235,240,1) 35%);
+}
+
+button.btn-2:hover:after,
+button.btn-2:active:after {
+  height: 100%;
+}
+
+
+
+.col-12 p{
+    text-align:center;
+
+}
+
+
+
+
+.buttonfx{
+  color: white; /* button text color */
+  outline: none;
+  background: transparent;
+  border: none;
+  border-bottom: 4px solid #eee;
+  letter-spacing: 0.0625em;
+  padding: 8px 10px;
+  text-transform: uppercase;
+  font-size: 120%;
+  font-weight: bolder;
+  line-height: 2;
+  position: relative;
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: all .5s;
+}
+
+/* //// Default effect: Slide from Top  //// */
+
+.buttonfx:before,
+.buttonfx:after{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background: #259f6c; /* onhover background color */
+  z-index: -1;
+  transform: translate3D(0,-100%,0); /* move elements above button so they don't appear initially */
+  transition: all .5s;
+}
+
+.buttonfx:before{
+  background: #fafcd6; /* button default background color */
+  z-index: -2;
+  transform: translate3D(0,0,0);
+}
+
+.buttonfx:hover{
+	color: #003366;
+}
+
+.buttonfx:hover:after{
+  transform: translate3D(0,0,0);
+  transition: all .5s;
+}
+
+
+/* //// Double Take  //// */
+
+.doubletake:before,
+.doubletake:after{
+  width: 200%;
+  background: linear-gradient(90deg, rgba(207,217,223,1) 0%, rgba(226,235,240,1) 35%);
+  transform-origin: 0 bottom;
+  transform: translate3D(-50%,0,0) rotate(-50deg);
+}
+
+.doubletake:before{
+  opacity: .4;
+}
+
+.doubletake:hover:before,
+.doubletake:hover:after{
+  transform: rotate(0deg);
+  transition: all .25s;
+}
+
+.doubletake:hover:after{
+  transition-delay: .25s;
+}
+
+.img-responsive{
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 100px;
+    border-radius: 50%;
+    margin:auto;
+    display:block;
 }

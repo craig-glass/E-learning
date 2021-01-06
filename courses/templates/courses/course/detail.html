@@ -7,6 +7,10 @@
 <h1>
     {{ object.title }}
 </h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
 <div class="module">
     <h2>Overview</h2>
     <p>
@@ -27,5 +31,8 @@
     <a href="{% url 'student_registration' %}" class="button">Register to enroll</a>
     {% endif %}
 </div>
+            </div></div>
+    </div>
+
 {% endwith %}
 {% endblock %}

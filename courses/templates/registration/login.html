@@ -17,11 +17,15 @@
         {{ form.as_p }}
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
-        <p><input type="submit" value="Log In"></p>
-    </form>
 </div>
 </div>
     </div>
+        <div class="col-12">
+            <p><button class="buttonfx doubletake" type="submit" value="Log In">Login</button></p>
+        </div>
+            </form>
 </div>
 </div>
+
+
 {% endblock %}

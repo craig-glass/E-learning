@@ -2,6 +2,9 @@
 {% block title %}Courses{% endblock %}
 {% block content %}
 <h1>Courses</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 <div class="module">
     {% for course in object_list %}
         <div class="course-info">
@@ -17,15 +20,19 @@
                 {% endif %}
             </p>
         </div>
-
-
-    {% empty %}
+        {% empty %}
     <p>You haven't created any courses yet.</p>
     {% endfor %}
+</div>
+        </div>
+
+        <div class="col-12">
     <p>
-        <a href="{% url 'course_create' %}" class="button">
+        <a href="{% url 'course_create' %}" class="buttonfx doubletake">
             Create new course
         </a>
     </p>
+</div>
+    </div>
 </div>
 {% endblock %}

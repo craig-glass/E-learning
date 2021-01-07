@@ -8,19 +8,21 @@
 
 <div class="container-fluid">
 <div class="row">
-<div class="col-12 col-sm-4 col-xl-2">
+<div class="col-12 col-md-3">
+
+
 <div id="sideMenu">
-<ul>
-    <li><a href="#">Announcements</a></li>
-    <li><a href="{% url 'student_course_detail' course.id %}">Modules</a></li>
-    <li><a href="#">Assignments</a></li>
-    <li><a href="#">Calendar</a></li>
-    <li><a href="#">Account</a></li>
-</ul>
+    <p><button class="button effect" type="submit" value="Log In"><a href="{% url 'announcements'%}">Announcements</a></button></p>
+                <p><button class="button effect" type="submit" value="Log In"><a href="{% url 'student_course_detail' course.id %}">Modules</a></button></p>
+                <p><button class="button effect" type="submit" value="Log In"><a href="#">Assignments</a></button></p>
+                <p><button class="button effect" type="submit" value="Log In"><a href="#">Calendar</a></button></p>
+                <p><button class="button effect" type="submit" value="Log In"><a href="#">Account</a></button></p>
+
+
 </div>
     </div>
 
-<div class="col-12 col-sm-8 col-xl-9">
+<div class="col-12 col-md-9">
 <div id="studentHome">
     <p>This is the student homepage/dashboard</p>
 </div>

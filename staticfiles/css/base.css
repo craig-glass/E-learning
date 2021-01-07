@@ -18,6 +18,8 @@ a {
 
 ul {
     float:left;
+    font-size: larger;
+    text-align:center;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -43,7 +45,7 @@ h1 {
     display: inline-block;
 }
 
-.module {
+.module, .profile, .create {
     padding:10px 20px;
     float:left;
     width:90%;
@@ -133,14 +135,15 @@ header .menu {
 
 .contents ul span {
     text-transform:uppercase;
-    color:white;
-    font-size:14px;
+    color:#003366;
+    font-size:25px;
 }
 
 .contents ul a {
     display:block;
-    color:#fff;
+    color:#003366;
     text-decoration:none;
+    font-size:20px;
 }
 
 .contents ul a:hover {
@@ -148,17 +151,18 @@ header .menu {
     cursor:move;
 }
 .contents a {
-    color: dodgerblue;
+    color: white;
 }
-.contents a:hover {
+.contents a:hover span:hover {
     color: royalblue;
 }
 ul.content-types li {
-    list-style:none;
-    float:left;
-    margin:10px;
-    background:#efefef;
-    padding:8px 14px;
+    list-style: none;
+    float: left;
+    margin: 1%;
+    background: #efefef;
+    padding: 8px 14px;
+    width: 15%;
 }
 .content-types a {
     color: dodgerblue;
@@ -278,7 +282,7 @@ ul#course-modules li:hover {
     padding:0;
 }
 #module-contents a {
-    color: dodgerblue;
+    color: #003366;
 }
 #module-contents a:hover {
     color: royalblue;
@@ -291,6 +295,7 @@ ul#course-modules li:hover {
     padding:0;
     float:left;
     text-transform:none;
+    font-weight:bolder;
 }
 #module-contents input:hover {
     color: royalblue;
@@ -429,69 +434,21 @@ div.moveable-list-contents div:hover {
     display: block !important;
 }
 
-.module input  {
+.module input, textarea, #id_subject{
     float:none !important;
 	border: 0;
 	padding: 7px 0;
 	border-bottom: 3px solid #ccc;
 }
 
-button.btn{
-  background: transparent!important;
-  color: white;
-  font-size: 200%;
-  font-weight:bold;
-  letter-spacing: 2px;
-  padding: 25px 80px;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: inline-block;
-  margin: 15px 30px;
-  -webkit-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
-}
-
-button.btn-2{
-  overflow: hidden;
-  position: relative;
-}
-
-button.btn-2:hover{
-  color: black;
-}
-
-
-button.btn-2:after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  -webkit-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
-  width: 100%;
-  height: 0;
-  top: 0;
-  left: 0;
-  background: linear-gradient(90deg, rgba(207,217,223,1) 0%, rgba(226,235,240,1) 35%);
-}
-
-button.btn-2:hover:after,
-button.btn-2:active:after {
-  height: 100%;
+.col-12 p, .buttons{
+    text-align:center !important;
+    font-size: 20px;
 }
 
 
 
-.col-12 p{
-    text-align:center;
-
-}
-
-
-
-
-.buttonfx{
+.button{
   color: white; /* button text color */
   outline: none;
   background: transparent;
@@ -513,8 +470,8 @@ button.btn-2:active:after {
 
 /* //// Default effect: Slide from Top  //// */
 
-.buttonfx:before,
-.buttonfx:after{
+.button:before,
+.button:after{
   content: '';
   position: absolute;
   left: 0;
@@ -528,43 +485,42 @@ button.btn-2:active:after {
   transition: all .5s;
 }
 
-.buttonfx:before{
+.button:before{
   background: #fafcd6; /* button default background color */
   z-index: -2;
   transform: translate3D(0,0,0);
 }
 
-.buttonfx:hover{
+.button:hover{
 	color: #003366;
 }
 
-.buttonfx:hover:after{
+.button:hover:after{
   transform: translate3D(0,0,0);
   transition: all .5s;
 }
 
 
-/* //// Double Take  //// */
 
-.doubletake:before,
-.doubletake:after{
+.effect:before,
+.effect:after{
   width: 200%;
   background: linear-gradient(90deg, rgba(207,217,223,1) 0%, rgba(226,235,240,1) 35%);
   transform-origin: 0 bottom;
   transform: translate3D(-50%,0,0) rotate(-50deg);
 }
 
-.doubletake:before{
+.effect:before{
   opacity: .4;
 }
 
-.doubletake:hover:before,
-.doubletake:hover:after{
+.effect:hover:before,
+.effect:hover:after{
   transform: rotate(0deg);
   transition: all .25s;
 }
 
-.doubletake:hover:after{
+.effect:hover:after{
   transition-delay: .25s;
 }
 
@@ -576,3 +532,27 @@ button.btn-2:active:after {
     margin:auto;
     display:block;
 }
+
+.center-list{
+    align-items: center;
+}
+
+ul.content-types{
+    width: 200%;
+    display: flex;
+    margin-left: 32%;
+}
+
+.profile table{
+    width:100%
+}
+
+#content label{
+    float: none;
+    display: block;}
+
+#content input{
+float: none !important;
+    border: 0;
+    padding: 7px 0;
+    border-bottom: 3px solid #ccc;}

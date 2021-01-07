@@ -5,70 +5,71 @@
 {% endblock %}
 {% block content %}
 
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="create">
     <form id="account-create-form" method="post" action="">
-        <table>
-            <tr>
-                <th><label for="userid" style="clear: left">UserID</label></th>
-                <th><input id="userid" type="text" name="userid" style="clear: right"
-                           placeholder="&lt autogenerate uid &gt" maxlength="50"></th>
-            </tr>
-            <tr>
-                <th><label for="password" style="clear: left">Password</label></th>
-                <th><input id="password" type="text" name="password" style="clear: right"
-                           placeholder="&lt autogenerate changme &gt" maxlength="128"></th>
-            </tr>
-            <tr>
-                <th>Details</th>
-            </tr>
-            <tr>
-                <th><label for="first-name" style="clear: left">Firstname</label></th>
-                <th><input id="first-name" type="text" name="first_name" style="clear: right"
-                           placeholder="Enter first name" maxlength="150"></th>
-            </tr>
-            <tr>
-                <th><label for="last-name" style="clear: left">Lastname</label></th>
-                <th><input id="last-name" type="text" name="last_name" style="clear: right"
-                           placeholder="Enter last name" maxlength="150"></th>
-            </tr>
-            <tr>
-                <th>Contact</th>
-            </tr>
-            <tr>
-                <th><label for="email" style="clear: left">Email*</label></th>
-                <th><input id="email" type="text" name="email" style="clear: right" class="required_field"
-                           placeholder="example@email.com" maxlength="254"></th>
-            </tr>
-            <tr>
-                <th><label for="phone" style="clear: left">Phone Number</label></th>
-                <th><input id="phone" type="text" name="phone_number" style="clear: right"
-                           placeholder="###-####-#######" maxlength="20"></th>
-            </tr>
-            <tr>
-                <th><label for="address" style="clear: left">Term Address</label></th>
-                <th><input id="address" type="text" name="term_address" style="clear: right"
-                           placeholder="1 Example rd, Example city" maxlength="150"></th>
-            </tr>
-            <tr>
-                <th>Permissions:</th>
-            </tr>
-            <tr>
-                <th><label for="is-student" style="clear: left">Student</label></th>
-                <th><input id="is-student" type="checkbox" name="is_student" style="clear: right"></th>
-            </tr>
-            <tr>
-                <th><label for="is-staff" style="clear: left">Staff</label></th>
-                <th><input id="is-staff" type="checkbox" name="is_staff" style="clear: right"></th>
-            </tr>
-            <tr>
-                <th><label for="is-admin" style="clear: left">Admin</label></th>
-                <th><input id="is-admin" type="checkbox" name="is_superuser" style="clear: right"></th>
-            </tr>
-            <tr>
-                <th><input id="account-create-submit" type="submit" value="Submit"></th>
-                <th><span id="response-span"></span></th>
-            </tr>
-        </table>
+                <p><label for="userid">UserID</label>
+                <input id="userid" type="text" name="userid"
+                           placeholder="&lt autogenerate uid &gt" maxlength="50"></p>
+
+        <p><label for="password">Password</label>
+                <input id="password" type="text" name="password"
+                           placeholder="&lt autogenerate changme &gt" maxlength="128"></p>
+
+                <h2>Details</h2>
+
+                <p><label for="first-name">Firstname</label>
+                <input id="first-name" type="text" name="first_name"
+                           placeholder="Enter first name" maxlength="150"></p>
+
+                <p><label for="last-name" >Lastname</label>
+        <input id="last-name" type="text" name="last_name"
+                           placeholder="Enter last name" maxlength="150"></p>
+
+                <h2>Contact</h2>
+
+                <p><label for="email">Email*</label>
+        <input id="email" type="text" name="email" class="required_field"
+                           placeholder="example@email.com" maxlength="254"></p>
+
+                <p><label for="phone">Phone Number</label>
+                <input id="phone" type="text" name="phone_number"
+                           placeholder="###-####-#######" maxlength="20"></p>
+
+                <p><label for="address" >Term Address</label>
+                <input id="address" type="text" name="term_address"
+                           placeholder="1 Example rd, Example city" maxlength="150"></p>
+
+                <h2>Permissions:</h2>
+
+                <p><label for="is-student" >Student</label>
+               <input id="is-student" type="checkbox" name="is_student" ></p>
+
+                <p><label for="is-staff" >Staff</label>
+                <input id="is-staff" type="checkbox" name="is_staff" ></p>
+
+                <p><label for="is-admin" >Admin</label>
+               <input id="is-admin" type="checkbox" name="is_superuser" ></p>
+
+        </div>
+    </div>
+
+
+                <div class="col-12">
+            <p><button class="button effect" id="account-create-submit" type="submit" value="Submit">Create Account</button></p>
+        </div>
     </form>
+
+
+
+
+
+
+</div>
+</div>
 
 {% endblock %}
 {% block extrajavascript %}

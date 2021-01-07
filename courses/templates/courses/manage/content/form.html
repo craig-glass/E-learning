@@ -14,12 +14,23 @@ Add new content
     Add new content
     {% endif %}
 </h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 <div class="module">
     <h2>Course info</h2>
     <form action="" method="post" enctype="multipart/form-data">
         {{ form.as_p }}
         {% csrf_token %}
-        <p><input type="submit" value="Save content"></p>
+    </div>
+        </div>
+
+            <div class="col-12">
+                <p><button class="button effect" type="submit" value="Save content">Save Content</button></p>
+
+            </div>
     </form>
+    </div>
 </div>
 {% endblock %}

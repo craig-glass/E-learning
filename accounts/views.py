@@ -45,7 +45,7 @@ class AccountSettingsView(View):
     """
     View for displaying editable user details and other preferences
     """
-    template_name = "accounts/account_view/account_settings.html"
+    template_name = 'accounts/account_view/account_settings.html'
 
     def get(self, request: HttpRequest, userid: str) -> HttpResponse:
         current_user = request.user
@@ -68,7 +68,7 @@ class AccountAnalyticsView(View):
     """
     View for displaying general account analytics of a given user
     """
-    template_name = "accounts/account_view/account_analytics.html"
+    template_name = 'accounts/account_view/account_analytics.html'
 
     def get(self, request: HttpRequest, userid: str) -> HttpResponse:
         current_user = request.user
@@ -81,6 +81,9 @@ class AccountAnalyticsView(View):
                 "user_details": user_details,
                 "is_user": current_user == account,
                 "show_analytics": True,
+
+                "registered_courses": Course.objects.filter(students__in=[account]).order_by('title'),
+                "owned_courses": Course.objects.filter(owner=account).order_by('title'),
             }
             return render(request, self.template_name, context)
         else:
@@ -130,7 +133,6 @@ class CourseJoinAjax(View):
     """
 
     def post(self, request: HttpRequest) -> JsonResponse:
-        print(request.POST)
         current_user = request.user
         if (current_user.is_authenticated and request.POST['email'] == current_user.email
                 and not current_user.has_perm('accounts.can_add_account_submission')):
@@ -150,6 +152,62 @@ class CourseJoinAjax(View):
                 return JsonResponse({})
             else:
                 return invalid_form_response(form)
+
+
+class RegisteredCourseAnalyticsAjax(View):
+    """Ajax request for analytics data relating to courses the given user is registered to"""
+    def post(self, request: HttpRequest) -> JsonResponse:
+        current_user = request.user
+        account = Profile.objects.get(userid=request.POST['account'])
+        if (not current_user.is_authenticated or
+                current_user != account and not current_user.has_perm('accounts.view_profile')):
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        import random
+        import datetime
+        random.seed(request.POST['course'])
+        context = {}
+        am_data = [random.randint(0, 100) for _ in range(random.randint(5, 15))]
+
+        am_label = [
+            datetime.date(2020, 9, 10) + random.random() * (datetime.date(2021, 7, 10) - datetime.date(2020, 9, 10))
+            for _ in range(len(am_data))
+        ]
+        if account.is_student:
+            context['assignment_marks'] = {
+                "data": am_data,
+                "label": sorted(am_label),
+            }
+            x = random.randint(1, 100)
+            context['course_progress'] = {
+                "data": [x, 100 - x],
+                "label": ['completed', 'uncompleted'],
+                "color": ['#0000FF', '#0000AA'],
+            }
+        return JsonResponse(context)
+
+
+class OwnedCourseAnalyticsAjax(View):
+    """Ajax request for analytics data relating to courses owned by a given user"""
+    def post(self, request: HttpRequest) -> HttpResponse:
+        current_user = request.user
+        account = Profile.objects.get(userid=request.POST['account'])
+        if (not current_user.is_authenticated or
+                current_user != account and not current_user.has_perm('accounts.view_profile')):
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        import random
+        random.seed(request.POST['course'])
+        context = {}
+        as_data = [0.0004 * pow(random.randint(0, 100) - 50, 3) + 50 for i in range(random.randint(5, 15))]
+        as_label = ['ws' + str(i) for i in range(len(as_data))]
+        context['average_score'] = {
+            "data": as_data,
+            "label": as_label,
+        }
+        return JsonResponse(context)
 
 
 def invalid_form_response(form: forms.ModelForm) -> JsonResponse:

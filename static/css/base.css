@@ -211,6 +211,27 @@ input, select, textarea {
     border: 2px solid green;
 }
 
+.navbar {
+    width: 100%;
+    background-color: #1a5186;
+    overflow: auto;
+}
+
+.navbar p {
+    float: left;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar p:hover {
+    background-color: #000000;
+}
+
+.active {
+    background-color: #009b6a;
+}
+
 textarea {
     height:80px;
 }

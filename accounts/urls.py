@@ -10,4 +10,6 @@ urlpatterns = [
 
     path('updateAccountAjax', views.AccountUpdateAjax.as_view()),
     path('courseJoinAjax', views.CourseJoinAjax.as_view()),
+    path('registeredCourseAnalyticsAjax', views.RegisteredCourseAnalyticsAjax.as_view()),
+    path('ownedCourseAnalyticsAjax', views.OwnedCourseAnalyticsAjax.as_view()),
 ]

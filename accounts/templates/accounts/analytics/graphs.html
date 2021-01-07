@@ -2,9 +2,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 <script>
-    // List for holding names of existing graphs to prevent duplicates
-    let names = []
-
     /**
      * Set-up given element to display a pie chart with the given data
      * @param {HTMLElement} element Container to render graph in
@@ -17,18 +14,14 @@
         if (customSettings === null) {
             customSettings = {}
         }
-        if (names.includes(name)) {
-            throw Error('Graph with name ' + name + ' already exists')
-        }
         if (element.tagName.toLowerCase() !== 'div') {
             throw Error('Element must be of type "div"')
         }
 
         let canvas = document.createElement('canvas');
+        canvas.id = name;
         element.appendChild(canvas);
         generateGraph(canvas, name, dataset, type, customSettings);
-
-        names.push(name);
     }
 
     /**
@@ -58,7 +51,11 @@
                 responsive: true,
                 scales: {
                     yAxes: [{
-                        display: true
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
                     }]
                 }
             }

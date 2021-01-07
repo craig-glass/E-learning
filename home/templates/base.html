@@ -77,17 +77,28 @@
 
                 // Call ajax with form data
                 let formData = parseFormData(form);
-                console.log(formData);
-                $.ajax({
-                    url: ajaxURL,
-                    type: "POST",
-                    data: formData,
-                    dataType: "json",
-                    headers: {"X-CSRFToken": '{{ csrf_token }}'},
-                    success: success,
-                    error: error,
-                });
+                standardAjaxCall(ajaxURL, formData, success, error);
             });
+        });
+    }
+
+    /**
+     * @param {String} ajaxURL URL for the ajax to call to
+     * @param {Object} data Dictionary format data to pass through the ajax
+     * @param {function(Object)} success Function to be called on successful ajax response
+     *                                   Object - Response object to be retrieved from ajax
+     * @param {function(Object)} error Function to be called on failed ajax response
+     *                                 Object - Response object to be retrieved from ajax
+     */
+    function standardAjaxCall(ajaxURL, data, success, error) {
+        $.ajax({
+            url: ajaxURL,
+            type: "POST",
+            data: data,
+            dataType: "json",
+            headers: {"X-CSRFToken": '{{ csrf_token }}'},
+            success: success,
+            error: error,
         });
     }
 
@@ -210,7 +221,7 @@
     /**
      * Retrieve json format form data to be submitted
      * @param {jQuery} form Form element to be parsed
-     * @return {object} key-value (name-data) object extracted from the form
+     * @return {Object} key-value (name-data) object extracted from the form
      */
     function parseFormData(form) {
         let formData = {}
@@ -264,41 +275,59 @@
 
     /**
      * @param {String} responseText Text to be shown
-     * @param {jQuery} form Form to which the response is originated from
+     * @param {jQuery} element Element To which the response will be rendered
+     *                         A form input will render to any .response-text child elements
      */
-    function standardSuccessResponse(responseText, form) {
-        form.find('.response-text').each(function (index, element) {
-            $(element).text(responseText);
-            $(element).removeClass('error').addClass('success');
-        });
+    function standardSuccessResponse(responseText, element) {
+        if (element.prop('tagName') === 'FORM') {
+            element.find('.response-text').each(function (index, element2) {
+                _standardSuccessResponse(responseText, $(element2));
+            });
+        } else {
+            _standardSuccessResponse(responseText, element)
+        }
+    }
+
+    function _standardSuccessResponse(responseText, element) {
+        element.text(responseText);
+        element.removeClass('error').addClass('success');
     }
 
     /**
      * @param {Object} response Json response from the server
-     * @param {jQuery} form Form to which the response is originated from
+     * @param {jQuery} element Element To which the response will be rendered
+     *                         A form input will render to any .response-text child elements
      */
-    function standardErrorResponse(response, form) {
+    function standardErrorResponse(response, element) {
         // e.g. "Error 500: Internal Server Error"
-        form.find('.response-text').each(function (index, element) {
-            switch (response.status) {
-                case 422:
-                    let errorText = ['Invalid Inputs: ']
-                    for (let item in response.responseJSON.form) {
-                        errorText.push(item + " -> " + response.responseJSON.form[item]);
-                    }
-                    $(element).text(errorText.join('\n'));
-                    $(element).removeClass('success').addClass('error');
-                    break;
-                default:
-                    if (response.responseJSON !== undefined &&
-                        response.responseJSON.responseMessage !== undefined) {
-                        $(element).text(response.responseJSON.responseMessage);
-                    } else {
-                        $(element).text('Error ' + response.status + ': ' + response.statusText);
-                    }
-                    $(element).removeClass('success').addClass('error');
-            }
-        })
+        if (element.prop('tagName') === 'FORM') {
+            element.find('.response-text').each(function (index, element2) {
+                _standardErrorResponse(response, $(element2));
+            });
+        } else {
+            _standardErrorResponse(response, element);
+        }
+    }
+
+    function _standardErrorResponse(response, element) {
+        switch (response.status) {
+            case 422:
+                let errorText = ['Invalid Inputs: ']
+                for (let item in response.responseJSON.form) {
+                    errorText.push(item + " -> " + response.responseJSON.form[item]);
+                }
+                element.text(errorText.join('\n'));
+                element.removeClass('success').addClass('error');
+                break;
+            default:
+                if (response.responseJSON !== undefined &&
+                    response.responseJSON.responseMessage !== undefined) {
+                    element.text(response.responseJSON.responseMessage);
+                } else {
+                    element.text('Error ' + response.status + ': ' + response.statusText);
+                }
+                element.removeClass('success').addClass('error');
+        }
     }
 </script>
 {% block extrajavascript %}{% endblock %}

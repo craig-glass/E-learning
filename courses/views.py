@@ -4,14 +4,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.base import TemplateResponseMixin, View
-
-from assignments.models import Assignment
 from students.forms import CourseEnrollForm
-from .forms import ModuleFormSet
+from .forms import ModuleFormSet, AssignmentFormSet
 from .models import Course, ModuleContent, AssignmentContent
 from django.apps import apps
 from django.forms.models import modelform_factory
-from .models import Module, Content
+from .models import Module, Assignment, Content
 from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 from django.db.models import Count
 from .models import Subject
@@ -184,8 +182,37 @@ class AssignmentContentListView(TemplateResponseMixin, View):
         return self.render_to_response({'module': module})
 
 
+class CourseAssignmentUpdateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
+    template_name = 'courses/manage/module/assignments/formset.html'
+    module = None
+    permission_required = 'courses.change_module'
+
+    def get_formset(self, data=None):
+        return AssignmentFormSet(instance=self.module,
+                                 data=data)
+
+    def dispatch(self, request, module_id):
+        self.module = get_object_or_404(Module,
+                                        id=module_id,
+                                        )
+        return super().dispatch(request, module_id)
+
+    def get(self, request, *args, **kwargs):
+        formset = self.get_formset()
+        return self.render_to_response({'module': self.module,
+                                        'formset': formset})
+
+    def post(self, request, *args, **kwargs):
+        formset = self.get_formset(data=request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect('manage_course_list')
+        return self.render_to_response({'module': self.module,
+                                        'formset': formset})
+
+
 class AssignmentUpdateView(TemplateResponseMixin, View):
-    template_name = 'assignments/content-list.html'
+    template_name = 'courses/manage/module/assignments/content-list.html'
 
     def get(self, request, module_id, assignment_id):
         assignment = get_object_or_404(Assignment,
@@ -203,7 +230,7 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
     obj = None
     assignment = None
     module = None
-    template_name = 'assignments/manage/content/form.html'
+    template_name = 'courses/manage/module/assignments/form.html'
 
     def get_model(self, model_name):
         if model_name in ['text', 'video', 'image', 'file']:

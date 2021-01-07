@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-
-from assignments.models import Assignment
 from .fields import OrderField
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -49,6 +47,21 @@ class Module(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     order = OrderField(blank=True, for_fields=['course'])
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f'{self.order}.{self.title}'
+
+
+class Assignment(models.Model):
+    module = models.ForeignKey('courses.Module',
+                               related_name='assignments',
+                               on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    order = OrderField(blank=True, for_fields=['module'])
 
     class Meta:
         ordering = ['order']

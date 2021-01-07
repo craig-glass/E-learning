@@ -13,7 +13,7 @@ Module {{ module.order|add:1 }}:{{ module.title }}
         {% for m in course.modules.all %}
         <li data-id="{{ m.id }}"{% if m == module %}
         class="selected"{% endif %}>
-        <a href="{% url "module_list" m.id %}">
+        <a href="{% url "assignments_list_student_view_module" course.id m.id %}">
             <span>
                 Module<span class="order">
                 {{ m.order|add:1 }}
@@ -29,27 +29,16 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     </ul>
 </div>
 <div class="module">
-    <h2>Assignment {{ assignment.order|add:1 }}</h2>
-    <h3>Assignment contents:</h3>
-    <div id="module-contents">
-        {% for content in assignment.contents.all %}
-        <div data-id="{{ content.id }}">
-            {% with item=content.item %}
-            <p>{{ item }}({{ item|model_name }})</p>
-            <a href="{% url "assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
-            {% endwith %}
+    <div>
+        {% for assignment in module.assignments.all %}
+        <div>
+            <h3>{{ assignment.title }}</h3>
+            <p>{{ assignment.description }}</p>
         </div>
     {% empty %}
-    <p>This assignment has no contents yet</p>
+    <p>This module has no assignments yet</p>
     {% endfor %}
     </div>
-    <h3>Add new content:</h3>
-    <ul class="content-types">
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "text" %}">Text</a></li>
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "image" %}">Image</a></li>
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "video" %}">Video</a></li>
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "file" %}">File</a></li>
-    </ul>
 </div>
 {% endwith %}
 {% endblock %}

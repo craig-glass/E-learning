@@ -1,7 +1,7 @@
 
 
 body {
-    background: url("../images/cool-background.png")no-repeat center center fixed;
+    background: url("../images/cool-background.d19b47068578.png")no-repeat center center fixed;
     margin:0;
     font-family:'Courier New', monospace;
     font-weight:bold;
@@ -68,7 +68,7 @@ h1 {
 }
 
 header {
-    background: url("../images/back.png") no-repeat;
+    background: url("../images/back.ed0c87fe0771.png") no-repeat;
     background-size:cover;
     overflow:auto;
     padding:10px;
@@ -126,11 +126,11 @@ header .menu {
 }
 
 .contents ul li.selected {
-    background:url("../images/back.png")no-repeat;
+    background:url("../images/back.ed0c87fe0771.png")no-repeat;
 }
 
 .contents ul li:hover {
-    background:url("../images/back.png")no-repeat;
+    background:url("../images/back.ed0c87fe0771.png")no-repeat;
 }
 
 .contents ul span {

@@ -12,11 +12,11 @@
 
 
 <div id="sideMenu">
-    <p><button class="button effect" type="submit" value="Log In"><a href="{% url 'announcements'%}">Announcements</a></button></p>
-                <p><button class="button effect" type="submit" value="Log In"><a href="{% url 'student_course_detail' course.id %}">Modules</a></button></p>
-                <p><button class="button effect" type="submit" value="Log In"><a href="#">Assignments</a></button></p>
-                <p><button class="button effect" type="submit" value="Log In"><a href="#">Calendar</a></button></p>
-                <p><button class="button effect" type="submit" value="Log In"><a href="#">Account</a></button></p>
+    <p><a class="button effect" href="{% url 'announcements'%}">Announcements</a></p>
+                <p><a class="button effect" href="{% url 'student_course_detail' course.id %}">Modules</a></p>
+                <p><a class="button effect" href="#">Assignments</a></p>
+                <p><a class="button effect" href="#">Calendar</a></p>
+                <p><a class="button effect" href="#">Account</a></p>
 
 
 </div>

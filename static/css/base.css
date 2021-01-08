@@ -13,7 +13,7 @@ body {
 
 a {
     color:#003366;
-    text-decoration:none;
+    text-decoration:none !important;
 }
 
 ul {
@@ -535,4 +535,16 @@ float: none !important;
     background-image: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%) !important;
     border: 2px solid rgba(0,0,0,.125) !important;
 
+}
+
+.button a:hover{
+    color:black;
+}
+
+#id_title, #id_author, #id_content{
+    width:70%;
+}
+
+#id_content{
+    width:100%;
 }

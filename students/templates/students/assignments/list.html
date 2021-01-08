@@ -34,6 +34,7 @@ Module {{ module.order|add:1 }}:{{ module.title }}
         <div>
             <h3>{{ assignment.title }}</h3>
             <p>{{ assignment.description }}</p>
+            <a href="{% url 'student_assignment_detail' course.id module.id assignment.id %}">View</a>
         </div>
     {% empty %}
     <p>This module has no assignments yet</p>

@@ -93,3 +93,20 @@ class AssignmentListStudentView(DetailView):
             context['module'] = course.modules.all()[0]
 
         return context
+
+
+class AssignmentDetailStudentView(DetailView):
+    model = Course
+    template_name = 'students/assignments/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.get_object()
+        context['module'] = course.modules.get(
+            id=self.kwargs['module_id']
+        )
+        context['assignment'] = context['module'].assignments.get(
+            id=self.kwargs['assignment_id']
+        )
+
+        return context

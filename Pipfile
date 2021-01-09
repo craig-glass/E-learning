@@ -16,6 +16,7 @@ gunicorn = "*"
 django-heroku = "*"
 django-embed-video = "*"
 version = "*"
+reverse = "*"
 
 [requires]
 python_version = "3.7"

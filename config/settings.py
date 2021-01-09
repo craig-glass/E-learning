@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'assignments.apps.AssignmentsConfig',
     'students.apps.StudentsConfig',
     'home.apps.HomeConfig',
-    'pwa',
+    'event_calendar.apps.EventCalendarConfig',
 ]
 
 MIDDLEWARE = [

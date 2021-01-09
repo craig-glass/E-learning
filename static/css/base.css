@@ -541,10 +541,72 @@ float: none !important;
     color:black;
 }
 
-#id_title, #id_author, #id_content{
+#id_title, #id_author{
     width:70%;
 }
 
-#id_content{
+#id_content, #id_description{
     width:100%;
+    height:250px;
+}
+
+
+
+/* CALENDAR */
+.calendar {
+  color: black;
+  width: 98%;
+  margin: auto;
+  font-size: 13px;
+  background-image: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%);
+  margin-bottom: 130px;
+}
+
+.calendar tr, .calendar td {
+  border: 1px solid black;
+}
+
+.calendar th {
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.calendar td {
+  width: 200px;
+  height: 150px;
+  padding: 20px 0px 0px 5px;
+}
+
+.month {
+  font-size: 25px;
+}
+
+.date {
+  font-size: 16px;
+}
+
+.calendar ul {
+    height: 100%;
+    padding: 0px 5px 0px 20px;
+    float: none !important;
+    text-align: center !important;
+    list-style: none;
+    padding-left: 10px !important;
+}
+
+.calendar li{
+    background-color: #5e96ea;
+    color: white;
+}
+
+.calendar a {
+    color: black;
+}
+
+
+
+
+.margin {
+    margin: 15px;
 }

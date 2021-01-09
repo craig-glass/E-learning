@@ -1,7 +1,7 @@
 
 
 body {
-    background: url("../images/cool-background.png")no-repeat center center fixed;
+    background: url("../images/cool-background.d19b47068578.png")no-repeat center center fixed;
     margin:0;
     font-family:'Courier New', monospace;
     font-weight:bold;
@@ -68,7 +68,7 @@ h1 {
 }
 
 header {
-    background: url("../images/back.png") no-repeat;
+    background: url("../images/back.ed0c87fe0771.png") no-repeat;
     background-size:cover;
     overflow:auto;
     padding:10px;
@@ -126,11 +126,11 @@ header .menu {
 }
 
 .contents ul li.selected {
-    background:url("../images/back.png")no-repeat;
+    background:url("../images/back.ed0c87fe0771.png")no-repeat;
 }
 
 .contents ul li:hover {
-    background:url("../images/back.png")no-repeat;
+    background:url("../images/back.ed0c87fe0771.png")no-repeat;
 }
 
 .contents ul span {
@@ -585,34 +585,25 @@ float: none !important;
   font-size: 16px;
 }
 
-.calendar ul {
-    height: 100%;
-    padding: 0px 5px 0px 20px;
-    float: none !important;
-    text-align: center !important;
-    list-style: none;
-    padding-left: 10px !important;
-}
-
-.calendar li{
-    background-color: #5e96ea;
-    color: white;
+ul {
+  height: 100%;
+  padding: 0px 5px 0px 20px;
 }
 
 a {
-    color: #17a2b8;
+  color: #17a2b8;
 }
 
 .left {
-    float: left;
+  float: left;
 }
 
 .right {
-    float: right;
+  float: right;
 }
 
 
 
 .clearfix {
-    margin: 15px;
+  margin: 15px;
 }

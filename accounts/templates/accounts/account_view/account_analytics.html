@@ -5,10 +5,11 @@
     {% if request.user.is_student %}
         <div id="registered-course-graphs">
             {% if registered_courses %}
-                <p>You are currently registered for the following courses</p>
+                <h2>Courses you are registered in</h2>
                 <div id="registered-course-navbar" class="navbar">
                     {% for course in registered_courses %}
-                        <p data-value="{{ course.id }}">{{ course.title }}</p>
+                        <p data-value="{{ course.id }}"
+                           data-function="updateRegisteredGraphs">{{ course.title }}</p>
                     {% endfor %}
                 </div>
                 <pre id="registered-response-pre" class="response-text"></pre>
@@ -18,17 +19,18 @@
                 <div id="container-course-progress"
                      style="max-width: 400px" class="graph-container"></div>
             {% else %}
-                <p>You are currently not registered for any courses</p>
+                <h2>You are currently not registered for any courses</h2>
             {% endif %}
         </div>
     {% endif %}
     {% if request.user.is_staff %}
         <div id="owned-course-graphs">
             {% if owned_courses %}
-                <p>You own the following courses</p>
+                <h2>Courses you own</h2>
                 <div id="owned-course-navbar" class="navbar">
                     {% for course in owned_courses %}
-                        <p data-value="{{ course.id }}">{{ course.title }}</p>
+                        <p data-value="{{ course.id }}"
+                           data-function="updateOwnedGraphs">{{ course.title }}</p>
                     {% endfor %}
                 </div>
                 <pre id="owned-response-pre" class="response-text"></pre>
@@ -36,7 +38,7 @@
                 <div id="container-average-score"
                      style="max-width: 750px" class="graph-container"></div>
             {% else %}
-                <p>You currently own no courses</p>
+                <h2>You currently own no courses</h2>
             {% endif %}
         </div>
     {% endif %}
@@ -141,35 +143,5 @@
                 }
             );
         }
-        $(document).ready(function() {
-            $('#registered-course-navbar').find('p').each(function(index, element) {
-                // Set first item in navbar to be selected by default
-                if (index === 0) {
-                    $(element).addClass('active');
-                    updateRegisteredGraphs($(element).attr('data-value'));
-                }
-                $(element).on('click', function() {
-                    $('#registered-course-navbar').find('.active').each(function(index2, element2) {
-                        $(element2).removeClass('active');
-                    });
-                    $(element).addClass('active');
-                    updateRegisteredGraphs($(element).attr('data-value'));
-                });
-            });
-            $('#owned-course-navbar').find('p').each(function(index, element) {
-                // Set first item in navbar to be selected by default
-                if (index === 0) {
-                    $(element).addClass('active');
-                    updateOwnedGraphs($(element).attr('data-value'));
-                }
-                $(element).on('click', function() {
-                    $('#owned-course-navbar').find('.active').each(function(index2, element2) {
-                        $(element2).removeClass('active');
-                    });
-                    $(element).addClass('active');
-                    updateOwnedGraphs($(element).attr('data-value'));
-                })
-            })
-        });
     </script>
 {% endblock %}

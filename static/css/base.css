@@ -224,7 +224,7 @@ input, select, textarea {
     text-decoration: none;
 }
 
-.navbar p:hover {
+.navbar p:hover, .navbar p:focus {
     background-color: #000000;
 }
 

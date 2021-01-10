@@ -7,8 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 
 from courses.models import Course, Subject
-from .forms import UserCreationForm, UserUpdateForm, CourseRegisterForm
-from .models import Profile
+from .forms import UserUpdateForm, CourseRegisterForm
 
 
 class AccountDisplayView(View):
@@ -28,7 +27,7 @@ class AccountDisplayView(View):
                 # Redirect to login page to authenticate
                 return redirect('/accounts/login')
         else:
-            account = get_object_or_404(Profile, userid=userid)
+            account = get_object_or_404(User, userid=userid)
             if not (current_user.is_authenticated or account.is_staff):
                 # Unauthenticated users can only view staff accounts, otherwise redirect home
                 return redirect('/')
@@ -49,7 +48,7 @@ class AccountSettingsView(View):
 
     def get(self, request: HttpRequest, userid: str) -> HttpResponse:
         current_user = request.user
-        account = get_object_or_404(Profile, userid=userid)
+        account = get_object_or_404(User, userid=userid)
         if not current_user.is_authenticated:
             return redirect('login')
         elif current_user == account:
@@ -72,7 +71,7 @@ class AccountAnalyticsView(View):
 
     def get(self, request: HttpRequest, userid: str) -> HttpResponse:
         current_user = request.user
-        account = get_object_or_404(Profile, userid=userid)
+        account = get_object_or_404(User, userid=userid)
         if not current_user.is_authenticated:
             return redirect('login')
         elif current_user == account or current_user.has_perm('accounts.view_account'):
@@ -112,7 +111,7 @@ class AccountUpdateAjax(View):
 
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
-        account = get_object_or_404(Profile, userid=request.POST['userid'])
+        account = get_object_or_404(User, userid=request.POST['userid'])
         if current_user.is_authenticated and current_user == account:
             form = UserUpdateForm(request.POST, instance=account)
             if form.is_valid():
@@ -156,9 +155,10 @@ class CourseJoinAjax(View):
 
 class RegisteredCourseAnalyticsAjax(View):
     """Ajax request for analytics data relating to courses the given user is registered to"""
+
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
-        account = Profile.objects.get(userid=request.POST['account'])
+        account = User.objects.get(userid=request.POST['account'])
         if (not current_user.is_authenticated or
                 current_user != account and not current_user.has_perm('accounts.view_profile')):
             response = JsonResponse({})
@@ -190,9 +190,10 @@ class RegisteredCourseAnalyticsAjax(View):
 
 class OwnedCourseAnalyticsAjax(View):
     """Ajax request for analytics data relating to courses owned by a given user"""
+
     def post(self, request: HttpRequest) -> HttpResponse:
         current_user = request.user
-        account = Profile.objects.get(userid=request.POST['account'])
+        account = User.objects.get(userid=request.POST['account'])
         if (not current_user.is_authenticated or
                 current_user != account and not current_user.has_perm('accounts.view_profile')):
             response = JsonResponse({})
@@ -221,7 +222,7 @@ def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
     return response
 
 
-def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
+def get_user_details(account: User, reader: User) -> Dict[str, any]:
     """
     Get details from account based on permissions held by reader
     account -- Profile instance of the account being read
@@ -237,7 +238,7 @@ def get_user_details(account: Profile, reader: User) -> Dict[str, any]:
     return user_details
 
 
-def parse_details(account: Profile, allowed_details: Sequence[str]) -> Dict[str, any]:
+def parse_details(account: User, allowed_details: Sequence[str]) -> Dict[str, any]:
     """
     account --
 

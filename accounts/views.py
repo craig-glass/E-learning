@@ -1,13 +1,16 @@
 from typing import Dict, Sequence
 
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 
 from courses.models import Course, Subject
 from .forms import UserUpdateForm, CourseRegisterForm
+
+
+User = get_user_model()
 
 
 class AccountDisplayView(View):

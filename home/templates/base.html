@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Educate{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
@@ -25,14 +26,19 @@
 </head>
 <body>
 <header>
-    <a href="/" class="logo">Logo</a>
-    <ul class="menu">
-        {% if request.user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">Sign Out</a></li>
-        {% else %}
-            <li><a href="{% url 'login' %}">Sign In</a></li>
-        {% endif %}
-    </ul>
+    <div>
+        <a href="/" class="logo">Logo</a>
+        <form action="/search/" method="GET" class="search-form" style="float: left; padding-left: 10px">
+            <input id="query-input" type="text" name="query" placeholder="Search...">
+        </form>
+        <ul class="menu">
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Sign Out</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Sign In</a></li>
+            {% endif %}
+        </ul>
+    </div>
 </header>
 <div id="content">
     {% block content %}

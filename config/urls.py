@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from courses.views import CourseListView
-from home.views import HomePageView
+from home.views import HomePageView, SearchView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('search/', SearchView.as_view(), name='search'),
     path('course/', include('courses.urls')),
     path('', HomePageView.as_view(), name='homepage'),
     path('students/', include('students.urls')),

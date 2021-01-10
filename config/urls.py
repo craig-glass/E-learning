@@ -29,7 +29,7 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('search/', SearchView.as_view(), name='search'),
     path('course/', include('courses.urls')),
-    path('', HomePageView.as_view(), name='homepage'),
+    path('', include('home.urls')),
     path('students/', include('students.urls')),
     path('account/', include('accounts.urls')),
     #path('', CourseListView.as_view(), name='course_list'),

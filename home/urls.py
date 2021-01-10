@@ -1,6 +1,7 @@
 from django.urls import path, re_path
-from .views import HomePageView, SearchView
+from . import views
 
 urlpatterns = [
-    path('', HomePageView.as_view()),
+    path('', views.HomePageView.as_view(), name='homepage'),
+    path('queryAjax', views.QueryAjax.as_view()),
 ]

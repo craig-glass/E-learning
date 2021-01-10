@@ -1,12 +1,45 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Search: {{ query }}
+    Search: {{ query }}
 {% endblock %}
 {% block content %}
+    <div>
+        <div id="type-navbar" class="navbar">
+            {% for model in models %}
+                <p data-value="{{ model }}" data-function="queryAjax">{{ model }}</p>
+            {% endfor %}
+        </div>
+        <pre id="response-pre"></pre>
+        <ol id="results-list" style="list-style-type: none">
 
+        </ol>
+    </div>
 {% endblock %}
 
 {% block extrajavascript %}
-
+    <script>
+        /**
+         * Update result list with matching records from the database for the given model
+         * @param {String} model Name of the model to be queried for by the servlet
+         */
+        function queryAjax(model) {
+            let resultsList = $('#results-list');
+            resultsList.html('');
+            standardAjaxCall(
+                '/queryAjax',
+                {"query": "{{ query }}", "model": model},
+                function (response) {
+                    standardSuccessResponse('Found ' + response.results.length + ' results:', $('#response-pre'))
+                    // Add links for each record
+                    for (let record of response.results) {
+                        resultsList.append($('<li>').append($('<a>').text(record.title).attr('href', record.link)))
+                    }
+                },
+                function (response) {
+                    standardErrorResponse(response, $('#response-pre'))
+                }
+            );
+        }
+    </script>
 {% endblock %}

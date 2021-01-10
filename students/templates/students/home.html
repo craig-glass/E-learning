@@ -2,8 +2,8 @@
 {% block title %}Student Home{% endblock %}
 
 {% block content %}
-<h1 style="text-align: center">
-    Student Home Page
+<h1>
+    {{ course.title }}
 </h1>
 
 <div class="container-fluid">
@@ -15,7 +15,7 @@
     <p><a class="button effect" href="{% url 'announcements'%}">Announcements</a></p>
                 <p><a class="button effect" href="{% url 'student_course_detail' course.id %}">Modules</a></p>
                 <p><a class="button effect" href="#">Assignments</a></p>
-                <p><a class="button effect" href="#">Calendar</a></p>
+                <p><a class="button effect" href="{% url 'event_calendar:calendar' %}">Calendar</a></p>
                 <p><a class="button effect" href="#">Account</a></p>
 
 

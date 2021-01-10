@@ -9,6 +9,7 @@ class AnnouncementList(generic.ListView):
     template_name = 'announcements.html'
 
 
+
 def addAnnouncements(request):
         form = AnnouncementForm()
         if request.method == 'POST':

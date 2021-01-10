@@ -520,7 +520,7 @@ ul.content-types{
     float: none;
     display: block;}
 
-#content input{
+#content input, select{
 float: none !important;
     border: 0;
     padding: 7px 0;

@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views import generic
-from .forms import EventForm
+from .forms import EventForm, EventNewForm
 from .models import *
 from .utils import Calendar
 
@@ -44,14 +44,16 @@ def next_month(d):
 
 
 def event(request, event_id=None):
-    instance = Event()
-    if event_id:
-        instance = get_object_or_404(Event, pk=event_id)
-    else:
-        instance = Event()
-
+    instance = get_object_or_404(Event, pk=event_id)
     form = EventForm(request.POST or None, instance=instance)
+    return render(request, 'event.html', {'form': form})
+
+
+def event_new(request):
+    instance = Event()
+
+    form = EventNewForm(request.POST or None, instance=instance)
     if request.POST and form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse('event_calendar:calendar'))
-    return render(request, 'event.html', {'form': form})
+    return render(request, 'event_new.html', {'form': form})

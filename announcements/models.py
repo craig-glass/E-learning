@@ -8,6 +8,8 @@ class Announcement(models.Model):
     author = models.CharField(max_length=50)
     content = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
+    course = models.ForeignKey('courses.Course', on_delete=models.SET_NULL, null=True)
+
 
     class Meta:
         ordering = ['-date_created']

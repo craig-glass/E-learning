@@ -7,6 +7,7 @@ class Event(models.Model):
     description = models.TextField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    course = models.ForeignKey('courses.Course', on_delete=models.SET_NULL, null=True)
 
     @property
     def get_html_url(self):

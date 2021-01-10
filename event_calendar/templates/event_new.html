@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Event{% endblock %}
+{% block title %}Add Event{% endblock %}
 
 
 
 {% block content %}
-<h1>Event</h1>
+<h1>Add New Event</h1>
 <div class="container">
     <div class="row">
 {% if form.errors %}
@@ -27,14 +27,17 @@
 <form method="post">
   {% csrf_token %}
     {{ form }}
-</form>
-    </div>
+       </div>
         </div>
-<div class="col-12">
+        <div class="col-12">
 <div class="margin">
-  <p><a class="button effect" href="{% url 'event_calendar:calendar' %}"> Back to Calendar </a></p>
+
+  <p><button type="submit" class="button effect"> Add New Event </button></p>
 </div>
 </div>
+</form>
+
+
         </div>
     </div>
 {% endblock %}

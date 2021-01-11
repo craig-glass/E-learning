@@ -186,7 +186,7 @@ class RegisteredCourseAnalyticsAjax(View):
             context['course_progress'] = {
                 "data": [x, 100 - x],
                 "label": ['completed', 'uncompleted'],
-                "color": ['#0000FF', '#0000AA'],
+                "color": ['#00AA22', '#AA0000'],
             }
         return JsonResponse(context)
 

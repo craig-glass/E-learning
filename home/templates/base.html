@@ -3,6 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>{% block title %}Educate{% endblock %}</title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
@@ -26,14 +29,28 @@
 </head>
 <body>
 <header>
-    <a href="/" class="logo">Logo</a>
-    <ul class="menu">
+            <div class="container-fluid">
+                        <div class="row">
+                                    <div class="col-6">
+    <a href="/" class="logo">EPiC</a>
+                                    </div>
+                                    <div class="col-6">
+                                            <ul class="menu">
         {% if request.user.is_authenticated %}
         <li><a href="{% url 'logout' %}">Sign Out</a></li>
         {% else %}
         <li><a href="{% url 'login' %}">Sign In</a></li>
         {% endif %}
     </ul>
+
+                </div>
+            <div class="col-12">
+                <a href="/"><img src="{% static 'images/logo.png' %}" alt="Logo" class="img-responsive"></a>
+            </div>
+                        </div>
+            </div>
+
+
 </header>
 <div id="content">
     {% block content %}

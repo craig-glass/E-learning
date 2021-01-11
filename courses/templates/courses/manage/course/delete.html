@@ -2,11 +2,24 @@
 {% block title %}Delete course{% endblock %}
 {% block content %}
 <h1>Delete course "{{ object.title }}"</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 <div class="module">
     <form action="" method="post">
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ object }}"?</p>
-        <input type="submit" value="Confirm">
+    </div>
+        </div>
+
+
+
+
+
+           <div class="col-12">
+                           <p><button class="button effect" type="submit" value="Confirm">Delete</button></p>
+           </div>
     </form>
+</div>
 </div>
 {% endblock %}

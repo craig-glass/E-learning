@@ -4,20 +4,17 @@
     Account {{ user_details.userid }}
 {% endblock %}
 {% block content %}
-
-    <div id="selection-pane-div" style="float: left">
-        <table>
-            <tr><th><a href="/account/profile/{{ user_details.userid }}">Account</a></th></tr>
-            <tr><th><a href="/account/edit/{{ user_details.userid }}">Settings</a></th></tr>
-            <tr><th><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></th></tr>
-        </table>
-    </div>
-    <div id="user-details-div" style="float: left">
-        <p>userID: {{ user_details.userid }}</p>
-        <p>Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="profile">
+    <div id="user-details-div" style="margin-bottom: 10%;font-size: x-large;">
+        <p>User ID: {{ user_details.userid }}</p>
+        <p>Full Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
+             <p>Contact Details</p>
         <div id="contacts-div" style="overflow: hidden">
-            <table style="border: 1px solid black">
-                <th>Contacts</th>
+
+            <table>
                 {% for k, v in user_details.contacts.items %}
                     <tr>
                         <th>{{ k }}:</th> <th>{{ v }}</th>
@@ -42,5 +39,20 @@
             <p>Student</p>
         {% endif %}
     </div>
+        </div>
+    </div>
 
+        <div class="col-12">
+        <p class="buttons">
+        <button class="button effect"><a href="/account/profile/{{ user_details.userid }}">Account</a></button>
+        <button class="button effect" ><a href="/account/edit/{{ user_details.userid }}">Settings</a></button>
+        <button class="button effect" ><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></button>
+</div>
+
+
+
+
+
+    </div>
+</div>
 {% endblock %}

@@ -14,7 +14,7 @@ psycopg2 = "*"
 whitenoise = "*"
 gunicorn = "*"
 django-heroku = "*"
-fcntl = "*"
+django-embed-video = "*"
 
 [requires]
 python_version = "3.7"

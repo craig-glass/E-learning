@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.base import TemplateResponseMixin, View
+from students.forms import CourseEnrollForm
 from .forms import ModuleFormSet
 from .models import Course
 from django.apps import apps
@@ -165,7 +166,7 @@ class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
         for id, order in self.request_json.items():
             Module.objects.filter(id=id, course__owner=request.user).update(
                 order=order)
-        return self.render_json_response({'saved':'OK'})
+        return self.render_json_response({'saved': 'OK'})
 
 
 class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
@@ -174,7 +175,7 @@ class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
             Content.objects.filter(id=id,
                                    module__course__owner=request.user).update(
                 order=order)
-        return self.render_json_response({'saved':'OK'})
+        return self.render_json_response({'saved': 'OK'})
 
 
 class CourseListView(TemplateResponseMixin, View):
@@ -199,3 +200,12 @@ class CourseListView(TemplateResponseMixin, View):
 class CourseDetailView(DeleteView):
     model = Course
     template_name = 'courses/course/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['enroll_form'] = CourseEnrollForm(
+            initial={'course': self.object}
+        )
+        return context
+
+

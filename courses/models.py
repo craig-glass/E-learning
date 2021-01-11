@@ -1,8 +1,10 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from .fields import OrderField
+from django.template.loader import render_to_string
+from django.conf import settings
 
 
 class Subject(models.Model):
@@ -17,7 +19,7 @@ class Subject(models.Model):
 
 
 class Course(models.Model):
-    owner = models.ForeignKey(User,
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='courses_created',
                               on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject,
@@ -27,6 +29,9 @@ class Course(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    students = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                      related_name='courses_joined',
+                                      blank=True)
 
     class Meta:
         ordering = ['-created']
@@ -56,7 +61,7 @@ class Content(models.Model):
                                on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType,
                                      on_delete=models.CASCADE,
-                                     limit_choices_to={'model_in':(
+                                     limit_choices_to={'model__in': (
                                          'text',
                                          'file',
                                          'image',
@@ -71,7 +76,7 @@ class Content(models.Model):
 
 
 class ItemBase(models.Model):
-    owner = models.ForeignKey(User,
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='%(class)s_related',
                               on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
@@ -83,6 +88,12 @@ class ItemBase(models.Model):
 
     def __str__(self):
         return self.title
+
+    def render(self):
+        return render_to_string(
+            f'courses/content/{self._meta.model_name}.html',
+            {'item': self}
+        )
 
 
 class Text(ItemBase):

@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render
+<<<<<<< HEAD
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.db.models import Q
@@ -10,10 +11,20 @@ from courses.models import Course, Module
 User = get_user_model()
 
 
+=======
+from django.views.generic import TemplateView, ListView
+
+
+# Create your views here.
+from courses.models import Course
+
+
+>>>>>>> b3c63666f88322942e4caaaf25779a8d92280fe5
 class HomePageView(TemplateView):
     template_name = 'home/homepage.html'
 
 
+<<<<<<< HEAD
 class SearchView(View):
     template_name = 'home/search/search_page.html'
 
@@ -82,3 +93,12 @@ MODELS = {
         "fields": ["title"]
     }
 }
+=======
+class CourseListView(ListView):
+    model = Course
+    template_name = 'home/course/list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs
+>>>>>>> b3c63666f88322942e4caaaf25779a8d92280fe5

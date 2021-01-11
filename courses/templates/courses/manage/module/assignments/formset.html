@@ -1,22 +1,11 @@
 {% extends "base.html" %}
 {% load course %}
-
 {% block title %}
-{% if object %}
-Edit content "{{ object.title }}"
-{% else %}
-Add new content
-{% endif %}
+Edit "{{ course.title }}"
 {% endblock %}
 {% block content %}
 {% with course=module.course %}
-<h1>
-    {% if object %}
-    Edit content "{{ object.title }}"
-    {% else %}
-    Add new content
-    {% endif %}
-</h1>
+<h1>Edit "{{ course.title }}"</h1>
 <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
@@ -42,10 +31,12 @@ Add new content
 </a></p>
 </div>
 <div class="module">
-    <form action="" method="post" enctype="multipart/form-data">
-        {{ form.as_p }}
+    <h2>Course Assignments</h2>
+    <form method="post">
+        {{ formset }}
+        {{ formset.management_form }}
         {% csrf_token %}
-        <p><input type="submit" value="Save content"></p>
+        <input type="submit" value="Save Assignments">
     </form>
 </div>
 {% endwith %}

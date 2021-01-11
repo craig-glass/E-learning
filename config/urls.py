@@ -30,7 +30,6 @@ urlpatterns = [
     path('course/', include('courses.urls')),
     path('', HomePageView.as_view(), name='homepage'),
     path('students/', include('students.urls')),
-    path('assignments/', include('assignments.urls')),
     path('account/', include('accounts.urls')),
     path('', include('home.urls')),
 ]

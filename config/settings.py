@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'accounts.apps.AccountsConfig',
     'announcements.apps.AnnouncementsConfig',
-    'assignments.apps.AssignmentsConfig',
     'students.apps.StudentsConfig',
     'home.apps.HomeConfig',
 ]

@@ -1,0 +1,56 @@
+{% extends "accounts/account_view/account_view_base.html" %}
+
+{% block account_view_content %}
+    <div id="user-details-div" style="float: left">
+        <p>UserID: {{ user_details.userid }}</p>
+        <form id="account-update-form" method="post" action="">
+            <input type="hidden" name="userid" value="{{ user_details.userid }}">
+            <table style="border: 1px solid black">
+                <tr>
+                    <th><label for="first-name">First Name(s):</label></th>
+                    <th><input id="first-name" type="text" name="first_name"
+                               class="validate_text_not_empty"
+                               value="{{ user_details.firstname }}"></th>
+                </tr>
+                <tr>
+                    <th><label for="last-name">Last Name:</label></th>
+                    <th><input id="last-name" type="text" name="last_name"
+                               value="{{ user_details.lastname }}"></th>
+                </tr>
+                <th>Contacts</th>
+                {% for contact in user_details.contacts %}
+                    <tr>
+                        <th><label for="contact-{{ contact.name }}">{{ contact.show_as }}:</label></th>
+                        <th><input id="contact-{{ contact.name }}" type="text" name="{{ contact.name }}"
+                                   class="validate_text_{{ contact.name }}"
+                                   value="{{ contact.value }}"></th>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <th><input type="submit" value="Save"></th>
+                    <th><pre class="response-text"></pre></th>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock %}
+{% block extrajavascript %}
+    <script>
+        $(document).ready(function () {
+            let accountForm = $('#account-update-form');
+            assignStandardFormSetup(
+                accountForm,
+                '/account/updateAccountAjax',
+                function (response) {
+                    standardSuccessResponse(
+                        'Updated account at ' + (new Date().toLocaleTimeString()),
+                        accountForm
+                    );
+                },
+                function (response) {
+                    standardErrorResponse(response, accountForm);
+                }
+            );
+        });
+    </script>
+{% endblock %}

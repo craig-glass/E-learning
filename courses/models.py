@@ -55,10 +55,22 @@ class Module(models.Model):
         return f'{self.order}.{self.title}'
 
 
-class Content(models.Model):
-    module = models.ForeignKey(Module,
-                               related_name='contents',
+class Assignment(models.Model):
+    module = models.ForeignKey('courses.Module',
+                               related_name='assignments',
                                on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    order = OrderField(blank=True, for_fields=['module'])
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f'{self.order}.{self.title}'
+
+
+class Content(models.Model):
     content_type = models.ForeignKey(ContentType,
                                      on_delete=models.CASCADE,
                                      limit_choices_to={'model__in': (
@@ -69,10 +81,24 @@ class Content(models.Model):
                                      )})
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey('content_type', 'object_id')
-    order = OrderField(blank=True, for_fields=['module'])
 
     class Meta:
         ordering = ['order']
+        abstract = True
+
+
+class ModuleContent(Content):
+    module = models.ForeignKey(Module,
+                               related_name='contents',
+                               on_delete=models.CASCADE)
+    order = OrderField(blank=True, for_fields=['module'])
+
+
+class AssignmentContent(Content):
+    assignment = models.ForeignKey(Assignment,
+                                   related_name='contents',
+                                   on_delete=models.CASCADE)
+    order = OrderField(blank=True, for_fields=['assignment'])
 
 
 class ItemBase(models.Model):

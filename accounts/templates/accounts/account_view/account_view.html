@@ -1,23 +1,16 @@
-{% extends "base.html" %}
+{% extends "accounts/account_view/account_view_base.html" %}
 
-{% block title %}
-    Account {{ user_details.userid }}
-{% endblock %}
-{% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="profile">
-    <div id="user-details-div" style="margin-bottom: 10%;font-size: x-large;">
-        <p>User ID: {{ user_details.userid }}</p>
-        <p>Full Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
-             <p>Contact Details</p>
+{% block account_view_content %}
+    <div id="user-details-div" style="float: left">
+        <p>UserID: {{ user_details.userid }}</p>
+        <p>Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
         <div id="contacts-div" style="overflow: hidden">
-
-            <table>
-                {% for k, v in user_details.contacts.items %}
+            <table style="border: 1px solid black">
+                <th>Contacts</th>
+                {% for contact in user_details.contacts %}
                     <tr>
-                        <th>{{ k }}:</th> <th>{{ v }}</th>
+                        <th>{{ contact.show_as }}:</th>
+                        <th>{{ contact.value }}</th>
                     </tr>
                 {% endfor %}
             </table>
@@ -39,20 +32,5 @@
             <p>Student</p>
         {% endif %}
     </div>
-        </div>
-    </div>
 
-        <div class="col-12">
-        <p class="buttons">
-        <button class="button effect"><a href="/account/profile/{{ user_details.userid }}">Account</a></button>
-        <button class="button effect" ><a href="/account/edit/{{ user_details.userid }}">Settings</a></button>
-        <button class="button effect" ><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></button>
-</div>
-
-
-
-
-
-    </div>
-</div>
 {% endblock %}

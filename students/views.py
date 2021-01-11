@@ -9,6 +9,7 @@ from .forms import CourseEnrollForm
 from django.views.generic.list import ListView
 from courses.models import Course, Module
 from django.views.generic.detail import DetailView
+from courses.views import ModuleViewsMixin
 
 
 class StudentRegistrationView(CreateView):
@@ -92,3 +93,7 @@ class AssignmentDetailStudentView(DetailView):
         )
 
         return context
+
+
+class AssignmentSubmissionView(ModuleViewsMixin):
+    template_name = 'students/assignments/submission.html'

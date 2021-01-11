@@ -1,26 +1,16 @@
-{% extends "base.html" %}
+{% extends "accounts/account_view/account_view_base.html" %}
 
-{% block title %}
-    Account {{ user_details.userid }}
-{% endblock %}
-{% block content %}
-
-    <div id="selection-pane-div" style="float: left">
-        <table>
-            <tr><th><a href="/account/profile/{{ user_details.userid }}">Account</a></th></tr>
-            <tr><th><a href="/account/edit/{{ user_details.userid }}">Settings</a></th></tr>
-            <tr><th><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></th></tr>
-        </table>
-    </div>
+{% block account_view_content %}
     <div id="user-details-div" style="float: left">
-        <p>userID: {{ user_details.userid }}</p>
+        <p>UserID: {{ user_details.userid }}</p>
         <p>Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
         <div id="contacts-div" style="overflow: hidden">
             <table style="border: 1px solid black">
                 <th>Contacts</th>
-                {% for k, v in user_details.contacts.items %}
+                {% for contact in user_details.contacts %}
                     <tr>
-                        <th>{{ k }}:</th> <th>{{ v }}</th>
+                        <th>{{ contact.show_as }}:</th>
+                        <th>{{ contact.value }}</th>
                     </tr>
                 {% endfor %}
             </table>

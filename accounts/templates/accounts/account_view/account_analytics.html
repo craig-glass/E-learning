@@ -1,0 +1,147 @@
+{% extends "accounts/account_view/account_view_base.html" %}
+
+{% block account_view_content %}
+    <p>{{ user_details.userid }}</p>
+    {% if request.user.is_student %}
+        <div id="registered-course-graphs">
+            {% if registered_courses %}
+                <h2>Courses you are registered in</h2>
+                <div id="registered-course-navbar" class="navbar">
+                    {% for course in registered_courses %}
+                        <p data-value="{{ course.id }}"
+                           data-function="updateRegisteredGraphs">{{ course.title }}</p>
+                    {% endfor %}
+                </div>
+                <pre id="registered-response-pre" class="response-text"></pre>
+
+                <div id="container-assignment-marks"
+                     style="max-width: 750px" class="graph-container"></div>
+                <div id="container-course-progress"
+                     style="max-width: 400px" class="graph-container"></div>
+            {% else %}
+                <h2>You are currently not registered for any courses</h2>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% if request.user.is_staff %}
+        <div id="owned-course-graphs">
+            {% if owned_courses %}
+                <h2>Courses you own</h2>
+                <div id="owned-course-navbar" class="navbar">
+                    {% for course in owned_courses %}
+                        <p data-value="{{ course.id }}"
+                           data-function="updateOwnedGraphs">{{ course.title }}</p>
+                    {% endfor %}
+                </div>
+                <pre id="owned-response-pre" class="response-text"></pre>
+
+                <div id="container-average-score"
+                     style="max-width: 750px" class="graph-container"></div>
+            {% else %}
+                <h2>You currently own no courses</h2>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+{% block extrajavascript %}
+    {% include "accounts/analytics/graphs.html" %}
+    <script>
+        function setAssignmentMarks(data) {
+            setToGraph(
+                document.getElementById('container-assignment-marks'),
+                data,
+                'assignment marks',
+                'bar',
+            );
+        }
+        function setCourseProgress(data) {
+            setToGraph(
+                document.getElementById('container-course-progress'),
+                data,
+                'course progress',
+                'pie',
+                {
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                display: false
+                            }],
+                            xAxes: [{
+                                display: false
+                            }]
+                        }
+                    }
+                }
+            );
+        }
+        function setAverageScores(data) {
+            setToGraph(
+                document.getElementById('container-average-score'),
+                data,
+                'average student score',
+                'bar'
+            );
+        }
+
+        /**
+         * Empty all child elements containing graphs
+         * @param parent Parent element to empty
+         */
+        function clearGraphs(parent) {
+            parent.find('.graph-container').each(function(index, element) {
+                $(element).html('')
+            });
+        }
+
+        /**
+         * Query then set registered course graph data for the given course
+         * @param course Course id to query data for
+         */
+        function updateRegisteredGraphs(course) {
+            standardAjaxCall(
+                '/account/registeredCourseAnalyticsAjax',
+                {
+                    "account": "{{ user_details.userid }}",
+                    "course": course
+                },
+                function (response) {
+                    // Clear any existing response text
+                    standardSuccessResponse('', $('#registered-response-pre'));
+                    clearGraphs($('#registered-course-graphs'));
+
+                    if (response.assignment_marks !== undefined)
+                        setAssignmentMarks(response.assignment_marks);
+                    if (response.course_progress !== undefined)
+                        setCourseProgress(response.course_progress)
+                },
+                function (response) {
+                    standardErrorResponse(response, $('#registered-response-pre'));
+                }
+            );
+        }
+        /**
+         * Query then set owned course graph data for the given course
+         * @param course Course id to query data for
+         */
+        function updateOwnedGraphs(course) {
+            standardAjaxCall(
+                '/account/ownedCourseAnalyticsAjax',
+                {
+                    "account": "{{ user_details.userid }}",
+                    "course": course
+                },
+                function (response) {
+                    // Clear any existing response text
+                    standardSuccessResponse('', $('#registered-response-pre'));
+                    clearGraphs($('#owned-course-graphs'));
+
+                    if (response.average_score !== undefined)
+                        setAverageScores(response.average_score);
+                },
+                function (response) {
+                    standardErrorResponse(response, $('#registered-response-pre'));
+                }
+            );
+        }
+    </script>
+{% endblock %}

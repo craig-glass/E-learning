@@ -13,7 +13,7 @@
 <ul>
     <li><a href="#">Announcements</a></li>
     <li><a href="{% url 'student_course_detail' course.id %}">Modules</a></li>
-    <li><a href="#">Assignments</a></li>
+    <li><a href="{% url 'assignments_list_student_view' course.id %}">Assignments</a></li>
     <li><a href="#">Calendar</a></li>
     <li><a href="#">Account</a></li>
 </ul>

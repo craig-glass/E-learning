@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'accounts.apps.AccountsConfig',
     'announcements.apps.AnnouncementsConfig',
-    'assignments.apps.AssignmentsConfig',
     'students.apps.StudentsConfig',
     'home.apps.HomeConfig',
 ]
@@ -90,6 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'epic',
         'USER': 'postgres',
+        'PASSWORD': 'mysecretpassword',
         'HOST': 'localhost',
         'PORT': '5432',
     }

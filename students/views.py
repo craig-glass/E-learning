@@ -1,11 +1,13 @@
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CourseEnrollForm
 from django.views.generic.list import ListView
-from courses.models import Course
+from courses.models import Course, Module
 from django.views.generic.detail import DetailView
 
 
@@ -51,13 +53,8 @@ class StudentHomePageView(DetailView):
     template_name = 'students/home.html'
 
 
-class StudentCourseDetailView(DetailView):
+class StudentDetailViewMixin(DetailView):
     model = Course
-    template_name = 'students/course/detail.html'
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(students__in=[self.request.user])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,5 +65,30 @@ class StudentCourseDetailView(DetailView):
             )
         else:
             context['module'] = course.modules.all()[0]
+
+        return context
+
+
+class StudentCourseDetailView(StudentDetailViewMixin):
+    template_name = 'students/course/detail.html'
+
+
+class AssignmentListStudentView(StudentDetailViewMixin):
+    template_name = 'students/assignments/list.html'
+
+
+class AssignmentDetailStudentView(DetailView):
+    model = Course
+    template_name = 'students/assignments/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.get_object()
+        context['module'] = course.modules.get(
+            id=self.kwargs['module_id']
+        )
+        context['assignment'] = context['module'].assignments.get(
+            id=self.kwargs['assignment_id']
+        )
 
         return context

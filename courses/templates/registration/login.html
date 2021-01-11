@@ -2,6 +2,9 @@
 {% block title %}Log-In{% endblock %}
 {% block content %}
 <h1>Log-In</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 <div class="module">
     {% if form.errors %}
     <p>Your username and password didn't match.
@@ -14,8 +17,15 @@
         {{ form.as_p }}
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
-        <p><input type="submit" value="Log In"></p>
-    </form>
 </div>
 </div>
+    </div>
+        <div class="col-12">
+            <p><button class="button effect" type="submit" value="Log In">Login</button></p>
+        </div>
+            </form>
+</div>
+</div>
+
+
 {% endblock %}

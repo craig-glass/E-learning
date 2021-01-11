@@ -4,13 +4,22 @@ Edit "{{ course.title }}"
 {% endblock %}
 {% block content %}
 <h1>Edit "{{ course.title }}"</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 <div class="module">
     <h2>Course modules</h2>
     <form method="post">
         {{ formset }}
         {{ formset.management_form }}
         {% csrf_token %}
-        <input type="submit" value="Save modules">
+    </div>
+        </div>
+        <div class="col-12">
+        <p><button class="button effect" type="submit" value="Save Modules">Save Modules</button></p>
+        </div>
+        <input type=button value="Previous Page" onClick="javascript:history.go(-1);">
     </form>
+</div>
 </div>
 {% endblock %}

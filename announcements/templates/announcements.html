@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Announcements{% endblock %}
+
+{% block content %}
+
+<h1>Announcements</h1>
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-12">
+            {% for announcement in announcement_list %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ announcement.title }}</h2>
+                    <p class="card-text text-muted h6">{{ announcement.author }} | {{ announcement.date_created}} </p>
+                    <p class="card-text">{{announcement.content|slice:":200" }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{%endblock%}

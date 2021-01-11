@@ -37,7 +37,6 @@ Module {{ module.order|add:1 }}:{{ module.title }}
             {% with item=content.item %}
             <p>{{ item }}({{ item|model_name }})</p>
             <a href="{% url "assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
-
             {% endwith %}
         </div>
     {% empty %}

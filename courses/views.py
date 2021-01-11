@@ -151,35 +151,24 @@ class ContentDeleteView(View):
         return redirect('module_content_list', module.id)
 
 
-class ModuleListView(TemplateResponseMixin, View):
+class ModuleViewsMixin(TemplateResponseMixin, View):
+    def get(self, request, module_id):
+        module = get_object_or_404(Module,
+                                   id=module_id,
+                                   course__owner=request.user)
+        return self.render_to_response({'module': module})
+
+
+class ModuleListView(ModuleViewsMixin):
     template_name = 'courses/manage/module/list.html'
 
-    def get(self, request, module_id):
-        module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
-        return self.render_to_response({'module': module})
 
-
-class ModuleContentListView(TemplateResponseMixin,
-                            View):
+class ModuleContentListView(ModuleViewsMixin):
     template_name = 'courses/manage/module/content_list.html'
 
-    def get(self, request, module_id):
-        module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
-        return self.render_to_response({'module': module})
 
-
-class AssignmentContentListView(TemplateResponseMixin, View):
+class AssignmentContentListView(ModuleViewsMixin):
     template_name = 'courses/manage/module/assignments/list.html'
-
-    def get(self, request, module_id):
-        module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
-        return self.render_to_response({'module': module})
 
 
 class CourseAssignmentUpdateView(TemplateResponseMixin, OwnerCourseEditMixin, View):

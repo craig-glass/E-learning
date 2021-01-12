@@ -7,6 +7,9 @@ Module {{ module.order|add:1 }}:{{ module.title }}
 {% block content %}
 {% with course=module.course %}
 <h1>Course "{{ course.title }}"</h1>
+<div class="container-fluid">
+<div class="row justify-content-center">
+<div class="col-12 col-md-3 col-centered">
 <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
@@ -28,6 +31,10 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     {% endfor %}
     </ul>
 </div>
+</div>
+
+        <div class="col-12 col-md-9">
+
 <div class="module">
     <h2>Assignment {{ assignment.order|add:1 }}</h2>
     <h3>Assignment contents:</h3>
@@ -43,14 +50,19 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     <p>This assignment has no contents yet</p>
     {% endfor %}
     </div>
-    <h3>Add new content:</h3>
-    <ul class="content-types">
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "text" %}">Text</a></li>
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "image" %}">Image</a></li>
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "video" %}">Video</a></li>
-        <li><a href="{% url "assignment_content_create" module.id assignment.id "file" %}">File</a></li>
-    </ul>
 </div>
+        </div>
+            <div class="col-9 offset-3">
+        <p class="buttons">
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "text" %}">ADD TEXT</a>
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "image" %}">ADD IMAGE</a>
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "video" %}">ADD VIDEO</a>
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "file" %}">ADD FILE</a></p>
+</div>
+</div>
+</div>
+
+
 {% endwith %}
 {% endblock %}
 {% block domready %}

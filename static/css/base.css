@@ -45,7 +45,7 @@ h1 {
     display: inline-block;
 }
 
-.module, .profile, .create {
+.module, .profile, .create, #user-details-div {
     padding:10px 20px;
     float:left;
     width:90%;
@@ -54,7 +54,10 @@ h1 {
     text-align: center;
     margin: 5%;
 }
-
+.module{
+    margin-top:0px;
+    margin-bottom:0px;
+}
 .module h3 {
     margin:20px 0 0;
     padding:0;
@@ -188,6 +191,15 @@ pre.success {
     color: #3f3f3f;
 }
 
+pre {
+    font-size: 150%;
+}
+
+#results-list li{
+    margin-bottom: 15px;
+}
+
+
 .errorlist {
     color:#ae2c2c;
     margin:0;
@@ -254,7 +266,7 @@ input, select, textarea {
 }
 
 .active {
-    background-color: #009b6a;
+    background-color: #7877e5;
 }
 
 textarea {

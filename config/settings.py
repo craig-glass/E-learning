@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'embed_video',
+    #'embed_video',
     'whitenoise.runserver_nostatic',
     'courses.apps.CoursesConfig',
     'accounts.apps.AccountsConfig',
@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'epic',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'mysecretpassword',
         'HOST': 'localhost',
         'PORT': '5432',
+        'PASSWORD': 'Tgyh109!',
     }
 }
 

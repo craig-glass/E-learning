@@ -55,18 +55,39 @@
             </div>
 
 </header>
-
-
-
-
-
-
-
-
-
+{% block h1%}
+{% endblock %}
 <div id="content">
+    <div class="container-fluid">
+<div class="row">
+<div class="col-12">
+        {% block modulebar%}
+    {% endblock %}
+
+<div id="sideMenu" style="text-align:center;">
+            <p><a class="button effect" href="#">Home</a></p>
+        <p><a class="button effect" href="{% url 'student_course_list'%}">Courses</a></p>
+    <p><a class="button effect" href="{% url 'announcements'%}">Announcements</a></p>
+                <p><a class="button effect" href="#">Modules</a></p>
+                <p><a class="button effect" href="#">Assignments</a></p>
+                <p><a class="button effect" href="{% url 'event_calendar:calendar' %}">Calendar</a></p>
+                        <p><a class="button effect" href="/account/profile/{{ user_details.userid }}">Account</a></p>
+
+
+
+</div>
+
+    </div>
+
+
+
+
+
+
     {% block content %}
     {% endblock %}
+     </div>
+    </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -389,3 +410,10 @@
 
 </body>
 </html>
+
+
+
+
+
+
+

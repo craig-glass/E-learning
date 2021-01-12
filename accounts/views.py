@@ -1,4 +1,4 @@
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Union
 
 from django import forms
 from django.contrib.auth import get_user_model
@@ -6,9 +6,8 @@ from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 
-from courses.models import Course, Subject
+from courses.models import Course, Module, Subject, Assignment
 from .forms import UserUpdateForm, CourseRegisterForm
-
 
 User = get_user_model()
 
@@ -162,11 +161,10 @@ class RegisteredCourseAnalyticsAjax(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
         account = User.objects.get(userid=request.POST['account'])
-        if (not current_user.is_authenticated or
-                current_user != account and not current_user.has_perm('accounts.view_profile')):
-            response = JsonResponse({})
-            response.status_code = 401
+        response = validate_account_view_ajax(current_user, account)
+        if response:
             return response
+        course = Course.objects.get(id=request.POST.get('course'))
         import random
         import datetime
         random.seed(request.POST['course'])
@@ -185,9 +183,24 @@ class RegisteredCourseAnalyticsAjax(View):
             x = random.randint(1, 100)
             context['course_progress'] = {
                 "data": [x, 100 - x],
-                "label": ['completed', 'uncompleted'],
-                "color": ['#00AA22', '#AA0000'],
+                "label": ["completed", "uncompleted"],
+                "color": ["#00AA22", "#AA0000"],
             }
+
+            context['module_progress'] = []
+            for module in Module.objects.filter(course=course):
+                x = random.randint(1, 100)
+                context['module_progress'].append(
+                    {
+                        "data": {
+                            "data": [x, 100 - x],
+                            "label": ["completed", "uncompleted"],
+                            "color": ["#00AA22", "#AA0000"],
+                        },
+                        "name": "module: " + module.title,
+                    }
+                )
+
         return JsonResponse(context)
 
 
@@ -197,19 +210,66 @@ class OwnedCourseAnalyticsAjax(View):
     def post(self, request: HttpRequest) -> HttpResponse:
         current_user = request.user
         account = User.objects.get(userid=request.POST['account'])
-        if (not current_user.is_authenticated or
-                current_user != account and not current_user.has_perm('accounts.view_profile')):
-            response = JsonResponse({})
-            response.status_code = 401
+        response = validate_account_view_ajax(current_user, account)
+        if response:
             return response
+        course = Course.objects.get(id=request.POST.get('course'))
         import random
-        random.seed(request.POST['course'])
+        random.seed(course.id)
         context = {}
+        context['title'] = course.title
+        context['number_data'] = {
+            "student_count": random.randint(100, 500)
+        }
         as_data = [0.0004 * pow(random.randint(0, 100) - 50, 3) + 50 for i in range(random.randint(5, 15))]
         as_label = ['ws' + str(i) for i in range(len(as_data))]
         context['average_score'] = {
             "data": as_data,
             "label": as_label,
+        }
+        at_data = [0.0011 * pow(random.randint(0, 60) - 30, 3) + 30 for i in range(len(as_label))]
+        context['average_time'] = {
+            "data": at_data,
+            "label": as_label,
+        }
+
+        context['modules'] = {}
+        for module in Module.objects.filter(course=course):
+            context['modules'][module.id] = {
+                "assignments": [],
+                "name": module.title
+            }
+        for assignment in Assignment.objects.filter(module__course=course):
+            print(assignment)
+            context['modules'][assignment.module.id]['assignments'].append({
+                "label": assignment.title,
+                "id": assignment.id
+            })
+        return JsonResponse(context)
+
+
+class CourseAssignmentAnalyticsAjax(View):
+    def post(self, request: HttpRequest) -> JsonResponse:
+        current_user = request.user
+        account = User.objects.get(userid=request.POST['account'])
+        response = validate_account_view_ajax(current_user, account)
+        if response:
+            return response
+        assignment = get_object_or_404(Assignment, id=request.POST.get('assignment'))
+        import random
+        context = {}
+        context['number_data'] = {
+            "average_score": random.randint(0, 100),
+            "average_time": random.randint(20, 60)
+        }
+        labels = [student.userid for student in assignment.module.course.students.all()]
+        context['assignment_marks'] = {
+            "data": [random.randint(0, 100) for _ in range(len(labels))],
+            "label": labels
+        }
+        context['assignment_time'] = {
+            "data": [random.randint(20, 60) for _ in range(len(labels))],
+            "label": labels
         }
         return JsonResponse(context)
 
@@ -223,6 +283,15 @@ def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
     response = JsonResponse({'form': form.errors})
     response.status_code = 422
     return response
+
+
+def validate_account_view_ajax(current_user: User, account: User) -> Union[JsonResponse, None]:
+    if (not current_user.is_authenticated or
+            current_user != account and not current_user.has_perm('accounts.view_profile')):
+        response = JsonResponse({})
+        response.status_code = 401
+        return response
+    return None
 
 
 def get_user_details(account: User, reader: User) -> Dict[str, any]:

@@ -12,4 +12,5 @@ urlpatterns = [
     path('courseJoinAjax', views.CourseJoinAjax.as_view()),
     path('registeredCourseAnalyticsAjax', views.RegisteredCourseAnalyticsAjax.as_view()),
     path('ownedCourseAnalyticsAjax', views.OwnedCourseAnalyticsAjax.as_view()),
+    path('courseAssignmentAnalyticsAjax', views.CourseAssignmentAnalyticsAjax.as_view()),
 ]

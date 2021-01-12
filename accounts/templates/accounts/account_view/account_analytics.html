@@ -3,7 +3,7 @@
 {% block account_view_content %}
     <p>{{ user_details.userid }}</p>
     {% if request.user.is_student %}
-        <div id="registered-course-graphs">
+        <div id="registered-course-graphs" style="width: 100%">
             {% if registered_courses %}
                 <h2>Courses you are registered in</h2>
                 <div id="registered-course-navbar" class="navbar">
@@ -14,17 +14,21 @@
                 </div>
                 <pre id="registered-response-pre" class="response-text"></pre>
 
-                <div id="container-assignment-marks"
-                     style="max-width: 750px" class="graph-container"></div>
-                <div id="container-course-progress"
-                     style="max-width: 400px" class="graph-container"></div>
+                <div class="container-numbers">
+                </div>
+                <div id="container-student-assignment-marks" class="graph-container"
+                     style="max-width: 750px"></div>
+                <div id="container-course-progress" class="graph-container"
+                     style="max-width: 400px"></div>
+                <div id="module-progress"
+                     style=""></div>
             {% else %}
                 <h2>You are currently not registered for any courses</h2>
             {% endif %}
         </div>
     {% endif %}
     {% if request.user.is_staff %}
-        <div id="owned-course-graphs">
+        <div id="owned-course-graphs" style="width: 100%">
             {% if owned_courses %}
                 <h2>Courses you own</h2>
                 <div id="owned-course-navbar" class="navbar">
@@ -35,10 +39,34 @@
                 </div>
                 <pre id="owned-response-pre" class="response-text"></pre>
 
-                <div id="container-average-score"
-                     style="max-width: 750px" class="graph-container"></div>
+                <div class="container-numbers">
+                    <p style="float: left">Number of Students:</p>
+                    <p id="student-count" style="float: left" class="numbers-value"></p>
+                </div>
+                <div id="container-average-score" class="graph-container"
+                     style="max-width: 750px"></div>
+                <div id="container-average-time" class="graph-container"
+                     style="max-width: 750px"></div>
             {% else %}
                 <h2>You currently own no courses</h2>
+            {% endif %}
+        </div>
+        <div id="course-assignment-graphs" style="width: 100%">
+            {% if owned_courses %}
+                <h3 id="assignment-header">Course [] Modules</h3>
+                <div id="course-assignment-navbars" style="width: 100%"></div>
+                <pre id="assignemnt-response-pre" class="response-text"></pre>
+
+                <div class="container-numbers">
+                    <p style="float: left">Average Score:</p>
+                    <p id="average-score" class="numbers-value"></p>
+                    <p style="float: left">Average Time:</p>
+                    <p id="average-time" class="numbers-value"></p>
+                </div>
+                <div id="container-assignment-marks" class="graph-container"
+                     style="max-width: 750px"></div>
+                <div id="container-assignment-time" class="graph-container"
+                     style="max-width: 750px"></div>
             {% endif %}
         </div>
     {% endif %}
@@ -46,9 +74,9 @@
 {% block extrajavascript %}
     {% include "accounts/analytics/graphs.html" %}
     <script>
-        function setAssignmentMarks(data) {
+        function setStudentAssignmentMarks(data) {
             setToGraph(
-                document.getElementById('container-assignment-marks'),
+                document.getElementById('container-student-assignment-marks'),
                 data,
                 'assignment marks',
                 'bar',
@@ -62,6 +90,9 @@
                 'pie',
                 {
                     options: {
+                        legend: {
+                            display: false
+                        },
                         scales: {
                             yAxes: [{
                                 display: false
@@ -74,6 +105,37 @@
                 }
             );
         }
+        function setModuleProgress(modules) {
+            let moduleProgress = document.getElementById('module-progress');
+            for (let module in modules) {
+                let moduleContainer = document.createElement('div');
+                moduleContainer.className = 'graph-container';
+                moduleContainer.style.maxWidth = '400px';
+                moduleContainer.style.float = 'left';
+                moduleProgress.appendChild(moduleContainer)
+                setToGraph(
+                    moduleContainer,
+                    modules[module]['data'],
+                    modules[module]['name'],
+                    'pie',
+                    {
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                yAxes: [{
+                                    display: false
+                                }],
+                                xAxes: [{
+                                    display: false
+                                }]
+                            }
+                        }
+                    }
+                )
+            }
+        }
         function setAverageScores(data) {
             setToGraph(
                 document.getElementById('container-average-score'),
@@ -82,6 +144,42 @@
                 'bar'
             );
         }
+        function setAverageTime(data) {
+            setToGraph(
+                document.getElementById('container-average-time'),
+                data,
+                'average time taken',
+                'bar',
+                {
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 0
+                                }
+                            }]
+                        }
+                    }
+                }
+            )
+        }
+        function setOverallAssignmentMarks(data) {
+            setToGraph(
+                document.getElementById('container-assignment-marks'),
+                data,
+                'student marks',
+                'bar'
+            )
+        }
+        function setAssignmentTime(data) {
+            setToGraph(
+                document.getElementById('container-assignment-time'),
+                data,
+                'time taken',
+                'bar'
+            )
+        }
 
         /**
          * Empty all child elements containing graphs
@@ -89,7 +187,10 @@
          */
         function clearGraphs(parent) {
             parent.find('.graph-container').each(function(index, element) {
-                $(element).html('')
+                $(element).html('');
+            });
+            parent.find('.numbers-container').find('.numbers-value').each(function (index, element) {
+                $(element).html('');
             });
         }
 
@@ -110,9 +211,11 @@
                     clearGraphs($('#registered-course-graphs'));
 
                     if (response.assignment_marks !== undefined)
-                        setAssignmentMarks(response.assignment_marks);
+                        setStudentAssignmentMarks(response.assignment_marks);
                     if (response.course_progress !== undefined)
                         setCourseProgress(response.course_progress)
+                    if (response.module_progress !== undefined)
+                        setModuleProgress(response.module_progress)
                 },
                 function (response) {
                     standardErrorResponse(response, $('#registered-response-pre'));
@@ -132,16 +235,68 @@
                 },
                 function (response) {
                     // Clear any existing response text
-                    standardSuccessResponse('', $('#registered-response-pre'));
+                    standardSuccessResponse('', $('#owned-response-pre'));
                     clearGraphs($('#owned-course-graphs'));
+                    $('#assignment-header').text('Course [' + response.title + '] Modules');
 
+                    if (response.number_data !== undefined) {
+                        if (response.number_data.student_count !== undefined)
+                            $('#student-count').text(response.number_data.student_count);
+                    }
                     if (response.average_score !== undefined)
                         setAverageScores(response.average_score);
+                    if (response.average_time !== undefined)
+                        setAverageTime(response.average_time);
+
+                    if (response.modules !== undefined) {
+                        let navbarContainer = $('#course-assignment-navbars');
+                        navbarContainer.html('');
+                        for (let module in response.modules) {
+                            navbarContainer.append($('<h4>').text(response.modules[module].name));
+                            let navbar = $('<div>').addClass('navbar');
+                            navbarContainer.append(navbar);
+                            for (let assignment of response.modules[module].assignments) {
+                                navbar.append($('<p>')
+                                    .attr('data-value', assignment.id)
+                                    .attr('data-function', 'updateCourseAssignmentGraphs')
+                                    .text(assignment.label));
+                            }
+                            updateNavbar(navbar);
+                        }
+                    }
                 },
                 function (response) {
-                    standardErrorResponse(response, $('#registered-response-pre'));
+                    standardErrorResponse(response, $('#owned-response-pre'));
                 }
             );
+        }
+        function updateCourseAssignmentGraphs(assignment) {
+            standardAjaxCall(
+                '/account/courseAssignmentAnalyticsAjax',
+                {
+                    "account": "{{ user_details.userid }}",
+                    "assignment": assignment
+                },
+                function (response) {
+                    standardSuccessResponse('', $('assignment-response-pre'));
+                    clearGraphs($('#course-assignment-graphs'))
+
+                    if (response.number_data !== undefined) {
+                        if (response.number_data.average_score !== undefined)
+                            $('#average-score').text(response.number_data.average_score);
+                        if (response.number_data.average_time !== undefined)
+                            $('#average-time').text(response.number_data.average_time);
+                    }
+
+                    if (response.assignment_marks !== null)
+                        setOverallAssignmentMarks(response.assignment_marks);
+                    if (response.assignment_time !== null)
+                        setAssignmentTime(response.assignment_time);
+                },
+                function (response) {
+                    standardErrorResponse(response, $('#assignment-response-pre'));
+                }
+            )
         }
     </script>
 {% endblock %}

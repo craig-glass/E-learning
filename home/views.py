@@ -4,7 +4,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.db.models import Q
-
 from courses.models import Course, Module
 
 User = get_user_model()

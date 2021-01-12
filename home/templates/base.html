@@ -360,28 +360,32 @@
         }
     }
 
+    function updateNavbar(element) {
+        element.find('p').each(function(index, element) {
+            let f = window[$(element).attr('data-function')];
+            if (index === 0) {
+                $(element).addClass('active');
+                if (typeof f === 'function') {
+                    f($(element).attr('data-value'));
+                }
+            }
+            $(element).attr('tabindex', '0');
+            $(element).keypress(function(event) {
+                $(element).click();
+            });
+            $(element).on('click', function() {
+                    $(element).parent('.navbar').find('.active').each(function(index3, element3) {
+                        $(element3).removeClass('active');
+                    });
+                    $(element).addClass('active');
+                    f($(element).attr('data-value'));
+                });
+        });
+    }
+
     $(document).ready(function() {
         $('body').find('.navbar').each(function(index, element) {
-            $(element).find('p').each(function(index2, element2) {
-                let f = window[$(element2).attr('data-function')];
-                if (index2 === 0) {
-                    $(element2).addClass('active');
-                    if (typeof f === 'function') {
-                        f($(element2).attr('data-value'));
-                    }
-                }
-                $(element2).attr('tabindex', '0');
-                $(element2).keypress(function(event) {
-                    $(element2).click();
-                });
-                $(element2).on('click', function() {
-                        $(element2).parent('.navbar').find('.active').each(function(index3, element3) {
-                            $(element3).removeClass('active');
-                        });
-                        $(element2).addClass('active');
-                        f($(element2).attr('data-value'));
-                    });
-            });
+            updateNavbar($(element));
         });
     });
 </script>

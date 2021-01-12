@@ -1,23 +1,19 @@
-{% extends "base.html" %}
+{% extends "student_base.html" %}
 
 {% block title %}
     Account {{ user_details.userid }}
 {% endblock %}
 {% block content %}
+        <div class="col-12">
+        <p><a class="button effect" href="/account/edit/{{ user_details.userid }}">Settings</a>
+        <a class="button effect" href="/account/analytics/{{ user_details.userid }}">Analytics</a></p>
 
 
-<div class="container">
-    <div class="row">
         {% block account_view_content %}
         {% endblock %}
+</div>
 
 
-                <div class="col-12">
-        <p class="buttons">
-        <button class="button effect"><a href="/account/profile/{{ user_details.userid }}">Account</a></button>
-        <button class="button effect" ><a href="/account/edit/{{ user_details.userid }}">Settings</a></button>
-        <button class="button effect" ><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></button>
-</div>
-    </div>
-</div>
+
+
 {% endblock %}

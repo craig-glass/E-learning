@@ -2,6 +2,19 @@
 {% block title %}Courses{% endblock %}
 {% block content %}
 <h1>Courses</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-3">
+
+
+<div id="sideMenu">
+        <p><a href="{% url 'course_create' %}" class="button effect">Create new course</a></p>
+        <p><a href="{% url 'add_announcement'%}" class="button effect">Add Announcements</a></p>
+        <p><a href="{% url 'event_calendar:event_new'%}" class="button effect">Add to Calendar</a></p>
+</div>
+    </div>
+
+        <div class="col-12 col-md-9">
 <div class="module">
     {% for course in object_list %}
         <div class="course-info">
@@ -17,15 +30,13 @@
                 {% endif %}
             </p>
         </div>
-
-
-    {% empty %}
+        {% empty %}
     <p>You haven't created any courses yet.</p>
     {% endfor %}
-    <p>
-        <a href="{% url 'course_create' %}" class="button">
-            Create new course
-        </a>
-    </p>
+</div>
+        </div>
+
+
+    </div>
 </div>
 {% endblock %}

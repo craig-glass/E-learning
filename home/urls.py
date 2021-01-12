@@ -1,8 +1,7 @@
-from django.urls import path
-from .views import HomePageView, CourseListView
+from django.urls import path, re_path
+from . import views
 
 urlpatterns = [
-    path('', HomePageView.as_view(), name='homepage'),
-    path('home/courses/', CourseListView.as_view(),
-         name='course_list'),
+    path('', views.HomePageView.as_view(), name='homepage'),
+    path('queryAjax', views.QueryAjax.as_view()),
 ]

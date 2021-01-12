@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Account {{ user_details.userid }}
+{% endblock %}
+{% block content %}
+    <div id="selection-pane-div" style="float: left">
+        <table>
+            <tr>
+                <th><a href="/account/profile/{{ user_details.userid }}">Account</a></th>
+            </tr>
+            {% if is_user %}
+                <tr>
+                    <th><a href="/account/edit/{{ user_details.userid }}">Settings</a></th>
+                </tr>
+            {% endif %}
+            {% if show_analytics %}
+                <tr>
+                    <th><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></th>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+    <div id="view-content-div" style="float: left">
+        {% block account_view_content %}{% endblock %}
+    </div>
+{% endblock %}

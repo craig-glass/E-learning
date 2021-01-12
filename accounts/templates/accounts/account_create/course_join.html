@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Join Course
+{% endblock %}
+{% block content %}
+    <form id="course-join-form" method="post" action="">
+        <table>
+            <tr>
+                <th><label for="email">Email:</label></th>
+                <th><input id="email" type="text" name="email"
+                           class="required validate_text_email"></th>
+            </tr>
+            <tr>
+                <th><label for="subject">Filter Subject:</label></th>
+                <th><select id="subject" class="form-exempt">
+                    <option value="all">All</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.title }}</option>
+                    {% endfor %}
+                </select></th>
+            </tr>
+            <tr>
+                <th><label for="course">Course:</label></th>
+                <th><select id="course" name="course" class="required" form="course-join-form">
+                </select></th>
+            </tr>
+            <tr>
+                <th>
+                    <input id="course-join-submit" type="submit" value="Submit">
+                </th>
+                <th>
+                    <pre class="response-text"></pre>
+                </th>
+            </tr>
+            <tr>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
+
+{% block extrajavascript %}
+    <script>
+        // Generate dictionary of courses to populate course selector with
+        let courses = {};
+        {% for course in courses %}
+            courses[{{ course.id }}] = {
+                title: '{{ course.title }}',
+                subject: '{{ course.subject.id }}',
+            }
+        {% endfor %}
+
+        /**
+         * Filter list of courses based on the selected subject
+         */
+        function setCourseList() {
+            let subjectVal = $('#subject').val();
+            let courseArray = [];
+            if (subjectVal === 'all') { // Show all courses
+                for (let key in courses) {
+                    courseArray.push({value: key, text: courses[key].title});
+                }
+            } else { // Filter courses by selected subject
+                for (let key in courses) {
+                    if (courses[key].subject === subjectVal) {
+                        courseArray.push({value: key, text: courses[key].title});
+                    }
+                }
+            }
+            // Sort courses alphabetically
+            courseArray.sort(function (x, y) {
+                return x.text > y.text ? 1 : x.text < y.text ? -1 : 0;
+            });
+            let courseSelect = $('#course');
+            // Add default null value for when no option is selected
+            courseSelect.html('<option disabled selected value>--------</option>');
+            for (let option of courseArray) {
+                courseSelect.append(new Option(option.text, option.value));
+            }
+        }
+
+        $(document).ready(function () {
+            let courseForm = $('#course-join-form');
+            assignStandardFormSetup(
+                courseForm,
+                '/account/courseJoinAjax',
+                function (response) {
+                    standardSuccessResponse(
+                        'Registered ' + $('#email').val() +
+                        ' for course ' + $('#course').find('option:selected').text(),
+                        courseForm
+                    );
+                },
+                function (response) {
+                    standardErrorResponse(response, courseForm);
+                },
+            );
+            // Update course select with default values
+            setCourseList();
+            $('#subject').on('change', function () {
+                setCourseList();
+            });
+
+            // If user is logged in set email to be their own
+            let email = $('#email');
+            let userEmail = '{{ request.user.email }}';
+            if (userEmail !== '' && userEmail !== 'None') {
+                email.val(userEmail);
+                {% if not perms.accounts.can_add %}
+                    // Disable text field for non-staff
+                    email.prop('disabled', true);
+                {% endif %}
+                email.addClass('valid')
+            }
+        });
+    </script>
+{% endblock %}

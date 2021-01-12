@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'announcements.apps.AnnouncementsConfig',
     'students.apps.StudentsConfig',
     'home.apps.HomeConfig',
+    'event_calendar.apps.EventCalendarConfig',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'epic',
         'USER': 'postgres',
+        'PASSWORD': 'mysecretpassword',
         'HOST': 'localhost',
         'PORT': '5432',
     }

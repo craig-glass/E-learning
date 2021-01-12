@@ -1,0 +1,128 @@
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+<script>
+    /**
+     * Set-up given element to display a pie chart with the given data
+     * @param {HTMLElement} element Container to render graph in
+     * @param {Object} dataset Data to be rendered to the graph
+     * @param {String} name Unique identifier for the graph
+     * @param {String} type Graph type to display as
+     * @param {Object} customSettings Additional chart.js settings specific to this graph
+     */
+    function setToGraph(element, dataset, name, type, customSettings=null) {
+        if (customSettings === null) {
+            customSettings = {}
+        }
+        if (element.tagName.toLowerCase() !== 'div') {
+            throw Error('Element must be of type "div"')
+        }
+
+        let canvas = document.createElement('canvas');
+        canvas.id = name;
+        element.appendChild(canvas);
+        generateGraph(canvas, name, dataset, type, customSettings);
+    }
+
+    /**
+     * Generate graph on given element with given parameters
+     * @param {HTMLCanvasElement} element Canvas to render graph in
+     * @param {String} name Unique identifier for the graph
+     * @param {Object} dataset Data to be rendered to the graph
+     * @param {String} type Type of graph to be displayed
+     * @param {Object} customSettings Additional chart.js settings specific to this graph
+     */
+    function generateGraph(element, name, dataset, type, customSettings) {
+        let config = {
+            type: type,
+            data: {
+                datasets: [{
+                    data: dataset.data,
+                    backgroundColor: dataset.hasOwnProperty('color') ? dataset.color : generateColors(dataset["label"]),
+                    label: ""
+                }],
+                labels: dataset.label
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: name
+                },
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }]
+                }
+            }
+        }
+        merge(config, customSettings);
+
+        let ctx = element.getContext('2d');
+        window[name] = new Chart(ctx, config);
+    }
+
+    /**
+     * Randomly generate list of colors, each seeded corresponding indexes of the given list
+     * @param {Array.<String>} seeds List of rng seeds to apply to each color
+     * @returns {Array.<String>} List of hex string colors of same length as seeds list
+     */
+    function generateColors(seeds) {
+        let colors = [];
+        let r, g, b, rng;
+        for (let seed of seeds) {
+            rng = new Math.seedrandom(generateHash(seed));
+            // Generate rgb values for the color
+            r = ("0" + generate(0, 255, rng).toString(16));
+            g = ("0" + generate(0, 255, rng).toString(16));
+            b = ("0" + generate(0, 255, rng).toString(16));
+            // Convert rgb to hex string
+            colors.push('#'
+                + r.substring(r.length - 2, r.length)
+                + g.substring(g.length - 2, g.length)
+                + b.substring(b.length - 2, b.length));
+        }
+        return colors;
+    }
+
+    /**
+     * Generate random positive integer within given range using given generator (max exclusive)
+     */
+    function generate(min, max, rng) {
+        return Math.floor(Math.max(rng() * max, min))
+    }
+
+    function generateHash(s) {
+        let hash = 0;
+        if (s.length === 0) {
+            return hash;
+        }
+        for (let i = 0; i < s.length; i++) {
+            let char = s.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return hash;
+    }
+
+    function merge(a, b, path=null) {
+        if (path === null) {
+            path = []
+        }
+        for (let key in b) {
+            if (a.hasOwnProperty(key)) {
+                if (a[key] instanceof Object && b[key] instanceof Object) {
+                    merge(a[key], b[key], path + [key.toString()]);
+                } else if (a[key] !== b[key]) {
+                    a[key] = b[key];
+                }
+            } else {
+                a[key] = b[key];
+            }
+        }
+    }
+</script>

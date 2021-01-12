@@ -176,11 +176,13 @@ class RegisteredCourseAnalyticsAjax(View):
             for _ in range(len(am_data))
         ]
         if account.is_student:
+            # TODO use real data
             context['assignment_marks'] = {
                 "data": am_data,
                 "label": sorted(am_label),
             }
             x = random.randint(1, 100)
+            # TODO use real data
             context['course_progress'] = {
                 "data": [x, 100 - x],
                 "label": ["completed", "uncompleted"],
@@ -190,6 +192,7 @@ class RegisteredCourseAnalyticsAjax(View):
             context['module_progress'] = []
             for module in Module.objects.filter(course=course):
                 x = random.randint(1, 100)
+                # TODO use real data
                 context['module_progress'].append(
                     {
                         "data": {
@@ -210,7 +213,7 @@ class OwnedCourseAnalyticsAjax(View):
     def post(self, request: HttpRequest) -> HttpResponse:
         current_user = request.user
         account = User.objects.get(userid=request.POST['account'])
-        response = validate_account_view_ajax(current_user, account)
+        response = validate_account_view_ajax(current_user, account, True)
         if response:
             return response
         course = Course.objects.get(id=request.POST.get('course'))
@@ -218,16 +221,19 @@ class OwnedCourseAnalyticsAjax(View):
         random.seed(course.id)
         context = {}
         context['title'] = course.title
+        # TODO use real data
         context['number_data'] = {
             "student_count": random.randint(100, 500)
         }
         as_data = [0.0004 * pow(random.randint(0, 100) - 50, 3) + 50 for i in range(random.randint(5, 15))]
         as_label = ['ws' + str(i) for i in range(len(as_data))]
+        # TODO use real data
         context['average_score'] = {
             "data": as_data,
             "label": as_label,
         }
         at_data = [0.0011 * pow(random.randint(0, 60) - 30, 3) + 30 for i in range(len(as_label))]
+        # TODO use real data
         context['average_time'] = {
             "data": at_data,
             "label": as_label,
@@ -240,7 +246,6 @@ class OwnedCourseAnalyticsAjax(View):
                 "name": module.title
             }
         for assignment in Assignment.objects.filter(module__course=course):
-            print(assignment)
             context['modules'][assignment.module.id]['assignments'].append({
                 "label": assignment.title,
                 "id": assignment.id
@@ -252,21 +257,25 @@ class CourseAssignmentAnalyticsAjax(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
         account = User.objects.get(userid=request.POST['account'])
-        response = validate_account_view_ajax(current_user, account)
+        response = validate_account_view_ajax(current_user, account, True)
         if response:
             return response
         assignment = get_object_or_404(Assignment, id=request.POST.get('assignment'))
         import random
         context = {}
         context['number_data'] = {
+            # TODO use real data
             "average_score": random.randint(0, 100),
+            # TODO use real data
             "average_time": random.randint(20, 60)
         }
         labels = [student.userid for student in assignment.module.course.students.all()]
+        # TODO use real data
         context['assignment_marks'] = {
             "data": [random.randint(0, 100) for _ in range(len(labels))],
             "label": labels
         }
+        # TODO use real data
         context['assignment_time'] = {
             "data": [random.randint(20, 60) for _ in range(len(labels))],
             "label": labels
@@ -285,9 +294,10 @@ def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
     return response
 
 
-def validate_account_view_ajax(current_user: User, account: User) -> Union[JsonResponse, None]:
-    if (not current_user.is_authenticated or
-            current_user != account and not current_user.has_perm('accounts.view_profile')):
+def validate_account_view_ajax(current_user: User, account: User,
+                               needs_view_perm: bool = False) -> Union[JsonResponse, None]:
+    if (not current_user.has_perm('accounts.view_profile') and (needs_view_perm or current_user != account)
+            or not current_user.is_authenticated):
         response = JsonResponse({})
         response.status_code = 401
         return response

@@ -62,13 +62,13 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     </div>
     </div>
     </div>
-    <div class="col-3"></div>
-        <div class="col-9">
+        <div class="col-9 offset-3">
         <p class="buttons">
         <a class="button effect" href="{% url "module_content_create" module.id "text" %}">ADD TEXT</a>
         <a class="button effect" href="{% url "module_content_create" module.id "image" %}">ADD IMAGE</a>
         <a class="button effect" href="{% url "module_content_create" module.id "video" %}">ADD VIDEO</a>
         <a class="button effect" href="{% url "module_content_create" module.id "file" %}">ADD FILE</a></p>
+</div>
 </div>
 </div>
 {% endwith %}

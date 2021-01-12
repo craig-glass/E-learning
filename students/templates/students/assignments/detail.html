@@ -8,7 +8,9 @@
 <h1>
     {{ module.title }}
 </h1>
-
+<div class="container-fluid">
+<div class="row justify-content-center">
+<div class="col-12 col-md-3 col-centered">
 <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
@@ -28,7 +30,11 @@
     {% endfor %}
     </ul>
 </div>
+</div>
 {% endwith %}
+
+    <div class="col-12 col-md-9">
+
 <div class="module">
     {% for content in assignment.contents.all %}
     {% with item=content.item %}
@@ -36,5 +42,8 @@
     {{ item.render }}
     {% endwith %}
     {% endfor %}
+</div>
+    </div>
+</div>
 </div>
 {% endblock %}

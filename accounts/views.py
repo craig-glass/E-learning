@@ -169,7 +169,8 @@ class RegisteredCourseAnalyticsAjax(View):
         import datetime
         random.seed(request.POST['course'])
         context = {}
-        am_data = [random.randint(0, 100) for _ in range(random.randint(5, 15))]
+        am_data = [random.randint(0, 100) for _ in range(random.randint(30, 40))]
+        # am_data = [100 * i / 40 for i in range(41)]
 
         am_label = [
             datetime.date(2020, 9, 10) + random.random() * (datetime.date(2021, 7, 10) - datetime.date(2020, 9, 10))
@@ -180,13 +181,20 @@ class RegisteredCourseAnalyticsAjax(View):
             context['assignment_marks'] = {
                 "data": am_data,
                 "label": sorted(am_label),
+                "color": {
+                    "type": "gradient",
+                    "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+                }
             }
             x = random.randint(1, 100)
             # TODO use real data
             context['course_progress'] = {
                 "data": [x, 100 - x],
                 "label": ["completed", "uncompleted"],
-                "color": ["#00AA22", "#AA0000"],
+                "color": {
+                    "type": "list",
+                    "value": ["#00AA22", "#22222288"]
+                },
             }
 
             context['module_progress'] = []
@@ -198,7 +206,10 @@ class RegisteredCourseAnalyticsAjax(View):
                         "data": {
                             "data": [x, 100 - x],
                             "label": ["completed", "uncompleted"],
-                            "color": ["#00AA22", "#AA0000"],
+                            "color": {
+                                "type": "list",
+                                "value": ["#00AA22", "#22222288"]
+                            },
                         },
                         "name": "module: " + module.title,
                     }
@@ -231,12 +242,20 @@ class OwnedCourseAnalyticsAjax(View):
         context['average_score'] = {
             "data": as_data,
             "label": as_label,
+            "color": {
+                "type": "gradient",
+                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+            }
         }
         at_data = [0.0011 * pow(random.randint(0, 60) - 30, 3) + 30 for i in range(len(as_label))]
         # TODO use real data
         context['average_time'] = {
             "data": at_data,
             "label": as_label,
+            "color": {
+                "type": "gradient",
+                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+            }
         }
 
         context['modules'] = {}
@@ -254,6 +273,8 @@ class OwnedCourseAnalyticsAjax(View):
 
 
 class CourseAssignmentAnalyticsAjax(View):
+    """Ajax request for analytics data relating to assignments in a given course"""
+
     def post(self, request: HttpRequest) -> JsonResponse:
         current_user = request.user
         account = User.objects.get(userid=request.POST['account'])
@@ -273,12 +294,20 @@ class CourseAssignmentAnalyticsAjax(View):
         # TODO use real data
         context['assignment_marks'] = {
             "data": [random.randint(0, 100) for _ in range(len(labels))],
-            "label": labels
+            "label": labels,
+            "color": {
+                "type": "gradient",
+                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+            }
         }
         # TODO use real data
         context['assignment_time'] = {
             "data": [random.randint(20, 60) for _ in range(len(labels))],
-            "label": labels
+            "label": labels,
+            "color": {
+                "type": "gradient",
+                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+            }
         }
         return JsonResponse(context)
 

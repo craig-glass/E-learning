@@ -80,6 +80,18 @@
                 data,
                 'assignment marks',
                 'bar',
+                {
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 100
+                                }
+                            }]
+                        }
+                    }
+                }
             );
         }
         function setCourseProgress(data) {
@@ -141,14 +153,6 @@
                 document.getElementById('container-average-score'),
                 data,
                 'average student score',
-                'bar'
-            );
-        }
-        function setAverageTime(data) {
-            setToGraph(
-                document.getElementById('container-average-time'),
-                data,
-                'average time taken',
                 'bar',
                 {
                     options: {
@@ -156,12 +160,20 @@
                             yAxes: [{
                                 ticks: {
                                     suggestedMin: 0,
-                                    suggestedMax: 0
+                                    suggestedMax: 100
                                 }
                             }]
                         }
                     }
                 }
+            );
+        }
+        function setAverageTime(data) {
+            setToGraph(
+                document.getElementById('container-average-time'),
+                data,
+                'average time taken',
+                'bar'
             )
         }
         function setOverallAssignmentMarks(data) {
@@ -169,7 +181,19 @@
                 document.getElementById('container-assignment-marks'),
                 data,
                 'student marks',
-                'bar'
+                'bar',
+                {
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 100
+                                }
+                            }]
+                        }
+                    }
+                }
             )
         }
         function setAssignmentTime(data) {

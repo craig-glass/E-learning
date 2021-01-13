@@ -7,7 +7,12 @@ Module {{ module.order|add:1 }}:{{ module.title }}
 {% block content %}
 {% with course=module.course %}
 <h1>Course "{{ course.title }}"</h1>
-<div class="contents">
+
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-3">
+                    <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
         {% for m in course.modules.all %}
@@ -31,9 +36,14 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     Edit modules
 </a></p>
 </div>
-<div>
-<a href="{% url 'module_content_list' module.id %}">Manage Contents</a>
-<a href="{% url 'assignment_content_list' module.id %}">Manage Assignments</a>
+        </div>
+
+     <div class="col-12 col-md-9">
+<p><a class="button effect" href="{% url 'module_content_list' module.id %}">Manage Contents</a></p>
+<p><a class="button effect" href="{% url 'assignment_content_list' module.id %}">Manage Assignments</a></p>
 </div>
+</div>
+    </div>
+
 {% endwith %}
 {% endblock %}

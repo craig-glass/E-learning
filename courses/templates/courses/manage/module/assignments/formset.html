@@ -6,6 +6,10 @@ Edit "{{ course.title }}"
 {% block content %}
 {% with course=module.course %}
 <h1>Edit "{{ course.title }}"</h1>
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-3">
 <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
@@ -30,14 +34,23 @@ Edit "{{ course.title }}"
     Edit modules
 </a></p>
 </div>
+        </div>
+
+<div class="col-12 col-md-9">
 <div class="module">
     <h2>Course Assignments</h2>
     <form method="post">
         {{ formset }}
         {{ formset.management_form }}
         {% csrf_token %}
-        <input type="submit" value="Save Assignments">
-    </form>
 </div>
+</div>
+                <div class="col-12 col-md-9 offset-md-3">
+            <p><button class="button effect" type="submit" value="Submit">Submit</button></p>
+        </div>
+    </form>
+
+    </div>
+    </div>
 {% endwith %}
 {% endblock %}

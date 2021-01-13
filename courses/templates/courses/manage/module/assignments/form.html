@@ -11,12 +11,11 @@ Add new content
 {% block content %}
 {% with course=module.course %}
 <h1>
-    {% if object %}
-    Edit content "{{ object.title }}"
-    {% else %}
-    Add new content
-    {% endif %}
+poo
 </h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-3">
 <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
@@ -38,12 +37,18 @@ Add new content
     {% endfor %}
     </ul>
 </div>
+        </div>
+    <div class="col-12 col-md-9">
+
 <div class="module">
     <form action="" method="post" enctype="multipart/form-data">
         {{ form.as_p }}
         {% csrf_token %}
         <p><input type="submit" value="Save content"></p>
     </form>
+</div>
+    </div>
+    </div>
 </div>
 {% endwith %}
 {% endblock %}

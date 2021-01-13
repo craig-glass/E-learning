@@ -4,24 +4,20 @@
     Account {{ user_details.userid }}
 {% endblock %}
 {% block content %}
-    <div id="selection-pane-div" style="float: left">
-        <table>
-            <tr>
-                <th><a href="/account/profile/{{ user_details.userid }}">Account</a></th>
-            </tr>
-            {% if is_user %}
-                <tr>
-                    <th><a href="/account/edit/{{ user_details.userid }}">Settings</a></th>
-                </tr>
-            {% endif %}
-            {% if show_analytics %}
-                <tr>
-                    <th><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></th>
-                </tr>
-            {% endif %}
-        </table>
+
+
+<div class="container">
+    <div class="row">
+        {% block account_view_content %}
+        {% endblock %}
+
+
+                <div class="col-12">
+        <p class="buttons">
+        <button class="button effect"><a href="/account/profile/{{ user_details.userid }}">Account</a></button>
+        <button class="button effect" ><a href="/account/edit/{{ user_details.userid }}">Settings</a></button>
+        <button class="button effect" ><a href="/account/analytics/{{ user_details.userid }}">Analytics</a></button>
+</div>
     </div>
-    <div id="view-content-div" style="float: left">
-        {% block account_view_content %}{% endblock %}
-    </div>
+</div>
 {% endblock %}

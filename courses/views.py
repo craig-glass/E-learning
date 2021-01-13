@@ -265,7 +265,6 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
 
     def post(self, request, module_id, assignment_id, model_name, id=None):
         form = self.get_form(self.model,
-                             instance=self.obj,
                              data=request.POST,
                              files=request.FILES)
 

@@ -17,6 +17,9 @@ Add new content
     Add new content
     {% endif %}
 </h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-3">
 <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
@@ -41,12 +44,22 @@ Add new content
     Edit modules
 </a></p>
 </div>
-<div class="module">
+        </div>
+                <div class="col-12 col-md-9">
+<div class="module" style="margin-top:0;">
     <form action="" method="post" enctype="multipart/form-data">
         {{ form.as_p }}
         {% csrf_token %}
-        <p><input type="submit" value="Save content"></p>
+        </div>
+                </div>
+
+        <div class="col-12 col-md-9 offset-md-3">
+        <p><button class="button effect" type="submit" value="Save Content">Save Content</button></p>
     </form>
+
+    </div>
+</div>
 </div>
 {% endwith %}
 {% endblock %}
+

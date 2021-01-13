@@ -36,6 +36,11 @@ h1 {
     background-color: #e3efe8;
     background-image: linear-gradient(to right, #e3efe8 0%, #96a7cf 74%);
     border-bottom:6px solid #303030;
+
+}
+
+.studenth1 h1{
+    margin-bottom:0px !important;
 }
 
 .dot {
@@ -62,6 +67,9 @@ h1 {
     text-align: left !important;
     margin: 5%;
     margin-top:0;
+    color: black;
+    background-clip:linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%);
+    border: 2px solid black;
 }
 
 .modules p{
@@ -466,11 +474,6 @@ div.moveable-list-contents div:hover {
     display: inline
 }
 
-#sideMenu{
-    margin-bottom:100px;
-}
-
-
 .module label{
     float:none !important;
     display: block !important;
@@ -681,3 +684,8 @@ float: none !important;
     margin: 15px;
 }
 
+
+
+#sideMenu .button{
+    font-size:80% !important;
+}

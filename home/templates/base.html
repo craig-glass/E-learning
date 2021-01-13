@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
     <script>
         function getCookie(name) {
             let cookieValue = null;
@@ -37,13 +39,15 @@
                                                 <form action="/search/" method="GET" class="search-form" style="float: left; padding-left: 10px">
             <input id="query-input" type="text" name="query" placeholder="Search...">
         </form>
+        <p><a style="font-size:15px;" class="button effect" onClick="javascript:history.go(-1);" type="submit" value="Previous Page"><span class="fas fa-backward"></span> Previous Page</a></p>
+
                                     </div>
                                     <div class="col-6">
                                             <ul class="menu">
         {% if request.user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Sign Out</a></li>
+        <li><a href="{% url 'logout' %}"><span class="far fa-user"></span> Sign Out</a></li>
         {% else %}
-        <li><a href="{% url 'login' %}">Sign In</a></li>
+        <li><a href="{% url 'login' %}"><span class="far fa-user"></span> Sign In</a></li>
         {% endif %}
     </ul>
 
@@ -55,9 +59,6 @@
             </div>
 
 </header>
-
-
-
 
 
 

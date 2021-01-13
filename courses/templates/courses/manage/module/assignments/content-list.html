@@ -33,9 +33,16 @@ Module {{ module.order|add:1 }}:{{ module.title }}
 </div>
 </div>
 
-        <div class="col-12 col-md-9">
+                <div class="col-12 col-md-9 ">
+        <p class="buttons">
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "text" %}"><span class="fas fa-spell-check"></span> ADD TEXT</a>
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "image" %}"><span class="fas fa-file-image"></span> ADD IMAGE</a>
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "video" %}"><span class="fas fa-file-video"></span> ADD VIDEO</a>
+        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "file" %}"><span class="fas fa-file-alt"></span> ADD FILE</a></p>
 
-<div class="module">
+
+
+<div class="module" style="margin-bottom:40px;">
     <h2>Assignment {{ assignment.order|add:1 }}</h2>
     <h3>Assignment contents:</h3>
     <div id="module-contents">
@@ -52,13 +59,7 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     </div>
 </div>
         </div>
-            <div class="col-9 offset-3">
-        <p class="buttons">
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "text" %}">ADD TEXT</a>
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "image" %}">ADD IMAGE</a>
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "video" %}">ADD VIDEO</a>
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "file" %}">ADD FILE</a></p>
-</div>
+
 </div>
 </div>
 

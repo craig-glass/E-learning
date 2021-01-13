@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Add Announcement{% endblock %}
 
-{% block content %}
-
+{%block h1%}
 <h1>Add Announcements</h1>
+
+{% endblock %}
+
+
+{% block content %}
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -18,8 +22,7 @@
         </div>
 
             <div class="col-12">
-                <p><button class="button effect" type="submit" value="Save content">Save Content</button></p>
-
+                <p><button class="button effect" type="submit" value="Save content"><span class="fas fa-check-circle"></span> Save Content</button></p>
             </div>
     </form>
     </div>

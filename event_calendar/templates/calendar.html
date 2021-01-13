@@ -12,10 +12,10 @@
 <div class="container">
     <div class="row">
             <div class="col-6">
-	<a class="button effect" style="float:left;" href="{% url 'event_calendar:calendar' %}?{{ prev_month }}"> Previous Month </a>
+	<a class="button effect" style="float:left;" href="{% url 'event_calendar:calendar' %}?{{ prev_month }}"><span class="fas fa-arrow-circle-left"></span> Previous Month </a>
             </div>
                 <div class="col-6">
-	<a class="button effect" style="float:right;" href="{% url 'event_calendar:calendar' %}?{{ next_month }}"> Next Month </a>
+	<a class="button effect" style="float:right;" href="{% url 'event_calendar:calendar' %}?{{ next_month }}">Next Month <span class="fas fa-arrow-circle-right"></span></a>
     </div>
 
         <div class="table-responsive">

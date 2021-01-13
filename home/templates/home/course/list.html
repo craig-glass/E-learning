@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Courses{% endblock %}
 
-{% block content %}
+{%block h1%}
 <h1>Courses</h1>
+{% endblock %}
+
+
+{% block content %}
+
 
 <div class="module">
     {% for course in object_list %}

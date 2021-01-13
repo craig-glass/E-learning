@@ -39,8 +39,8 @@ Module {{ module.order|add:1 }}:{{ module.title }}
         </div>
 
      <div class="col-12 col-md-9">
-<p style="text-align: center!important;"><a class="button effect" href="{% url 'module_content_list' module.id %}">Manage Contents</a></p>
-<p style="text-align: center!important;"><a class="button effect" href="{% url 'assignment_content_list' module.id %}">Manage Assignments</a></p>
+<p style="text-align: center!important;"><a class="button effect" href="{% url 'module_content_list' module.id %}"><span class="fas fa-tasks"></span> Manage Contents</a></p>
+<p style="text-align: center!important;"><a class="button effect" href="{% url 'assignment_content_list' module.id %}"><span class="fas fa-tasks"></span> Manage Assignments</a></p>
 </div>
 </div>
     </div>

@@ -8,15 +8,15 @@
 {% block content %}
 
 
-                <p><a class="button effect" href="{% url 'student_course_detail' course.id %}">Modules</a></p>
-                <p><a class="button effect" href="{% url 'assignments_list_student_view' course.id %}">Assignments</a></p>
-                <p><a class="button effect" href="{% url 'announcements' %}">Announcements</a></p>
-                <p><a class="button effect" href="{% url 'event_calendar:calendar' %}">Calendar</a></p>
-                <p><a class="button effect" href="#">Accounts</a></p>
+
+
 <div class="col-12">
 <div id="studentHome">
     <p>This is the student homepage/dashboard</p>
 </div>
     </div>
+                <p><a class="button effect" href="{% url 'student_course_detail' course.id %}"><span class="fab fa-readme"></span> Modules</a></p>
+
+
 
 {% endblock %}

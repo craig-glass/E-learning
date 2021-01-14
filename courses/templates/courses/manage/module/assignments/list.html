@@ -39,7 +39,7 @@ Module {{ module.order|add:1 }}:{{ module.title }}
 
     <div class="col-12 col-md-9">
 
-<div class="module" style="margin-top:0px;">
+<div class="module" style="margin-top:0px; margin-bottom:40px;">
     <div>
         {% for assignment in module.assignments.all %}
         <div>
@@ -52,9 +52,8 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     {% endfor %}
     </div>
 </div>
-    </div>
-        <div class="col-12 col-md-9 offset-md-3">
-        <p><a class="button effect" href="{% url 'course_assignment_update' module.id %}">Create Assignment</a></p>
+
+        <p><a class="button effect" href="{% url 'course_assignment_update' module.id %}"><span class="fas fa-plus-square"></span> Create Assignment</a></p>
     </div>
 
 </div>

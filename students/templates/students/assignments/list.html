@@ -1,14 +1,19 @@
-{% extends "base.html" %}
+{% extends "student_base.html" %}
 {% load course %}
 
 {% block title %}
 Module {{ module.order|add:1 }}:{{ module.title }}
 {% endblock %}
-{% block content %}
+
+{% block h1%}
 {% with course=module.course %}
 <h1>Course "{{ course.title }}"</h1>
-<div class="container-fluid">
-<div class="row justify-content-center">
+{% endwith %}
+{% endblock %}
+
+
+
+{% block content %}
 <div class="col-12 col-md-3 col-centered">
 <div class="contents">
     <h3>Modules</h3>
@@ -47,9 +52,6 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     </div>
 </div>
     </div>
-</div>
-</div>
-{% endwith %}
 {% endblock %}
 {% block domready %}
 $('#modules').sortable({

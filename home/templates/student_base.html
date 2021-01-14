@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <script>
         function getCookie(name) {
@@ -30,7 +30,6 @@
     </script>
 </head>
 <body>
-
 <header>
             <div class="container-fluid">
                         <div class="row">
@@ -39,7 +38,7 @@
                                                 <form action="/search/" method="GET" class="search-form" style="float: left; padding-left: 10px">
             <input id="query-input" type="text" name="query" placeholder="Search...">
         </form>
-        <p><a style="font-size:15px;" class="button effect" onClick="javascript:history.go(-1);" type="submit" value="Previous Page"><span class="fas fa-backward"></span> Previous Page</a></p>
+                                                <p><a style="font-size:15px;" class="button effect" onClick="javascript:history.go(-1);" type="submit" value="Previous Page"><span class="fas fa-backward"></span> Previous Page</a></p>
 
                                     </div>
                                     <div class="col-6">
@@ -59,16 +58,46 @@
             </div>
 
 </header>
-
-
-
-
-
-
+<div class="studenth1" >
+{% block h1%}
+{% endblock %}
+    </div>
 <div id="content">
+    <div class="container-fluid">
+<div class="row">
+<div class="col-12">
+        {% block modulebar%}
+    {% endblock %}
+
+<div id="sideMenu" style="text-align:center; margin-bottom:100px;">
+
+            <p><a class="button effect" href="#"><span class="fas fa-home"></span> Home</a></p>
+        <p><a class="button effect" href="{% url 'student_course_list'%}"><span class="fas fa-book"></span> Courses</a></p>
+    <p><a class="button effect" href="{% url 'announcements'%}"><span class="fab fa-discourse"></span> Announcements</a></p>
+                <p><a class="button effect" href="#"><span class="fab fa-readme"></span> Modules</a></p>
+                <p><a class="button effect" href="#"><span class="fas fa-pencil-alt"></span> Assignments</a></p>
+                <p><a class="button effect" href="{% url 'event_calendar:calendar' %}"><span class="fas fa-calendar-week"></span> Calendar</a></p>
+                        <p><a class="button effect" href="/account/profile/{{ user_details.userid }}"><span class="fas fa-user-circle"></span> Account</a></p>
+</div>
+
+    </div>
+
+
+
+
+
+
+
+
     {% block content %}
     {% endblock %}
+     </div>
+    </div>
 </div>
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
@@ -390,3 +419,10 @@
 
 </body>
 </html>
+
+
+
+
+
+
+

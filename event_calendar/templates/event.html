@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'student_base.html' %}
 {% block title %}Event{% endblock %}
-
+{% block h1%}
+<h1>Event</h1>
+{% endblock %}
 
 
 {% block content %}
-<h1>Event</h1>
-<div class="container">
-    <div class="row">
+
+
 {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}
@@ -30,11 +31,5 @@
 </form>
     </div>
         </div>
-<div class="col-12">
-<div class="margin">
-  <p><a class="button effect" href="{% url 'event_calendar:calendar' %}"> Back to Calendar </a></p>
-</div>
-</div>
-        </div>
-    </div>
+
 {% endblock %}

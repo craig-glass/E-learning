@@ -22,6 +22,7 @@ class EventForm(ModelForm):
 
 
 
+
 class EventNewForm(ModelForm):
   class Meta:
     model = Event

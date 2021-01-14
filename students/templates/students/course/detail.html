@@ -1,16 +1,16 @@
-{% extends "base.html" %}
+{% extends "student_base.html" %}
 {% block title %}
 {{ object.title }}
 {% endblock %}
 
-{% block content %}
+{% block h1%}
 <h1>
     {{ module.title }}
 </h1>
+{% endblock %}
 
-<div class="container-fluid">
-<div class="row justify-content-center">
-<div class="col-12 col-md-3 col-centered">
+{% block content %}
+<div class="col-12 col-md-2 col-centered">
 <div class="contents">
     <h3>Modules</h3>
     <ul id="modules">
@@ -31,8 +31,9 @@
     </ul>
 </div>
 </div>
-    <div class="col-12 col-md-9">
-<div class="module">
+
+    <div class="col-12 col-md-10">
+<div class="modules">
     {% for content in module.contents.all %}
     {% with item=content.item %}
     <h2>{{ item.title }}</h2>
@@ -41,6 +42,4 @@
     {% endfor %}
 </div>
     </div>
-</div>
-</div>
 {% endblock %}

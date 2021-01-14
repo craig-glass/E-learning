@@ -1,7 +1,11 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+
+from accounts.models import Profile
 from .fields import OrderField
 from django.template.loader import render_to_string
 from django.conf import settings

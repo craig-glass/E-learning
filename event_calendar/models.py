@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from courses.models import Course
+
 
 class Event(models.Model):
     title = models.CharField(max_length=200)

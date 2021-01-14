@@ -4,14 +4,14 @@
     Account {{ user_details.userid }}
 {% endblock %}
 {% block content %}
-        <div class="col-12">
+    <div class="col-12">
         <p><a class="button effect" href="/account/edit/{{ user_details.userid }}">Settings</a>
-        <a class="button effect" href="/account/analytics/{{ user_details.userid }}">Analytics</a></p>
+            <a class="button effect" href="/account/analytics/{{ user_details.userid }}">Analytics</a></p>
 
 
         {% block account_view_content %}
         {% endblock %}
-</div>
+    </div>
 
 
 

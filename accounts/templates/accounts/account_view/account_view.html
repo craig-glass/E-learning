@@ -1,34 +1,34 @@
 {% extends "accounts/account_view/account_view_base.html" %}
 
 {% block account_view_content %}
-            <div class="profile">
-    <div id="user-details-div" style="margin-bottom: 10%;font-size: x-large;">
-        <p>User ID: {{ user_details.userid }}</p>
-        <p>Full Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
-             <p>Contact Details</p>
-        <div id="contacts-div" style="overflow: hidden">
+    <div class="profile">
+        <div id="user-details-div" style="margin-bottom: 10%;font-size: x-large;">
+            <p>User ID: {{ user_details.userid }}</p>
+            <p>Full Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
+            <p>Contact Details</p>
+            <div id="contacts-div" style="overflow: hidden">
                 {% for contact in user_details.contacts %}
-                        <p>{{ contact.show_as }}: {{ contact.value }}</p>
+                    <p>{{ contact.show_as }}: {{ contact.value }}</p>
                 {% endfor %}
+            </div>
+        </div>
+        <div id="user-status-div" style="float: right">
+            {% if user_details.online %}
+                <div class="dot" style="background-color: #44FF66; float: right"></div>
+            {% else %}
+                <div class="dot" style="background-color: #FF0000; float: right"></div>
+            {% endif %}
+            {% if user_details.superuser %}
+                <p>Admin</p>
+            {% endif %}
+            {% if user_details.staff %}
+                <p>Staff</p>
+            {% endif %}
+            {% if user_details.student %}
+                <p>Student</p>
+            {% endif %}
         </div>
     </div>
-    <div id="user-status-div" style="float: right">
-        {% if user_details.online %}
-            <div class="dot" style="background-color: #44FF66; float: right"></div>
-        {% else %}
-            <div class="dot" style="background-color: #FF0000; float: right"></div>
-        {% endif %}
-        {% if user_details.superuser %}
-            <p>Admin</p>
-        {% endif %}
-        {% if user_details.staff %}
-            <p>Staff</p>
-        {% endif %}
-        {% if user_details.student %}
-            <p>Student</p>
-        {% endif %}
-    </div>
-        </div>
 
 
 

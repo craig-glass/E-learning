@@ -1,22 +1,17 @@
 {% extends "student_base.html" %}
 {% block title %}Student Home{% endblock %}
-{% block h1%}
-<h1>
-    Student Home Page
-</h1>
+
+{% block h1 %}
+    <h1>
+        Student Home Page
+    </h1>
 {% endblock %}
 {% block content %}
 
-
-
-
-<div class="col-12">
-<div id="studentHome">
-    <p>This is the student homepage/dashboard</p>
-</div>
+    <div class="col-12">
+        <div id="studentHome">
+            <p>This is the student homepage/dashboard</p>
+        </div>
     </div>
-                <p><a class="button effect" href="{% url 'student_course_detail' course.id %}"><span class="fab fa-readme"></span> Modules</a></p>
-
-
 
 {% endblock %}

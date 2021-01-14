@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 
-{%block h1%}
-<h1>Welcome!</h1>
+{% block h1 %}
+    <h1>Welcome!</h1>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-    <a class="button effect" href="{% url 'course_list' %}">View Courses</a>   </div>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <a class="button effect" href="{% url 'course_list' %}">View Courses</a>
+            </div>
+        </div>
     </div>
 
 

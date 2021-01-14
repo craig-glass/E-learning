@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic import DetailView, ListView
+
 from announcements.forms import AnnouncementForm
+from courses.models import Course
 from .models import Announcement
 
 
-class AnnouncementList(generic.ListView):
-    queryset = Announcement.objects.order_by('-date_created')[:15]
+class AnnouncementList(DetailView):
+    model = Course
     template_name = 'announcements.html'
-
 
 
 def addAnnouncements(request):

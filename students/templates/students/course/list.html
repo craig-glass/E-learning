@@ -2,27 +2,27 @@
 {% block title %}My Courses{% endblock %}
 
 {% block content %}
-<h1>My Courses</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
+    <h1>My Courses</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
 
-<div class="module">
-    {% for course in object_list %}
-    <div class="course-info">
-        <h3>{{ course.title }}</h3>
-        <p><a class="button effect" href="{% url 'student_home_page' course.id %}">
-            Access contents
-        </a></p>
+                <div class="module">
+                    {% for course in object_list %}
+                        <div class="course-info">
+                            <h3>{{ course.title }}</h3>
+                            <p><a class="button effect" href="{% url 'student_home_page' course.id %}">
+                                Access contents
+                            </a></p>
+                        </div>
+                    {% empty %}
+                        <p>
+                            You are not enrolled in any courses yet.
+                            <a href="{% url 'course_list' %}">Browse courses</a>
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-    {% empty %}
-    <p>
-        You are not enrolled in any courses yet.
-        <a href="{% url 'course_list' %}">Browse courses</a>
-    </p>
-    {% endfor %}
-</div>
-    </div>
-</div>
-</div>
 {% endblock %}

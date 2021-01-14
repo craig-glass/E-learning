@@ -4,21 +4,21 @@
     Search: {{ query }}
 {% endblock %}
 {% block content %}
-            <div class="container-fluid" style="padding:0;">
-                        <div class="row">
-                            <div class="col-12">
-        <div id="type-navbar" class="navbar">
-            {% for model in models %}
-                <p data-value="{{ model }}" data-function="queryAjax">{{ model }}</p>
-            {% endfor %}
-        </div>
-        <pre id="response-pre"></pre>
-        <ol id="results-list" style="list-style-type: none;font-size: 115%;">
+    <div class="container-fluid" style="padding:0;">
+        <div class="row">
+            <div class="col-12">
+                <div id="type-navbar" class="navbar">
+                    {% for model in models %}
+                        <p data-value="{{ model }}" data-function="queryAjax">{{ model }}</p>
+                    {% endfor %}
+                </div>
+                <pre id="response-pre"></pre>
+                <ol id="results-list" style="list-style-type: none;font-size: 115%;">
 
-        </ol>
-    </div>
-                        </div>
+                </ol>
             </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block extrajavascript %}

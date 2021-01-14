@@ -1,4 +1,3 @@
-import datetime
 from django.db import models
 from config import settings
 from courses.models import Assignment, Course

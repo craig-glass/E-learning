@@ -141,3 +141,34 @@ class Image(ItemBase):
 class Video(ItemBase):
     file = models.FileField(upload_to='videos')
 
+
+class Quiz(models.Model):
+    title = models.CharField(max_length=50)
+    module = models.ForeignKey(Module,
+                               on_delete=models.CASCADE,
+                               related_name='quizzes')
+    description = models.TextField()
+    order = OrderField(blank=True, for_fields='module')
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz,
+                             on_delete=models.CASCADE,
+                             related_name='questions')
+    number = models.PositiveIntegerField()
+    question = models.TextField()
+    order = OrderField(blank=True, for_fields='quiz')
+    answer = models.TextField()
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.number
+

@@ -148,10 +148,9 @@ class Quiz(models.Model):
                                on_delete=models.CASCADE,
                                related_name='quizzes')
     description = models.TextField()
-    order = OrderField(blank=True, for_fields='module')
 
     class Meta:
-        ordering = ['order']
+        verbose_name_plural = 'quizzes'
 
     def __str__(self):
         return self.title

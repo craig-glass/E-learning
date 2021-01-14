@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Subject, Course, Module, Assignment
+from .models import Subject, Course, Module, Assignment, Quiz
 
 
 @admin.register(Subject)
@@ -12,6 +12,10 @@ class AssignmentInline(admin.StackedInline):
     model = Assignment
 
 
+class QuizInline(admin.StackedInline):
+    model = Quiz
+
+
 class ModuleInline(admin.StackedInline):
     model = Module
 
@@ -20,7 +24,7 @@ class ModuleInline(admin.StackedInline):
 class ModuleAdmin(admin.ModelAdmin):
     list_display = ['title', 'course']
     search_fields = ['title', 'overview']
-    inlines = [AssignmentInline]
+    inlines = [AssignmentInline, QuizInline]
 
 
 @admin.register(Course)

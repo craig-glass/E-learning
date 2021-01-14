@@ -176,6 +176,10 @@ class AssignmentContentListView(ModuleViewsMixin):
     template_name = 'courses/manage/module/assignments/list.html'
 
 
+class QuizListView(ModuleViewsMixin):
+    template_name = 'courses/manage/module/quizzes/list.html'
+
+
 class CourseAssignmentUpdateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
     template_name = 'courses/manage/module/assignments/formset.html'
     module = None

@@ -1,27 +1,31 @@
 {% extends "student_base.html" %}
 {% block title %}Calendar{% endblock %}
 
-{% block h1%}
+{% block h1 %}
 
-<h1>Calendar</h1>
+    <h1>Calendar</h1>
 {% endblock %}
 {% block content %}
 
 
 
-<div class="container">
-    <div class="row">
+    <div class="container">
+        <div class="row">
             <div class="col-6">
-	<a class="button effect" style="float:left;" href="{% url 'event_calendar:calendar' %}?{{ prev_month }}"><span class="fas fa-arrow-circle-left"></span> Previous Month </a>
+                <a class="button effect" style="float:left;"
+                   href="{% url 'event_calendar:calendar' %}?{{ prev_month }}"><span
+                        class="fas fa-arrow-circle-left"></span> Previous Month </a>
             </div>
-                <div class="col-6">
-	<a class="button effect" style="float:right;" href="{% url 'event_calendar:calendar' %}?{{ next_month }}">Next Month <span class="fas fa-arrow-circle-right"></span></a>
-    </div>
+            <div class="col-6">
+                <a class="button effect" style="float:right;"
+                   href="{% url 'event_calendar:calendar' %}?{{ next_month }}">Next Month <span
+                        class="fas fa-arrow-circle-right"></span></a>
+            </div>
 
-        <div class="table-responsive">
+            <div class="table-responsive">
 
-{{ calendar }}
+                {{ calendar }}
+            </div>
         </div>
     </div>
-
 {% endblock %}

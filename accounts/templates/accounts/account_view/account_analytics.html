@@ -54,6 +54,7 @@
                 'bar',
             );
         }
+
         function setCourseProgress(data) {
             setToGraph(
                 document.getElementById('container-course-progress'),
@@ -74,6 +75,7 @@
                 }
             );
         }
+
         function setAverageScores(data) {
             setToGraph(
                 document.getElementById('container-average-score'),
@@ -88,7 +90,7 @@
          * @param parent Parent element to empty
          */
         function clearGraphs(parent) {
-            parent.find('.graph-container').each(function(index, element) {
+            parent.find('.graph-container').each(function (index, element) {
                 $(element).html('')
             });
         }
@@ -119,6 +121,7 @@
                 }
             );
         }
+
         /**
          * Query then set owned course graph data for the given course
          * @param course Course id to query data for

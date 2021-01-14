@@ -69,9 +69,8 @@
         {% block modulebar%}
     {% endblock %}
 
-<div id="sideMenu" style="text-align:center; margin-bottom:100px;">
-
-            <p><a class="button effect" href="#"><span class="fas fa-home"></span> Home</a></p>
+<div id="sideMenu" style="text-align:center; margin-bottom:0px;">
+            <p><a class="button effect" href="{% url 'student_home_page' course.id%}"><span class="fas fa-home"></span> Home</a></p>
         <p><a class="button effect" href="{% url 'student_course_list'%}"><span class="fas fa-book"></span> Courses</a></p>
     <p><a class="button effect" href="{% url 'announcements'%}"><span class="fab fa-discourse"></span> Announcements</a></p>
                 <p><a class="button effect" href="#"><span class="fab fa-readme"></span> Modules</a></p>

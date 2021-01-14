@@ -10,9 +10,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-12 col-md-2 col-centered">
+<div class="col-12 col-md-3 col-centered">
 <div class="contents">
-    <h3>Modules</h3>
+    <h3 style="text-align: center;">Modules <p style="font-size:60%;"><button class="button effect" id="toggle"><span id="icon" class="fas fa-toggle-on"></span>Toggle Modules</button></p>
+</h3>
     <ul id="modules">
         {% for m in object.modules.all %}
         <li data-id="{{ m.id }}"
@@ -32,7 +33,7 @@
 </div>
 </div>
 
-    <div class="col-12 col-md-10">
+    <div id="toggler" class="col-12">
 <div class="modules">
     {% for content in module.contents.all %}
     {% with item=content.item %}
@@ -42,4 +43,35 @@
     {% endfor %}
 </div>
     </div>
+
+
+
+      <script>
+
+$('#toggle').click(function() {
+  if ($('#toggle').is(':visible')) {
+      $('#modules').toggle('slide', {
+        direction: 'up'
+      }, 1000,
+        );
+
+   }
+
+
+   else {
+    $('#modules').toggle('slide', {
+      direction: 'up'
+    }, 1000,
+    );
+
+  }
+
+
+});
+
+
+
+
+
+      </script>
 {% endblock %}

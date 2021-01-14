@@ -17,10 +17,11 @@ All courses
 </h1>
 
 <div class="container-fluid">
-<div class="row justify-content-center">
-<div class="col-12 col-md-3 col-centered">
+<div class="row">
+<div class="col-12 col-md-3">
 <div class="contents">
-    <h3>Subjects</h3>
+<h3 style="text-align: center;">Subjects <p style="font-size:60%;"><button class="button effect" id="toggle"><span id="icon" class="fas fa-toggle-on"></span>Toggle Subjects</button></p>
+</h3>
     <ul id="modules">
         <li {% if not subject %}class="selected"{% endif %}>
         <a href="{% url 'course_list' %}">All</a>
@@ -36,7 +37,9 @@ All courses
     </ul>
 </div>
 </div>
-     <div class="col-12 col-md-9">
+
+
+     <div class="col-12">
 <div class="module">
     {% for course in courses %}
         {% with subject=course.subject %}
@@ -56,4 +59,34 @@ All courses
      </div>
 </div>
 </div>
+
+
+      <script>
+
+$('#toggle').click(function() {
+  if ($('#toggle').is(':visible')) {
+      $('#modules').toggle('slide', {
+        direction: 'up'
+      }, 1000,
+        );
+
+   }
+
+
+   else {
+    $('#modules').toggle('slide', {
+      direction: 'up'
+    }, 1000,
+    );
+
+  }
+
+
+});
+
+
+
+
+
+      </script>
 {% endblock %}

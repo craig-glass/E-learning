@@ -1,4 +1,5 @@
 {% extends "accounts/account_view/account_view_base.html" %}
+{% load static %}
 
 {% block account_view_content %}
     <p>{{ user_details.userid }}</p>
@@ -72,7 +73,7 @@
     {% endif %}
 {% endblock %}
 {% block extrajavascript %}
-    {% include "accounts/analytics/graphs.html" %}
+    <script src={% static 'js/graphs.js' %}></script>
     <script>
         function setStudentAssignmentMarks(data) {
             setToGraph(

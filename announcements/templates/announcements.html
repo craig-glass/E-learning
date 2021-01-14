@@ -1,23 +1,23 @@
-{% extends "base.html" %}
-{% block title %}Announcements{% endblock %}
+{% extends "student_base.html" %}
 
+{% block title %}Announcements{% endblock %}
+{% block h1 %}
+    <h1>Announcements</h1>
+{% endblock %}
 {% block content %}
 
-<h1>Announcements</h1>
-<div class="container">
-    <div class="row">
-        <!-- Blog Entries Column -->
-        <div class="col-12">
-            {% for announcement in announcement_list %}
+    <!-- Blog Entries Column -->
+    <div class="col-12">
+        {% for announcement in object.announcements.all %}
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title">{{ announcement.title }}</h2>
-                    <p class="card-text text-muted h6">{{ announcement.author }} | {{ announcement.date_created}} </p>
-                    <p class="card-text">{{announcement.content|slice:":200" }}</p>
+                    <p class="card-text text-muted h6">{{ announcement.author }} | {{ announcement.date_created }} </p>
+                    <p class="card-text">{{ announcement.content|slice:":200" }}</p>
                 </div>
             </div>
-            {% endfor %}
-        </div>
+        {% empty %}
+            <h3>No announcements yet</h3>
+        {% endfor %}
     </div>
-</div>
-{%endblock%}
+{% endblock %}

@@ -9,5 +9,5 @@ class AnnouncementForm(forms.ModelForm):
 
     class Meta:
         model = Announcement
-        fields = ('title', 'author','content', 'course')
+        fields = ('title', 'author','content',)
 

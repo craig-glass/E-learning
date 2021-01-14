@@ -37,10 +37,15 @@ Module {{ module.order|add:1 }}:{{ module.title }}
 </a></p>
 </div>
 </div>
+        <div class="col-12 col-md-9">
+        <p class="buttons" style="text-align:center !important;">
+        <a class="button effect" href="{% url "module_content_create" module.id "text" %}"><span class="fas fa-spell-check"></span> ADD TEXT</a>
+        <a class="button effect" href="{% url "module_content_create" module.id "image" %}"><span class="fas fa-file-image"></span> ADD IMAGE</a>
+        <a class="button effect" href="{% url "module_content_create" module.id "video" %}"><span class="fas fa-file-video"></span> ADD VIDEO</a>
+        <a class="button effect" href="{% url "module_content_create" module.id "file" %}"><span class="fas fa-file-alt"></span> ADD FILE</a></p>
 
 
-    <div class="col-12 col-md-9">
-<div class="module">
+<div class="module" style="margin-bottom:40px;">
     <h2>Module {{ module.order|add:1 }}: {{ module.title }}</h2>
     <h3>Module contents:</h3>
     <div id="module-contents">
@@ -62,15 +67,9 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     </div>
     </div>
     </div>
-        <div class="col-9 offset-3">
-        <p class="buttons">
-        <a class="button effect" href="{% url "module_content_create" module.id "text" %}">ADD TEXT</a>
-        <a class="button effect" href="{% url "module_content_create" module.id "image" %}">ADD IMAGE</a>
-        <a class="button effect" href="{% url "module_content_create" module.id "video" %}">ADD VIDEO</a>
-        <a class="button effect" href="{% url "module_content_create" module.id "file" %}">ADD FILE</a></p>
 </div>
 </div>
-</div>
+
 {% endwith %}
 {% endblock %}
 {% block domready %}

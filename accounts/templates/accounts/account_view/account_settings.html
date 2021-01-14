@@ -2,36 +2,35 @@
 
 {% block account_view_content %}
     <div id="user-details-div">
-        <div class="col-12">
         <p>UserID: {{ user_details.userid }}</p>
         <form id="account-update-form" method="post" action="">
             <input type="hidden" name="userid" value="{{ user_details.userid }}">
-                    <p><label for="first-name">First Name(s):</label>
-                   <input id="first-name" type="text" name="first_name"
-                               class="validate_text_not_empty"
-                               value="{{ user_details.firstname }}"><p>
+            <p><label for="first-name">First Name(s):</label>
+                <input id="first-name" type="text" name="first_name"
+                       class="validate_text_not_empty"
+                       value="{{ user_details.firstname }}">
+            <p>
 
 
-                    <p><label for="last-name">Last Name:</label>
-                    <input id="last-name" type="text" name="last_name"
-                           value="{{ user_details.lastname }}"></p>
+            <p><label for="last-name">Last Name:</label>
+                <input id="last-name" type="text" name="last_name"
+                       value="{{ user_details.lastname }}"></p>
 
             <p>Contacts</p>
-                {% for contact in user_details.contacts %}
+            {% for contact in user_details.contacts %}
 
-                        <p><label for="contact-{{ contact.name }}">{{ contact.show_as }}:</label>
-                        <input id="contact-{{ contact.name }}" type="text" name="{{ contact.name }}"
-                                   class="validate_text_{{ contact.name }}"
-                               value="{{ contact.value }}"></p>
+                <p><label for="contact-{{ contact.name }}">{{ contact.show_as }}:</label>
+                    <input id="contact-{{ contact.name }}" type="text" name="{{ contact.name }}"
+                           class="validate_text_{{ contact.name }}"
+                           value="{{ contact.value }}"></p>
 
-                {% endfor %}
+            {% endfor %}
 
-                    <input class="button effect" style="color:black;" type="submit" value="Save">
-                    <pre class="response-text"></pre>
+            <input class="button effect" style="color:black;" type="submit" value="Save">
+            <pre class="response-text"></pre>
 
 
         </form>
-    </div>
     </div>
 {% endblock %}
 {% block extrajavascript %}

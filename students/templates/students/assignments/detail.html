@@ -1,50 +1,54 @@
-{% extends "base.html" %}
+{% extends "student_base.html" %}
 {% load course %}
 {% block title %}
-{{ object.title }}
+    {{ object.title }}
 {% endblock %}
+
+{% block h1 %}
+    {% with course=module.course %}
+        <h1>
+            {{ module.title }}
+        </h1>
+    {% endwith %}
+{% endblock %}
+
+
 {% block content %}
-{% with course=module.course %}
-<h1>
-    {{ module.title }}
-</h1>
-<div class="container-fluid">
-<div class="row justify-content-center">
-<div class="col-12 col-md-3 col-centered">
-<div class="contents">
-    <h3>Modules</h3>
-    <ul id="modules">
-        {% for m in course.modules.all %}
-        <li data-id="{{ m.id }}"
-            {% if m == module %}class="selected"{% endif %}>
-        <a href="{% url 'assignments_list_student_view' object.id %}">
-            <span>
-                Module<span class="order">{{ m.order|add:1 }}</span>
-            </span>
-            <br>
-            {{ m.title }}
-        </a>
-        </li>
-    {% empty %}
-    <li>No modules yet.</li>
-    {% endfor %}
-    </ul>
-</div>
-</div>
-{% endwith %}
+    <div class="col-12 col-md-3 col-centered">
+        <div class="contents">
+            <h3>Modules</h3>
+            <ul id="modules">
+                {% for m in course.modules.all %}
+                    <li data-id="{{ m.id }}"
+                        {% if m == module %}class="selected"{% endif %}>
+                        <a href="{% url 'assignments_list_student_view' object.id %}">
+                            <span>
+                                Module<span class="order">{{ m.order|add:1 }}</span>
+                            </span>
+                            <br>
+                            {{ m.title }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>No modules yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
 
     <div class="col-12 col-md-9">
 
-<div class="module">
-    {% for content in assignment.contents.all %}
-    {% with item=content.item %}
-    <h2>{{ item.title }}</h2>
-    {{ item.render }}
-    {% endwith %}
-    {% endfor %}
-</div>
+        <div class="modules">
+            {% for content in assignment.contents.all %}
+                {% with item=content.item %}
+                    <h2>{{ item.title }}</h2>
+                    {{ item.render }}
+                {% endwith %}
+            {% endfor %}
+            <a href="{% url 'assignment_submission' object.id module.id assignment.id %}">Assignment Submission</a>
+        </div>
     </div>
-</div>
-</div>
-<a href="{% url 'assignment_submission' object.id module.id assignment.id %}">Assignment Submission</a>
+
+
 {% endblock %}

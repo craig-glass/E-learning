@@ -1,13 +1,14 @@
 from django.db import models
 from django.urls import reverse
 
+from courses.models import Course
+
 
 class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    course = models.ForeignKey('courses.Course', on_delete=models.SET_NULL, null=True)
 
     @property
     def get_html_url(self):

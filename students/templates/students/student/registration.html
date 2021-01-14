@@ -1,27 +1,26 @@
 {% extends "base.html" %}
 {% block title %}
-Sign Up
+    Sign Up
 {% endblock %}
 
 {% block content %}
-<h1>
-    Sign Up
-</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-<div class="module">
-    <p>Enter your details to create an account: </p>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-    </div>
-        </div>
-
-                <div class="col-12">
-            <p><button class="button effect" type="submit" value="Create Account">Create my account</button></p>
+    <h1>
+        Sign Up
+    </h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="module">
+                    <p>Enter your details to create an account: </p>
+                    <form method="post">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                        <button class="button effect" type="submit" value="Create Account"><span
+                                class="fas fa-user-plus"></span> Create my account
+                        </button>
+                    </form>
                 </div>
-    </form>
-</div>
-</div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

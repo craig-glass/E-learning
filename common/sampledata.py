@@ -73,40 +73,64 @@ print("Created Subjects")
 core_maths = Course.objects.get_or_create(owner=admin, subject=mathematics,
                                           title="Core Maths", slug="core_maths",
                                           overview="Fundamentals of mathematics")[0]
+core_maths.students.add(student1)
+core_maths.students.add(student2)
+core_maths.students.add(student3)
+core_maths.students.add(studentstaff)
 advanced_maths = Course.objects.get_or_create(owner=admin, subject=mathematics,
                                               title="Advanced Maths", slug="advanced_maths",
                                               overview="A more advanced course on mathematics")[0]
+advanced_maths.students.add(student1)
+advanced_maths.students.add(student2)
+advanced_maths.students.add(studentstaff)
 computer_science = Course.objects.get_or_create(owner=staff, subject=mathematics,
                                                 title="Computer Science", slug="computer_science",
                                                 overview="The good one")[0]
+computer_science.students.add(student2)
 
 natural_sciences = Course.objects.get_or_create(owner=staff, subject=physics,
                                                 title="Natural Sciences", slug="natural_sciences",
                                                 overview="Fundamentals of the natural sciences")[0]
+natural_sciences.students.add(student1)
+natural_sciences.students.add(student3)
 theoretical_physics = Course.objects.get_or_create(owner=staff, subject=physics,
                                                    title="Theoretical Physics", slug="theoretical_physics",
                                                    overview="Physics. But that's just a theory. A PHYSICS THEORY")[0]
+theoretical_physics.students.add(student3)
 harry_potter = Course.objects.get_or_create(owner=studentstaff, subject=physics,
                                             title="Harry Potter", slug="why",
                                             overview="Why is this a real thing? Why is this here?"
                                                      " IT'S NOT EVEN PHYSICS!")[0]
+harry_potter.students.add(student2)
+harry_potter.students.add(studentstaff)
 
 basic_biology = Course.objects.get_or_create(owner=staff, subject=biology,
                                              title="Basic Biology", slug="basic_biology",
                                              overview="Fundamentals of biology")[0]
+basic_biology.students.add(student3)
 medical_science = Course.objects.get_or_create(owner=staff, subject=biology,
                                                title="Medical Science", slug="medical_science",
                                                overview="Specialised course in medicinal science")[0]
+medical_science.students.add(student1)
+medical_science.students.add(student2)
+medical_science.students.add(student3)
 
 basic_literature = Course.objects.get_or_create(owner=admin, subject=literature,
                                                 title="Basic Literature", slug="basic_literature",
                                                 overview="Fundamental reading and writing skills")[0]
+basic_literature.students.add(student1)
+basic_literature.students.add(student3)
 fitness_gram = Course.objects.get_or_create(owner=studentstaff, subject=literature,
                                             title="Fitnessgram Pacer Test", slug="fitnessgram_pacer_test",
                                             overview="I mean, in a way it IS literature. Technically.")[0]
+fitness_gram.students.add(student2)
+fitness_gram.students.add(student3)
+fitness_gram.students.add(studentstaff)
 longest_word = Course.objects.get_or_create(owner=studentstaff, subject=literature,
                                             title="The Longest Word", slug="the_longest_word",
                                             overview="Antidisestablishmentarianism")[0]
+longest_word.students.add(student1)
+longest_word.students.add(studentstaff)
 print("Created Courses")
 
 # AccountSubmission class DEPENDS ON Course

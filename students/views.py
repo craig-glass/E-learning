@@ -159,7 +159,7 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
                              files=request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.student = request.user
+            obj.student1 = request.user
             obj.assignment = self.assignment
             obj.course = self.course
             obj.submitted_file = request.FILES['submitted_file']

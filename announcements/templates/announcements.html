@@ -35,11 +35,14 @@
         function setAnnouncements(announcements) {
             let container = $('#announcement-container').html('');
             for (let announcement of announcements) {
-                let field = container.append($('<div>'));
+                let field = $('<div>');
+                container.append(field);
                 field.addClass('contents');
                 field.append($('<h4>').text(announcement.title))
                 field.append($('<pre>').text(announcement.content))
-                field.append($('<p>').text(announcement.author).addClass('caption'))
+                field.append($('<p>')
+                    .text(announcement.author + " - " + announcement.created)
+                    .addClass('caption'))
             }
         }
 

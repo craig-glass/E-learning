@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block title %}Announcements{% endblock %}
+{% block navigation %}
+    <a href="{% url 'announcements:announcements' %}">Announcements</a>/
+{% endblock %}
+
 {% block h1 %}
     <h1>Announcements</h1>
 {% endblock %}
@@ -37,12 +41,17 @@
             for (let announcement of announcements) {
                 let field = $('<div>');
                 container.append(field);
-                field.addClass('contents');
-                field.append($('<h4>').text(announcement.title))
-                field.append($('<pre>').text(announcement.content))
-                field.append($('<p>')
+                field.addClass('plain-text-area-container');
+                field.append($('<h4>').text(announcement.title));
+                field.append(
+                    $('<pre>')
+                        .text(announcement.content)
+                        .addClass('plain-text-area'));
+                field.append(
+                    $('<p>')
                     .text(announcement.author + " - " + announcement.created)
-                    .addClass('caption'))
+                    .addClass('caption')
+                );
             }
         }
 

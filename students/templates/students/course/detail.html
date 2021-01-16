@@ -2,6 +2,13 @@
 {% block title %}
     {{ object.title }}
 {% endblock %}
+{% block navigation %}
+    <a href="{% url 'students:student_course_list' %}">Courses</a>/
+    <a href="{% url 'students:student_course_detail' object.id %}">Modules</a>/
+    {% if module %}
+        <a href="{% url 'students:student_course_detail_module' object.id module.id %}">Module:{{ module.id }}</a>/
+    {% endif %}
+{% endblock %}
 
 {% block h1 %}
     <h1>
@@ -10,36 +17,20 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-12 col-md-2 col-centered">
-        <div class="contents">
-            <h3>Modules</h3>
-            <ul id="modules">
-                {% for m in object.modules.all %}
-                    <li data-id="{{ m.id }}"
-                        {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'student_course_detail_module' object.id m.id %}">
-            <span>
-                Module<span class="order">{{ m.order|add:1 }}</span>
-            </span>
-                            <br>
-                            {{ m.title }}
-                        </a>
-                    </li>
-                {% empty %}
-                    <li>No modules yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
+    <div class="navbar navbar-function-link">
+        {% for module in object.modules.all %}
+            <p data-link="{% url 'students:student_course_detail_module' object.id module.id %}">
+                Module: {{ module.id }}<br>{{ module.title }}
+            </p>
+        {% endfor %}
     </div>
 
-    <div class="col-12 col-md-10">
-        <div class="modules">
-            {% for content in module.contents.all %}
-                {% with item=content.item %}
-                    <h2>{{ item.title }}</h2>
-                    {{ item.render }}
-                {% endwith %}
-            {% endfor %}
-        </div>
+    <div class="modules">
+        {% for content in module.contents.all %}
+            {% with item=content.item %}
+                <h2>{{ item.title }}</h2>
+                {{ item.render }}
+            {% endwith %}
+        {% endfor %}
     </div>
 {% endblock %}

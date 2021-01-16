@@ -37,6 +37,32 @@ h1 {
 
 }
 
+.navigation-bar {
+    background: #fff3de;
+    border-bottom: 2px solid black;
+}
+
+.navigation-bar a {
+    font-size: 20px;
+}
+
+.plain-text-area {
+    float: left;
+    width: 100%;
+    background-color: #efefef;
+    border-top: 2px solid #36365b;
+    border-bottom: 2px solid #36365b;
+    text-align: left;
+}
+
+.plain-text-area-container {
+    float: left;
+    width: 90%;
+    background-color: #eae5de;
+    border: 2px solid #e09677;
+    margin: 5px;
+}
+
 .studenth1 h1 {
     margin-bottom: 0px !important;
 }
@@ -52,8 +78,7 @@ h1 {
     padding: 10px 20px;
     float: left;
     width: 90%;
-    background-color: #d9d9d9;
-    background-image: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%);
+    background-color: #efefef;
     text-align: center;
     margin: 5%;
 }
@@ -127,11 +152,10 @@ header .menu {
     width: 100%;
     padding: 10px;
     float: left;
-    background-color: #b1bfd8;
-    background-image: linear-gradient(315deg, #b1bfd8 0%, #6782b4 74%);
+    background-color: #7fa1ff;
     color: #fff;
     font-family: 'Courier New', monospace;
-    border: 3px solid #7795e9;
+    border: 3px solid #727f9f;
     margin-bottom: 20px;
 }
 
@@ -217,7 +241,8 @@ pre.success {
 }
 
 pre {
-    font-size: 150%;
+    text-align: left;
+    white-space: pre-line;
 }
 
 #results-list li {
@@ -279,11 +304,12 @@ input, select, textarea {
     overflow: auto;
 }
 
-.navbar p {
+.navbar p{
     float: left;
     padding: 12px;
     color: white;
     text-decoration: none;
+    text-align: center;
 }
 
 .navbar p:hover, .navbar p:focus {

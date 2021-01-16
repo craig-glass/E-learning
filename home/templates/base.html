@@ -60,6 +60,10 @@
     </div>
 </header>
 
+<div id="navigation" class="navigation-bar">
+    <a href="/">Home</a>/{% block navigation %}{% endblock %}
+</div>
+
 <div id="content" class="container-fluid">
     <div class="row">
         {% block modulebar %}
@@ -72,13 +76,13 @@
                 </a>
             </p>
             <p>
-                <a class="button effect" href="{% url 'student_course_list' %}" style="width: 100%">
+                <a class="button effect" href="{% url 'students:student_course_list' %}" style="width: 100%">
                     <span class="fas fa-book"></span>
                     Courses
                 </a>
             </p>
             <p>
-                <a class="button effect" href="{% url 'announcements' %}" style="width: 100%">
+                <a class="button effect" href="{% url 'announcements:announcements' %}" style="width: 100%">
                     <span class="fab fa-discourse"></span>
                     Announcements
                 </a>
@@ -90,7 +94,7 @@
                 </a>
             </p>
             <p>
-                <a class="button effect" href="/account/profile/{{ user_details.userid }}" style="width: 100%">
+                <a class="button effect" href="{% url 'accounts:account_profile' %}" style="width: 100%">
                     <span class="fas fa-user-circle"></span>
                     Account
                 </a>
@@ -397,24 +401,35 @@
     $(document).ready(function () {
         $('body').find('.navbar').each(function (index, element) {
             $(element).find('p').each(function (index2, element2) {
-                let f = window[$(element2).attr('data-function')];
-                if (index2 === 0) {
-                    $(element2).addClass('active');
-                    if (typeof f === 'function') {
-                        f($(element2).attr('data-value'));
-                    }
-                }
+
                 $(element2).attr('tabindex', '0');
                 $(element2).keypress(function (event) {
                     $(element2).click();
                 });
-                $(element2).on('click', function () {
-                    $(element2).parent('.navbar').find('.active').each(function (index3, element3) {
-                        $(element3).removeClass('active');
+                if ($(element).hasClass('navbar-function-link')) {
+                    $(element2).on('click', function() {
+                        window.location.href = $(element2).attr('data-link');
                     });
-                    $(element2).addClass('active');
-                    f($(element2).attr('data-value'));
-                });
+                } else {
+                    let f = window[$(element2).attr('data-function')];
+                    $(element2).on('click', function () {
+                        $(element2).parent('.navbar').find('.active').each(function (index3, element3) {
+                            $(element3).removeClass('active');
+                        });
+                        $(element2).addClass('active');
+                        f($(element2).attr('data-value'));
+                    });
+                }
+                if ($(element).hasClass('navbar-function-link')) {
+                    if (window.location.pathname === $(element2).attr('data-link')) {
+                        $(element2).addClass('active');
+                    }
+                } else {
+                    if (index2 === 0) {
+                        $(element2).addClass('active');
+                        $(element2).click();
+                    }
+                }
             });
         });
     });

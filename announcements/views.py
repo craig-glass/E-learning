@@ -14,7 +14,10 @@ class AnnouncementList(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         context = {"courses": []}
         if request.user.is_authenticated:
-            context["courses"] = Course.objects.filter(Q(students__in=[request.user]) | Q(owner=request.user))
+            context["courses"] = Course.objects.filter(
+                Q(students__in=[request.user]) | Q(owner=request.user)
+            ).distinct()
+        print(context)
         return render(request, self.template_name, context)
 
 
@@ -29,6 +32,7 @@ class GetAnnouncementsAjax(View):
         context = {"announcements": []}
         for announcement in announcements:
             author = announcement.author.userid
+            print(announcement.author.first_name, announcement.author.last_name, announcement.author.userid)
             if announcement.author.last_name:
                 author += ":" + announcement.author.last_name[0]
                 if announcement.author.first_name:

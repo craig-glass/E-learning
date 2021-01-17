@@ -33,29 +33,38 @@
 <body>
 
 <header>
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-2 col-sm-1 col-md-1 col-lg-1">
-                <a href="/" style="width: 100%; height: 100%">
-                    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+    <div class="" style="display: table; width: 100%; align-content: center">
+        <div style="display: table-cell; vertical-align: middle">
+            <button onclick="location.href='/'" class="image-link image-link-logo"
+                    title="Home"></button>
+        </div>
+        <div style="display: table-cell; width: 100%; vertical-align: middle">
+            <form action="/search/" method="GET" class="search-form">
+                <input id="query-input" type="text" name="query" placeholder="Search...">
+            </form>
+        </div>
+        <div style="overflow: auto; display: table-cell; vertical-align: middle">
+            {% if request.user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="image-link image-link-profile"
+                            title="Account"></button>
+                    <div class="dropdown-list">
+                        <a href="{% url 'accounts:account_profile' %}">
+                            <span class="fas fa-user-circle"></span> Profile
+                        </a>
+                        <a href="{% url 'accounts:account_edit' request.user.userid %}">
+                            <span class="fas fa-cog"></span> Settings
+                        </a>
+                        <a href="{% url 'logout' %}">
+                            <span class="fas fa-sign-out-alt"></span> Sign Out
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" style="float: right; white-space: nowrap">
+                    <span class="far fa-user"></span> Sign In
                 </a>
-            </div>
-            <div class="col-6 col-sm-8 col-md-8 col-lg-8">
-                <form action="/search/" method="GET" class="search-form"
-                      style="float: left; padding-left: 10px; width: 100%">
-                    <input id="query-input" type="text" name="query" placeholder="Search...">
-                </form>
-            </div>
-            <div class="col-4 col-sm-3 col-md-3 col-lg-3">
-                <ul class="menu">
-                    {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'logout' %}"><span class="far fa-user"></span> Sign Out</a></li>
-                    {% else %}
-                        <li><a href="{% url 'login' %}"><span class="far fa-user"></span> Sign In</a></li>
-                    {% endif %}
-                </ul>
-
-            </div>
+            {% endif %}
         </div>
     </div>
 </header>
@@ -91,12 +100,6 @@
                 <a class="button effect" href="{% url 'event_calendar:calendar' %}" style="width: 100%">
                     <span class="fas fa-calendar-week"></span>
                     Calendar
-                </a>
-            </p>
-            <p>
-                <a class="button effect" href="{% url 'accounts:account_profile' %}" style="width: 100%">
-                    <span class="fas fa-user-circle"></span>
-                    Account
                 </a>
             </p>
         </div>
@@ -399,7 +402,8 @@
     }
 
     $(document).ready(function () {
-        $('body').find('.navbar').each(function (index, element) {
+        let body = $('body');
+        body.find('.navbar').each(function (index, element) {
             $(element).find('p').each(function (index2, element2) {
 
                 $(element2).attr('tabindex', '0');
@@ -431,6 +435,19 @@
                     }
                 }
             });
+        });
+
+        body.find('.dropdown').each(function (index, element) {
+            $(element).find('button').on('click', function (index2, element2) {
+                $(element).find('.dropdown-list').toggle();
+            });
+        });
+
+        $(window).click(function (e) {
+            let parent = $(e.target).parents();
+            if (!parent.hasClass('dropdown')) {
+                body.find('.dropdown-list').hide();
+            }
         });
     });
 </script>

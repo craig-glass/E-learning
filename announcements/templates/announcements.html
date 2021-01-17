@@ -4,14 +4,12 @@
 {% block navigation %}
     <a href="{% url 'announcements:announcements' %}">Announcements</a>/
 {% endblock %}
-
-{% block h1 %}
+{% block header %}
     <h1>Announcements</h1>
 {% endblock %}
-{% block content %}
 
-    <!-- Blog Entries Column -->
-    <div class="col-12">
+{% block content %}
+    <div style="padding: 0; width: 100%">
         {% if not courses %}
             <h3>You are not linked to any courses</h3>
         {% else %}
@@ -23,7 +21,7 @@
             </div>
         {% endif %}
         <pre id="response-pre"></pre>
-        <div id="announcement-container">
+        <div id="announcement-container" style="width: 100%">
 
         </div>
     </div>
@@ -39,14 +37,16 @@
         function setAnnouncements(announcements) {
             let container = $('#announcement-container').html('');
             for (let announcement of announcements) {
-                let field = $('<div>');
+                let field = $('<div>').addClass('plain-text-area-container');
                 container.append(field);
-                field.addClass('plain-text-area-container');
-                field.append($('<h4>').text(announcement.title));
+                field.append(
+                    $('<h4>').text(announcement.title)
+                );
                 field.append(
                     $('<pre>')
                         .text(announcement.content)
-                        .addClass('plain-text-area'));
+                        .addClass('plain-text-area')
+                );
                 field.append(
                     $('<p>')
                     .text(announcement.author + " - " + announcement.created)

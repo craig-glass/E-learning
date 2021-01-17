@@ -30,36 +30,43 @@ print("Created Groups")
 admin = Profile.objects.get_or_create_superuser("admin1", "admin1@email.com", "account")[0]
 admin.first_name = "Admin"
 admin.last_name = "The Guy"
+admin.save()
 
 account = Profile.objects.get_or_create_user("u1", "account@email.com", "account")[0]
 account.first_name = "Account"
 account.last_name = "Person"
+account.save()
 
 student1 = Profile.objects.get_or_create_user("u2", "student1@email.com", "account")[0]
 student_group.user_set.add(student1)
 student1.first_name = "Student1"
 student1.last_name = "Person"
+student1.save()
 
 student2 = Profile.objects.get_or_create_user("u3", "student2@email.com", "account")[0]
 student_group.user_set.add(student2)
 student2.first_name = "Student2"
 student2.last_name = "Person"
+student2.save()
 
 student3 = Profile.objects.get_or_create_user("u4", "student3@email.com", "account")[0]
 student_group.user_set.add(student3)
 student3.first_name = "Student3"
 student3.last_name = "Person"
+student3.save()
 
 staff = Profile.objects.get_or_create_user("u5", "staff@email.com", "account")[0]
 staff_group.user_set.add(staff)
 staff.first_name = "Staff"
 staff.last_name = "Person"
+staff.save()
 
 studentstaff = Profile.objects.get_or_create_user("u6", "studentstaff@email.com", "account")[0]
 student_group.user_set.add(studentstaff)
 staff_group.user_set.add(studentstaff)
 studentstaff.first_name = "Studentstaff"
 studentstaff.last_name = "Person"
+studentstaff.save()
 print("Created Users")
 
 # Subject class

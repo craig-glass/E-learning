@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block title %}My Courses{% endblock %}
 {% block navigation %}
     <a href="{% url 'students:student_course_list' %}">Courses</a>/
@@ -9,7 +10,7 @@
 
 {% block content %}
     {% if object_list %}
-        <div class="navbar navbar-function-link">
+        <div class="navbar navbar-side-view navbar-function-link">
             {% for course in object_list %}
                 <p data-link="{% url 'students:student_course_detail' course.id %}">
                     {{ course.title }}

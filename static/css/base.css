@@ -1,6 +1,6 @@
 :root {
     --main-vdark-col: black;
-    --main-dark-col: #1E661E;
+    --main-dark-col: #1e661e;
     --main-light-col: #a7e5a7;
     --main-bg-col: white;
     --main-text-col: var(--main-dark-col);
@@ -370,27 +370,41 @@ input, select, textarea {
     display: table;
     width: 100%;
     align-content: center;
-    background-color: #d9d9d9;
+    background-color: transparent;
     overflow: auto;
     padding: 0;
     margin: 0;
 }
 
+.navbar.navbar-side-view {
+    display: inline-block!important;
+    width: 20%;
+}
+
 .navbar p{
     display: table-cell;
     vertical-align: middle;
-    padding: 12px;
-    margin: 0;
-    color: #ffffff;
-    background-color: var(--main-vdark-col);
     text-decoration: none;
     text-align: center;
+    padding: 12px;
+    margin: 0;
+    color: white;
+    background-color: var(--main-vdark-col);
+    border: 0;
     border-top: 4px solid var(--main-dark-col);
     border-bottom: 4px solid var(--main-dark-col);
 }
 
+.navbar.navbar-side-view p {
+    display: block!important;
+}
+
 .navbar p:hover, .navbar p:focus {
     background-color: var(--main-dark-col);
+}
+
+.navbar p:hover {
+    cursor: pointer;
 }
 
 .navbar .active {

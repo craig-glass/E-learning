@@ -1,22 +1,35 @@
+:root {
+    --main-vdark-col: black;
+    --main-dark-col: #1E661E;
+    --main-light-col: #a7e5a7;
+    --main-bg-col: white;
+    --main-text-col: var(--main-dark-col);
+    --text-area-col: #eaeaea;
+    --text-area-col-hl: lightgray;
+    --text-area-dark-col: #b8b8b8;
+}
+
+html {
+    height: 100%;
+}
 
 body {
-    background: url("../images/cool-background.png") no-repeat center center fixed;
     margin: 0;
+    height: 100%;
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    color: #003366;
+    color: var(--main-vdark-col);
+    background-color: white;
     background-size: cover;
 }
 
-
 a {
-    color: #003366;
+    color: var(--main-dark-col);
     text-decoration: none !important;
 }
 
 ul {
     float: left;
-    font-size: larger;
     text-align: center;
 }
 
@@ -29,12 +42,9 @@ h1 {
     width: 100%;
     overflow: auto;
     padding: 20px 0 20px 40px;
-    margin-bottom: 50px;
-    margin-top: 0;
-    background-color: #e3efe8;
-    background-image: linear-gradient(to right, #e3efe8 0%, #96a7cf 74%);
-    border-bottom: 6px solid #303030;
-
+    margin: 0;
+    border-bottom: 6px solid var(--main-vdark-col);
+    background-color: var(--text-area-dark-col);
 }
 
 /* Dropdown based on: https://www.w3schools.com/howto/howto_js_dropdown.asp */
@@ -87,30 +97,39 @@ h1 {
     background-image: url("/static/images/blank-profile-picture.jpeg");
 }
 
-.navigation-bar {
-    background: #fff3de;
+.breadcrumbs {
+    background: var(--main-light-col);
     border-bottom: 2px solid black;
+    font-size: 1.25em;
+    color: var(--main-dark-col);
 }
 
-.navigation-bar a {
-    font-size: 20px;
+.breadcrumbs a:hover {
+    color: var(--main-vdark-col);
 }
 
 .plain-text-area {
     float: left;
     width: 100%;
-    background-color: #efefef;
-    border-top: 2px solid #36365b;
-    border-bottom: 2px solid #36365b;
+    background-color: var(--text-area-col);
+    border-top: 2px solid var(--main-vdark-col);
+    border-bottom: 2px solid var(--main-vdark-col);
     text-align: left;
+    margin: 0;
+    padding: 0 8px 0 8px;
 }
 
 .plain-text-area-container {
     float: left;
-    width: 90%;
-    background-color: #eae5de;
-    border: 2px solid #e09677;
-    margin: 5px;
+    width: 100%;
+    background-color: var(--main-light-col);
+    border: 2px solid var(--main-vdark-col);
+    margin: 8px 0 8px 0;
+    padding: 0;
+}
+
+.caption {
+
 }
 
 .studenth1 h1 {
@@ -124,36 +143,41 @@ h1 {
     display: inline-block;
 }
 
+.course-info {
+    margin-bottom: 10px;
+    overflow: auto;
+    text-align-last: left;
+}
+
+.course-info a {
+    margin-right: 10px;
+    color: var(--main-dark-col);
+}
+
+.course-info a:hover {
+    color: var(--main-vdark-col);
+}
+
 .module, .profile, .create, #user-details-div {
-    padding: 10px 20px;
     float: left;
-    width: 90%;
+    width: 100%;
     background-color: #efefef;
-    text-align: center;
-    margin: 5%;
+    text-align: left;
 }
 
 .modules {
     padding: 10px 20px;
     float: left;
-    width: 90%;
+    width: 100%;
     background-color: white;
-    text-align: left !important;
-    margin: 5%;
-    margin-top: 0;
     color: black;
-    background-clip: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%);
     border: 2px solid black;
 }
 
-.modules p {
-    text-align: left !important;
-}
-
-
 .module {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: 4px solid var(--main-dark-col);
 }
 
 .module h3 {
@@ -168,11 +192,22 @@ h1 {
     float: left;
 }
 
+.module label {
+    float: none !important;
+    display: block !important;
+}
+
+.module input, textarea, #id_subject {
+    float: none !important;
+    border: 0;
+    padding: 7px 0;
+    border-bottom: 3px solid #ccc;
+}
+
 header {
-    background: url("../images/back.png") no-repeat;
+    background-color: var(--main-dark-col);
     background-size: cover;
     padding: 10px;
-    border-bottom: 6px solid #303030;
 }
 
 .contents {
@@ -276,7 +311,6 @@ pre {
     margin-bottom: 15px;
 }
 
-
 .errorlist {
     color: #ae2c2c;
     margin: 0;
@@ -292,7 +326,7 @@ input, select, textarea {
     border: 1px solid #ccc;
     border-bottom: 3px solid #ccc;
     padding: 8px 12px;
-    font-size: 16px;
+    font-size: 1.2em;
     font-family: 'Courier New', monospace;
     float: left;
     clear: both;
@@ -318,9 +352,10 @@ input, select, textarea {
     box-sizing: border-box;
     border: 2px solid #cccccc;
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: white;
     background-image: url('https://www.w3schools.com/css/searchicon.png');
-    background-position: 10px 10px;
+    background-position-x: 10px;
+    background-position-y: center;
     background-repeat: no-repeat;
     padding: 12px 20px 12px 40px;
     -webkit-transition: width 0.4s ease-in-out;
@@ -332,25 +367,35 @@ input, select, textarea {
 }
 
 .navbar {
+    display: table;
     width: 100%;
-    background-color: #1a5186;
+    align-content: center;
+    background-color: #d9d9d9;
     overflow: auto;
+    padding: 0;
+    margin: 0;
 }
 
 .navbar p{
-    float: left;
+    display: table-cell;
+    vertical-align: middle;
     padding: 12px;
-    color: white;
+    margin: 0;
+    color: #ffffff;
+    background-color: var(--main-vdark-col);
     text-decoration: none;
     text-align: center;
+    border-top: 4px solid var(--main-dark-col);
+    border-bottom: 4px solid var(--main-dark-col);
 }
 
 .navbar p:hover, .navbar p:focus {
-    background-color: #000000;
+    background-color: var(--main-dark-col);
 }
 
-.active {
-    background-color: #7877e5;
+.navbar .active {
+    border-top: 8px solid var(--main-light-col);
+    border-bottom: 8px solid var(--main-light-col);
 }
 
 textarea {
@@ -451,22 +496,6 @@ div.moveable-list-contents div:hover {
     cursor: move;
 }
 
-.course-info {
-    padding: 0 20px;
-    margin-bottom: 10px;
-    overflow: auto;
-    text-align-last: center;
-}
-
-.course-info a {
-    margin-right: 10px;
-    color: #2d6ba7;
-}
-
-.course-info a:hover {
-    color: white;
-}
-
 .helptext {
     color: #ccc;
     padding-left: 20px;
@@ -503,7 +532,6 @@ div.moveable-list-contents div:hover {
 #chat .date {
     color: #aaa;
     font-style: italic;
-    font-size: 12px;
 }
 
 #chat-input {
@@ -530,29 +558,34 @@ div.moveable-list-contents div:hover {
     font-size: 20px;
 }
 
-.sideMenu a:hover {
-    color: black;
+.sideMenu {
+    border-right: 2px solid black;
+    background-color: var(--text-area-col);
+    margin: 0;
+    padding: 0;
 }
 
-.sideMenu p {
+.sideMenu button {
+    width: 100%;
+    padding: 8px 10px;
+    background-color: transparent;
+    color: var(--main-dark-col);
     text-align: left;
-    font-size: 15px;
-}
-
-.module label {
-    float: none !important;
-    display: block !important;
-}
-
-.module input, textarea, #id_subject {
-    float: none !important;
+    font-weight: bolder;
+    margin: 0;
     border: 0;
-    padding: 7px 0;
-    border-bottom: 3px solid #ccc;
+    border-bottom: 1px dotted var(--main-light-col);
+}
+
+.sideMenu button:hover, .sideMenu button:focus {
+    background-color: var(--text-area-col-hl);
+    border-top: 1px;
+    border-color: var(--main-dark-col);
+    border-style: solid;
 }
 
 .button {
-    color: #003366; /* button text color */
+    color: #003366;
     outline: none;
     background: transparent;
     border: none;
@@ -581,14 +614,14 @@ div.moveable-list-contents div:hover {
     right: 0;
     bottom: 0;
     height: 100%;
-    background: #259f6c; /* onhover background color */
+    background: #259f6c;
     z-index: -1;
-    transform: translate3D(0, -100%, 0); /* move elements above button so they don't appear initially */
+    transform: translate3D(0, -100%, 0);
     transition: all .5s;
 }
 
 .button:before {
-    background: #fafcd6; /* button default background color */
+    background: #fafcd6;
     z-index: -2;
     transform: translate3D(0, 0, 0);
 }
@@ -680,10 +713,8 @@ ul.content-types {
 .calendar {
     color: black;
     width: 98%;
-    margin: auto;
-    font-size: 13px;
     background-image: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%);
-    margin-bottom: 130px;
+    margin: auto auto 130px;
 }
 
 .calendar tr, .calendar td {
@@ -693,26 +724,26 @@ ul.content-types {
 .calendar th {
     padding: 10px;
     text-align: center;
-    font-size: 18px;
+    font-size: 1.25em;
 }
 
 .calendar td {
     width: 200px;
     height: 150px;
-    padding: 20px 0px 0px 5px;
+    padding: 20px 0 0 5px;
 }
 
 .month {
-    font-size: 25px;
+    font-size: 1.5em;
 }
 
 .date {
-    font-size: 16px;
+    font-size: 1.1em;
 }
 
 .calendar ul {
     height: 100%;
-    padding: 0px 5px 0px 20px;
+    padding: 0 5px 0 20px;
     float: none !important;
     text-align: center !important;
     list-style: none;
@@ -744,6 +775,11 @@ ul.content-types {
 [class*="col-"] {
     display: flex;
   flex-direction: column;
+}
+
+#main-content {
+    padding: 0;
+    background-color: var(--main-bg-col);
 }
 
 @media (max-width: 576px) {

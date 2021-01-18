@@ -33,7 +33,7 @@
 <body>
 
 <header>
-    <div class="" style="display: table; width: 100%; align-content: center">
+    <div class="" style="display: table; width: 100%">
         <div style="display: table-cell; vertical-align: middle">
             <button onclick="location.href='/'" class="image-link image-link-logo"
                     title="Home"></button>
@@ -49,6 +49,9 @@
                     <button class="image-link image-link-profile"
                             title="Account"></button>
                     <div class="dropdown-list">
+                        <p>
+                            User: {{ request.user.userid }}
+                        </p>
                         <a href="{% url 'accounts:account_profile' %}">
                             <span class="fas fa-user-circle"></span> Profile
                         </a>
@@ -69,43 +72,35 @@
     </div>
 </header>
 
-<div id="navigation" class="navigation-bar">
+<div id="navigation" class="breadcrumbs">
     <a href="/">Home</a>/{% block navigation %}{% endblock %}
 </div>
 
-<div id="content" class="container-fluid">
-    <div class="row">
+<div id="content" class="container-fluid" style="height: 100%">
+    <div class="row" style="height: 100%">
         {% block modulebar %}
         {% endblock %}
-        <div id="side-bar" class="sideMenu col-6 col-sm-4 col-md-3 col-lg-2">
-            <p>
-                <a class="button effect" href="/" style="width: 100%">
-                    <span class="fas fa-home"></span>
-                    Home
-                </a>
-            </p>
-            <p>
-                <a class="button effect" href="{% url 'students:student_course_list' %}" style="width: 100%">
-                    <span class="fas fa-book"></span>
-                    Courses
-                </a>
-            </p>
-            <p>
-                <a class="button effect" href="{% url 'announcements:announcements' %}" style="width: 100%">
-                    <span class="fab fa-discourse"></span>
-                    Announcements
-                </a>
-            </p>
-            <p>
-                <a class="button effect" href="{% url 'event_calendar:calendar' %}" style="width: 100%">
-                    <span class="fas fa-calendar-week"></span>
-                    Calendar
-                </a>
-            </p>
+        <div id="side-bar" class="sideMenu col-6 col-sm-4 col-md-3 col-lg-2" style="height: 100%">
+            <button onclick="location.href = '/'">
+                <span class="fas fa-home"></span>
+                <span>Home</span>
+            </button>
+            <button onclick="location.href = '{% url 'students:student_course_list' %}'">
+                <span class="fas fa-book"></span>
+                Courses
+            </button>
+            <button onclick="location.href = '{% url 'announcements:announcements' %}'">
+                <span class="fab fa-discourse"></span>
+                Announcements
+            </button>
+            <button onclick="location.href = '{% url 'event_calendar:calendar' %}'">
+                <span class="fas fa-calendar-week"></span>
+                Calendar
+            </button>
         </div>
-        <div id="main-content" class="col-6 col-sm-8 col-md-9 col-lg-10">
-            {% block content %}
-            {% endblock %}
+        <div id="main-content" class="col-6 col-sm-8 col-md-9 col-lg-10" style="height: 100%">
+            {% block header %}{% endblock %}
+            {% block content %}{% endblock %}
         </div>
     </div>
 </div>
@@ -411,7 +406,7 @@
                     $(element2).click();
                 });
                 if ($(element).hasClass('navbar-function-link')) {
-                    $(element2).on('click', function() {
+                    $(element2).on('click', function () {
                         window.location.href = $(element2).attr('data-link');
                     });
                 } else {

@@ -64,7 +64,7 @@
                     </div>
                 </div>
             {% else %}
-                <a href="{% url 'login' %}" style="float: right; white-space: nowrap">
+                <a href="{% url 'login' %}" class="header-link">
                     <span class="far fa-user"></span> Sign In
                 </a>
             {% endif %}
@@ -76,11 +76,11 @@
     <a href="/">Home</a>/{% block navigation %}{% endblock %}
 </div>
 
-<div id="content" class="container-fluid" style="height: 100%">
-    <div class="row" style="height: 100%">
+<div id="content" class="container-fluid" style="height:10000px">
+    <div class="row">
         {% block modulebar %}
         {% endblock %}
-        <div id="side-bar" class="sideMenu col-6 col-sm-4 col-md-3 col-lg-2" style="height: 100%">
+        <div id="side-bar" class="sideMenu col-6 col-sm-4 col-md-3 col-lg-2">
             <button onclick="location.href = '/'">
                 <span class="fas fa-home"></span>
                 <span>Home</span>

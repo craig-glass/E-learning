@@ -1,23 +1,33 @@
 :root {
+    /*
+    Key words:
+    vdark - darkest color, used for dark borders and text
+    dark - secondary main color, for darker colored backgrounds and text on light
+    light - primary main color, for lightly colored backgrounds
+    vlight - lightest color, used for light on dark style text and default background
+    hl - highlight for a given color (slight increase in light)
+     */
     --main-vdark-col: black;
-    --main-dark-col: #1e661e;
-    --main-light-col: #a7e5a7;
-    --main-bg-col: white;
+    --main-vdark-col-hl: #1f1f1f;
+    --main-dark-col: #1A2A5B;
+    --main-dark-col-hl: #455687;
+    --main-light-col: #a7b9e5;
+    --main-light-col-hl: #cad4ec;
+    --main-vlight-col: white;
+    --main-vlight-col-hl: white;
+
     --main-text-col: var(--main-dark-col);
+    --bg-col: var(--main-vlight-col);
+
     --text-area-col: #eaeaea;
     --text-area-col-hl: lightgray;
     --text-area-dark-col: #b8b8b8;
 }
 
-html {
-    height: 100%;
-}
-
-body {
+html, body {
     margin: 0;
     height: 100%;
     font-family: 'Courier New', monospace;
-    font-weight: bold;
     color: var(--main-vdark-col);
     background-color: white;
     background-size: cover;
@@ -26,6 +36,10 @@ body {
 a {
     color: var(--main-dark-col);
     text-decoration: none !important;
+}
+
+a:hover {
+    color: var(--main-dark-col-hl);
 }
 
 ul {
@@ -77,6 +91,15 @@ h1 {
 
 .dropdown-list a:hover {
     background-color: #DDDDDD;
+}
+
+.header-link {
+    white-space: nowrap;
+    color: var(--main-vlight-col);
+}
+
+.header-link:hover {
+    color: var(--main-vlight-col-hl);
 }
 
 .image-link {
@@ -388,8 +411,8 @@ input, select, textarea {
     text-align: center;
     padding: 12px;
     margin: 0;
-    color: white;
-    background-color: var(--main-vdark-col);
+    color: var(--main-vdark-col);
+    background-color: var(--main-light-col);
     border: 0;
     border-top: 4px solid var(--main-dark-col);
     border-bottom: 4px solid var(--main-dark-col);
@@ -400,7 +423,7 @@ input, select, textarea {
 }
 
 .navbar p:hover, .navbar p:focus {
-    background-color: var(--main-dark-col);
+    background-color: var(--main-light-col-hl);
 }
 
 .navbar p:hover {
@@ -408,8 +431,15 @@ input, select, textarea {
 }
 
 .navbar .active {
-    border-top: 8px solid var(--main-light-col);
-    border-bottom: 8px solid var(--main-light-col);
+    border-left: 8px solid var(--main-dark-col-hl);
+    border-right: 8px solid var(--main-dark-col-hl);
+    background-color: var(--main-light-col-hl);
+    padding: 12px 4px 12px 4px;
+}
+
+.navbar .active:focus {
+    background-color: var(--main-dark-col-hl);
+    color: var(--main-vlight-col)
 }
 
 textarea {
@@ -575,6 +605,7 @@ div.moveable-list-contents div:hover {
 .sideMenu {
     border-right: 2px solid black;
     background-color: var(--text-area-col);
+    height: 100Vh;
     margin: 0;
     padding: 0;
 }
@@ -793,7 +824,7 @@ ul.content-types {
 
 #main-content {
     padding: 0;
-    background-color: var(--main-bg-col);
+    background-color: var(--bg-col);
 }
 
 @media (max-width: 576px) {

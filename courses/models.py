@@ -148,6 +148,7 @@ class Quiz(models.Model):
                                on_delete=models.CASCADE,
                                related_name='quizzes')
     description = models.TextField()
+    date_created = models.DateTimeField('date created', null=True)
 
     class Meta:
         verbose_name_plural = 'quizzes'
@@ -161,13 +162,18 @@ class Question(models.Model):
                              on_delete=models.CASCADE,
                              related_name='questions')
     number = models.PositiveIntegerField()
-    question = models.TextField()
-    order = OrderField(blank=True, for_fields='quiz')
-    answer = models.TextField()
-
-    class Meta:
-        ordering = ['order']
+    question_text = models.TextField()
 
     def __str__(self):
-        return self.number
+        return str(self.number)
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question,
+                                 on_delete=models.CASCADE,
+                                 related_name='choices')
+    choice_text = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.choice_text
 

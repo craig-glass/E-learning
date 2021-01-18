@@ -2,72 +2,76 @@
 {% load course %}
 
 {% block title %}
-Module {{ module.order|add:1 }}:{{ module.title }}
+    Module {{ module.order|add:1 }}:{{ module.title }}
 {% endblock %}
 {% block content %}
-{% with course=module.course %}
-<h1>Course "{{ course.title }}"</h1>
-<div class="container-fluid">
-<div class="row justify-content-center">
-<div class="col-12 col-md-3 col-centered">
-<div class="contents">
-    <h3>Modules</h3>
-    <ul id="modules">
-        {% for m in course.modules.all %}
-        <li data-id="{{ m.id }}"{% if m == module %}
-        class="selected"{% endif %}>
-        <a href="{% url "module_list" m.id %}">
-            <span>
-                Module<span class="order">
-                {{ m.order|add:1 }}
-            </span>
-            </span>
-            <br>
-            {{ m.title }}
-        </a>
-        </li>
-    {% empty %}
-    <li>No modules yet</li>
-    {% endfor %}
-    </ul>
-</div>
-</div>
+    {% with course=module.course %}
+        <h1>Course "{{ course.title }}"</h1>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-3 col-centered">
+                    <div class="contents">
+                        <h3>Modules</h3>
+                        <ul id="modules">
+                            {% for m in course.modules.all %}
+                                <li data-id="{{ m.id }}"{% if m == module %}
+                                    class="selected"{% endif %}>
+                                    <a href="{% url "module_list" m.id %}">
+                                    <span>
+                                        Module<span class="order">
+                                        {{ m.order|add:1 }}
+                                    </span>
+                                    </span>
+                                        <br>
+                                        {{ m.title }}
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li>No modules yet</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="col-12 col-md-9 ">
-        <p class="buttons">
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "text" %}"><span class="fas fa-spell-check"></span> ADD TEXT</a>
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "image" %}"><span class="fas fa-file-image"></span> ADD IMAGE</a>
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "video" %}"><span class="fas fa-file-video"></span> ADD VIDEO</a>
-        <a class="button effect" href="{% url "assignment_content_create" module.id assignment.id "file" %}"><span class="fas fa-file-alt"></span> ADD FILE</a></p>
+                    <p class="buttons">
+                        <a class="button effect"
+                           href="{% url "assignment_content_create" module.id assignment.id "text" %}"><span
+                                class="fas fa-spell-check"></span> ADD TEXT</a>
+                        <a class="button effect"
+                           href="{% url "assignment_content_create" module.id assignment.id "image" %}"><span
+                                class="fas fa-file-image"></span> ADD IMAGE</a>
+                        <a class="button effect"
+                           href="{% url "assignment_content_create" module.id assignment.id "video" %}"><span
+                                class="fas fa-file-video"></span> ADD VIDEO</a>
+                        <a class="button effect"
+                           href="{% url "assignment_content_create" module.id assignment.id "file" %}"><span
+                                class="fas fa-file-alt"></span> ADD FILE</a></p>
 
 
-
-<div class="module" style="margin-bottom:40px;">
-    <h2>Assignment {{ assignment.order|add:1 }}</h2>
-    <h3>Assignment contents:</h3>
-    <div id="module-contents">
-        {% for content in assignment.contents.all %}
-        <div data-id="{{ content.id }}">
-            {% with item=content.item %}
-            <p>{{ item }}({{ item|model_name }})</p>
-            <a href="{% url "assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
-            {% endwith %}
+                    <div class="module" style="margin-bottom:40px;">
+                        <h2>Assignment {{ assignment.order|add:1 }}</h2>
+                        <h3>Assignment contents:</h3>
+                        <div id="module-contents">
+                            {% for content in assignment.contents.all %}
+                                <div data-id="{{ content.id }}">
+                                    {% with item=content.item %}
+                                        <p>{{ item }}({{ item|model_name }})</p>
+                                        <a href="{% url "assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
+                                    {% endwith %}
+                                </div>
+                            {% empty %}
+                                <p>This assignment has no contents yet</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% empty %}
-    <p>This assignment has no contents yet</p>
-    {% endfor %}
-    </div>
-</div>
-        </div>
-
-</div>
-</div>
-
-
-{% endwith %}
+    {% endwith %}
 {% endblock %}
 {% block domready %}
-$('#modules').sortable({
+    $('#modules').sortable({
     stop: function(event, ui){
     modules_order = {};
     $('#modules').children().each(function(){
@@ -82,9 +86,9 @@ $('#modules').sortable({
     data: JSON.stringify(modules_order)
     });
     }
-});
+    });
 
-$('#module-contents').sortable({
+    $('#module-contents').sortable({
     stop: function(event, ui){
     contents_order = {};
     $('#module-contents').children().each(function(){
@@ -99,5 +103,5 @@ $('#module-contents').sortable({
     data: JSON.stringify(contents_order),
     });
     }
-});
+    });
 {% endblock %}

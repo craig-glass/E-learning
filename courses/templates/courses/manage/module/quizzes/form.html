@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load course %}
+
+{% block title %}
+    {% if object %}
+        Edit content "{{ object.title }}"
+    {% else %}
+        Add new content
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% with course=module.course %}
+        <h1>
+            {{ course.title }}
+        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <div class="contents">
+                        <h3>Modules</h3>
+                        <ul id="modules">
+                            {% for m in course.modules.all %}
+                                <li data-id="{{ m.id }}"{% if m == module %}
+                                    class="selected"{% endif %}>
+                                    <a href="{% url "module_list" m.id %}">
+                                    <span>
+                                        Module<span class="order">
+                                        {{ m.order|add:1 }}
+                                    </span>
+                                    </span>
+                                        <br>
+                                        {{ m.title }}
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li>No modules yet</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-md-9">
+
+                    <div class="module">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {{ form.as_p }}
+                            {% csrf_token %}
+                            <p><input type="submit" value="Save question"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}

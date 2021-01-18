@@ -7,7 +7,6 @@
 {% block content %}
     {% with course=module.course %}
         <h1>Course "{{ course.title }}"</h1>
-
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-3 col-centered">
@@ -31,31 +30,40 @@
                                 <li>No modules yet</li>
                             {% endfor %}
                         </ul>
-                        <p><a href="{% url "course_module_update" course.id %}">
-                            Edit modules
-                        </a></p>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-9">
+                <div class="col-12 col-md-9 ">
 
-                    <div class="module" style="margin-top:0px; margin-bottom:40px;">
-                        <div>
-                            {% for quiz in module.quizzes.all %}
-                                <div>
-                                    <h3>{{ quiz.title }}</h3>
-                                    <p>{{ quiz.description }}</p>
-                                    <a href="{% url 'quiz_edit' module.id quiz.id %}">Edit</a>
+                    <div class="module" style="margin-bottom:40px;">
+                        <h2>Quiz {{ quiz.id }}</h2>
+                        <h3>Questions:</h3>
+                        <div id="module-contents">
+                            {% for question in quiz.questions.all %}
+                                <div id="module-contents">
+                                    <p>{{ question.number }}. {{ question.question_text }}</p>
+                                    {% for choice in question.choices.all %}
+                                        <input type="radio" id="choice{{ choice.id }}" name="choices"
+                                               value="{{ choice.choice_text }}">
+                                        <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label>
+                                    {% empty %}
+                                        <a href="{% url 'add_choices' module.id quiz.id question.id %}">Add Choices</a>
+                                    {% endfor %}
                                 </div>
                             {% empty %}
-                                <p>This module has no quizzes yet</p>
+                                <p>This quiz has no questions yet</p>
                             {% endfor %}
+                            <div id="module-contents">
+                                <a href="{% url 'quiz_questions_create' module.id quiz.id %}">Add Questions</a>
+                            </div>
+
                         </div>
-                        <a href="{% url 'quiz_create' module.id %}"> Create Quizzes</a>
                     </div>
                 </div>
+
             </div>
         </div>
+
     {% endwith %}
 {% endblock %}
 {% block domready %}

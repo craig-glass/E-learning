@@ -5,7 +5,7 @@
 {% endblock %}
 {% block navigation %}
     <a href="{% url 'students:student_course_list' %}">Courses</a>/
-    <a href="{% url 'students:student_course_detail' object.id %}">Modules</a>/
+    <a href="{% url 'students:student_course_detail' object.id %}">Course:{{ course.id }}</a>/
     {% if module %}
         <a href="{% url 'students:student_course_detail_module' object.id module.id %}">Module:{{ module.id }}</a>/
     {% endif %}

@@ -13,7 +13,7 @@
         <div class="navbar navbar-side-view navbar-function-link">
             {% for course in object_list %}
                 <p data-link="{% url 'students:student_course_detail' course.id %}">
-                    {{ course.title }}
+                    Course: {{ course.id }}<br>{{ course.title }}
                 </p>
             {% endfor %}
         </div>

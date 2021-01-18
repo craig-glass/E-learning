@@ -21,7 +21,7 @@
                 {% for m in object.modules.all %}
                     <li data-id="{{ m.id }}"
                         {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'assignments_list_student_view_module' object.id m.id %}">
+                        <a href="{% url 'students:assignments_list_student_view_module' object.id m.id %}">
                             <span>
                                 Module<span class="order">{{ m.order|add:1 }}</span>
                             </span>
@@ -44,7 +44,7 @@
                     <div>
                         <h3>{{ assignment.title }}</h3>
                         <p>{{ assignment.description }}</p>
-                        <a href="{% url 'student_assignment_detail' course.id module.id assignment.id %}">View</a>
+                        <a href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}">View</a>
                     </div>
                 {% empty %}
                     <p>This module has no assignments yet</p>
@@ -63,7 +63,7 @@
     });
     $.ajax({
     type: 'POST',
-    url: '{% url "module_order" %}',
+    url: '{% url "courses:module_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(modules_order)
@@ -80,7 +80,7 @@
 
     $.ajax({
     type: 'POST',
-    url: '{% url "content_order" %}',
+    url: '{% url "courses:content_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(contents_order),

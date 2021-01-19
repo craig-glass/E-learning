@@ -51,6 +51,8 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        for course in qs:
+            print(course, course.students)
         return qs.filter(students__in=[self.request.user])
 
 
@@ -63,14 +65,16 @@ class StudentDetailViewMixin(DetailView):
     model = Course
 
     def get_context_data(self, **kwargs):
+        print(kwargs)
+        print(self.kwargs)
         context = super().get_context_data(**kwargs)
+        print(context)
         course = self.get_object()
         if 'module_id' in self.kwargs:
             context['module'] = course.modules.get(
                 id=self.kwargs['module_id']
             )
-        else:
-            context['module'] = course.modules.all()[0]
+        print(context)
 
         return context
 
@@ -159,7 +163,7 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
                              files=request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.student = request.user
+            obj.student1 = request.user
             obj.assignment = self.assignment
             obj.course = self.course
             obj.submitted_file = request.FILES['submitted_file']

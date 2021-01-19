@@ -3,7 +3,10 @@ from django.http import request
 from . import views
 from django.urls import path
 
+app_name = 'announcements'
+
 urlpatterns = [
-    path('announcements/<pk>/', views.AnnouncementList.as_view(), name='announcements'),
-    path('add_announcement/', views.addAnnouncements, name='add_announcement'),
+    path('view/', views.AnnouncementList.as_view(), name='announcements'),
+    path('add/', views.addAnnouncements, name='add_announcement'),
+    path('getAnnouncementsAjax', views.GetAnnouncementsAjax.as_view()),
 ]

@@ -8,9 +8,9 @@
 
 
                 <div id="sideMenu">
-                    <p><a href="{% url 'course_create' %}" class="button effect"><span
+                    <p><a href="{% url 'courses:course_create' %}" class="button effect"><span
                             class="fas fa-plus-square"></span> Create new course</a></p>
-                    <p><a href="{% url 'add_announcement' %}" class="button effect"><span
+                    <p><a href="{% url 'announcements:add_announcement' %}" class="button effect"><span
                             class="fas fa-plus-square"></span> Add Announcements</a></p>
                     <p><a href="{% url 'event_calendar:event_new' %}" class="button effect"><span
                             class="fas fa-plus-square"></span> Add to Calendar</a></p>
@@ -23,11 +23,11 @@
                         <div class="course-info">
                             <h3>{{ course.title }}</h3>
                             <p>
-                                <a href="{% url 'course_edit' course.id %}">Edit</a>
-                                <a href="{% url 'course_delete' course.id %}">Delete</a>
-                                <a href="{% url 'course_module_update' course.id %}">Edit modules</a>
+                                <a href="{% url 'courses:course_edit' course.id %}">Edit</a>
+                                <a href="{% url 'courses:course_delete' course.id %}">Delete</a>
+                                <a href="{% url 'courses:course_module_update' course.id %}">Edit modules</a>
                                 {% if course.modules.count > 0 %}
-                                    <a href="{% url 'module_list' course.modules.first.id %}">
+                                    <a href="{% url 'courses:module_list' course.modules.first.id %}">
                                         Manage contents
                                     </a>
                                 {% endif %}

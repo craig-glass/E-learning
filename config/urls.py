@@ -17,16 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from courses.views import CourseListView
-from home.views import HomePageView, SearchView
+from home.views import SearchView, CourseListAjax
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('announcements.urls')),
-    path('', include('event_calendar.urls')),
+    path('announcements/', include('announcements.urls')),
+    path('calendar/', include('event_calendar.urls')),
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('search/', SearchView.as_view(), name='search'),
@@ -34,7 +33,8 @@ urlpatterns = [
     path('', include('home.urls')),
     path('students/', include('students.urls')),
     path('account/', include('accounts.urls')),
-    path('', include('home.urls')),
+
+    path('courseListAjax', CourseListAjax.as_view())
 ]
 
 if settings.DEBUG:

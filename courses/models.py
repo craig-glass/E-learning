@@ -173,6 +173,7 @@ class Choice(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='choices')
     choice_text = models.CharField(max_length=100)
+    correct_answer = models.BooleanField(default=False)
 
     def __str__(self):
         return self.choice_text

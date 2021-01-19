@@ -38,22 +38,20 @@
                     <div class="module" style="margin-bottom:40px;">
                         <h2>Quiz {{ quiz.id }}</h2>
                         <h3>Questions:</h3>
-                        <div id="module-contents">
+                        <div>
                             {% for question in quiz.questions.all %}
                                 <div id="module-contents">
                                     <p>{{ question.number }}. {{ question.question_text }}</p>
                                     {% for choice in question.choices.all %}
-                                        <input type="radio" id="choice{{ choice.id }}" name="choices"
-                                               value="{{ choice.choice_text }}">
-                                        <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label>
-                                    {% empty %}
-                                        <a href="{% url 'add_choices' module.id quiz.id question.id %}">Add Choices</a>
+                                        <p>{{ choice.choice_text }}</p>
                                     {% endfor %}
+                                    <br>
+                                    <a href="{% url 'edit_choices' module.id quiz.id question.id %}">Edit Choices</a>
                                 </div>
                             {% empty %}
                                 <p>This quiz has no questions yet</p>
                             {% endfor %}
-                            <div id="module-contents">
+                            <div>
                                 <a href="{% url 'quiz_questions_create' module.id quiz.id %}">Add Questions</a>
                             </div>
 

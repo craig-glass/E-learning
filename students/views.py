@@ -83,6 +83,26 @@ class AssignmentListStudentView(StudentDetailViewMixin):
     template_name = 'students/assignments/list.html'
 
 
+class QuizListStudentView(StudentDetailViewMixin):
+    template_name = 'students/quizzes/list.html'
+
+
+class QuizDetailStudentView(DetailView):
+    model = Course
+    template_name = 'students/quizzes/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.get_object()
+        context['module'] = course.modules.get(
+            id=self.kwargs['module_id']
+        )
+        context['quiz'] = context['module'].quizzes.get(
+            id=self.kwargs['quiz_id']
+        )
+        return context
+
+
 class AssignmentDetailStudentView(DetailView):
     model = Course
     template_name = 'students/assignments/detail.html'

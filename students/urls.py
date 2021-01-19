@@ -33,4 +33,13 @@ urlpatterns = [
     path('assignments/<pk>/<module_id>/<assignment_id>/submission/',
          views.AssignmentSubmissionView.as_view(),
          name='assignment_submission'),
+    path('quizzes/<pk>/',
+         views.QuizListStudentView.as_view(),
+         name='quiz_list_student_view'),
+    path('quizzes/<pk>/<module_id>/',
+         views.QuizListStudentView.as_view(),
+         name='quiz_list_student_view_module'),
+    path('quizzes/<pk>/<module_id>/<quiz_id>/',
+         views.QuizDetailStudentView.as_view(),
+         name='quiz_detail_student_view'),
 ]

@@ -83,6 +83,8 @@
                             class="fab fa-readme"></span> Modules</a></p>
                     <p><a class="button effect" href="{% url 'assignments_list_student_view' course.id %}"><span
                             class="fas fa-pencil-alt"></span> Assignments</a></p>
+                    <p><a class="button effect" href="{% url 'quiz_list_student_view' course.id %}"><span
+                            class="fas fa-pencil-alt"></span> Quizzes</a></p>
                     <p><a class="button effect" href="{% url 'calendar' %}"><span
                             class="fas fa-calendar-week"></span> Calendar</a></p>
                     <p><a class="button effect" href="/account/profile/{{ user_details.userid }}"><span

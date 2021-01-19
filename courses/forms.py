@@ -31,7 +31,8 @@ QuizFormSet = inlineformset_factory(Module,
 ChoiceFormSet = inlineformset_factory(Question,
                                       Choice,
                                       fields=[
-                                          'choice_text'
+                                          'choice_text',
+                                          'correct_answer'
                                       ],
                                       extra=4,
                                       max_num=4)

@@ -58,7 +58,7 @@ urlpatterns = [
          name='quiz_questions_create'),
     path('module/<int:module_id>/quizzes/<int:quiz_id>/<int:question_id>/add_choice/',
          views.AddChoiceView.as_view(),
-         name='add_choices'),
+         name='edit_choices'),
     path('module/order/', views.ModuleOrderView.as_view(),
          name='module_order'),
     path('content/order/', views.ContentOrderView.as_view(),

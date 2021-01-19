@@ -1,56 +1,200 @@
+import datetime
+
 from django.test import TestCase
-from courses.models import Subject, Text, Course
+from accounts.models import Profile
+from courses import models
+from courses.models import Subject, Text, Course, Module, Assignment, Content, ModuleContent, ItemBase
 
 
-class SubjectCase(TestCase):
+class SubjectTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Subject.objects.create(title='Computer Science', slug='slug')
-        pass
+        cls.subject = Subject.objects.create(
+            title='Computer Science',
+            slug='slug'
+        )
 
     def test_title_label(self):
-        subject = Subject.objects.get(id=1)
-        field_label = subject._meta.get_field('title').verbose_name
-        self.assertEqual(field_label, 'title')
+        self.assertEqual(self.subject.title, 'Computer Science')
 
     def test_title_max_length(self):
-        subject = Subject.objects.get(id=1)
-        max_length = subject._meta.get_field('title').max_length
+        max_length = Subject._meta.get_field('title').max_length
         self.assertEqual(max_length, 200)
 
     def test_slug_label(self):
-        subject = Subject.objects.get(id=1)
-        field_label = subject._meta.get_field('slug').verbose_name
-        self.assertEqual(field_label, 'slug')
+        self.assertEqual(self.subject.slug, 'slug')
 
     def test_slug_max_length(self):
-        subject = Subject.objects.get(id=1)
-        max_length = subject._meta.get_field('slug').max_length
+        max_length = Subject._meta.get_field('slug').max_length
         self.assertEqual(max_length, 200)
 
 
-# class TestCourse(TestCase):
-#
-#     @classmethod
-#     def setUpTestData(cls):
-#         Course.objects.create(owner='owner_id', title='t')
-#         pass
-#
-#     def test_title_label(self):
-#         subject = Subject.objects.get(id=1)
-#         field_label = subject._meta.get_field('title').verbose_name
-#         self.assertEqual(field_label, 'title')
-
-
-class TestTextField(TestCase):
+class CourseTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Text.objects.create(content='text', module='')
-        pass
+        cls.course = Course.objects.create(
+            owner=Profile.objects.create(
+                userid='tiger'
+            ),
+            subject=models.Subject.objects.create(
+                title='subject'
+            ),
+            title='course',
+            slug='slug',
+            overview='overview',
+            created=datetime.date.today()
+        )
+
+    def test_owner_label(self):
+        self.assertEqual(self.course.owner.userid, 'tiger')
+
+    def test_subject_label(self):
+        self.assertEqual(self.course.subject.title, 'subject')
+
+    def test_course_title_label(self):
+        self.assertEqual(self.course.title, 'course')
+
+    def test_slug_label(self):
+        self.assertEqual(self.course.slug, 'slug')
+
+    def test_slug_max_length(self):
+        max_length = Course._meta.get_field('slug').max_length
+        self.assertEqual(max_length, 200)
+
+    def test_overview_label(self):
+        self.assertEqual(self.course.overview, 'overview')
+
+    #def test_created(self):
+        # date = timezone.now()
+        # print(date)
+        # print(self.course.created)
+        # self.assertTrue(self.course.created == date)
+
+
+class ModuleTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.module = Module.objects.create(
+            course=Course.objects.create(
+                owner=Profile.objects.create(
+                    userid='tiger',
+                ),
+                subject=Subject.objects.create(
+                    title='subject'
+                ),
+            ),
+            title='title',
+            description='description'
+        )
+
+    def test_title_label(self):
+        self.assertEqual(self.module.title, 'title')
+
+    def test_title_max_length(self):
+        max_length = Module._meta.get_field('title').max_length
+        self.assertEqual(max_length, 200)
+
+    def test_description_label(self):
+        self.assertEqual(self.module.description, 'description')
+
+
+class AssignmentTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.assignment = Assignment.objects.create(
+            module=Module.objects.create(
+                course=Course.objects.create(
+                    owner=Profile.objects.create(
+                        userid='tiger',
+                    ),
+                    subject=Subject.objects.create(
+                        title='subject'
+                    ),
+                ),
+            ),
+
+            title='title',
+            description='description'
+        )
+
+    def test_title_label(self):
+        self.assertEqual(self.assignment.title, 'title')
+
+    def test_title_max_length(self):
+        assign = Assignment.objects.get(id=1)
+        max_length = assign._meta.get_field('title').max_length
+        self.assertEqual(max_length, 200)
+
+    def test_description_label(self):
+        self.assertEqual(self.assignment.description, 'description')
+
+#
+# class ContentTest(TestCase):
+#
+#     @classmethod
+#     def setUpTestData(cls):
+#         cls.content = Content.objects.create(
+#             content_type='text',
+#             object_id='2'
+#         )
+#
+#     def test_content_type(self):
+#         self.assertEqual(self.content.content_type, 'title')
+#
+#     def test_object_id(self):
+#        self.assertEqual(self.content.object_id, '2')
+
+
+class ItemBaseTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.item_base = ItemBase.objects.create(
+            owner=Profile.objects.create(
+                userid='id',
+            ),
+            title='item',
+            created=datetime.date.today(),
+            updated=datetime.date.today()
+        )
+
+    def test_owner_label(self):
+        self.assertEqual(self.item_base.owner.userid, 'id')
+
+    def test_title_label(self):
+        self.assertEqual(self.item_base.title, 'item')
+
+    def test_title_max_length(self):
+        max_length = ItemBase._meta.get_field('title').max_length
+        self.assertEqual(max_length, 200)
+
+    def test_created(self):
+        date = datetime.date.today()
+        print(date)
+        print(self.item_base.created)
+        self.assertTrue(self.item_base.created == date)
+
+    def test_updated(self):
+        date = datetime.date.today()
+        print(date)
+        print(self.item_base.updated)
+        self.assertTrue(self.item_base.updated == date)
+
+
+class TextFieldTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.text = Text.objects.create(
+            content='text',
+            owner=Profile.objects.create(
+                userid='id',
+            )
+        )
 
     def test_text_field(self):
-        content = Text.objects.get(id=1)
-        text_field = content._meta.get_field('content')
-        self.assertEqual(text_field, 'content')
+        self.assertEqual(self.text.content, 'text')

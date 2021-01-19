@@ -1,6 +1,7 @@
 from django.forms import ModelForm, DateInput
 from event_calendar.models import Event
 
+
 class EventForm(ModelForm):
   class Meta:
     model = Event
@@ -19,7 +20,6 @@ class EventForm(ModelForm):
     self.fields['description'].widget.attrs['textarea'] = True
     self.fields['start_time'].widget.attrs['readonly'] = ('%Y-%m-%dT%H:%M',)
     self.fields['end_time'].widget.attrs['readonly'] = ('%Y-%m-%dT%H:%M',)
-
 
 
 class EventNewForm(ModelForm):

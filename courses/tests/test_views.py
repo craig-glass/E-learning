@@ -3,7 +3,7 @@ from django.urls import reverse
 from courses import views
 
 
-class ViewsCase(TestCase):
+class ViewsTest(TestCase):
 
     def test_page_status_code(self):
         response = self.client.get('/course/mine/')

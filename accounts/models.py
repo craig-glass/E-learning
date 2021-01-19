@@ -18,6 +18,13 @@ class ProfileManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def get_or_create_user(self, userid, email, password=None):
+        user = Profile.objects.filter(userid=userid)
+        if user.exists():
+            return user[0], False
+        else:
+            return self.create_user(userid, email, password), True
+
     def create_superuser(self, userid, email, password=None):
         user = self.create_user(
             userid,
@@ -29,6 +36,13 @@ class ProfileManager(BaseUserManager):
         staff_group.user_set.add(user)
         user.save(using=self._db)
         return user
+
+    def get_or_create_superuser(self, userid, email, password=None):
+        user = Profile.objects.filter(userid=userid)
+        if user.exists():
+            return user[0], False
+        else:
+            return self.create_superuser(userid, email, password), True
 
 
 class Profile(AbstractBaseUser, PermissionsMixin):

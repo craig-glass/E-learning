@@ -17,7 +17,7 @@ Module {{ module.order|add:1 }}:{{ module.title }}
         {% for m in course.modules.all %}
         <li data-id="{{ m.id }}"{% if m == module %}
         class="selected"{% endif %}>
-        <a href="{% url "module_list" m.id %}">
+        <a href="{% url "courses:module_list" m.id %}">
             <span>
                 Module<span class="order">
                 {{ m.order|add:1 }}
@@ -31,7 +31,7 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     <li>No modules yet</li>
     {% endfor %}
     </ul>
-<p><a href="{% url "course_module_update" course.id %}">
+<p><a href="{% url "courses:course_module_update" course.id %}">
     Edit modules
 </a></p>
 </div>
@@ -39,22 +39,21 @@ Module {{ module.order|add:1 }}:{{ module.title }}
 
     <div class="col-12 col-md-9">
 
-<div class="module" style="margin-top:0px;">
+<div class="module" style="margin-top:0px; margin-bottom:40px;">
     <div>
         {% for assignment in module.assignments.all %}
         <div>
             <h3>{{ assignment.title }}</h3>
             <p>{{ assignment.description }}</p>
-            <a href="{% url 'assignment_update' module.id assignment.id %}" style="color:white;">Edit</a>
+            <a href="{% url 'courses:assignment_update' module.id assignment.id %}" style="color:white;">Edit</a>
         </div>
     {% empty %}
     <p>This module has no contents yet</p>
     {% endfor %}
     </div>
 </div>
-    </div>
-        <div class="col-12 col-md-9 offset-md-3">
-        <p><a class="button effect" href="{% url 'course_assignment_update' module.id %}">Create Assignment</a></p>
+
+        <p><a class="button effect" href="{% url 'courses:course_assignment_update' module.id %}"><span class="fas fa-plus-square"></span> Create Assignment</a></p>
     </div>
 
 </div>
@@ -71,7 +70,7 @@ $('#modules').sortable({
     });
     $.ajax({
     type: 'POST',
-    url: '{% url "module_order" %}',
+    url: '{% url "courses:module_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(modules_order)
@@ -88,7 +87,7 @@ $('#module-contents').sortable({
 
     $.ajax({
     type: 'POST',
-    url: '{% url "content_order" %}',
+    url: '{% url "courses:content_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(contents_order),

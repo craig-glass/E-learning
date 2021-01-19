@@ -1,15 +1,18 @@
-from django.db import models
-from django.contrib.auth.models import User
-
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
+
+from courses.models import Course
 
 
 class Announcement(models.Model):
     title = models.CharField(max_length=200)
-    author = models.CharField(max_length=50)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     content = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
-    course = models.ForeignKey('courses.Course', on_delete=models.SET_NULL, null=True)
+    course = models.ForeignKey(Course,
+                               on_delete=models.CASCADE,
+                               related_name='announcements')
 
     class Meta:
         ordering = ['-date_created']

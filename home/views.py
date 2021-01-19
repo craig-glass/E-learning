@@ -25,6 +25,23 @@ class SearchView(View):
         return render(request, self.template_name, context)
 
 
+class CourseListAjax(View):
+
+    def post(self, request: HttpRequest) -> JsonResponse:
+        context = {"courses": []}
+        if request.user.is_authenticated and request.user.is_student:
+            for course in Course.objects.filter(students__in=[request.user]):
+                context["courses"].append({
+                    "title": course.title,
+                    "id": course.id,
+                })
+        else:
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        return JsonResponse(context)
+
+
 class QueryAjax(View):
     """Ajax to find records of a given model with fields matching the given query string"""
 

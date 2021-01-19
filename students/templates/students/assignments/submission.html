@@ -40,9 +40,6 @@
                                 <li>No modules yet</li>
                             {% endfor %}
                         </ul>
-                        <p><a href="{% url "courses:course_module_update" course.id %}">
-                            Edit modules
-                        </a></p>
                     </div>
                 </div>
                 <div class="col-12 col-md-9">
@@ -50,14 +47,12 @@
                         <form action="" method="post" enctype="multipart/form-data">
                             {{ form.as_p }}
                             {% csrf_token %}
-                            <button class="button effect" type="submit" value="Save Content"><span
-                                    class="fas fa-check-circle"></span> Save Content
-                            </button>
+                            <button class="button effect" type="submit" value="Submit">Submit Assignment</button>
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
     {% endwith %}
 {% endblock %}
-

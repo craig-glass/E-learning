@@ -159,6 +159,15 @@ h1 {
     margin-bottom: 0 !important;
 }
 
+.loader {
+    border: 6px solid var(--bg-col);
+    border-top: 6px solid var(--main-dark-col);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1.5s linear infinite;
+}
+
 .dot {
     height: 25px;
     width: 25px;
@@ -602,82 +611,53 @@ div.moveable-list-contents div:hover {
     font-size: 20px;
 }
 
-.sideMenu {
-    border-right: 2px solid black;
+.side-menu {
+    display: block;
+    overflow: hidden;
+    border-right: 2px solid var(--main-vdark-col);
     background-color: var(--text-area-col);
     height: 100Vh;
     margin: 0;
     padding: 0;
 }
-
-.sideMenu button {
+.side-menu .side-menu-row-container {
     width: 100%;
-    padding: 8px 10px;
+    display: table;
+}
+
+.side-menu .side-menu-row {
+    width: 100%;
+    display: table-row;
+}
+
+.side-menu .side-menu-column {
+    display: table-cell;
+    width: 100%
+}
+
+.side-menu .side-menu-column.side-menu-dropdown {
+    overflow: auto;
+    width: auto;
+    border-left: 1px dotted var(--main-light-col);
+}
+
+.side-menu a, .side-menu button {
+    display: inline-block;
+    width: 100%;
     background-color: transparent;
     color: var(--main-dark-col);
+    border: 0;
+    border-bottom: 1px dotted var(--main-light-col);
     text-align: left;
     font-weight: bolder;
     margin: 0;
-    border: 0;
-    border-bottom: 1px dotted var(--main-light-col);
-}
-
-.sideMenu button:hover, .sideMenu button:focus {
-    background-color: var(--text-area-col-hl);
-    border-top: 1px;
-    border-color: var(--main-dark-col);
-    border-style: solid;
-}
-
-.button {
-    color: #003366;
-    outline: none;
-    background: transparent;
-    border: none;
-    border-bottom: 4px solid #eee;
-    letter-spacing: 0.0625em;
     padding: 8px 10px;
-    text-transform: uppercase;
-    font-weight: bolder;
-    line-height: 2;
-    position: relative;
-    display: inline-block;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    transition: all .5s;
 }
 
-/* //// Default effect: Slide from Top  //// */
-
-.button:before,
-.button:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    background: #259f6c;
-    z-index: -1;
-    transform: translate3D(0, -100%, 0);
-    transition: all .5s;
-}
-
-.button:before {
-    background: #fafcd6;
-    z-index: -2;
-    transform: translate3D(0, 0, 0);
-}
-
-.button:hover {
-    color: black;
-}
-
-.button:hover:after {
-    transform: translate3D(0, 0, 0);
-    transition: all .5s;
+.side-menu button:hover, .side-menu button:focus,
+.side-menu a:hover, .side-menu a:focus {
+    background-color: var(--text-area-col-hl);
+    border: 1px solid var(--main-dark-col);
 }
 
 .effect:before,
@@ -738,10 +718,6 @@ ul.content-types {
     background-image: linear-gradient(315deg, #e3efe8 0%, #96a7cf 74%) !important;
     border: 2px solid rgba(0, 0, 0, .125) !important;
 
-}
-
-.button a:hover {
-    color: black;
 }
 
 #id_title, #id_author {
@@ -825,6 +801,11 @@ ul.content-types {
 #main-content {
     padding: 0;
     background-color: var(--bg-col);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 576px) {

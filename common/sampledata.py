@@ -188,8 +188,8 @@ Announcement.objects.get_or_create(title="Staff Is A Nerd", author=studentstaff,
                                    content="Nuh uh, Antidisestablishmentarianism is clearly better!")
 Announcement.objects.get_or_create(title="A Disagreement", author=medical_science.owner, course=medical_science,
                                    content="This is not a competition of the better word, rather it is a competition of"
-                                           " length. In this regard pneumonoultramicroscopicsilicovolcanoconiosis is clearly"
-                                           " superior.")
+                                           " length. In this regard pneumonoultramicroscopicsilicovolcanoconiosis is"
+                                           " clearly superior.")
 Announcement.objects.get_or_create(title="Gottem", author=studentstaff, course=medical_science,
                                    content="You're not a competition of the better word!")
 Announcement.objects.get_or_create(title="Warning", author=admin, course=medical_science,
@@ -260,7 +260,8 @@ advanced_anatomy = Module.objects.get_or_create(course=medical_science, title="A
                                                 description="An advanced overview of the human anatomy")[0]
 medical_techniques = Module.objects.get_or_create(course=medical_science, title="Medical Techniques", order=2,
                                                   description="Imma be real with you, I really don't know what subjects"
-                                                              " they do in medical sciences. I'm a programmer not a doctor.")[0]
+                                                              " they do in medical sciences. I'm a programmer not a"
+                                                              " doctor.")[0]
 
 spelling = Module.objects.get_or_create(course=basic_literature, title="Spelling", order=1,
                                         description="Correct spelling and usage of words")[0]
@@ -268,15 +269,15 @@ lord_of_the_flies = Module.objects.get_or_create(course=basic_literature, title=
                                                  description="I swear I've read more books than just this...")[0]
 
 fitness = Module.objects.get_or_create(course=fitness_gram, title="The Fitnessgram Pacer Test", order=1,
-                                       description="The FitnessGram™ Pacer Test is a multistage aerobic capacity test that"
-                                                   " progressively gets more difficult as it continues. The 20 meter pacer"
-                                                   " test will begin in 30 seconds. Line up at the start. The running speed"
-                                                   " starts slowly, but gets faster each minute after you hear this signal."
-                                                   " [beep] A single lap should be completed each time you hear this sound."
-                                                   " [ding] Remember to run in a straight line, and run as long as possible."
-                                                   " The second time you fail to complete a lap before the sound, your test"
-                                                   " is over. The test will begin on the word start. On your mark, get ready,"
-                                                   " start.")[0]
+                                       description="The FitnessGram™ Pacer Test is a multistage aerobic capacity test"
+                                                   " that progressively gets more difficult as it continues. The 20"
+                                                   " meter pacer test will begin in 30 seconds. Line up at the start."
+                                                   " The running speed starts slowly, but gets faster each minute after"
+                                                   " you hear this signal. [beep] A single lap should be completed each"
+                                                   " time you hear this sound. [ding] Remember to run in a straight"
+                                                   " line, and run as long as possible. The second time you fail to"
+                                                   " complete a lap before the sound, your test is over. The test will"
+                                                   " begin on the word start. On your mark, get ready, start.")[0]
 
 knowledge = Module.objects.get_or_create(course=longest_word, title="Now You Know", order=1,
                                          description="Now you know the longest word")[0]

@@ -222,15 +222,12 @@ class QuizSubmissionView(TemplateResponseMixin, View):
                                         'module': module,
                                         'course': course,
                                         'quiz': quiz,
-
                                         'object': self.obj})
 
     def post(self, request, pk, module_id, quiz_id, id=None):
 
         input_names = [name for name in request.POST.keys() if name.startswith('question')]
 
-        print(input_names)
-        print(request.POST)
         if input_names:
             for input_name in input_names:
                 answer = request.POST[input_name]

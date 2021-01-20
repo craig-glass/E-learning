@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse, HttpRequest, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.db.models import Q
 from courses.models import Course, Module
+
+import json
 
 User = get_user_model()
 
@@ -23,6 +25,49 @@ class SearchView(View):
             "models": MODELS.keys(),
         }
         return render(request, self.template_name, context)
+
+
+class CourseListAjax(View):
+
+    def post(self, request: HttpRequest) -> JsonResponse:
+        context = {"nav_links": []}
+        if request.user.is_authenticated and request.user.is_student:
+            for course in Course.objects.filter(students__in=[request.user]):
+                context["nav_links"].append({
+                    "text": course.title,
+                    "context": json.dumps({"course_id": course.id }),
+                    "function": "_loadModuleNavigator",
+                    "ajax": "\moduleListAjax",
+                    "icon": "fas fa-book-open",
+                    "type": "list",
+                })
+        else:
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        return JsonResponse(context)
+
+
+class ModuleListAjax(View):
+
+    def post(self, request: HttpRequest) -> JsonResponse:
+        context = {"nav_links": []}
+        if request.user.is_authenticated and request.user.is_student:
+            for module in Module.objects.filter(course=get_object_or_404(Course, id=request.POST.get('course_id'))):
+                context["nav_links"].append({
+                    "text": module.title,
+                    "context": json.dumps({
+                        "course_id": request.POST.get('course_id'),
+                        "module_id": module.id,
+                    }),
+                    "function": "_loadModuleContentsNavigator",
+                    "type": "list",
+                })
+        else:
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        return JsonResponse(context)
 
 
 class QueryAjax(View):

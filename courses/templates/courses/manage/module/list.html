@@ -18,7 +18,7 @@ Module {{ module.order|add:1 }}:{{ module.title }}
         {% for m in course.modules.all %}
         <li data-id="{{ m.id }}"{% if m == module %}
         class="selected"{% endif %}>
-        <a href="{% url "module_list" m.id %}">
+        <a href="{% url "courses:module_list" m.id %}">
             <span>
                 Module<span class="order">
                 {{ m.order|add:1 }}
@@ -32,15 +32,15 @@ Module {{ module.order|add:1 }}:{{ module.title }}
     <li>No modules yet</li>
     {% endfor %}
     </ul>
-<p><a href="{% url "course_module_update" course.id %}">
+<p><a href="{% url "courses:course_module_update" course.id %}">
     Edit modules
 </a></p>
 </div>
         </div>
 
      <div class="col-12 col-md-9">
-<p><a class="button effect" href="{% url 'module_content_list' module.id %}">Manage Contents</a></p>
-<p><a class="button effect" href="{% url 'assignment_content_list' module.id %}">Manage Assignments</a></p>
+<p style="text-align: center!important;"><a class="button effect" href="{% url 'courses:module_content_list' module.id %}"><span class="fas fa-tasks"></span> Manage Contents</a></p>
+<p style="text-align: center!important;"><a class="button effect" href="{% url 'courses:assignment_content_list' module.id %}"><span class="fas fa-tasks"></span> Manage Assignments</a></p>
 </div>
 </div>
     </div>

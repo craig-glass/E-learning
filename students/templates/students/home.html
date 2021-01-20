@@ -1,34 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Student Home{% endblock %}
 
+{% block h1 %}
+    <h1>
+        Student Home Page
+    </h1>
+{% endblock %}
 {% block content %}
-<h1 style="text-align: center">
-    Student Home Page
-</h1>
 
-<div class="container-fluid">
-<div class="row">
-<div class="col-12 col-md-3">
-
-
-<div id="sideMenu">
-    <p><a class="button effect" href="{% url 'announcements'%}">Announcements</a></p>
-                <p><a class="button effect" href="{% url 'student_course_detail' course.id %}">Modules</a></p>
-                <p><a class="button effect" href="#">Assignments</a></p>
-                <p><a class="button effect" href="{% url 'event_calendar:calendar' %}">Calendar</a></p>
-                <p><a class="button effect" href="#">Account</a></p>
-
-
-</div>
+    <div class="col-12">
+        <div id="studentHome">
+            <p>This is the student homepage/dashboard</p>
+        </div>
     </div>
 
-<div class="col-12 col-md-9">
-<div id="studentHome">
-    <p>This is the student homepage/dashboard</p>
-</div>
-    </div>
-
-
-    </div>
-    </div>
 {% endblock %}

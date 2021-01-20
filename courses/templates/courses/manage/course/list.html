@@ -1,42 +1,45 @@
 {% extends 'base.html' %}
 {% block title %}Courses{% endblock %}
 {% block content %}
-<h1>Courses</h1>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-3">
+    <h1>Courses</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-3">
 
 
-<div id="sideMenu">
-        <p><a href="{% url 'course_create' %}" class="button effect">Create new course</a></p>
-        <p><a href="{% url 'add_announcement'%}" class="button effect">Add Announcements</a></p>
-        <p><a href="{% url 'event_calendar:event_new'%}" class="button effect">Add to Calendar</a></p>
-</div>
-    </div>
+                <div id="sideMenu">
+                    <p><a href="{% url 'courses:course_create' %}" class="button effect"><span
+                            class="fas fa-plus-square"></span> Create new course</a></p>
+                    <p><a href="{% url 'announcements:add_announcement' %}" class="button effect"><span
+                            class="fas fa-plus-square"></span> Add Announcements</a></p>
+                    <p><a href="{% url 'event_calendar:event_new' %}" class="button effect"><span
+                            class="fas fa-plus-square"></span> Add to Calendar</a></p>
+                </div>
+            </div>
 
-        <div class="col-12 col-md-9">
-<div class="module">
-    {% for course in object_list %}
-        <div class="course-info">
-            <h3>{{ course.title }}</h3>
-            <p>
-                <a href="{% url 'course_edit' course.id %}">Edit</a>
-                <a href="{% url 'course_delete' course.id %}">Delete</a>
-                <a href="{% url 'course_module_update' course.id %}">Edit modules</a>
-                {% if course.modules.count > 0 %}
-                <a href="{% url 'module_list' course.modules.first.id %}">
-                    Manage contents
-                </a>
-                {% endif %}
-            </p>
+            <div class="col-12 col-md-9">
+                <div class="module">
+                    {% for course in object_list %}
+                        <div class="course-info">
+                            <h3>{{ course.title }}</h3>
+                            <p>
+                                <a href="{% url 'courses:course_edit' course.id %}">Edit</a>
+                                <a href="{% url 'courses:course_delete' course.id %}">Delete</a>
+                                <a href="{% url 'courses:course_module_update' course.id %}">Edit modules</a>
+                                {% if course.modules.count > 0 %}
+                                    <a href="{% url 'courses:module_list' course.modules.first.id %}">
+                                        Manage contents
+                                    </a>
+                                {% endif %}
+                            </p>
+                        </div>
+                    {% empty %}
+                        <p>You haven't created any courses yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
         </div>
-        {% empty %}
-    <p>You haven't created any courses yet.</p>
-    {% endfor %}
-</div>
-        </div>
-
-
     </div>
-</div>
 {% endblock %}

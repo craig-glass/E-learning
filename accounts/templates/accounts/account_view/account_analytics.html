@@ -1,6 +1,11 @@
 {% extends "accounts/account_view/account_view_base.html" %}
 {% load static %}
 
+{% block navigation %}
+    <a href="{% url 'accounts:account_view' user_details.userid %}">Profile</a>/
+    <a href="{% url 'accounts:account_analytics' user_details.userid %}">Analytics</a>/
+{% endblock %}
+
 {% block account_view_content %}
     <p>{{ user_details.userid }}</p>
     {% if request.user.is_student %}
@@ -95,6 +100,7 @@
                 }
             );
         }
+
         function setCourseProgress(data) {
             setToGraph(
                 document.getElementById('container-course-progress'),
@@ -247,6 +253,7 @@
                 }
             );
         }
+
         /**
          * Query then set owned course graph data for the given course
          * @param course Course id to query data for

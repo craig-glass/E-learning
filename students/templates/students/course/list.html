@@ -1,28 +1,26 @@
 {% extends "base.html" %}
+
 {% block title %}My Courses{% endblock %}
+{% block navigation %}
+    <a href="{% url 'students:student_course_list' %}">Courses</a>/
+{% endblock %}
+{% block header %}
+    <h1>My Courses</h1>
+{% endblock %}
 
 {% block content %}
-<h1>My Courses</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-
-<div class="module">
-    {% for course in object_list %}
-    <div class="course-info">
-        <h3>{{ course.title }}</h3>
-        <p><a href="{% url 'student_home_page' course.id %}">
-            Access contents
-        </a></p>
-    </div>
-    {% empty %}
-    <p>
-        You are not enrolled in any courses yet.
-        <a href="{% url 'course_list' %}">Browse courses</a>
-    </p>
-    {% endfor %}
-</div>
-    </div>
-</div>
-</div>
+    {% if object_list %}
+        <div class="navbar navbar-side-view navbar-function-link">
+            {% for course in object_list %}
+                <p data-link="{% url 'students:student_course_detail' course.id %}">
+                    Course: {{ course.id }}<br>{{ course.title }}
+                </p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>
+            You are not enrolled in any courses yet.
+            <a href="{% url 'courses:course_list' %}">Browse courses</a>
+        </p>
+    {% endif %}
 {% endblock %}

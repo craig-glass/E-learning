@@ -402,9 +402,6 @@
         });
     }
 
-    $(document).ready(function() {
-        $('body').find('.navbar').each(function(index, element) {
-            updateNavbar($(element));
     function loadNavigator(container, manualLinks, doAjax=true) {
         let depth = container.parents('.dropdown-container').length + 1;
         for (let link of manualLinks) {

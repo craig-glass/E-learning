@@ -1,4 +1,7 @@
-from django.contrib.auth.models import Group, Permission
+import random
+import datetime
+
+from django.contrib.auth.models import Permission
 
 from accounts.models import *
 from announcements.models import *
@@ -295,77 +298,97 @@ knowledge = Module.objects.get_or_create(course=longest_word, title="Now You Kno
 print("Created Modules")
 
 # Assignment class DEPENDS ON module
-Assignment.objects.get_or_create(module=arithmetic, title="Basic sums", order=1,
-                                 description="What is 420 - 69?")
+arithmetic_a1 = Assignment.objects.get_or_create(module=arithmetic, title="Basic sums", order=1,
+                                                 description="What is 420 - 69?")[0]
+arithmetic_a2 = Assignment.objects.get_or_create(module=arithmetic, title="Less basic sums", order=2,
+                                                 description="What is 69 - 420?")[0]
+arithmetic_a3 = Assignment.objects.get_or_create(module=arithmetic, title="Lesserer basic sums", order=2,
+                                                 description="What is 4(92-36(528*14-1+1)-(16+2e))+1?")[0]
 
-Assignment.objects.get_or_create(module=trigonometry, title="Pythagoras", order=1,
-                                 description="Basically the only thing we do")
+trigonometry_a1 = Assignment.objects.get_or_create(module=trigonometry, title="Pythagoras", order=1,
+                                                   description="What is Pythagoras' theorem?")[0]
+trigonometry_a2 = Assignment.objects.get_or_create(module=trigonometry, title="Basic Trig", order=1,
+                                                   description="")[0]
 
-Assignment.objects.get_or_create(module=algebra, title="Simple algebra", order=1,
-                                 description="Given x = 20y - 4 and y = 16x, find x.")
+algebra_a1 = Assignment.objects.get_or_create(module=algebra, title="Simple algebra", order=1,
+                                              description="Given x = 20y - 4 and y = 16x, find x.")[0]
 
-Assignment.objects.get_or_create(module=calculus, title="Differentiation", order=1,
-                                 description="What is the derivation of y = 10(21x^2 + 6.9x) + 1")
+calculus_a1 = Assignment.objects.get_or_create(module=calculus, title="Differentiation", order=1,
+                                               description="What is the derivation of y = 10(21x^2 + 6.9x) + 1")[0]
 
-Assignment.objects.get_or_create(module=statistics, title="String", order=1,
-                                 description="How long is this piece of string?")
+statistics_a1 = Assignment.objects.get_or_create(module=statistics, title="String", order=1,
+                                                 description="How long is this piece of string?")[0]
 
-Assignment.objects.get_or_create(module=sets, title="Subsets?", order=1,
-                                 description="Set the subset of this set's sets to set setting sets in sets")
+sets_a1 = Assignment.objects.get_or_create(module=sets, title="Subsets?", order=1,
+                                           description="Set the subset of this set's"
+                                                       " sets to set setting sets in sets")[0]
 
-Assignment.objects.get_or_create(module=python, title="Who knows?", order=1,
-                                 description="Surprise me")
+python_a1 = Assignment.objects.get_or_create(module=python, title="Who knows?", order=1,
+                                             description="Surprise me")[0]
 
-Assignment.objects.get_or_create(module=java, title="Coffee", order=1,
-                                 description="Get me a cup of coffee. This will be on your exam.")
+java_a1 = Assignment.objects.get_or_create(module=java, title="Coffee", order=1,
+                                           description="Get me a cup of coffee. This will be on your exam.")[0]
 
-Assignment.objects.get_or_create(module=architecture, title="Build it", order=1,
-                                 description="Build a computer. A whole computer.")
+architecture_a1 = Assignment.objects.get_or_create(module=architecture, title="Build it", order=1,
+                                                   description="Build a computer. A whole computer.")[0]
 
-Assignment.objects.get_or_create(module=boglogy, title="Wot", order=1,
-                                 description="Wot izza hoomin bean??!")
+boglogy_a1 = Assignment.objects.get_or_create(module=boglogy, title="Wot", order=1,
+                                              description="Wot izza hoomin bean??!")[0]
 
-Assignment.objects.get_or_create(module=physik, title="Hou", order=1,
-                                 description="Hou blok do da floor smashing?!?")
+physik_a1 = Assignment.objects.get_or_create(module=physik, title="Hou", order=1,
+                                             description="Hou blok do da floor smashing?!?")[0]
 
-Assignment.objects.get_or_create(module=dru__, title="Brooooooo", order=1,
-                                 description="Like, what is up my dude. My main man. My primary individual.")
+dru___a1 = Assignment.objects.get_or_create(module=dru__, title="Brooooooo", order=1,
+                                            description="Like, what is up my dude. My main man."
+                                                        " My primary individual.")[0]
 
-Assignment.objects.get_or_create(module=astrophysics, title="Newton", order=1,
-                                 description="Name each of Newton's laws of motion")
+astrophysics_a1 = Assignment.objects.get_or_create(module=astrophysics, title="Newton", order=1,
+                                                   description="Name each of Newton's laws of motion")[0]
 
-Assignment.objects.get_or_create(module=quantum_mechanics, title="Quarks", order=1,
-                                 description="Name each of the quarks")
+quantum_mechanics_a1 = Assignment.objects.get_or_create(module=quantum_mechanics, title="Quarks", order=1,
+                                                        description="Name each of the quarks")[0]
 
-Assignment.objects.get_or_create(module=what, title="Umm", order=1,
-                                 description="Read chapter 1 I guess?")
+what_a1 = Assignment.objects.get_or_create(module=what, title="Umm", order=1,
+                                           description="Read chapter 1 I guess?")[0]
 
-Assignment.objects.get_or_create(module=human_body, title="Assignment 1", order=1,
-                                 description="Given x=27, y=19x-27z^2, z=14x^3-y, what is the surface area of the Sun?")
+human_body_a1 = Assignment.objects.get_or_create(module=human_body, title="Assignment 1", order=1,
+                                                 description="Given x=19x-27z^2, the speed of light c=300Mm/s, and the"
+                                                             " melting point of ice m0=273.15K"
+                                                             " what is the surface area of the Sun?")[0]
 
-Assignment.objects.get_or_create(module=genealogy, title="Ancestry", order=1,
-                                 description="Where are my parents?")
+genealogy_a1 = Assignment.objects.get_or_create(module=genealogy, title="Ancestry", order=1,
+                                                description="Where are my parents?")[0]
 
-Assignment.objects.get_or_create(module=advanced_anatomy, title="Crab", order=1,
-                                 description="Dissect the stomatogastric ganglion from this crab.")
+advanced_anatomy_a1 = Assignment.objects.get_or_create(module=advanced_anatomy, title="Crab", order=1,
+                                                       description="Dissect the stomatogastric ganglion"
+                                                                   " from this crab.")[0]
 
-Assignment.objects.get_or_create(module=medical_techniques, title="Qualifications", order=1,
-                                 description="I am not qualified to even try make a question for this")
+medical_techniques_a1 = Assignment.objects.get_or_create(module=medical_techniques, title="Qualifications", order=1,
+                                                         description="I am not qualified to even try"
+                                                                     " make a question for this")[0]
 
-Assignment.objects.get_or_create(module=spelling, title="Spelling test", order=1,
-                                 description="Spell this word (book).")
+spelling_a1 = Assignment.objects.get_or_create(module=spelling, title="Spelling test", order=1,
+                                               description="Spell this word (book).")[0]
 
-Assignment.objects.get_or_create(module=lord_of_the_flies, title="Analysis", order=1,
-                                 description="Describe the phallic nature of the pink rocks.")
+lord_of_the_flies_a1 = Assignment.objects.get_or_create(module=lord_of_the_flies, title="Analysis", order=1,
+                                                        description="Describe the phallic nature of the pink rocks.")[0]
 
-Assignment.objects.get_or_create(module=fitness, title="Do a front flip", order=1,
-                                 description="Maybe not. I hear it's kinda dangerous. Do a back flip instead")
-Assignment.objects.get_or_create(module=fitness, title="Do a back flip", order=2,
-                                 description="These are perfectly safe")
+fitness_a1 = Assignment.objects.get_or_create(module=fitness, title="Do a front flip", order=1,
+                                              description="Maybe not. I hear it's kinda dangerous."
+                                                          " Do a back flip instead")[0]
+fitness_a2 = Assignment.objects.get_or_create(module=fitness, title="Do a back flip", order=2,
+                                              description="These are perfectly safe")[0]
 
-Assignment.objects.get_or_create(module=summit, title="Do a funny dance", order=1,
-                                 description="Make me laugh.")
+summit_a1 = Assignment.objects.get_or_create(module=summit, title="Do a funny dance", order=1,
+                                             description="Make me laugh.")[0]
 
-Assignment.objects.get_or_create(module=knowledge, title="Know", order=1,
-                                 description="Show you know what you know.")
+knowledge_a1 = Assignment.objects.get_or_create(module=knowledge, title="Know", order=1,
+                                                description="Show you know what you know.")[0]
 print("Created Assignments")
+
+for student in (s for s in Profile.objects.all() if s.is_student):
+    for assignment in Assignment.objects.all():
+        Grade.objects.get_or_create(student=student, assignment=assignment, grade=random.randint(0, 100),
+                                    time_taken=datetime.time(random.randint(0, 2), random.randint(0, 59)),
+                                    teacher=assignment.module.course.owner)
+print("Assigned Grades")

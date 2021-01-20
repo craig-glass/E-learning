@@ -1,5 +1,4 @@
-import datetime
-
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -158,7 +157,11 @@ class Grade(models.Model):
     #                          on_delete=models.PROTECT,
     #                          null=True,
     #                          blank=True)
+
     grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+    time_taken = models.TimeField(null=True)
+
+    date_submitted = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
-        return self.grade
+        return f'{self.assignment}:{self.student}:{self.grade}'

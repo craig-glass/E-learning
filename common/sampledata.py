@@ -218,7 +218,7 @@ print("Created Announcements")
 # Module class DEPENDS ON Course
 arithmetic = Module.objects.get_or_create(course=core_maths, title="Arithmetic", order=1,
                                           description="Basic numbers and arithmetic operations")[0]
-trigonometry = Module.objects.get_or_create(course=core_maths, title="Arithmetic", order=2,
+trigonometry = Module.objects.get_or_create(course=core_maths, title="Trigonometry", order=2,
                                             description="Basically just pythagoras' theorem")[0]
 
 algebra = Module.objects.get_or_create(course=advanced_maths, title="Algebra", order=1,
@@ -392,8 +392,9 @@ start = timezone.datetime(2020, 9, 16, tzinfo=pytz.UTC)
 end = timezone.now()
 for student in (s for s in Profile.objects.all() if s.is_student):
     for assignment in Assignment.objects.all():
-        rdate = start + timezone.timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
-        Grade.objects.get_or_create(student=student, assignment=assignment, grade=random.randint(0, 100),
-                                    time_taken=datetime.time(random.randint(0, 2), random.randint(0, 59)),
-                                    teacher=assignment.module.course.owner, date_submitted=rdate)
+        if random.random() > 0.2:
+            rdate = start + timezone.timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
+            Grade.objects.get_or_create(student=student, assignment=assignment, grade=random.randint(0, 100),
+                                        time_taken=datetime.time(random.randint(0, 2), random.randint(0, 59)),
+                                        teacher=assignment.module.course.owner, date_submitted=rdate)
 print("Assigned Grades")

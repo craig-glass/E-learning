@@ -182,7 +182,6 @@ class QuizSubmissionView(TemplateResponseMixin, View):
     module = None
     course = None
     quiz = None
-
     obj = None
     template_name = 'students/quizzes/detail.html'
 
@@ -192,15 +191,12 @@ class QuizSubmissionView(TemplateResponseMixin, View):
 
     def dispatch(self, request, pk, module_id, quiz_id, id=None):
         self.quiz = get_object_or_404(Quiz,
-                                      id=quiz_id,
-                                      )
+                                      id=quiz_id)
         self.module = get_object_or_404(Module,
                                         id=module_id,
                                         course__owner=request.user)
         self.course = get_object_or_404(Course,
-                                        id=pk,
-                                        )
-
+                                        id=pk)
         self.model = self.get_model()
         if id:
             self.obj = get_object_or_404(self.model,
@@ -218,8 +214,7 @@ class QuizSubmissionView(TemplateResponseMixin, View):
         course = get_object_or_404(Course,
                                    id=pk)
 
-        return self.render_to_response({
-                                        'module': module,
+        return self.render_to_response({'module': module,
                                         'course': course,
                                         'quiz': quiz,
                                         'object': self.obj})

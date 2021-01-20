@@ -9,21 +9,21 @@ from students.models import *
 
 # Run using ./manage.py shell < common/sampledata.py
 
+print("Starting...")
 # Define groups
-student_group, created, = Group.objects.get_or_create(name="student")
-if created:
-    pass
+student_permissions = []
+student_group = Group.objects.get_or_create(name="student")[0]
+for permission in student_permissions:
+    student_group.permissions.add(Permission.objects.get(codename=permission))
 
-staff_group, created, = Group.objects.get_or_create(name="staff")
-if created:
-    staff_group.permissions.add(Permission.objects.get("accounts.add_profile"))
-    staff_group.permissions.add(Permission.objects.get("accounts.change_profile"))
-    staff_group.permissions.add(Permission.objects.get("accounts.delete_profile"))
-    staff_group.permissions.add(Permission.objects.get("accounts.view_profile"))
-
-    staff_group.permissions.add(Permission.objects.get("accounts.can_accept_accountsubmission"))
-    staff_group.permissions.add(Permission.objects.get("accounts.can_reject_accountsubmission"))
-    staff_group.permissions.add(Permission.objects.get("accounts.can_add_accountsubmission"))
+staff_permissions = [
+    "add_profile", "change_profile", "delete_profile", "view_profile",
+    "can_accept", "can_reject",
+    "can_add"
+]
+staff_group = Group.objects.get_or_create(name="staff")[0]
+for permission in staff_permissions:
+    staff_group.permissions.add(Permission.objects.get(codename=permission))
 print("Created Groups")
 
 # Profile class (Auth user)

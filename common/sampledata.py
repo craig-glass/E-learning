@@ -278,6 +278,17 @@ fitness = Module.objects.get_or_create(course=fitness_gram, title="The Fitnessgr
                                                    " line, and run as long as possible. The second time you fail to"
                                                    " complete a lap before the sound, your test is over. The test will"
                                                    " begin on the word start. On your mark, get ready, start.")[0]
+summit = Module.objects.get_or_create(course=fitness_gram, title="Not The Fitnessgram Pacer Test", order=2,
+                                      description="This is not the FitnessGram™ Pacer Test."
+                                                  " A multistage aerobic capacity test"
+                                                  " that progressively gets more difficult as it continues. The 20"
+                                                  " meter pacer test will begin in 30 seconds. Line up at the start."
+                                                  " The running speed starts slowly, but gets faster each minute after"
+                                                  " you hear this signal. [beep] A single lap should be completed each"
+                                                  " time you hear this sound. [ding] Remember to run in a straight"
+                                                  " line, and run as long as possible. The second time you fail to"
+                                                  " complete a lap before the sound, your test is over. The test will"
+                                                  " begin on the word start. On your mark, get ready, start.")[0]
 
 knowledge = Module.objects.get_or_create(course=longest_word, title="Now You Know", order=1,
                                          description="Now you know the longest word")[0]
@@ -349,6 +360,11 @@ Assignment.objects.get_or_create(module=lord_of_the_flies, title="Analysis", ord
 
 Assignment.objects.get_or_create(module=fitness, title="Do a front flip", order=1,
                                  description="Maybe not. I hear it's kinda dangerous. Do a back flip instead")
+Assignment.objects.get_or_create(module=fitness, title="Do a back flip", order=2,
+                                 description="These are perfectly safe")
+
+Assignment.objects.get_or_create(module=summit, title="Do a funny dance", order=1,
+                                 description="Make me laugh.")
 
 Assignment.objects.get_or_create(module=knowledge, title="Know", order=1,
                                  description="Show you know what you know.")

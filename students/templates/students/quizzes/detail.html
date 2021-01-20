@@ -42,15 +42,16 @@
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for question in quiz.questions.all %}
-                    <form action="" method="post" name="radioform">
-                    <p>{{ question.number }}. {{ question.question_text }}</p>
 
+                    <p>{{ question.number }}. {{ question.question_text }}</p>
+                    <form action="" method="post">
                     {% csrf_token %}
                         {% for choice in question.choices.all %}
                             <p>
-                                <input type="radio" id="choice{{ choice.id }}" name="question{{ question.id }}"
-                                       value="{{ choice.choice_text }}">
-                                <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label>
+                                <input type="radio" id="choice-{{ choice.id }}" name="question-{{ question.id }}"
+                                       value="{{ choice.choice_text }}" required="required">
+                                <label for="{{ choice.id }}">{{ choice.choice_text }}</label>
+
                             </p>
 
                         {% endfor %}

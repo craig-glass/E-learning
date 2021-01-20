@@ -10,4 +10,5 @@ class CourseEnrollForm(forms.Form):
                                     widget=forms.HiddenInput)
 
 
-
+class QuizAnswerForm(forms.Form):
+    answer = forms.CharField()

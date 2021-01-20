@@ -31,4 +31,4 @@ class QuizAnswer(models.Model):
     is_correct = models.BooleanField(default=None)
 
     def __str__(self):
-        return self.quiz, 'answer'
+        return self.quiz.title, 'answer'

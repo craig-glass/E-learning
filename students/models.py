@@ -1,6 +1,6 @@
 from django.db import models
 from config import settings
-from courses.models import Assignment, Course, Quiz
+from courses.models import Assignment, Course, Quiz, Question
 
 
 class AssignmentSubmission(models.Model):
@@ -16,23 +16,19 @@ class AssignmentSubmission(models.Model):
     submitted_file = models.FileField(upload_to='submitted_assignments')
 
 
-class QuizSubmission(models.Model):
+class QuizAnswer(models.Model):
     quiz = models.ForeignKey(Quiz,
                              on_delete=models.CASCADE,
-                             )
+                             related_name='answers',
+                             default=None)
     student = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.quiz, 'submission'
-
-
-class QuizAnswer(models.Model):
-    quiz_submission = models.ForeignKey(QuizSubmission,
-                                        on_delete=models.CASCADE,
-                                        related_name='answers')
+                                on_delete=models.CASCADE,
+                                default=None)
     answer = models.CharField(max_length=50)
+    question = models.ForeignKey(Question,
+                                 on_delete=models.CASCADE,
+                                 default=None)
+    is_correct = models.BooleanField(default=None)
 
     def __str__(self):
-        return self.quiz_submission, 'answer'
-
+        return self.quiz, 'answer'

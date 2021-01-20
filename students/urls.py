@@ -40,6 +40,6 @@ urlpatterns = [
          views.QuizListStudentView.as_view(),
          name='quiz_list_student_view_module'),
     path('quizzes/<pk>/<module_id>/<quiz_id>/',
-         views.QuizDetailStudentView.as_view(),
+         views.QuizSubmissionView.as_view(),
          name='quiz_detail_student_view'),
 ]

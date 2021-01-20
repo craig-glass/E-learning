@@ -21,7 +21,7 @@
                 {% for m in course.modules.all %}
                     <li data-id="{{ m.id }}"
                         {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'quiz_list_student_view' object.id %}">
+                        <a href="{% url 'quiz_list_student_view_module' course.id m.id %}">
                             <span>
                                 Module<span class="order">{{ m.order|add:1 }}</span>
                             </span>
@@ -40,17 +40,24 @@
 
         <div id="module-content">
             <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for question in quiz.questions.all %}
-                <p>{{ question.number }}. {{ question.question_text }}</p>
+                {% csrf_token %}
+                {% for question in quiz.questions.all %}
+                    <form action="" method="post" name="radioform">
+                    <p>{{ question.number }}. {{ question.question_text }}</p>
 
-                {% for choice in question.choices.all %}
-                    <p><input type="radio" id="choice{{ choice.id }}" name="choices{{ question.id }}"
-                           value="{{ choice.choice_text }}"><label for="choice{{ choice.id }}">{{ choice.choice_text }}</label>
-                    </p>
+                    {% csrf_token %}
+                        {% for choice in question.choices.all %}
+                            <p>
+                                <input type="radio" id="choice{{ choice.id }}" name="question{{ question.id }}"
+                                       value="{{ choice.choice_text }}">
+                                <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label>
+                            </p>
+
+                        {% endfor %}
+                        <button type="submit">Submit</button>
+                    </form>
                 {% endfor %}
-            {% endfor %}
-            <button type="submit">Submit</button>
+
             </form>
         </div>
     </div>

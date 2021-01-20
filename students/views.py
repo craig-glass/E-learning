@@ -7,7 +7,11 @@ from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.apps import apps
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic.base import TemplateResponseMixin, View
 
+from courses.models import Quiz, Module, Course, Question
 from config import settings
 from .forms import CourseEnrollForm
 from django.views.generic.list import ListView
@@ -85,22 +89,6 @@ class AssignmentListStudentView(StudentDetailViewMixin):
 
 class QuizListStudentView(StudentDetailViewMixin):
     template_name = 'students/quizzes/list.html'
-
-
-class QuizDetailStudentView(DetailView):
-    model = Course
-    template_name = 'students/quizzes/detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        course = self.get_object()
-        context['module'] = course.modules.get(
-            id=self.kwargs['module_id']
-        )
-        context['quiz'] = context['module'].quizzes.get(
-            id=self.kwargs['quiz_id']
-        )
-        return context
 
 
 class AssignmentDetailStudentView(DetailView):
@@ -185,5 +173,67 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
             obj.submitted_file = request.FILES['submitted_file']
             obj.save()
             return redirect('student_assignment_detail', self.course.id, self.module.id, self.assignment.id)
+        return self.render_to_response({'form': form,
+                                        'object': self.obj})
+
+
+class QuizSubmissionView(TemplateResponseMixin, View):
+    model = None
+    module = None
+    course = None
+    quiz = None
+    obj = None
+    template_name = 'students/quizzes/detail.html'
+
+    def get_model(self):
+        return apps.get_model(app_label='students',
+                              model_name='QuizAnswer')
+
+    def get_form(self, request):
+        return request.POST.get('radioform')
+
+    def dispatch(self, request, pk, module_id, quiz_id, id=None):
+        self.quiz = get_object_or_404(Quiz,
+                                      id=quiz_id,
+                                      )
+        self.module = get_object_or_404(Module,
+                                        id=module_id,
+                                        course__owner=request.user)
+        self.course = get_object_or_404(Course,
+                                        id=pk,
+                                        )
+        self.model = self.get_model()
+        if id:
+            self.obj = get_object_or_404(self.model,
+                                         id=id,
+                                         owner=request.user)
+        return super().dispatch(request, pk, module_id, quiz_id, id)
+
+    def get(self, request, pk, module_id, quiz_id, id=None):
+
+        module = get_object_or_404(Module,
+                                   id=module_id,
+                                   course__owner=request.user)
+        quiz = get_object_or_404(Quiz,
+                                 id=quiz_id)
+        course = get_object_or_404(Course,
+                                   id=pk)
+        return self.render_to_response({
+                                        'module': module,
+                                        'course': course,
+                                        'quiz': quiz,
+                                        'object': self.obj})
+
+    def post(self, request, pk, module_id, quiz_id, id=None):
+
+        print("Request.post = " + str(request.POST))
+        form = self.get_form(request)
+        if form.is_valid:
+            obj = form.save(commit=False)
+            obj.quiz = self.quiz
+            obj.answer = request.POST.get(id)
+            obj.student = request.user
+            obj.question = self.quiz.questions.get(id)
+            return redirect('quiz_submission_view', self.course.id, self.module.id, self.quiz.id)
         return self.render_to_response({'form': form,
                                         'object': self.obj})

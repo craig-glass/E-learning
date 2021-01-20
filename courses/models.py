@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -178,3 +179,17 @@ class Choice(models.Model):
     def __str__(self):
         return self.choice_text
 
+
+class Grades(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.PROTECT,
+                                related_name='grades')
+    teacher = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.PROTECT,
+                                )
+    assignment = models.ForeignKey(Assignment,
+                                   on_delete=models.PROTECT)
+    grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+
+    def __str__(self):
+        return self.grade

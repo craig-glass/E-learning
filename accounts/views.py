@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 
-from courses.models import Course, Module, Subject, Assignment
+from courses.models import Course, Module, Subject, Assignment, Grade
 from .forms import UserUpdateForm, CourseRegisterForm
 
 User = get_user_model()
@@ -165,31 +165,26 @@ class RegisteredCourseAnalyticsAjax(View):
         if response:
             return response
         course = Course.objects.get(id=request.POST.get('course'))
-        import random
-        import datetime
-        random.seed(request.POST['course'])
-        context = {}
-        am_data = [random.randint(0, 100) for _ in range(random.randint(30, 40))]
-        # am_data = [100 * i / 40 for i in range(41)]
 
-        am_label = [
-            datetime.date(2020, 9, 10) + random.random() * (datetime.date(2021, 7, 10) - datetime.date(2020, 9, 10))
-            for _ in range(len(am_data))
-        ]
+        context = {}
         if account.is_student:
-            # TODO use real data
+            # Graph all grades for provided account and course
+            assignment_marks = Grade.objects.filter(student=account, assignment__module__course=course)\
+                .order_by('date_submitted')
             context['assignment_marks'] = {
-                "data": am_data,
-                "label": sorted(am_label),
+                "data": [mark.grade for mark in assignment_marks],
+                "label": [mark.date_submitted for mark in assignment_marks],
                 "color": {
                     "type": "gradient",
                     "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
                 }
             }
-            x = random.randint(1, 100)
-            # TODO use real data
+            # Graph number of assignments completed against total number of assignments for course
+            total = Assignment.objects.filter(module__course__students__in=[account], module__course=course)
+            completed = total.filter(grade__student=account)
+            num_completed = completed.count()
             context['course_progress'] = {
-                "data": [x, 100 - x],
+                "data": [num_completed, total.count() - num_completed],
                 "label": ["completed", "uncompleted"],
                 "color": {
                     "type": "list",
@@ -199,12 +194,13 @@ class RegisteredCourseAnalyticsAjax(View):
 
             context['module_progress'] = []
             for module in Module.objects.filter(course=course):
-                x = random.randint(1, 100)
-                # TODO use real data
+                total = Assignment.objects.filter(module__course__students__in=[account], module=module)
+                completed = total.filter(grade__student=account)
+                num_completed = completed.count()
                 context['module_progress'].append(
                     {
                         "data": {
-                            "data": [x, 100 - x],
+                            "data": [num_completed, total.count() - num_completed],
                             "label": ["completed", "uncompleted"],
                             "color": {
                                 "type": "list",

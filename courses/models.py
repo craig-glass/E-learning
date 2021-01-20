@@ -151,7 +151,13 @@ class Grade(models.Model):
                                 on_delete=models.PROTECT,
                                 )
     assignment = models.ForeignKey(Assignment,
-                                   on_delete=models.PROTECT)
+                                   on_delete=models.PROTECT,
+                                   null=True,
+                                   blank=True)
+    # quiz = models.ForeignKey(Quiz,
+    #                          on_delete=models.PROTECT,
+    #                          null=True,
+    #                          blank=True)
     grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def __str__(self):

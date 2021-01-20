@@ -34,40 +34,34 @@
                 </div>
 
                 <div class="col-12 col-md-9 ">
-                    <p class="buttons">
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "text" %}"><span
-                                class="fas fa-spell-check"></span> ADD TEXT</a>
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "image" %}"><span
-                                class="fas fa-file-image"></span> ADD IMAGE</a>
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "video" %}"><span
-                                class="fas fa-file-video"></span> ADD VIDEO</a>
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "file" %}"><span
-                                class="fas fa-file-alt"></span> ADD FILE</a></p>
-
 
                     <div class="module" style="margin-bottom:40px;">
-                        <h2>Assignment {{ assignment.order|add:1 }}</h2>
-                        <h3>Assignment contents:</h3>
-                        <div id="module-contents">
-                            {% for content in assignment.contents.all %}
-                                <div data-id="{{ content.id }}">
-                                    {% with item=content.item %}
-                                        <p>{{ item }}({{ item|model_name }})</p>
-                                        <a href="{% url "assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
-                                    {% endwith %}
+                        <h2>Quiz {{ quiz.id }}</h2>
+                        <h3>Questions:</h3>
+                        <div>
+                            {% for question in quiz.questions.all %}
+                                <div id="module-contents">
+                                    <p>{{ question.number }}. {{ question.question_text }}</p>
+                                    {% for choice in question.choices.all %}
+                                        <p>{{ choice.choice_text }}</p>
+                                    {% endfor %}
+                                    <br>
+                                    <a href="{% url 'edit_choices' module.id quiz.id question.id %}">Edit Choices</a>
                                 </div>
                             {% empty %}
-                                <p>This assignment has no contents yet</p>
+                                <p>This quiz has no questions yet</p>
                             {% endfor %}
+                            <div>
+                                <a href="{% url 'quiz_questions_create' module.id quiz.id %}">Add Questions</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+
     {% endwith %}
 {% endblock %}
 {% block domready %}

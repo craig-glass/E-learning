@@ -38,19 +38,23 @@
 
                 <div class="col-12 col-md-9">
                     <div class="module">
-                        <h2>Course Assignments</h2>
+                        <h2>Module Quizzes</h2>
                         <form method="post">
                             {{ formset }}
                             {{ formset.management_form }}
                             {% csrf_token %}
-                            <p>
-                                <button class="button effect" type="submit" value="Submit"><span
-                                        class="fas fa-check-circle"></span> Save Assignments
-                                </button>
-                            </p>
+
+                            <div class="col-12 col-md-9 offset-md-3">
+                                <p>
+                                    <button class="button effect" type="submit" value="Submit"><span
+                                            class="fas fa-check-circle"></span> Save Quizzes
+                                    </button>
+                                </p>
+                            </div>
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
     {% endwith %}

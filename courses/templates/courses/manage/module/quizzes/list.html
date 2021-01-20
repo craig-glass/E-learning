@@ -7,6 +7,7 @@
 {% block content %}
     {% with course=module.course %}
         <h1>Course "{{ course.title }}"</h1>
+
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-3 col-centered">
@@ -30,40 +31,27 @@
                                 <li>No modules yet</li>
                             {% endfor %}
                         </ul>
+                        <p><a href="{% url "course_module_update" course.id %}">
+                            Edit modules
+                        </a></p>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-9 ">
-                    <p class="buttons">
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "text" %}"><span
-                                class="fas fa-spell-check"></span> ADD TEXT</a>
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "image" %}"><span
-                                class="fas fa-file-image"></span> ADD IMAGE</a>
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "video" %}"><span
-                                class="fas fa-file-video"></span> ADD VIDEO</a>
-                        <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "file" %}"><span
-                                class="fas fa-file-alt"></span> ADD FILE</a></p>
+                <div class="col-12 col-md-9">
 
-
-                    <div class="module" style="margin-bottom:40px;">
-                        <h2>Assignment {{ assignment.order|add:1 }}</h2>
-                        <h3>Assignment contents:</h3>
-                        <div id="module-contents">
-                            {% for content in assignment.contents.all %}
-                                <div data-id="{{ content.id }}">
-                                    {% with item=content.item %}
-                                        <p>{{ item }}({{ item|model_name }})</p>
-                                        <a href="{% url "assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
-                                    {% endwith %}
+                    <div class="module" style="margin-top:0px; margin-bottom:40px;">
+                        <div>
+                            {% for quiz in module.quizzes.all %}
+                                <div>
+                                    <h3>{{ quiz.title }}</h3>
+                                    <p>{{ quiz.description }}</p>
+                                    <a href="{% url 'quiz_edit' module.id quiz.id %}">Edit</a>
                                 </div>
                             {% empty %}
-                                <p>This assignment has no contents yet</p>
+                                <p>This module has no quizzes yet</p>
                             {% endfor %}
                         </div>
+                        <a href="{% url 'quiz_create' module.id %}"> Create Quizzes</a>
                     </div>
                 </div>
             </div>

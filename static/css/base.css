@@ -594,6 +594,14 @@ div.moveable-list-contents div:hover {
     background-color: var(--nav-bar-button);
 }
 
+.side-menu button.hide-btn {
+    font-size: 2em;
+}
+
+.side-menu button.hide-btn:hover, .side-menu button.hide-btn:focus {
+    background-color: var(--main-vlight-col);
+}
+
 .side-menu button:hover, .side-menu button:focus,
 .side-menu a:hover, .side-menu a:focus {
     border: 1px solid var(--main-dark-col);
@@ -612,12 +620,12 @@ div.moveable-list-contents div:hover {
 }
 
 .dropdown-container {
-    display: none;
-}
-
-.dropdown-container.shown {
     display: block;
 }
+
+/*.dropdown-container.shown {*/
+/*    display: block;*/
+/*}*/
 
 .fa-caret-down, .fa-caret-right {
     float: right;

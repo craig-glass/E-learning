@@ -228,19 +228,20 @@ class QuizSubmissionView(TemplateResponseMixin, View):
     def post(self, request, pk, module_id, quiz_id, id=None):
 
         input_names = [name for name in request.POST.keys() if name.startswith('question')]
-        input_name = ''
-        answer = ''
+
+        print(input_names)
+        print(request.POST)
         if input_names:
             for input_name in input_names:
                 answer = request.POST[input_name]
-            answer_split = input_name.split('-')
-            question_id = answer_split[1]
-            correct = False
+                answer_split = input_name.split('-')
+                question_id = answer_split[1]
+                correct = False
 
-            if Choice.objects.get(choice_text=answer, question=Question(question_id)).correct_answer:
-                correct = True
-            QuizAnswer.objects.create(answer=answer, question=Question(question_id),
-                                      quiz=Quiz(quiz_id), student=request.user, is_correct=correct)
+                if Choice.objects.get(choice_text=answer, question=Question(question_id)).correct_answer:
+                    correct = True
+                QuizAnswer.objects.create(answer=answer, question=Question(question_id),
+                                          quiz=Quiz(quiz_id), student=request.user, is_correct=correct)
 
             return redirect('quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
         return redirect('quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)

@@ -33,6 +33,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('students/', include('students.urls')),
     path('account/', include('accounts.urls')),
+    path('', include('pwa.urls')),
 
     path('courseListAjax', CourseListAjax.as_view())
 ]

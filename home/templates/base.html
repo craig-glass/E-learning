@@ -1,7 +1,9 @@
+{% load pwa %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
@@ -63,7 +65,7 @@
     <div class="row">
         {% block modulebar %}
         {% endblock %}
-        <div class="side-menu col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="side-menu col-4 col-sm-4 col-md-3 col-lg-2">
             <div class="side-menu-row-container">
                 <div class="side-menu-column">
                     <a href="/">
@@ -100,7 +102,7 @@
                 </a>
             </div>
         </div>
-        <div id="main-content" class="col-6 col-sm-8 col-md-9 col-lg-10" style="height: 100%">
+        <div id="main-content" class="col-8 col-sm-8 col-md-9 col-lg-10" style="height: 100%">
             {% block header %}{% endblock %}
             {% block content %}{% endblock %}
         </div>

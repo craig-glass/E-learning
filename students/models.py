@@ -25,6 +25,9 @@ class QuizSubmission(models.Model):
                              on_delete=models.CASCADE,
                              default=None)
 
+    def __str__(self):
+        return self.date_submitted
+
 
 class QuizAnswer(models.Model):
     quiz_submission = models.ForeignKey(QuizSubmission,

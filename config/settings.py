@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'embed_video',
+    # 'embed_video',
     'whitenoise.runserver_nostatic',
     'courses.apps.CoursesConfig',
     'accounts.apps.AccountsConfig',
@@ -81,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -109,7 +107,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -128,7 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -142,7 +138,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -152,7 +147,6 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
 LOGIN_REDIRECT_URL = reverse_lazy('students:student_course_list')
 LOGOUT_REDIRECT_URL = reverse_lazy('homepage')
 
@@ -160,9 +154,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 AUTH_USER_MODEL = 'accounts.Profile'
-
-<<<<<<< HEAD
-=======
 
 PWA_APP_NAME = 'EPiC'
 PWA_APP_DESCRIPTION = "EPiC app"
@@ -174,23 +165,22 @@ PWA_APP_ORIENTATION = 'any'
 PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
-	{
-		'src': 'static/images/logo160.png',
-		'sizes': '160x160'
-	}
+    {
+        'src': 'static/images/logo160.png',
+        'sizes': '160x160'
+    }
 ]
 PWA_APP_ICONS_APPLE = [
-	{
-		'src': 'static/images/logo160.png',
-		'sizes': '160x160'
-	}
+    {
+        'src': 'static/images/logo160.png',
+        'sizes': '160x160'
+    }
 ]
 PWA_APP_SPLASH_SCREEN = [
-	{
-		'src': 'static/images/logo.png',
-		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
-	}
+    {
+        'src': 'static/images/logo.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
 ]
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
->>>>>>> f5797427ee996c1e3a4e2299b334a7a9c1e97538

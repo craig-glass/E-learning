@@ -1,3 +1,5 @@
+import datetime
+from statistics import mean
 from typing import Dict, Sequence, Union
 
 from django import forms
@@ -170,15 +172,16 @@ class RegisteredCourseAnalyticsAjax(View):
         if account.is_student:
             # Graph all grades for provided account and course
             assignment_marks = Grade.objects.filter(student=account, assignment__module__course=course)\
-                .order_by('date_submitted')
+                .order_by('datetime_submitted')
             context['assignment_marks'] = {
                 "data": [mark.grade for mark in assignment_marks],
-                "label": [mark.date_submitted for mark in assignment_marks],
+                "label": [mark.datetime_submitted for mark in assignment_marks],
                 "color": {
                     "type": "gradient",
                     "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
                 }
             }
+
             # Graph number of assignments completed against total number of assignments for course
             total = Assignment.objects.filter(module__course__students__in=[account], module__course=course)
             completed = total.filter(grade__student=account)
@@ -194,6 +197,7 @@ class RegisteredCourseAnalyticsAjax(View):
 
             context['module_progress'] = []
             for module in Module.objects.filter(course=course):
+                # Graph number of assignments completed for module in course
                 total = Assignment.objects.filter(module__course__students__in=[account], module=module)
                 completed = total.filter(grade__student=account)
                 num_completed = completed.count()
@@ -224,36 +228,42 @@ class OwnedCourseAnalyticsAjax(View):
         if response:
             return response
         course = Course.objects.get(id=request.POST.get('course'))
-        import random
-        random.seed(course.id)
+        course_students = course.students.all()
+
         context = {}
         context['title'] = course.title
-        # TODO use real data
+
         context['number_data'] = {
-            "student_count": random.randint(100, 500)
+            "student_count": course_students.count()
         }
-        as_data = [0.0004 * pow(random.randint(0, 100) - 50, 3) + 50 for i in range(random.randint(5, 15))]
-        as_label = ['ws' + str(i) for i in range(len(as_data))]
-        # TODO use real data
+
+        # Graph average score for each assignment in course
+        course_assignments = Assignment.objects.filter(module__course=course).order_by('order')
+        assignment_titles = [assignment.title for assignment in course_assignments]
         context['average_score'] = {
-            "data": as_data,
-            "label": as_label,
-            "color": {
-                "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
-        }
-        at_data = [0.0011 * pow(random.randint(0, 60) - 30, 3) + 30 for i in range(len(as_label))]
-        # TODO use real data
-        context['average_time'] = {
-            "data": at_data,
-            "label": as_label,
+            "data": [mean(grade.grade for grade in Grade.objects.filter(assignment=assignment))
+                     for assignment in course_assignments],
+            "label": assignment_titles,
             "color": {
                 "type": "gradient",
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
             }
         }
 
+        # Graph average time taken to complete each assignment in course
+        context['average_time'] = {
+            "data": [mean(grade.time_taken.total_seconds()
+                          for grade in Grade.objects.filter(assignment=assignment)) / 60
+                     for assignment in course_assignments],
+            "label": assignment_titles,
+            "color": {
+                "type": "gradient",
+                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+            }
+        }
+        print(context['average_time'])
+
+        #
         context['modules'] = {}
         for module in Module.objects.filter(course=course):
             context['modules'][module.id] = {

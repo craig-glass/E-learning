@@ -24,6 +24,8 @@ class QuizSubmission(models.Model):
     quiz = models.ForeignKey(Quiz,
                              on_delete=models.CASCADE,
                              default=None)
+    score = models.PositiveIntegerField(null=True,
+                                        default=0)
 
     def __str__(self):
         return self.date_submitted
@@ -41,5 +43,5 @@ class QuizAnswer(models.Model):
     is_correct = models.BooleanField(default=None)
 
     def __str__(self):
-        return self.quiz.title, 'answer'
+        return self.answer
 

@@ -232,7 +232,8 @@ class QuizSubmissionView(TemplateResponseMixin, View):
 
                 QuizAnswer.objects.create(answer=answer, question=Question(question_id),
                                           quiz_submission=quiz_submission, is_correct=correct)
-
+            score = QuizAnswer.objects.filter(quiz_submission=quiz_submission, is_correct=True).count()
+            QuizSubmission.objects.filter(id=quiz_submission.id).update(score=score)
             return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
         return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
 

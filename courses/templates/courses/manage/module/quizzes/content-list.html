@@ -16,7 +16,7 @@
                             {% for m in course.modules.all %}
                                 <li data-id="{{ m.id }}"{% if m == module %}
                                     class="selected"{% endif %}>
-                                    <a href="{% url "module_list" m.id %}">
+                                    <a href="{% url "courses:module_list" m.id %}">
                                     <span>
                                         Module<span class="order">
                                         {{ m.order|add:1 }}
@@ -46,13 +46,13 @@
                                         <p>{{ choice.choice_text }}</p>
                                     {% endfor %}
                                     <br>
-                                    <a href="{% url 'edit_choices' module.id quiz.id question.id %}">Edit Choices</a>
+                                    <a href="{% url 'courses:edit_choices' module.id quiz.id question.id %}">Edit Choices</a>
                                 </div>
                             {% empty %}
                                 <p>This quiz has no questions yet</p>
                             {% endfor %}
                             <div>
-                                <a href="{% url 'quiz_questions_create' module.id quiz.id %}">Add Questions</a>
+                                <a href="{% url 'courses:quiz_questions_create' module.id quiz.id %}">Add Questions</a>
                             </div>
 
                         </div>
@@ -74,7 +74,7 @@
     });
     $.ajax({
     type: 'POST',
-    url: '{% url "module_order" %}',
+    url: '{% url "courses:module_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(modules_order)
@@ -91,7 +91,7 @@
 
     $.ajax({
     type: 'POST',
-    url: '{% url "content_order" %}',
+    url: '{% url "courses:content_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(contents_order),

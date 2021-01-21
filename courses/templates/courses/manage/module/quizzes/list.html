@@ -17,7 +17,7 @@
                             {% for m in course.modules.all %}
                                 <li data-id="{{ m.id }}"{% if m == module %}
                                     class="selected"{% endif %}>
-                                    <a href="{% url "module_list" m.id %}">
+                                    <a href="{% url "courses:module_list" m.id %}">
                                     <span>
                                         Module<span class="order">
                                         {{ m.order|add:1 }}
@@ -31,7 +31,7 @@
                                 <li>No modules yet</li>
                             {% endfor %}
                         </ul>
-                        <p><a href="{% url "course_module_update" course.id %}">
+                        <p><a href="{% url "courses:course_module_update" course.id %}">
                             Edit modules
                         </a></p>
                     </div>
@@ -45,13 +45,13 @@
                                 <div>
                                     <h3>{{ quiz.title }}</h3>
                                     <p>{{ quiz.description }}</p>
-                                    <a href="{% url 'quiz_edit' module.id quiz.id %}">Edit</a>
+                                    <a href="{% url 'courses:quiz_edit' module.id quiz.id %}">Edit</a>
                                 </div>
                             {% empty %}
                                 <p>This module has no quizzes yet</p>
                             {% endfor %}
                         </div>
-                        <a href="{% url 'quiz_create' module.id %}"> Create Quizzes</a>
+                        <a href="{% url 'courses:quiz_create' module.id %}"> Create Quizzes</a>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
     });
     $.ajax({
     type: 'POST',
-    url: '{% url "module_order" %}',
+    url: '{% url "courses:module_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(modules_order)
@@ -85,7 +85,7 @@
 
     $.ajax({
     type: 'POST',
-    url: '{% url "content_order" %}',
+    url: '{% url "courses:content_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(contents_order),

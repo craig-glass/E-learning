@@ -2,14 +2,8 @@
  * Set-up given element to display a pie chart with the given data
  * @param {HTMLElement} element Container to render graph in
  * @param {Object} dataset Data to be rendered to the graph
- * @param {String} name Unique identifier for the graph
- * @param {String} type Graph type to display as
- * @param {Object} customSettings Additional chart.js settings specific to this graph
  */
-function setToGraph(element, dataset, name, type, customSettings=null) {
-    if (customSettings === null) {
-        customSettings = {}
-    }
+function setToGraph(element, dataset) {
     if (element.tagName.toLowerCase() !== 'div') {
         throw Error('Element must be of type "div"')
     }
@@ -17,34 +11,30 @@ function setToGraph(element, dataset, name, type, customSettings=null) {
     let canvas = document.createElement('canvas');
     canvas.id = name;
     element.appendChild(canvas);
-    generateGraph(canvas, name, dataset, type, customSettings);
+    generateGraph(canvas, dataset);
 }
 
 /**
  * Generate graph on given element with given parameters
  * @param {HTMLCanvasElement} element Canvas to render graph in
- * @param {String} name Unique identifier for the graph
  * @param {Object} dataset Data to be rendered to the graph
- * @param {String} type Type of graph to be displayed
- * @param {Object} customSettings Additional chart.js settings specific to this graph
  */
-function generateGraph(element, name, dataset, type, customSettings) {
-    let colorDefinition = dataset['color'];
-    let color;
-    if (colorDefinition === undefined) {
-        color = generateColorsRandomSeeded(dataset["label"]);
+function generateGraph(element, {data, label, color, title, type, custom_settings}) {
+    if (color === undefined) {
+        color = generateColorsRandomSeeded(label);
     } else {
-        switch (colorDefinition['type']) {
+        switch (color.type) {
             case 'list': // Map colors using provided list
-                color = colorDefinition['value'];
+                color = color.value;
                 break;
             case 'gradient': // Generate colors along provided gradient
                 // Get suggested min and max from settings if present
-                let ticks = ((((customSettings['options'] || {})['scales'] || {})['yAxes'] || [{}])[0]['ticks'] || {});
+                let ticks = (((((custom_settings || {})['options'] || {})['scales'] || {})['yAxes']
+                    || [{}])[0]['ticks'] || {});
                 color = generateColorsGradient(
-                    dataset.data,
+                    data,
                     ticks['suggestedMin'] || 0, ticks['suggestedMax'] || 0,
-                    colorDefinition['gradient']
+                    color['gradient']
                 );
                 break;
         }
@@ -54,16 +44,19 @@ function generateGraph(element, name, dataset, type, customSettings) {
         type: type,
         data: {
             datasets: [{
-                data: dataset.data,
+                data: data,
                 backgroundColor: color,
                 label: ""
             }],
-            labels: dataset.label
+            labels: label
         },
         options: {
+            legend: {
+                display: false
+            },
             title: {
                 display: true,
-                text: name
+                text: title
             },
             responsive: true,
             scales: {
@@ -77,7 +70,26 @@ function generateGraph(element, name, dataset, type, customSettings) {
             }
         }
     }
-    merge(config, customSettings);
+
+    switch (type) {
+        case 'pie':
+            merge(config,
+                {
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                display: false
+                            }],
+                            xAxes: [{
+                                display: false
+                            }]
+                        }
+                    }
+                })
+            break;
+    }
+    if (custom_settings !== undefined)
+        merge(config, custom_settings);
 
     let ctx = element.getContext('2d');
     window[name] = new Chart(ctx, config);

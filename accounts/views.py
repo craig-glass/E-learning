@@ -168,32 +168,38 @@ class RegisteredCourseAnalyticsAjax(View):
             return response
         course = Course.objects.get(id=request.POST.get('course'))
 
-        context = {}
+        context = {"graphs": []}
         if account.is_student:
             # Graph all grades for provided account and course
             assignment_marks = Grade.objects.filter(student=account, assignment__module__course=course) \
                 .order_by('datetime_submitted')
-            context['assignment_marks'] = {
+            context["graphs"].append({
+                "container_id": "registered-course-1",
+                "title": "assignment marks",
+                "type": "bar",
                 "data": [mark.grade for mark in assignment_marks],
                 "label": [mark.datetime_submitted for mark in assignment_marks],
                 "color": {
                     "type": "gradient",
                     "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
                 }
-            }
+            })
 
             # Graph number of assignments completed against total number of assignments for course
             total = Assignment.objects.filter(module__course__students__in=[account], module__course=course)
             completed = total.filter(grade__student=account)
             num_completed = completed.count()
-            context['course_progress'] = {
+            context["graphs"].append({
+                "container_id": "registered-course-2",
+                "title": "course progress",
+                "type": "pie",
                 "data": [num_completed, total.count() - num_completed],
                 "label": ["completed", "uncompleted"],
                 "color": {
                     "type": "list",
                     "value": ["#00AA22", "#22222288"]
                 },
-            }
+            })
 
             context['module_progress'] = []
             for module in Module.objects.filter(course=course):
@@ -201,19 +207,17 @@ class RegisteredCourseAnalyticsAjax(View):
                 total = Assignment.objects.filter(module__course__students__in=[account], module=module)
                 completed = total.filter(grade__student=account)
                 num_completed = completed.count()
-                context['module_progress'].append(
-                    {
-                        "data": {
-                            "data": [num_completed, total.count() - num_completed],
-                            "label": ["completed", "uncompleted"],
-                            "color": {
-                                "type": "list",
-                                "value": ["#00AA22", "#22222288"]
-                            },
-                        },
-                        "name": "module: " + module.title,
-                    }
-                )
+                context["graphs"].append({
+                    "container_id": "registered-course-3",
+                    "title": "module: " + module.title,
+                    "type": "pie",
+                    "data": [num_completed, total.count() - num_completed],
+                    "label": ["completed", "uncompleted"],
+                    "color": {
+                        "type": "list",
+                        "value": ["#00AA22", "#22222288"]
+                    },
+                })
 
         return JsonResponse(context)
 
@@ -230,17 +234,25 @@ class OwnedCourseAnalyticsAjax(View):
         course = Course.objects.get(id=request.POST.get('course'))
         course_students = course.students.all()
 
-        context = {}
-        context['title'] = course.title
-
-        context['number_data'] = {
-            "student_count": course_students.count()
+        context = {
+            "title": course.title,
+            "graphs": [],
+            "number_data": [
+                {
+                    "container_id": "owned-course-numbers-1",
+                    "name": "student count",
+                    "value": course_students.count(),
+                }
+            ]
         }
 
         # Graph average score for each assignment in course
         course_assignments = Assignment.objects.filter(module__course=course).order_by('order')
         assignment_titles = [assignment.title for assignment in course_assignments]
-        context['average_score'] = {
+        context["graphs"].append({
+            "container_id": "owned-course-1",
+            "title": "average score",
+            "type": "bar",
             "data": [mean(grade.grade for grade in Grade.objects.filter(assignment=assignment))
                      for assignment in course_assignments],
             "label": assignment_titles,
@@ -248,10 +260,13 @@ class OwnedCourseAnalyticsAjax(View):
                 "type": "gradient",
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
             }
-        }
+        })
 
         # Graph average time taken (minutes) to complete each assignment in course
-        context['average_time'] = {
+        context["graphs"].append({
+            "container_id": "owned-courses-2",
+            "title": "average time taken",
+            "type": "bar",
             "data": [mean(grade.time_taken.total_seconds()
                           for grade in Grade.objects.filter(assignment=assignment)) / 60
                      for assignment in course_assignments],
@@ -260,12 +275,12 @@ class OwnedCourseAnalyticsAjax(View):
                 "type": "gradient",
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
             }
-        }
+        })
 
         # Identify all modules and their assignments
-        context['modules'] = {}
+        context["modules"] = {}
         for module in Module.objects.filter(course=course):
-            context['modules'][module.id] = {
+            context["modules"][module.id] = {
                 "assignments": [{
                     "label": assignment.title,
                     "id": assignment.id
@@ -286,26 +301,42 @@ class CourseAssignmentAnalyticsAjax(View):
             return response
         assignment = get_object_or_404(Assignment, id=request.POST.get('assignment'))
 
-        context = {}
-        context['number_data'] = {
-            "average_score": mean(grade.grade for grade in Grade.objects.filter(assignment=assignment)),
-            "average_time": mean(grade.time_taken.total_seconds()
-                                 for grade in Grade.objects.filter(assignment=assignment)) / 60
+        context = {
+            "graphs": [],
+            "number_data": [
+                {
+                    "container_id": "course-assignment-numbers-1",
+                    "name": "average score",
+                    "value": mean(float(grade.grade) for grade in Grade.objects.filter(assignment=assignment)),
+                },
+                {
+                    "container_id": "course-assignment-numbers-1",
+                    "name": "average time",
+                    "value": mean(grade.time_taken.total_seconds()
+                                  for grade in Grade.objects.filter(assignment=assignment)) / 60
+                },
+            ]
         }
 
         # Graph of marks each student received for the given assignment
         students = assignment.module.course.students.all()
-        context['assignment_marks'] = {
+        context["graphs"].append({
+            "container_id": "course-assignment-1",
+            "title": "student marks",
+            "type": "bar",
             "data": [Grade.objects.get(student=student, assignment=assignment).grade for student in students],
             "label": [student.id for student in students],
             "color": {
                 "type": "gradient",
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
             }
-        }
+        })
 
         # Graph of time taken (minutes) for each student to complete the given assignment
-        context['assignment_time'] = {
+        context["graphs"].append({
+            "container_id": "course-assignment-2",
+            "title": "time taken",
+            "type": "bar",
             "data": [Grade.objects.get(student=student, assignment=assignment).time_taken.total_seconds() / 60
                      for student in students],
             "label": [student.id for student in students],
@@ -313,7 +344,7 @@ class CourseAssignmentAnalyticsAjax(View):
                 "type": "gradient",
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
             }
-        }
+        })
         return JsonResponse(context)
 
 

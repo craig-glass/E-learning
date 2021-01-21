@@ -20,14 +20,8 @@
                 </div>
                 <pre id="registered-response-pre" class="response-text"></pre>
 
-                <div class="container-numbers">
-                </div>
-                <div id="container-student-assignment-marks" class="graph-container"
-                     style="max-width: 750px"></div>
-                <div id="container-course-progress" class="graph-container"
-                     style="max-width: 400px"></div>
-                <div id="module-progress"
-                     style=""></div>
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% else %}
                 <h2>You are currently not registered for any courses</h2>
             {% endif %}
@@ -45,14 +39,8 @@
                 </div>
                 <pre id="owned-response-pre" class="response-text"></pre>
 
-                <div class="container-numbers">
-                    <p style="float: left">Number of Students:</p>
-                    <p id="student-count" style="float: left" class="numbers-value"></p>
-                </div>
-                <div id="container-average-score" class="graph-container"
-                     style="max-width: 750px"></div>
-                <div id="container-average-time" class="graph-container"
-                     style="max-width: 750px"></div>
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% else %}
                 <h2>You currently own no courses</h2>
             {% endif %}
@@ -63,16 +51,8 @@
                 <div id="course-assignment-navbars" style="width: 100%"></div>
                 <pre id="assignment-response-pre" class="response-text"></pre>
 
-                <div class="container-numbers">
-                    <p style="float: left">Average Score:</p>
-                    <p id="average-score" class="numbers-value"></p>
-                    <p style="float: left">Average Time:</p>
-                    <p id="average-time" class="numbers-value"></p>
-                </div>
-                <div id="container-assignment-marks" class="graph-container"
-                     style="max-width: 750px"></div>
-                <div id="container-assignment-time" class="graph-container"
-                     style="max-width: 750px"></div>
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% endif %}
         </div>
     {% endif %}
@@ -109,9 +89,7 @@
                 'pie',
                 {
                     options: {
-                        legend: {
-                            display: false
-                        },
+
                         scales: {
                             yAxes: [{
                                 display: false
@@ -212,6 +190,36 @@
             )
         }
 
+        function addGraphs(container, graphData) {
+            for (let graph of graphData) {
+                // Put graphs with the same container id in the same div
+                let graphContainer = $('#' + graph.container_id);
+                if (!graphContainer.length) {
+                    graphContainer = $('<div>').attr('id', graph.container_id)
+                        .addClass('graph-container').addClass(graph.type);
+                    container.append(graphContainer);
+                }
+                setToGraph(
+                    graphContainer[0],
+                    graph
+                );
+            }
+        }
+
+        function addStats(container, numberData) {
+            for (let stat of numberData) {
+                let numbersContainer = $('#' + stat.container_id);
+                if (!numbersContainer.length) {
+                    numbersContainer = $('<div>').attr('id', stat.container_id)
+                        .addClass('numbers-container')
+                    container.append(numbersContainer);
+                }
+                numbersContainer.append(
+                    $('<p>').text(stat.name + ":" + stat.value)
+                )
+            }
+        }
+
         /**
          * Empty all child elements containing graphs
          * @param parent Parent element to empty
@@ -239,14 +247,15 @@
                 function (response) {
                     // Clear any existing response text
                     standardSuccessResponse('', $('#registered-response-pre'));
-                    clearGraphs($('#registered-course-graphs'));
+                    let registeredCourse = $('#registered-course-graphs')
+                    let graphsContainer = registeredCourse.find('.container-graphs');
+                    let numbersContainer = registeredCourse.find('.container-numbers');
+                    graphsContainer.html();
 
-                    if (response.assignment_marks !== undefined)
-                        setStudentAssignmentMarks(response.assignment_marks);
-                    if (response.course_progress !== undefined)
-                        setCourseProgress(response.course_progress)
-                    if (response.module_progress !== undefined)
-                        setModuleProgress(response.module_progress)
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs)
                 },
                 function (response) {
                     standardErrorResponse(response, $('#registered-response-pre'));
@@ -268,24 +277,24 @@
                 function (response) {
                     // Clear any existing response text
                     standardSuccessResponse('', $('#owned-response-pre'));
-                    clearGraphs($('#owned-course-graphs'));
                     $('#assignment-header').text('Course [' + response.title + '] Modules');
 
-                    if (response.number_data !== undefined) {
-                        if (response.number_data.student_count !== undefined)
-                            $('#student-count').text(response.number_data.student_count);
-                    }
-                    if (response.average_score !== undefined)
-                        setAverageScores(response.average_score);
-                    if (response.average_time !== undefined)
-                        setAverageTime(response.average_time);
+                    let registeredCourse = $('#owned-course-graphs')
+                    let graphsContainer = registeredCourse.find('.container-graphs');
+                    let numbersContainer = registeredCourse.find('.container-numbers');
+                    graphsContainer.html();
+
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs)
 
                     if (response.modules !== undefined) {
                         let navbarContainer = $('#course-assignment-navbars');
                         navbarContainer.html('');
                         for (let module in response.modules) {
                             navbarContainer.append($('<h4>').text(response.modules[module].name));
-                            let navbar = $('<div>').addClass('navbar');
+                            let navbar = $('<div>').addClass('navbar').addClass('navbar-no-auto');
                             navbarContainer.append(navbar);
                             for (let assignment of response.modules[module].assignments) {
                                 navbar.append($('<p>')
@@ -311,19 +320,16 @@
                 },
                 function (response) {
                     standardSuccessResponse('', $('assignment-response-pre'));
-                    clearGraphs($('#course-assignment-graphs'))
 
-                    if (response.number_data !== undefined) {
-                        if (response.number_data.average_score !== undefined)
-                            $('#average-score').text(response.number_data.average_score);
-                        if (response.number_data.average_time !== undefined)
-                            $('#average-time').text(response.number_data.average_time);
-                    }
+                    let registeredCourse = $('#course-assignment-graphs')
+                    let graphsContainer = registeredCourse.find('.container-graphs');
+                    let numbersContainer = registeredCourse.find('.container-numbers');
+                    graphsContainer.html();
 
-                    if (response.assignment_marks !== null)
-                        setOverallAssignmentMarks(response.assignment_marks);
-                    if (response.assignment_time !== null)
-                        setAssignmentTime(response.assignment_time);
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs)
                 },
                 function (response) {
                     standardErrorResponse(response, $('#assignment-response-pre'));

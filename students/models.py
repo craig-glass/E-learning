@@ -16,14 +16,21 @@ class AssignmentSubmission(models.Model):
     submitted_file = models.FileField(upload_to='submitted_assignments')
 
 
-class QuizAnswer(models.Model):
+class QuizSubmission(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.PROTECT,
+                                default=None)
+    date_submitted = models.DateTimeField(auto_now=True)
     quiz = models.ForeignKey(Quiz,
                              on_delete=models.CASCADE,
-                             related_name='answers',
                              default=None)
-    student = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE,
-                                default=None)
+
+
+class QuizAnswer(models.Model):
+    quiz_submission = models.ForeignKey(QuizSubmission,
+                                        on_delete=models.CASCADE,
+                                        related_name='answers',
+                                        default=None)
     answer = models.CharField(max_length=50)
     question = models.ForeignKey(Question,
                                  on_delete=models.CASCADE,

@@ -24,7 +24,7 @@ from .models import AssignmentSubmission, QuizAnswer
 class StudentRegistrationView(CreateView):
     template_name = 'students/student/registration.html'
     form_class = UserCreationForm
-    success_url = reverse_lazy('student_course_list')
+    success_url = reverse_lazy('students:student_course_list')
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -45,7 +45,7 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('student_course_detail',
+        return reverse_lazy('students:student_course_detail',
                             args=[self.course.id])
 
 
@@ -176,7 +176,7 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
             obj.course = self.course
             obj.submitted_file = request.FILES['submitted_file']
             obj.save()
-            return redirect('student_assignment_detail', self.course.id, self.module.id, self.assignment.id)
+            return redirect('students:student_assignment_detail', self.course.id, self.module.id, self.assignment.id)
         return self.render_to_response({'form': form,
                                         'object': self.obj})
 
@@ -239,6 +239,6 @@ class QuizSubmissionView(TemplateResponseMixin, View):
                 QuizAnswer.objects.create(answer=answer, question=Question(question_id),
                                           quiz=Quiz(quiz_id), student=request.user, is_correct=correct)
 
-            return redirect('quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
-        return redirect('quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
+            return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
+        return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
 

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from home.views import SearchView, CourseListAjax
+from home.views import SearchView, CourseListAjax, ModuleListAjax
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -35,7 +35,8 @@ urlpatterns = [
     path('account/', include('accounts.urls')),
     path('', include('pwa.urls')),
 
-    path('courseListAjax', CourseListAjax.as_view())
+    path('courseListAjax', CourseListAjax.as_view()),
+    path('moduleListAjax', ModuleListAjax.as_view()),
 ]
 
 if settings.DEBUG:

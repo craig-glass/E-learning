@@ -1,9 +1,7 @@
-{% load pwa %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
@@ -61,51 +59,14 @@
     <a href="/">Home</a>/{% block navigation %}{% endblock %}
 </div>
 
-<div id="content" class="container-fluid">
-    <div class="row">
-        {% block modulebar %}
-        {% endblock %}
-        <div class="side-menu col-4 col-sm-4 col-md-3 col-lg-2">
-            <div class="side-menu-row-container">
-                <div class="side-menu-column">
-                    <a href="/">
-                        <span class="fas fa-home"></span>
-                        <span>Home</span>
-                    </a>
-                </div>
-            </div>
-            <div class="side-menu-row-container">
-                <div class="side-menu-row">
-                    <div class="side-menu-column">
-                        <a href="{% url 'students:student_course_list' %}">
-                            <span class="fas fa-book"></span>
-                            Courses
-                        </a>
-                    </div>
-                    {% if request.user.is_authenticated and request.user.is_student %}
-                        <div class="side-menu-column side-menu-dropdown">
-                            <button onclick="courseDropdown(this)">ᐅ</button>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div>
-                <a href="{% url 'announcements:announcements' %}">
-                    <span class="fab fa-discourse"></span>
-                    Announcements
-                </a>
-            </div>
-            <div>
-                <a href="{% url 'event_calendar:calendar' %}">
-                    <span class="fas fa-calendar-week"></span>
-                    Calendar
-                </a>
-            </div>
-        </div>
-        <div id="main-content" class="col-8 col-sm-8 col-md-9 col-lg-10" style="height: 100%">
-            {% block header %}{% endblock %}
-            {% block content %}{% endblock %}
-        </div>
+<div id="content" style="display: table; height: 100%">
+    <div class="side-menu dropdown-container" data-hide-function="hideSideMenu">
+        <button class="hide-btn"><i class="fas fa-bars"></i></button>
+    </div>
+
+    <div style="display: table-cell; width: 100%; height: 100%">
+        {% block header %}{% endblock %}
+        {% block content %}{% endblock %}
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -115,47 +76,6 @@
         {% block domready %}
         {% endblock %}
     });
-
-    function courseDropdown(element) {
-        $(element).text('ᐁ');
-        let rowContainer = $($(element).parents()[2]);
-        let secondRow = $('<div>').addClass('side-menu-row');
-        rowContainer.append(secondRow);
-        secondRow.append($('<div>').addClass('loader'));
-        console.log(rowContainer);
-        standardAjaxCall(
-            'courseListAjax',
-            {},
-            function (response) {
-                secondRow.html('');
-
-                if (response.courses !== undefined) {
-                    for (let course of response.courses) {
-                        let rowContainer = $('<div>').addClass('side-menu-row-container');
-                        let row = $('<div>').addClass('side-menu-row');
-                        let column = $('<div>').addClass('side-menu-column');
-                        let link = $('<a>').attr('href', '/').text(course.title);
-                        let dropdownColumn = $('<div>').addClass('side-menu-column').addClass('side-menu-dropdown');
-                        let dropdown = $('<button>').text('ᐅ');
-                        secondRow.append(
-                            rowContainer.append(
-                                row.append(
-                                    column.append(link)
-                                ).append(
-                                    dropdownColumn.append(dropdown)
-                                )
-                            )
-                        );
-                    }
-                }
-            },
-            function (response) {
-                let responseElement = $('<pre>');
-                secondRow.html('').append(responseElement);
-                standardErrorResponse(response, responseElement)
-            }
-        );
-    }
 
     /**
      * Generate and assign validation methods to inputs within the given form and assign an ajax call of given url with
@@ -441,8 +361,242 @@
         }
     }
 
+    function loadNavigator(container, manualLinks, doAjax=true) {
+        let depth = container.parents('.dropdown-container').length + 1;
+        for (let link of manualLinks) {
+            switch (link.type) {
+                case 'link':
+                    _addNavLink(container, link.text, link.href, depth, link.icon);
+                    break;
+                case 'button':
+                    _addNavButton(container, link.text, link.function, link.context, link.ajax, link.icon, depth);
+                    break;
+            }
+        }
+        if (!doAjax) {
+            return;
+        }
+        let loader = $('<div>').addClass('loader');
+        container.append(loader);
+        standardAjaxCall(
+            container.attr('data-url'),
+            JSON.parse(container.attr('data-context')),
+            function (response) {
+                loader.remove();
+                if (response.nav_links !== undefined) {
+                    for (let nav_link of response.nav_links) {
+                        switch (nav_link.type) {
+                            case 'list':
+                                _addNavButton(container, nav_link.text, nav_link.function, nav_link.context,
+                                    nav_link.ajax, nav_link.icon, depth);
+                                break;
+                            case 'link':
+                                _addNavLink(container, nav_link.text, urlFunction(nav_link.url_params), depth);
+                                break;
+                        }
+                    }
+                }
+            },
+            function (response) {
+                loader.remove();
+                let responseText = $('<pre>');
+                container.append(responseText);
+                standardErrorResponse(response, responseText);
+            }
+        )
+    }
+
+    function _addNavLink(container, text, url, depth, iconClass=null) {
+        let link = $('<a>').attr('href', url);
+
+        link.hide();
+        if (iconClass) {
+            container.append(styleNavLink(
+                link, text, depth, $('<i>').addClass(iconClass)
+            ));
+        } else {
+            container.append(styleNavLink(link, text, depth));
+        }
+        link.show('slow');
+    }
+
+    function _addNavButton(container, text, functionString, contextString, ajaxURL, iconClass, depth) {
+        let button = $('<button>').addClass('dropdown-btn');
+        let buttonContainer = $('<div>').addClass('dropdown-container')
+            .attr('data-function', functionString)
+            .attr('data-context', contextString)
+            .attr('data-url', ajaxURL);
+        button.hide();
+        if (iconClass) {
+            container.append(styleNavButton(
+                button, text, depth, $('<i>').addClass(iconClass)
+            ));
+        } else {
+            container.append(styleNavButton(
+                button, text, depth
+            ));
+        }
+        button.show('slow');
+        container.append(
+            buttonContainer
+        );
+        _updateDropdownButton(button);
+    }
+
+    function _loadSideNavigator(container) {
+        loadNavigator(
+            container,
+            [
+                {
+                    href: '{% url 'homepage' %}',
+                    text: 'Home',
+                    icon: 'fa fa-home',
+                    type: 'link',
+                },
+                {
+                    text: 'Course',
+                    icon: 'fa fa-book',
+                    function: '_loadCourseNavigator',
+                    ajax: '/courseListAjax',
+                    context: '{}',
+                    type: 'button',
+                },
+                {
+                    href: '{% url 'announcements:announcements' %}',
+                    text: 'Announcements',
+                    icon: 'fab fa-discourse',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'event_calendar:calendar' %}',
+                    text: 'Calendar',
+                    icon: 'fas fa-calendar-week',
+                    type: 'link',
+                },
+            ],
+            false
+        );
+    }
+
+    function _loadCourseNavigator(container) {
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'students:student_course_list' %}',
+                text: 'My Courses',
+                type: 'link',
+            }]
+        );
+    }
+
+    function _loadModuleNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'students:student_course_detail' 12345 %}'
+                    .replace('12345', context.course_id),
+                text: 'Course Homepage',
+                type: 'link',
+            }]
+        )
+    }
+
+    function _loadModuleContentsNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [
+                {
+                    href: '{% url 'students:student_course_detail_module' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Homepage',
+                    type: 'link',
+                }
+            ],
+            false
+        )
+    }
+
+    function styleNavLink(link, text, depth, icon=null) {
+        link.text('- '.repeat(depth - 1));
+        if (icon) {
+            link.append(icon).html(link.html() + " ");
+        } else {
+            link.html(link.html() + '+ ')
+        }
+        link.append($('<span>').text(text));
+        return link.html(link.html()).css('padding-left', '4');
+    }
+
+    function styleNavButton(button, text, depth, icon=null) {
+        button = styleNavLink(button, text, depth, icon);
+        return button.append($('<span>').html('&nbsp;').append($('<i>').addClass('fa fa-caret-right')));
+    }
+
+    function _updateDropdownButton(element) {
+        element.on('click', function() {
+            let container = element.next();
+            if (container.hasClass('shown')) {
+                container.removeClass('shown').hide('slow');
+                element.find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right');
+            } else if (container.hasClass('been-shown')) {
+                container.addClass('shown').show('slow');
+                element.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+            } else {
+                container.addClass('shown');
+                container.addClass('been-shown');
+                element.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+                window[container.attr('data-function')](container);
+            }
+        });
+    }
+
+    function hideSideMenu(container) {
+        console.log(container);
+        if (container.hasClass('container-hidden')) {
+            container.removeClass('container-hidden');
+            container.find('span').each(function (index, element) {
+                $(element).show('slow');
+            });
+        } else {
+            container.addClass('container-hidden');
+            container.find('span').each(function (index, element) {
+                $(element).hide('slow');
+            });
+        }
+    }
+
     $(document).ready(function () {
         let body = $('body');
+
+        body.find('.hide-btn').each(function(index, element) {
+            let container = $(element).parent();
+            $(element).on('click', function(index, element) {
+                let hideFunction = container.attr('data-hide-function');
+                if (hideFunction === undefined) {
+                    if (container.hasClass('container-hidden')) {
+                        container.removeClass('container-hidden');
+                        container.children(':not(.hide-btn)').each(function (index2, element2) {
+                            $(element2).show('slow');
+                        });
+                    } else {
+                        container.addClass('container-hidden');
+                        container.children(':not(.hide-btn)').each(function (index2, element2) {
+                            console.log($(element));
+                            $(element2).hide('slow');
+                        });
+                    }
+                } else {
+                    window[hideFunction](container);
+                }
+            });
+        });
+
+        body.find('.side-menu').each(function(index, element) {
+            _loadSideNavigator($(element));
+        });
+
         body.find('.navbar').each(function (index, element) {
             $(element).find('p').each(function (index2, element2) {
 
@@ -478,7 +632,7 @@
         });
 
         body.find('.dropdown').each(function (index, element) {
-            $(element).find('button').on('click', function (index2, element2) {
+            $(element).find('button').on('click', function () {
                 $(element).find('.dropdown-list').toggle();
             });
         });

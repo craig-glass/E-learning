@@ -390,11 +390,14 @@ print("Created Assignments")
 
 start = timezone.datetime(2020, 9, 16, tzinfo=pytz.UTC)
 end = timezone.now()
+delta = int((end - start).total_seconds())
 for student in (s for s in Profile.objects.all() if s.is_student):
     for assignment in Assignment.objects.all():
         if random.random() > 0.2:
-            rdate = start + timezone.timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
+            rdate = start + timezone.timedelta(seconds=random.randint(0, delta))
+            sdate = rdate - timezone.timedelta(seconds=random.randint(delta - 86400, delta - 3600))
+            edate = sdate + timezone.timedelta(seconds=random.randint(300, 3300))
             Grade.objects.get_or_create(student=student, assignment=assignment, grade=random.randint(0, 100),
-                                        time_taken=datetime.time(random.randint(0, 2), random.randint(0, 59)),
-                                        teacher=assignment.module.course.owner, date_submitted=rdate)
+                                        datetime_started=sdate, datetime_submitted=edate,
+                                        teacher=assignment.module.course.owner)
 print("Assigned Grades")

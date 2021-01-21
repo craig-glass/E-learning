@@ -159,9 +159,12 @@ class Grade(models.Model):
     #                          blank=True)
 
     grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
-    time_taken = models.TimeField(null=True)
+    datetime_started = models.DateTimeField()
+    datetime_submitted = models.DateTimeField(default=timezone.now())
 
-    date_submitted = models.DateTimeField(default=timezone.now())
+    @property
+    def time_taken(self):
+        return self.datetime_submitted - self.datetime_started
 
     def __str__(self):
         return f'{self.assignment}:{self.student}:{self.grade}'

@@ -171,7 +171,7 @@ class RegisteredCourseAnalyticsAjax(View):
         context = {}
         if account.is_student:
             # Graph all grades for provided account and course
-            assignment_marks = Grade.objects.filter(student=account, assignment__module__course=course)\
+            assignment_marks = Grade.objects.filter(student=account, assignment__module__course=course) \
                 .order_by('datetime_submitted')
             context['assignment_marks'] = {
                 "data": [mark.grade for mark in assignment_marks],
@@ -250,7 +250,7 @@ class OwnedCourseAnalyticsAjax(View):
             }
         }
 
-        # Graph average time taken to complete each assignment in course
+        # Graph average time taken (minutes) to complete each assignment in course
         context['average_time'] = {
             "data": [mean(grade.time_taken.total_seconds()
                           for grade in Grade.objects.filter(assignment=assignment)) / 60
@@ -261,20 +261,17 @@ class OwnedCourseAnalyticsAjax(View):
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
             }
         }
-        print(context['average_time'])
 
-        #
+        # Identify all modules and their assignments
         context['modules'] = {}
         for module in Module.objects.filter(course=course):
             context['modules'][module.id] = {
-                "assignments": [],
+                "assignments": [{
+                    "label": assignment.title,
+                    "id": assignment.id
+                } for assignment in module.assignments.all()],
                 "name": module.title
             }
-        for assignment in Assignment.objects.filter(module__course=course):
-            context['modules'][assignment.module.id]['assignments'].append({
-                "label": assignment.title,
-                "id": assignment.id
-            })
         return JsonResponse(context)
 
 
@@ -288,28 +285,30 @@ class CourseAssignmentAnalyticsAjax(View):
         if response:
             return response
         assignment = get_object_or_404(Assignment, id=request.POST.get('assignment'))
-        import random
+
         context = {}
         context['number_data'] = {
-            # TODO use real data
-            "average_score": random.randint(0, 100),
-            # TODO use real data
-            "average_time": random.randint(20, 60)
+            "average_score": mean(grade.grade for grade in Grade.objects.filter(assignment=assignment)),
+            "average_time": mean(grade.time_taken.total_seconds()
+                                 for grade in Grade.objects.filter(assignment=assignment)) / 60
         }
-        labels = [student.userid for student in assignment.module.course.students.all()]
-        # TODO use real data
+
+        # Graph of marks each student received for the given assignment
+        students = assignment.module.course.students.all()
         context['assignment_marks'] = {
-            "data": [random.randint(0, 100) for _ in range(len(labels))],
-            "label": labels,
+            "data": [Grade.objects.get(student=student, assignment=assignment).grade for student in students],
+            "label": [student.id for student in students],
             "color": {
                 "type": "gradient",
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
             }
         }
-        # TODO use real data
+
+        # Graph of time taken (minutes) for each student to complete the given assignment
         context['assignment_time'] = {
-            "data": [random.randint(20, 60) for _ in range(len(labels))],
-            "label": labels,
+            "data": [Grade.objects.get(student=student, assignment=assignment).time_taken.total_seconds() / 60
+                     for student in students],
+            "label": [student.id for student in students],
             "color": {
                 "type": "gradient",
                 "gradient": ["#FF0000", "#FFFF00", "#00FF00"]

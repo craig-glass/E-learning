@@ -50,12 +50,8 @@
                             <input type="radio" id="choice-{{ choice.id }}" name="question-{{ question.id }}"
                                    value="{{ choice.choice_text }}" required="required">
                             <label for="{{ choice.id }}">{{ choice.choice_text }}</label>
-
                         </p>
-
                     {% endfor %}
-
-
                 {% endfor %}
                 <button type="submit">Submit</button>
             </form>

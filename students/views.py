@@ -234,3 +234,4 @@ class QuizSubmissionView(TemplateResponseMixin, View):
             return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
         return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
 
+

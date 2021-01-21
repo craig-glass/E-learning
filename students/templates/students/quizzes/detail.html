@@ -21,7 +21,7 @@
                 {% for m in course.modules.all %}
                     <li data-id="{{ m.id }}"
                         {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'quiz_list_student_view_module' course.id m.id %}">
+                        <a href="{% url 'students:quiz_list_student_view_module' course.id m.id %}">
                             <span>
                                 Module<span class="order">{{ m.order|add:1 }}</span>
                             </span>

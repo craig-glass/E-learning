@@ -134,14 +134,11 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
 
     def dispatch(self, request, pk, module_id, assignment_id, id=None):
         self.assignment = get_object_or_404(Assignment,
-                                            id=assignment_id,
-                                            )
+                                            id=assignment_id)
         self.module = get_object_or_404(Module,
-                                        id=module_id,
-                                        course__owner=request.user)
+                                        id=module_id)
         self.course = get_object_or_404(Course,
-                                        id=pk,
-                                        )
+                                        id=pk)
         self.model = self.get_model()
         if id:
             self.obj = get_object_or_404(self.model,
@@ -152,14 +149,11 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
     def get(self, request, pk, module_id, assignment_id, id=None):
         form = self.get_form(self.model, instance=self.obj)
         module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
+                                   id=module_id)
         assignment = get_object_or_404(Assignment,
-                                       id=assignment_id,
-                                       )
+                                       id=assignment_id)
         course = get_object_or_404(Course,
-                                   id=pk,
-                                   )
+                                   id=pk)
         return self.render_to_response({'form': form,
                                         'module': module,
                                         'course': course,
@@ -197,8 +191,7 @@ class QuizSubmissionView(TemplateResponseMixin, View):
         self.quiz = get_object_or_404(Quiz,
                                       id=quiz_id)
         self.module = get_object_or_404(Module,
-                                        id=module_id,
-                                        course__owner=request.user)
+                                        id=module_id)
         self.course = get_object_or_404(Course,
                                         id=pk)
         self.model = self.get_model()
@@ -211,8 +204,7 @@ class QuizSubmissionView(TemplateResponseMixin, View):
     def get(self, request, pk, module_id, quiz_id, id=None):
 
         module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
+                                   id=module_id)
         quiz = get_object_or_404(Quiz,
                                  id=quiz_id)
         course = get_object_or_404(Course,

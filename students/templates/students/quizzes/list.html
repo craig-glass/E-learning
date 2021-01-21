@@ -46,8 +46,6 @@
                         <p>{{ quiz.description }}</p>
                         <a href="{% url 'students:quiz_detail_student_view' course.id module.id quiz.id %}">Take Quiz</a>
                     </div>
-                {% empty %}
-                    <p>This module has no assignments yet</p>
                 {% endfor %}
             </div>
         </div>

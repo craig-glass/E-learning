@@ -1,4 +1,4 @@
-{% extends "student_base.html" %}
+{% extends "base.html" %}
 {% load course %}
 {% block title %}
     {{ object.title }}
@@ -12,7 +12,6 @@
     {% endwith %}
 {% endblock %}
 
-
 {% block content %}
     <div class="col-12 col-md-3 col-centered">
         <div class="contents">
@@ -21,7 +20,7 @@
                 {% for m in course.modules.all %}
                     <li data-id="{{ m.id }}"
                         {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'quiz_list_student_view_module' course.id m.id %}">
+                        <a href="{% url 'students:quiz_list_student_view_module' course.id m.id %}">
                             <span>
                                 Module<span class="order">{{ m.order|add:1 }}</span>
                             </span>
@@ -51,12 +50,8 @@
                             <input type="radio" id="choice-{{ choice.id }}" name="question-{{ question.id }}"
                                    value="{{ choice.choice_text }}" required="required">
                             <label for="{{ choice.id }}">{{ choice.choice_text }}</label>
-
                         </p>
-
                     {% endfor %}
-
-
                 {% endfor %}
                 <button type="submit">Submit</button>
             </form>

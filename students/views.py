@@ -24,7 +24,7 @@ from .models import AssignmentSubmission, QuizAnswer
 class StudentRegistrationView(CreateView):
     template_name = 'students/student/registration.html'
     form_class = UserCreationForm
-    success_url = reverse_lazy('student_course_list')
+    success_url = reverse_lazy('students:student_course_list')
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -45,7 +45,7 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('student_course_detail',
+        return reverse_lazy('students:student_course_detail',
                             args=[self.course.id])
 
 
@@ -55,6 +55,8 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        for course in qs:
+            print(course, course.students)
         return qs.filter(students__in=[self.request.user])
 
 
@@ -67,14 +69,16 @@ class StudentDetailViewMixin(DetailView):
     model = Course
 
     def get_context_data(self, **kwargs):
+        print(kwargs)
+        print(self.kwargs)
         context = super().get_context_data(**kwargs)
+        print(context)
         course = self.get_object()
         if 'module_id' in self.kwargs:
             context['module'] = course.modules.get(
                 id=self.kwargs['module_id']
             )
-        else:
-            context['module'] = course.modules.all()[0]
+        print(context)
 
         return context
 
@@ -130,14 +134,11 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
 
     def dispatch(self, request, pk, module_id, assignment_id, id=None):
         self.assignment = get_object_or_404(Assignment,
-                                            id=assignment_id,
-                                            )
+                                            id=assignment_id)
         self.module = get_object_or_404(Module,
-                                        id=module_id,
-                                        course__owner=request.user)
+                                        id=module_id)
         self.course = get_object_or_404(Course,
-                                        id=pk,
-                                        )
+                                        id=pk)
         self.model = self.get_model()
         if id:
             self.obj = get_object_or_404(self.model,
@@ -148,14 +149,11 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
     def get(self, request, pk, module_id, assignment_id, id=None):
         form = self.get_form(self.model, instance=self.obj)
         module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
+                                   id=module_id)
         assignment = get_object_or_404(Assignment,
-                                       id=assignment_id,
-                                       )
+                                       id=assignment_id)
         course = get_object_or_404(Course,
-                                   id=pk,
-                                   )
+                                   id=pk)
         return self.render_to_response({'form': form,
                                         'module': module,
                                         'course': course,
@@ -167,12 +165,12 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
                              files=request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.student = request.user
+            obj.student1 = request.user
             obj.assignment = self.assignment
             obj.course = self.course
             obj.submitted_file = request.FILES['submitted_file']
             obj.save()
-            return redirect('student_assignment_detail', self.course.id, self.module.id, self.assignment.id)
+            return redirect('students:student_assignment_detail', self.course.id, self.module.id, self.assignment.id)
         return self.render_to_response({'form': form,
                                         'object': self.obj})
 
@@ -193,8 +191,7 @@ class QuizSubmissionView(TemplateResponseMixin, View):
         self.quiz = get_object_or_404(Quiz,
                                       id=quiz_id)
         self.module = get_object_or_404(Module,
-                                        id=module_id,
-                                        course__owner=request.user)
+                                        id=module_id)
         self.course = get_object_or_404(Course,
                                         id=pk)
         self.model = self.get_model()
@@ -207,8 +204,7 @@ class QuizSubmissionView(TemplateResponseMixin, View):
     def get(self, request, pk, module_id, quiz_id, id=None):
 
         module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
+                                   id=module_id)
         quiz = get_object_or_404(Quiz,
                                  id=quiz_id)
         course = get_object_or_404(Course,
@@ -235,6 +231,7 @@ class QuizSubmissionView(TemplateResponseMixin, View):
                 QuizAnswer.objects.create(answer=answer, question=Question(question_id),
                                           quiz=Quiz(quiz_id), student=request.user, is_correct=correct)
 
-            return redirect('quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
-        return redirect('quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
+            return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
+        return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
+
 

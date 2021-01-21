@@ -16,7 +16,7 @@
                             {% for m in course.modules.all %}
                                 <li data-id="{{ m.id }}"{% if m == module %}
                                     class="selected"{% endif %}>
-                                    <a href="{% url "module_list" m.id %}">
+                                    <a href="{% url "courses:module_list" m.id %}">
                                     <span>
                                         Module<span class="order">
                                         {{ m.order|add:1 }}
@@ -36,16 +36,16 @@
                 <div class="col-12 col-md-9 ">
                     <p class="buttons">
                         <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "text" %}"><span
+                           href="{% url "courses:assignment_content_create" module.id assignment.id "text" %}"><span
                                 class="fas fa-spell-check"></span> ADD TEXT</a>
                         <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "image" %}"><span
+                           href="{% url "courses:assignment_content_create" module.id assignment.id "image" %}"><span
                                 class="fas fa-file-image"></span> ADD IMAGE</a>
                         <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "video" %}"><span
+                           href="{% url "courses:assignment_content_create" module.id assignment.id "video" %}"><span
                                 class="fas fa-file-video"></span> ADD VIDEO</a>
                         <a class="button effect"
-                           href="{% url "assignment_content_create" module.id assignment.id "file" %}"><span
+                           href="{% url "courses:assignment_content_create" module.id assignment.id "file" %}"><span
                                 class="fas fa-file-alt"></span> ADD FILE</a></p>
 
 
@@ -57,7 +57,7 @@
                                 <div data-id="{{ content.id }}">
                                     {% with item=content.item %}
                                         <p>{{ item }}({{ item|model_name }})</p>
-                                        <a href="{% url "assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
+                                        <a href="{% url "courses:assignment_content_create" module.id assignment.id item|model_name %}">Edit</a>
                                     {% endwith %}
                                 </div>
                             {% empty %}
@@ -80,7 +80,7 @@
     });
     $.ajax({
     type: 'POST',
-    url: '{% url "module_order" %}',
+    url: '{% url "courses:module_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(modules_order)
@@ -97,7 +97,7 @@
 
     $.ajax({
     type: 'POST',
-    url: '{% url "content_order" %}',
+    url: '{% url "courses:content_order" %}',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
     data: JSON.stringify(contents_order),

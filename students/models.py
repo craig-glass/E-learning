@@ -32,3 +32,4 @@ class QuizAnswer(models.Model):
 
     def __str__(self):
         return self.quiz.title, 'answer'
+

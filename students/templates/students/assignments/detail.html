@@ -1,4 +1,4 @@
-{% extends "student_base.html" %}
+{% extends "base.html" %}
 {% load course %}
 {% block title %}
     {{ object.title }}
@@ -21,7 +21,7 @@
                 {% for m in course.modules.all %}
                     <li data-id="{{ m.id }}"
                         {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'assignments_list_student_view' object.id %}">
+                        <a href="{% url 'students:assignments_list_student_view' object.id %}">
                             <span>
                                 Module<span class="order">{{ m.order|add:1 }}</span>
                             </span>
@@ -46,7 +46,7 @@
                     {{ item.render }}
                 {% endwith %}
             {% endfor %}
-            <a href="{% url 'assignment_submission' object.id module.id assignment.id %}">Assignment Submission</a>
+            <a href="{% url 'students:assignment_submission' object.id module.id assignment.id %}">Assignment Submission</a>
         </div>
     </div>
 

@@ -1,7 +1,9 @@
+{% load pwa %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
@@ -12,60 +14,62 @@
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
-    <script>
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-    </script>
 </head>
 <body>
 
 <header>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                <a href="/" class="logo">EPiC</a>
-                <form action="/search/" method="GET" class="search-form" style="float: left; padding-left: 10px">
-                    <input id="query-input" type="text" name="query" placeholder="Search...">
-                </form>
-                <p><a style="font-size:15px;" class="button effect" onClick="javascript:history.go(-1);" type="submit"
-                      value="Previous Page"><span class="fas fa-backward"></span> Previous Page</a></p>
-
-            </div>
-            <div class="col-6">
-                <ul class="menu">
-                    {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'logout' %}"><span class="far fa-user"></span> Sign Out</a></li>
-                    {% else %}
-                        <li><a href="{% url 'login' %}"><span class="far fa-user"></span> Sign In</a></li>
-                    {% endif %}
-                </ul>
-
-            </div>
-            <div class="col-12">
-                <a href="/"><img src="{% static 'images/logo.png' %}" alt="Logo" class="img-responsive"></a>
-            </div>
+    <div class="" style="display: table; width: 100%">
+        <div style="display: table-cell; vertical-align: middle">
+            <button onclick="location.href='/'" class="image-link image-link-logo"
+                    title="Home"></button>
+        </div>
+        <div style="display: table-cell; width: 100%; vertical-align: middle">
+            <form action="/search/" method="GET" class="search-form">
+                <input id="query-input" type="text" name="query" placeholder="Search...">
+            </form>
+        </div>
+        <div style="overflow: auto; display: table-cell; vertical-align: middle">
+            {% if request.user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="image-link image-link-profile"
+                            title="Account"></button>
+                    <div class="dropdown-list">
+                        <p>
+                            User: {{ request.user.userid }}
+                        </p>
+                        <a href="{% url 'accounts:account_profile' %}">
+                            <span class="fas fa-user-circle"></span> Profile
+                        </a>
+                        <a href="{% url 'accounts:account_edit' request.user.userid %}">
+                            <span class="fas fa-cog"></span> Settings
+                        </a>
+                        <a href="{% url 'logout' %}">
+                            <span class="fas fa-sign-out-alt"></span> Sign Out
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="header-link">
+                    <span class="far fa-user"></span> Sign In
+                </a>
+            {% endif %}
         </div>
     </div>
-
 </header>
 
+<div id="navigation" class="breadcrumbs">
+    <a href="/">Home</a>/{% block navigation %}{% endblock %}
+</div>
 
-<div id="content">
-    {% block content %}
-    {% endblock %}
+<div id="content" style="display: table; height: 100%">
+    <div class="side-menu dropdown-container" data-hide-function="hideSideMenu">
+        <button class="hide-btn"><i class="fas fa-bars"></i></button>
+    </div>
+
+    <div style="display: table-cell; width: 100%; height: 100%">
+        {% block header %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -359,28 +363,287 @@
         }
     }
 
-    $(document).ready(function () {
-        $('body').find('.navbar').each(function (index, element) {
-            $(element).find('p').each(function (index2, element2) {
-                let f = window[$(element2).attr('data-function')];
-                if (index2 === 0) {
-                    $(element2).addClass('active');
-                    if (typeof f === 'function') {
-                        f($(element2).attr('data-value'));
+    function loadNavigator(container, manualLinks, doAjax=true) {
+        let depth = container.parents('.dropdown-container').length + 1;
+        for (let link of manualLinks) {
+            switch (link.type) {
+                case 'link':
+                    _addNavLink(container, link.text, link.href, depth, link.icon);
+                    break;
+                case 'button':
+                    _addNavButton(container, link.text, link.function, link.context, link.ajax, link.icon, depth);
+                    break;
+            }
+        }
+        if (!doAjax) {
+            return;
+        }
+        let loader = $('<div>').addClass('loader');
+        container.append(loader);
+        standardAjaxCall(
+            container.attr('data-url'),
+            JSON.parse(container.attr('data-context')),
+            function (response) {
+                loader.remove();
+                if (response.nav_links !== undefined) {
+                    for (let nav_link of response.nav_links) {
+                        switch (nav_link.type) {
+                            case 'list':
+                                _addNavButton(container, nav_link.text, nav_link.function, nav_link.context,
+                                    nav_link.ajax, nav_link.icon, depth);
+                                break;
+                            case 'link':
+                                _addNavLink(container, nav_link.text, urlFunction(nav_link.url_params), depth);
+                                break;
+                        }
                     }
                 }
+            },
+            function (response) {
+                loader.remove();
+                let responseText = $('<pre>');
+                container.append(responseText);
+                standardErrorResponse(response, responseText);
+            }
+        )
+    }
+
+    function _addNavLink(container, text, url, depth, iconClass=null) {
+        let link = $('<a>').attr('href', url);
+
+        link.hide();
+        if (iconClass) {
+            container.append(styleNavLink(
+                link, text, depth, $('<i>').addClass(iconClass)
+            ));
+        } else {
+            container.append(styleNavLink(link, text, depth));
+        }
+        link.show('slow');
+    }
+
+    function _addNavButton(container, text, functionString, contextString, ajaxURL, iconClass, depth) {
+        let button = $('<button>').addClass('dropdown-btn');
+        let buttonContainer = $('<div>').addClass('dropdown-container')
+            .attr('data-function', functionString)
+            .attr('data-context', contextString)
+            .attr('data-url', ajaxURL);
+        button.hide();
+        if (iconClass) {
+            container.append(styleNavButton(
+                button, text, depth, $('<i>').addClass(iconClass)
+            ));
+        } else {
+            container.append(styleNavButton(
+                button, text, depth
+            ));
+        }
+        button.show('slow');
+        container.append(
+            buttonContainer
+        );
+        _updateDropdownButton(button);
+    }
+
+    function _loadSideNavigator(container) {
+        loadNavigator(
+            container,
+            [
+                {
+                    href: '{% url 'homepage' %}',
+                    text: 'Home',
+                    icon: 'fa fa-home',
+                    type: 'link',
+                },
+                {
+                    text: 'Course',
+                    icon: 'fa fa-book',
+                    function: '_loadCourseNavigator',
+                    ajax: '/courseListAjax',
+                    context: '{}',
+                    type: 'button',
+                },
+                {
+                    href: '{% url 'announcements:announcements' %}',
+                    text: 'Announcements',
+                    icon: 'fab fa-discourse',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'event_calendar:calendar' %}',
+                    text: 'Calendar',
+                    icon: 'fas fa-calendar-week',
+                    type: 'link',
+                },
+            ],
+            false
+        );
+    }
+
+    function _loadCourseNavigator(container) {
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'students:student_course_list' %}',
+                text: 'My Courses',
+                type: 'link',
+            }]
+        );
+    }
+
+    function _loadModuleNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'students:student_course_detail' 12345 %}'
+                    .replace('12345', context.course_id),
+                text: 'Course Homepage',
+                type: 'link',
+            }]
+        )
+    }
+
+    function _loadModuleContentsNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [
+                {
+                    href: '{% url 'students:student_course_detail_module' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Homepage',
+                    type: 'link',
+                }
+            ],
+            false
+        )
+    }
+
+    function styleNavLink(link, text, depth, icon=null) {
+        link.text('- '.repeat(depth - 1));
+        if (icon) {
+            link.append(icon).html(link.html() + " ");
+        } else {
+            link.html(link.html() + '+ ')
+        }
+        link.append($('<span>').text(text));
+        return link.html(link.html()).css('padding-left', '4');
+    }
+
+    function styleNavButton(button, text, depth, icon=null) {
+        button = styleNavLink(button, text, depth, icon);
+        return button.append($('<span>').html('&nbsp;').append($('<i>').addClass('fa fa-caret-right')));
+    }
+
+    function _updateDropdownButton(element) {
+        element.on('click', function() {
+            let container = element.next();
+            if (container.hasClass('shown')) {
+                container.removeClass('shown').hide('slow');
+                element.find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right');
+            } else if (container.hasClass('been-shown')) {
+                container.addClass('shown').show('slow');
+                element.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+            } else {
+                container.addClass('shown');
+                container.addClass('been-shown');
+                element.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+                window[container.attr('data-function')](container);
+            }
+        });
+    }
+
+    function hideSideMenu(container) {
+        console.log(container);
+        if (container.hasClass('container-hidden')) {
+            container.removeClass('container-hidden');
+            container.find('span').each(function (index, element) {
+                $(element).show('slow');
+            });
+        } else {
+            container.addClass('container-hidden');
+            container.find('span').each(function (index, element) {
+                $(element).hide('slow');
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        let body = $('body');
+
+        body.find('.hide-btn').each(function(index, element) {
+            let container = $(element).parent();
+            $(element).on('click', function(index, element) {
+                let hideFunction = container.attr('data-hide-function');
+                if (hideFunction === undefined) {
+                    if (container.hasClass('container-hidden')) {
+                        container.removeClass('container-hidden');
+                        container.children(':not(.hide-btn)').each(function (index2, element2) {
+                            $(element2).show('slow');
+                        });
+                    } else {
+                        container.addClass('container-hidden');
+                        container.children(':not(.hide-btn)').each(function (index2, element2) {
+                            console.log($(element));
+                            $(element2).hide('slow');
+                        });
+                    }
+                } else {
+                    window[hideFunction](container);
+                }
+            });
+        });
+
+        body.find('.side-menu').each(function(index, element) {
+            _loadSideNavigator($(element));
+        });
+
+        body.find('.navbar').each(function (index, element) {
+            $(element).find('p').each(function (index2, element2) {
+
                 $(element2).attr('tabindex', '0');
                 $(element2).keypress(function (event) {
                     $(element2).click();
                 });
-                $(element2).on('click', function () {
-                    $(element2).parent('.navbar').find('.active').each(function (index3, element3) {
-                        $(element3).removeClass('active');
+                if ($(element).hasClass('navbar-function-link')) {
+                    $(element2).on('click', function () {
+                        window.location.href = $(element2).attr('data-link');
                     });
-                    $(element2).addClass('active');
-                    f($(element2).attr('data-value'));
-                });
+                } else {
+                    let f = window[$(element2).attr('data-function')];
+                    $(element2).on('click', function () {
+                        $(element2).parent('.navbar').find('.active').each(function (index3, element3) {
+                            $(element3).removeClass('active');
+                        });
+                        $(element2).addClass('active');
+                        f($(element2).attr('data-value'));
+                    });
+                }
+                if ($(element).hasClass('navbar-function-link')) {
+                    if (window.location.pathname === $(element2).attr('data-link')) {
+                        $(element2).addClass('active');
+                    }
+                } else {
+                    if (index2 === 0) {
+                        $(element2).addClass('active');
+                        $(element2).click();
+                    }
+                }
             });
+        });
+
+        body.find('.dropdown').each(function (index, element) {
+            $(element).find('button').on('click', function () {
+                $(element).find('.dropdown-list').toggle();
+            });
+        });
+
+        $(window).click(function (e) {
+            let parent = $(e.target).parents();
+            if (!parent.hasClass('dropdown')) {
+                body.find('.dropdown-list').hide();
+            }
         });
     });
 </script>

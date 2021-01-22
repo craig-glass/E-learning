@@ -109,7 +109,7 @@ h1 {
     position: fixed;
     background-color: #F1F1F1;
     overflow: auto;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
     z-index: 1;
 }
 
@@ -231,7 +231,7 @@ h1 {
     width: 100%;
     background-color: #efefef;
     text-align: center;
-    padding:10px 20px;
+    padding: 10px 20px;
     margin: 5%;
 }
 
@@ -362,7 +362,7 @@ ul.content-types li {
 
 form p {
     overflow: auto;
-    text-align:center;
+    text-align: center;
 }
 
 pre.error {
@@ -441,54 +441,45 @@ input, select, textarea {
     display: table;
     width: 100%;
     align-content: center;
-    background-color: transparent;
+    background-color: var(--text-area-col);
     overflow: auto;
     padding: 0;
     margin: 0;
-    margin-bottom:50px;
 }
 
 .navbar.navbar-side-view {
-    display: inline-block!important;
-    width: 100% !important;
+    display: inline-block !important;
+    width: auto;
 }
 
-.navbar p{
+.navbar p {
     display: table-cell;
     vertical-align: middle;
     text-decoration: none;
     text-align: center;
-    padding: 12px;
+    padding: 10px;
     margin: 0;
     color: var(--main-vdark-col);
-    background-color: var(--main-light-col);
-    border: 0;
-    border-top: 4px solid var(--main-dark-col);
-    border-bottom: 4px solid var(--main-dark-col);
+    background-color: transparent;
+    border: 1px dotted var(--main-light-col);
 }
 
 .navbar.navbar-side-view p {
-    display: block!important;
+    display: block !important;
 }
 
-.navbar p:hover, .navbar p:focus {
-    background-color: var(--main-light-col-hl);
+.navbar p:hover, .navbar p:focus, .navbar .active {
+    border-style: solid;
+    border-color: var(--main-dark-col);
+    background-color: var(--text-area-col-hl);
 }
 
 .navbar p:hover {
     cursor: pointer;
 }
 
-.navbar .active {
-    border-left: 8px solid var(--main-dark-col-hl);
-    border-right: 8px solid var(--main-dark-col-hl);
-    background-color: var(--main-light-col-hl);
-    padding: 12px 4px 12px 4px;
-}
-
 .navbar .active:focus {
-    background-color: var(--main-dark-col-hl);
-    color: var(--main-vlight-col)
+    border-width: 2px;
 }
 
 textarea {
@@ -790,10 +781,9 @@ ul.content-types {
 }
 
 
-
 [class*="col-"] {
     display: flex;
-  flex-direction: column;
+    flex-direction: column;
 }
 
 #main-content {
@@ -802,8 +792,12 @@ ul.content-types {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 576px) {
@@ -823,11 +817,11 @@ ul.content-types {
 }
 
 
-
-input, label{
+input, label {
     float: none;
 }
-label{
+
+label {
     display: block;
 }
 

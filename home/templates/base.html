@@ -366,7 +366,7 @@
         }
     }
 
-    function loadNavigator(container, manualLinks, doAjax=true) {
+    function loadNavigator(container, manualLinks, doAjax = true) {
         let depth = container.parents('.dropdown-container').length + 1;
         for (let link of manualLinks) {
             switch (link.type) {
@@ -411,7 +411,7 @@
         )
     }
 
-    function _addNavLink(container, text, url, depth, iconClass=null) {
+    function _addNavLink(container, text, url, depth, iconClass = null) {
         let link = $('<a>').attr('href', url);
 
         link.hide();
@@ -523,7 +523,7 @@
         )
     }
 
-    function styleNavLink(link, text, depth, icon=null) {
+    function styleNavLink(link, text, depth, icon = null) {
         link.text('- '.repeat(depth - 1));
         if (icon) {
             link.append(icon).html(link.html() + " ");
@@ -534,13 +534,13 @@
         return link.html(link.html()).css('padding-left', '4');
     }
 
-    function styleNavButton(button, text, depth, icon=null) {
+    function styleNavButton(button, text, depth, icon = null) {
         button = styleNavLink(button, text, depth, icon);
         return button.append($('<span>').html('&nbsp;').append($('<i>').addClass('fa fa-caret-right')));
     }
 
     function _updateDropdownButton(element) {
-        element.on('click', function() {
+        element.on('click', function () {
             let container = element.next();
             if (container.hasClass('shown')) {
                 container.removeClass('shown').hide('slow');
@@ -571,35 +571,40 @@
             });
         }
     }
-    function updateNavbar(element) {
-        element.find('p').each(function(index, element) {
+
+    function updateNavbar(navbar) {
+        navbar.find('p').each(function (index, element) {
             let f = window[$(element).attr('data-function')];
-            if (index === 0) {
-                $(element).addClass('active');
-                if (typeof f === 'function') {
-                    f($(element).attr('data-value'));
-                }
-            }
             $(element).attr('tabindex', '0');
-            $(element).keypress(function(event) {
+            $(element).keypress(function (event) {
                 $(element).click();
             });
-            $(element).on('click', function() {
-                    $(element).parent('.navbar').find('.active').each(function(index3, element3) {
-                        $(element3).removeClass('active');
-                    });
-                    $(element).addClass('active');
-                    f($(element).attr('data-value'));
+            $(element).on('click', function () {
+                navbar.find('.active').each(function (index3, element3) {
+                    $(element3).removeClass('active');
                 });
+                $(element).addClass('active');
+                if (navbar.hasClass('navbar-function-link')) {
+                    window.location.href = $(element).attr('data-link');
+                } else {
+                    f($(element).attr('data-value'));
+                }
+            });
+            if (window.location.pathname + window.location.search === $(element).attr('data-link')) {
+                $(element).addClass('active');
+            }
+            if (index === 0 && !navbar.hasClass('navbar-function-link')) {
+                $(element).click();
+            }
         });
     }
 
     $(document).ready(function () {
         let body = $('body');
 
-        body.find('.hide-btn').each(function(index, element) {
+        body.find('.hide-btn').each(function (index, element) {
             let container = $(element).parent();
-            $(element).on('click', function(index, element) {
+            $(element).on('click', function (index, element) {
                 let hideFunction = container.attr('data-hide-function');
                 if (hideFunction === undefined) {
                     if (container.hasClass('container-hidden')) {
@@ -620,11 +625,11 @@
             });
         });
 
-        body.find('.side-menu').each(function(index, element) {
+        body.find('.side-menu').each(function (index, element) {
             _loadSideNavigator($(element));
         });
 
-        $('body').find('.navbar').each(function(index, element) {
+        body.find('.navbar').each(function (index, element) {
             updateNavbar($(element));
         });
 

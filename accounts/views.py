@@ -179,10 +179,7 @@ class RegisteredCourseAnalyticsAjax(View):
                 "type": "bar",
                 "data": [mark.grade for mark in assignment_marks],
                 "label": [mark.datetime_submitted for mark in assignment_marks],
-                "color": {
-                    "type": "gradient",
-                    "value": ["#FF0000", "#FFFF00", "#00FF00"]
-                }
+                "color": STANDARD_GRADIENT,
             })
 
             # Graph number of assignments completed against total number of assignments for course
@@ -256,10 +253,7 @@ class OwnedCourseAnalyticsAjax(View):
             "data": [mean(grade.grade for grade in Grade.objects.filter(assignment=assignment))
                      for assignment in course_assignments],
             "label": assignment_titles,
-            "color": {
-                "type": "gradient",
-                "value": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
+            "color": STANDARD_GRADIENT,
         })
 
         # Graph average time taken (minutes) to complete each assignment in course
@@ -271,10 +265,7 @@ class OwnedCourseAnalyticsAjax(View):
                           for grade in Grade.objects.filter(assignment=assignment)) / 60
                      for assignment in course_assignments],
             "label": assignment_titles,
-            "color": {
-                "type": "gradient",
-                "value": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
+            "color": STANDARD_GRADIENT,
         })
 
         # Identify all modules and their assignments
@@ -326,10 +317,7 @@ class CourseAssignmentAnalyticsAjax(View):
             "type": "bar",
             "data": [Grade.objects.get(student=student, assignment=assignment).grade for student in students],
             "label": [student.id for student in students],
-            "color": {
-                "type": "gradient",
-                "value": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
+            "color": STANDARD_GRADIENT,
         })
 
         # Graph of time taken (minutes) for each student to complete the given assignment
@@ -340,10 +328,7 @@ class CourseAssignmentAnalyticsAjax(View):
             "data": [Grade.objects.get(student=student, assignment=assignment).time_taken.total_seconds() / 60
                      for student in students],
             "label": [student.id for student in students],
-            "color": {
-                "type": "gradient",
-                "value": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
+            "color": STANDARD_GRADIENT,
         })
         return JsonResponse(context)
 
@@ -433,3 +418,8 @@ PARTIAL_STAFF_VIEW = ("userid", "firstname", "email",
                       "student", "staff")
 FULL_VIEW = ("userid", "firstname", "lastname", "contacts", "online",
              "student", "staff", "superuser")
+
+STANDARD_GRADIENT = {
+                "type": "gradient",
+                "value": ["#FF0000", "#FFFF00", "#00FF00"]
+            }

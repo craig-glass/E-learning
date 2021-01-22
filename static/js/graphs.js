@@ -213,13 +213,11 @@ function generateColorsGradient(data, min, max, gradient) {
         r = redStart + (specialMod((value - min), (threshold)) * redDelta / threshold);
         g = greenStart + (specialMod((value - min), (threshold)) * greenDelta / threshold);
         b = blueStart + (specialMod((value - min), (threshold)) * blueDelta / threshold);
-        console.log(r + " " + g + " " + b)
         // Convert the rgb values to hex string equivalent
         // "0" is used to ensure single digits have trailing zeros
         r = "0" + Math.max(Math.floor(r), 0).toString(16);
         g = "0" + Math.max(Math.floor(g), 0).toString(16);
         b = "0" + Math.max(Math.floor(b), 0).toString(16);
-        console.log(r + " " + g + " " + b)
 
         // Append in format "#rrggbb"
         colors.push('#'

@@ -16,13 +16,22 @@
 
 {% block content %}
     <div class="navbar navbar-function-link">
+        <div class="container-fluid">
+    <div class="row" style="width: 120%;">
         {% for module in object.modules.all %}
+                <div class="col-12">
             <p data-link="{% url 'students:student_course_detail_module' object.id module.id %}">
                 Module: {{ module.id }}<br>{{ module.title }}
             </p>
+                        </div>
         {% endfor %}
-    </div>
 
+    </div>
+    </div>
+                    </div>
+        <div class="container-fluid">
+    <div class="row">
+                <div class="col-12">
     <div class="modules">
         {% for content in module.contents.all %}
             {% with item=content.item %}
@@ -31,4 +40,7 @@
             {% endwith %}
         {% endfor %}
     </div>
+        </div>
+    </div>
+        </div>
 {% endblock %}

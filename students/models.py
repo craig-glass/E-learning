@@ -4,15 +4,16 @@ from courses.models import Assignment, Course, Quiz, Question
 
 
 class AssignmentSubmission(models.Model):
-    assignment = models.ForeignKey(Assignment, on_delete=models.PROTECT)
+    assignment = models.ForeignKey(Assignment,
+                                   on_delete=models.PROTECT,
+                                   related_name='submissions')
 
     student = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                related_name='assignment_submission',
                                 on_delete=models.CASCADE,
                                 null=True)
     course = models.ForeignKey(Course,
                                on_delete=models.PROTECT)
-    date_of_submission = models.DateTimeField(auto_now_add=True)
+    date_submitted = models.DateTimeField(auto_now_add=True)
     submitted_file = models.FileField(upload_to='submitted_assignments')
 
 

@@ -44,6 +44,7 @@
                 </div>
                 <div class="col-12 col-md-9">
                     <div class="module" style="margin-top:0;">
+                        <p>Assignment Due: {{ assignment.due_date }}</p>
                         <form action="" method="post" enctype="multipart/form-data">
                             {{ form.as_p }}
                             {% csrf_token %}

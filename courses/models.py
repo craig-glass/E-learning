@@ -140,7 +140,7 @@ class Image(ItemBase):
 
 
 class Video(ItemBase):
-    file = models.FileField(upload_to='videos')
+    url = models.URLField()
 
 
 class Quiz(models.Model):

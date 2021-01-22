@@ -173,13 +173,20 @@ class RegisteredCourseAnalyticsAjax(View):
             # Graph all grades for provided account and course
             assignment_marks = Grade.objects.filter(student=account, assignment__module__course=course) \
                 .order_by('datetime_submitted')
+            assignment_marks_data = [mark.grade for mark in assignment_marks]
+            assignment_marks_label = [mark.datetime_submitted for mark in assignment_marks]
+            assignment_marks_meta = [("assignment: " + grade.assignment.title) for grade in assignment_marks]
             context["graphs"].append({
                 "container_id": "registered-course-1",
                 "title": "assignment marks",
                 "type": "bar",
-                "data": [mark.grade for mark in assignment_marks],
-                "label": [mark.datetime_submitted for mark in assignment_marks],
+                "data": assignment_marks_data,
+                "label": assignment_marks_label,
                 "color": STANDARD_GRADIENT,
+                "meta": assignment_marks_meta,
+                "yUnit": "%",
+                "xLabel": "date submitted",
+                "yLabel": "marks (%)",
             })
 
             # Graph number of assignments completed against total number of assignments for course
@@ -245,27 +252,38 @@ class OwnedCourseAnalyticsAjax(View):
 
         # Graph average score for each assignment in course
         course_assignments = Assignment.objects.filter(module__course=course).order_by('order')
+        average_scores = [mean(grade.grade for grade in Grade.objects.filter(assignment=assignment))
+                          for assignment in course_assignments]
         assignment_titles = [assignment.title for assignment in course_assignments]
+        assignment_meta = [("assignment: " + assignment.title) for assignment in course_assignments]
         context["graphs"].append({
             "container_id": "owned-course-1",
             "title": "average score",
             "type": "bar",
-            "data": [mean(grade.grade for grade in Grade.objects.filter(assignment=assignment))
-                     for assignment in course_assignments],
+            "data": average_scores,
             "label": assignment_titles,
             "color": STANDARD_GRADIENT,
+            "meta": assignment_meta,
+            "yUnit": "%",
+            "xLabel": "date submitted",
+            "yLabel": "average marks (%)",
         })
 
         # Graph average time taken (minutes) to complete each assignment in course
+        average_times = [mean(grade.time_taken.total_seconds()
+                              for grade in Grade.objects.filter(assignment=assignment)) / 60
+                         for assignment in course_assignments]
         context["graphs"].append({
             "container_id": "owned-courses-2",
             "title": "average time taken",
             "type": "bar",
-            "data": [mean(grade.time_taken.total_seconds()
-                          for grade in Grade.objects.filter(assignment=assignment)) / 60
-                     for assignment in course_assignments],
+            "data": average_times,
             "label": assignment_titles,
             "color": STANDARD_GRADIENT,
+            "meta": assignment_meta,
+            "yUnit": "mins",
+            "xLabel": "date submitted",
+            "yLabel": "average time (mins)",
         })
 
         # Identify all modules and their assignments
@@ -311,24 +329,37 @@ class CourseAssignmentAnalyticsAjax(View):
 
         # Graph of marks each student received for the given assignment
         students = assignment.module.course.students.all()
+        student_grades = Grade.objects.filter(student__in=students, assignment=assignment)
+        student_marks = [grade.grade for grade in student_grades]
+        student_ids = [student.userid + ": " + student.styled_name for student in students]
+        submission_meta = ["Submitted:" + str(grade.datetime_submitted) for grade in student_grades]
         context["graphs"].append({
             "container_id": "course-assignment-1",
             "title": "student marks",
             "type": "bar",
-            "data": [Grade.objects.get(student=student, assignment=assignment).grade for student in students],
-            "label": [student.id for student in students],
+            "data": student_marks,
+            "label": student_ids,
             "color": STANDARD_GRADIENT,
+            "meta": submission_meta,
+            "yUnit": "%",
+            "xLabel": "date submitted",
+            "yLabel": "marks (%)",
         })
 
         # Graph of time taken (minutes) for each student to complete the given assignment
+        student_times = [Grade.objects.get(student=student, assignment=assignment).time_taken.total_seconds() / 60
+                         for student in students]
         context["graphs"].append({
             "container_id": "course-assignment-2",
             "title": "time taken",
             "type": "bar",
-            "data": [Grade.objects.get(student=student, assignment=assignment).time_taken.total_seconds() / 60
-                     for student in students],
-            "label": [student.id for student in students],
+            "data": student_times,
+            "label": student_ids,
             "color": STANDARD_GRADIENT,
+            "meta": submission_meta,
+            "yUnit": "mins",
+            "xLabel": "date submitted",
+            "yLabel": "time taken (mins)",
         })
         return JsonResponse(context)
 
@@ -420,6 +451,6 @@ FULL_VIEW = ("userid", "firstname", "lastname", "contacts", "online",
              "student", "staff", "superuser")
 
 STANDARD_GRADIENT = {
-                "type": "gradient",
-                "value": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
+    "type": "gradient",
+    "value": ["#FF0000", "#FFFF00", "#00FF00"]
+}

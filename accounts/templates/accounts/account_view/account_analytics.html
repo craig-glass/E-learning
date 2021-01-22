@@ -104,8 +104,14 @@
                         .addClass('numbers-container')
                     container.append(numbersContainer);
                 }
+                let value = stat.value;
+                if (value % 1 === 0) {
+                    value = Math.round(value);
+                } else {
+                    value = value.toPrecision(3)
+                }
                 numbersContainer.append(
-                    $('<p>').text(stat.name + ":" + stat.value)
+                    $('<p>').text(stat.name + ":" + value)
                 )
             }
         }

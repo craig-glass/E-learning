@@ -51,7 +51,8 @@ function setToGraph(element, graphOptions) {
  */
 function generateGraph(element,
                        {
-                           data, label, color = {},
+                           data, label, color = {}, meta = [],
+                           xUnit = '', yUnit = '', xLabel = '', yLabel = '',
                            title = '', type = 'bar', custom_settings = {}
                        }) {
     switch (color.type) {
@@ -99,6 +100,17 @@ function generateGraph(element,
                     ticks: {
                         suggestedMin: 0,
                         suggestedMax: 0
+                    },
+                    scaleLabel: {
+                        display: yLabel !== '',
+                        labelString: yLabel,
+                    }
+                }],
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: xLabel !== '',
+                        labelString: xLabel,
                     }
                 }]
             }
@@ -133,9 +145,40 @@ function generateGraph(element,
                             }]
                         }
                     }
-                })
+                });
             break;
     }
+    merge(config,
+        {
+            options: {
+                tooltips: {
+                    callbacks: {
+                        title: function (tooltipItem, data) {
+                            return data['labels'][tooltipItem[0]['index']];
+                        },
+                        label: function (tooltipItem, data) {
+                            let value = data['datasets'][0]['data'][tooltipItem['index']];
+                            if (value % 1 === 0) {
+                                value = Math.round(value);
+                            } else {
+                                value = value.toPrecision(3)
+                            }
+                            return value + yUnit;
+                        },
+                        afterLabel: function (tooltipItem, data) {
+                            if (meta)
+                                return meta[tooltipItem['index']];
+                            else
+                                return '';
+                        },
+                    },
+                    backgroundColor: '#FFFFFF',
+                    titleFontColor: '#000000',
+                    bodyFontColor: '#444444',
+                }
+            }
+        }
+    );
     merge(config, custom_settings);
 
     let ctx = element.getContext('2d');

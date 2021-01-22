@@ -20,6 +20,11 @@
  *                                                             Expected to be equal in length to dataset.data
  *                                                  <li>gradient - List of colors (at least two) to gradate between
  *                                                  </ul
+ * @property {Array.<String>} dataset.meta
+ * @property {String} xUnit - Units to be shown for x-axis data
+ * @property {String} yUnit - Units to be shown for y-axis data
+ * @property {String} xLabel - Label to be shown on x-axis
+ * @property {String} yLabel - Label to be shown on y-axis
  * @property {String} dataset.title - Title to be shown on top of graph
  * @property {String} dataset.type - {@link https://docs.jboss.org/richfaces/latest/jsdoc/chart.js.html Chart.js}
  *                                   graph type

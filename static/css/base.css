@@ -66,6 +66,37 @@ h1 {
     background-color: var(--text-area-dark-col);
 }
 
+.numbers-container {
+    width: 100%;
+    border-top: 2px solid var(--main-dark-col);
+    border-bottom: 2px solid var(--main-dark-col);
+    padding: 0;
+    margin: 0;
+}
+
+.numbers-container p {
+    display: inline-block;
+    padding: 4px;
+}
+
+.graph-container {
+    width: 100%;
+    border-top: 2px solid var(--main-light-col);
+    border-bottom: 2px solid var(--main-light-col);
+    padding: 0;
+    margin: 0;
+}
+
+.graph-container.pie canvas {
+    display: inline-block !important;
+    max-width: 500px;
+}
+
+.graph-container.bar canvas {
+    display: inline-block;
+    max-width: 750px;
+}
+
 /* Dropdown based on: https://www.w3schools.com/howto/howto_js_dropdown.asp */
 .dropdown {
     display: inline-block;

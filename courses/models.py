@@ -1,6 +1,6 @@
-import datetime
-
+from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -141,3 +141,30 @@ class Image(ItemBase):
 class Video(ItemBase):
     file = models.FileField(upload_to='videos')
 
+
+class Grade(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.PROTECT,
+                                related_name='grades')
+    teacher = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.PROTECT,
+                                )
+    assignment = models.ForeignKey(Assignment,
+                                   on_delete=models.PROTECT,
+                                   null=True,
+                                   blank=True)
+    # quiz = models.ForeignKey(Quiz,
+    #                          on_delete=models.PROTECT,
+    #                          null=True,
+    #                          blank=True)
+
+    grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+    datetime_started = models.DateTimeField()
+    datetime_submitted = models.DateTimeField(default=timezone.now())
+
+    @property
+    def time_taken(self):
+        return self.datetime_submitted - self.datetime_started
+
+    def __str__(self):
+        return f'{self.assignment}:{self.student}:{self.grade}'

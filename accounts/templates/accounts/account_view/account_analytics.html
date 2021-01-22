@@ -20,14 +20,8 @@
                 </div>
                 <pre id="registered-response-pre" class="response-text"></pre>
 
-                <div class="container-numbers">
-                </div>
-                <div id="container-student-assignment-marks" class="graph-container"
-                     style="max-width: 750px"></div>
-                <div id="container-course-progress" class="graph-container"
-                     style="max-width: 400px"></div>
-                <div id="module-progress"
-                     style=""></div>
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% else %}
                 <h2>You are currently not registered for any courses</h2>
             {% endif %}
@@ -45,14 +39,8 @@
                 </div>
                 <pre id="owned-response-pre" class="response-text"></pre>
 
-                <div class="container-numbers">
-                    <p style="float: left">Number of Students:</p>
-                    <p id="student-count" style="float: left" class="numbers-value"></p>
-                </div>
-                <div id="container-average-score" class="graph-container"
-                     style="max-width: 750px"></div>
-                <div id="container-average-time" class="graph-container"
-                     style="max-width: 750px"></div>
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% else %}
                 <h2>You currently own no courses</h2>
             {% endif %}
@@ -61,18 +49,10 @@
             {% if owned_courses %}
                 <h3 id="assignment-header">Course [] Modules</h3>
                 <div id="course-assignment-navbars" style="width: 100%"></div>
-                <pre id="assignemnt-response-pre" class="response-text"></pre>
+                <pre id="assignment-response-pre" class="response-text"></pre>
 
-                <div class="container-numbers">
-                    <p style="float: left">Average Score:</p>
-                    <p id="average-score" class="numbers-value"></p>
-                    <p style="float: left">Average Time:</p>
-                    <p id="average-time" class="numbers-value"></p>
-                </div>
-                <div id="container-assignment-marks" class="graph-container"
-                     style="max-width: 750px"></div>
-                <div id="container-assignment-time" class="graph-container"
-                     style="max-width: 750px"></div>
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% endif %}
         </div>
     {% endif %}
@@ -80,154 +60,78 @@
 {% block extrajavascript %}
     <script src={% static 'js/graphs.js' %}></script>
     <script>
-        function setStudentAssignmentMarks(data) {
-            setToGraph(
-                document.getElementById('container-student-assignment-marks'),
-                data,
-                'assignment marks',
-                'bar',
-                {
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    suggestedMin: 0,
-                                    suggestedMax: 100
-                                }
-                            }]
-                        }
-                    }
+        /**
+         * Fill container with graphs of the given data.
+         * @param {jQuery} container - jQuery element to contain the graphs.
+         * @param {Array.<Object>} graphData - Array of Objects defining data and format of graphs to be rendered.
+         *                                     {@link graphOptions graph options}.
+         * @param {String} graphData[].container_id - Id of the graph container to put the graph in.
+         *                                            Set multiple graphs to the same id to position them
+         *                                            in line with each other.
+         */
+        function addGraphs(container, graphData) {
+            for (let graph of graphData) {
+                // Put graphs with the same container id in the same div
+                let graphContainer = $('#' + graph.container_id);
+                if (!graphContainer.length) {
+                    graphContainer = $('<div>').attr('id', graph.container_id)
+                        .addClass('graph-container').addClass(graph.type);
+                    container.append(graphContainer);
                 }
-            );
-        }
-
-        function setCourseProgress(data) {
-            setToGraph(
-                document.getElementById('container-course-progress'),
-                data,
-                'course progress',
-                'pie',
-                {
-                    options: {
-                        legend: {
-                            display: false
-                        },
-                        scales: {
-                            yAxes: [{
-                                display: false
-                            }],
-                            xAxes: [{
-                                display: false
-                            }]
-                        }
-                    }
-                }
-            );
-        }
-        function setModuleProgress(modules) {
-            let moduleProgress = document.getElementById('module-progress');
-            for (let module in modules) {
-                let moduleContainer = document.createElement('div');
-                moduleContainer.className = 'graph-container';
-                moduleContainer.style.maxWidth = '400px';
-                moduleContainer.style.float = 'left';
-                moduleProgress.appendChild(moduleContainer)
                 setToGraph(
-                    moduleContainer,
-                    modules[module]['data'],
-                    modules[module]['name'],
-                    'pie',
-                    {
-                        options: {
-                            legend: {
-                                display: false
-                            },
-                            scales: {
-                                yAxes: [{
-                                    display: false
-                                }],
-                                xAxes: [{
-                                    display: false
-                                }]
-                            }
-                        }
-                    }
-                )
+                    graphContainer[0],
+                    graph
+                );
             }
         }
-        function setAverageScores(data) {
-            setToGraph(
-                document.getElementById('container-average-score'),
-                data,
-                'average student score',
-                'bar',
-                {
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    suggestedMin: 0,
-                                    suggestedMax: 100
-                                }
-                            }]
-                        }
-                    }
+
+        /**
+         * Fill container with numerical statistics from the given data
+         * @param {jQuery} container - jQuery element to contain the stats.
+         * @param {Array.<Object>} numberData - Array of objects, each defining the parameters of a statistic.
+         * @param {String} numberData[].container_id - Id of the stat container to put the stats in.
+         *                                                 Set multiple stats to the same id to position them
+         *                                                 in line with each other.
+         * @param {String} numberData[].name - Name of the statistic or very short description.
+         * @param {*} numberData[].value - Value of the statistic.
+         * @param [units] - Units to be appended to value.
+         */
+        function addStats(container, numberData, units = '') {
+            for (let stat of numberData) {
+                let numbersContainer = $('#' + stat.container_id);
+                if (!numbersContainer.length) {
+                    numbersContainer = $('<div>').attr('id', stat.container_id)
+                        .addClass('numbers-container')
+                    container.append(numbersContainer);
                 }
-            );
-        }
-        function setAverageTime(data) {
-            setToGraph(
-                document.getElementById('container-average-time'),
-                data,
-                'average time taken',
-                'bar'
-            )
-        }
-        function setOverallAssignmentMarks(data) {
-            setToGraph(
-                document.getElementById('container-assignment-marks'),
-                data,
-                'student marks',
-                'bar',
-                {
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    suggestedMin: 0,
-                                    suggestedMax: 100
-                                }
-                            }]
-                        }
-                    }
+                let value = stat.value;
+                if (value % 1 === 0) {
+                    value = Math.round(value);
+                } else {
+                    value = value.toPrecision(3)
                 }
-            )
-        }
-        function setAssignmentTime(data) {
-            setToGraph(
-                document.getElementById('container-assignment-time'),
-                data,
-                'time taken',
-                'bar'
-            )
+                numbersContainer.append(
+                    $('<p>').text(stat.name + ":" + value)
+                )
+            }
         }
 
         /**
          * Empty all child elements containing graphs
-         * @param parent Parent element to empty
+         * @param parent - Parent element to empty
          */
         function clearGraphs(parent) {
-            parent.find('.graph-container').each(function(index, element) {
+            parent.find('.container-graphs').each(function (index, element) {
                 $(element).html('');
             });
-            parent.find('.numbers-container').find('.numbers-value').each(function (index, element) {
+            parent.find('.container-numbers').each(function (index, element) {
                 $(element).html('');
             });
         }
 
         /**
          * Query then set registered course graph data for the given course
-         * @param course Course id to query data for
+         * @param course - Course id to query data for
          */
         function updateRegisteredGraphs(course) {
             standardAjaxCall(
@@ -239,14 +143,15 @@
                 function (response) {
                     // Clear any existing response text
                     standardSuccessResponse('', $('#registered-response-pre'));
-                    clearGraphs($('#registered-course-graphs'));
+                    let registeredCourses = $('#registered-course-graphs');
+                    clearGraphs(registeredCourses);
+                    let graphsContainer = registeredCourses.find('.container-graphs');
+                    let numbersContainer = registeredCourses.find('.container-numbers');
 
-                    if (response.assignment_marks !== undefined)
-                        setStudentAssignmentMarks(response.assignment_marks);
-                    if (response.course_progress !== undefined)
-                        setCourseProgress(response.course_progress)
-                    if (response.module_progress !== undefined)
-                        setModuleProgress(response.module_progress)
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs);
                 },
                 function (response) {
                     standardErrorResponse(response, $('#registered-response-pre'));
@@ -256,7 +161,7 @@
 
         /**
          * Query then set owned course graph data for the given course
-         * @param course Course id to query data for
+         * @param course - Course id to query data for
          */
         function updateOwnedGraphs(course) {
             standardAjaxCall(
@@ -268,24 +173,24 @@
                 function (response) {
                     // Clear any existing response text
                     standardSuccessResponse('', $('#owned-response-pre'));
-                    clearGraphs($('#owned-course-graphs'));
                     $('#assignment-header').text('Course [' + response.title + '] Modules');
 
-                    if (response.number_data !== undefined) {
-                        if (response.number_data.student_count !== undefined)
-                            $('#student-count').text(response.number_data.student_count);
-                    }
-                    if (response.average_score !== undefined)
-                        setAverageScores(response.average_score);
-                    if (response.average_time !== undefined)
-                        setAverageTime(response.average_time);
+                    let ownedCourses = $('#owned-course-graphs');
+                    clearGraphs(ownedCourses);
+                    let graphsContainer = ownedCourses.find('.container-graphs');
+                    let numbersContainer = ownedCourses.find('.container-numbers');
+
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs);
 
                     if (response.modules !== undefined) {
                         let navbarContainer = $('#course-assignment-navbars');
                         navbarContainer.html('');
                         for (let module in response.modules) {
                             navbarContainer.append($('<h4>').text(response.modules[module].name));
-                            let navbar = $('<div>').addClass('navbar');
+                            let navbar = $('<div>').addClass('navbar').addClass('navbar-no-auto');
                             navbarContainer.append(navbar);
                             for (let assignment of response.modules[module].assignments) {
                                 navbar.append($('<p>')
@@ -302,6 +207,11 @@
                 }
             );
         }
+
+        /**
+         * Query then set course assignment graph data for the given assignment
+         * @param assignment - Assignment id to query data for
+         */
         function updateCourseAssignmentGraphs(assignment) {
             standardAjaxCall(
                 '/account/courseAssignmentAnalyticsAjax',
@@ -311,24 +221,21 @@
                 },
                 function (response) {
                     standardSuccessResponse('', $('assignment-response-pre'));
-                    clearGraphs($('#course-assignment-graphs'))
 
-                    if (response.number_data !== undefined) {
-                        if (response.number_data.average_score !== undefined)
-                            $('#average-score').text(response.number_data.average_score);
-                        if (response.number_data.average_time !== undefined)
-                            $('#average-time').text(response.number_data.average_time);
-                    }
+                    let courseAssignments = $('#course-assignment-graphs');
+                    clearGraphs(courseAssignments);
+                    let graphsContainer = courseAssignments.find('.container-graphs');
+                    let numbersContainer = courseAssignments.find('.container-numbers');
 
-                    if (response.assignment_marks !== null)
-                        setOverallAssignmentMarks(response.assignment_marks);
-                    if (response.assignment_time !== null)
-                        setAssignmentTime(response.assignment_time);
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs);
                 },
                 function (response) {
                     standardErrorResponse(response, $('#assignment-response-pre'));
                 }
-            )
+            );
         }
     </script>
 {% endblock %}

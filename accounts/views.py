@@ -1,3 +1,5 @@
+import datetime
+from statistics import mean
 from typing import Dict, Sequence, Union
 
 from django import forms
@@ -6,7 +8,7 @@ from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 
-from courses.models import Course, Module, Subject, Assignment
+from courses.models import Course, Module, Subject, Assignment, Grade
 from .forms import UserUpdateForm, CourseRegisterForm
 
 User = get_user_model()
@@ -165,55 +167,61 @@ class RegisteredCourseAnalyticsAjax(View):
         if response:
             return response
         course = Course.objects.get(id=request.POST.get('course'))
-        import random
-        import datetime
-        random.seed(request.POST['course'])
-        context = {}
-        am_data = [random.randint(0, 100) for _ in range(random.randint(30, 40))]
-        # am_data = [100 * i / 40 for i in range(41)]
 
-        am_label = [
-            datetime.date(2020, 9, 10) + random.random() * (datetime.date(2021, 7, 10) - datetime.date(2020, 9, 10))
-            for _ in range(len(am_data))
-        ]
+        context = {"graphs": []}
         if account.is_student:
-            # TODO use real data
-            context['assignment_marks'] = {
-                "data": am_data,
-                "label": sorted(am_label),
-                "color": {
-                    "type": "gradient",
-                    "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
-                }
-            }
-            x = random.randint(1, 100)
-            # TODO use real data
-            context['course_progress'] = {
-                "data": [x, 100 - x],
+            # Graph all grades for provided account and course
+            assignment_marks = Grade.objects.filter(student=account, assignment__module__course=course) \
+                .order_by('datetime_submitted')
+            assignment_marks_data = [mark.grade for mark in assignment_marks]
+            assignment_marks_label = [mark.datetime_submitted for mark in assignment_marks]
+            assignment_marks_meta = [("assignment: " + grade.assignment.title) for grade in assignment_marks]
+            context["graphs"].append({
+                "container_id": "registered-course-1",
+                "title": "assignment marks",
+                "type": "bar",
+                "data": assignment_marks_data,
+                "label": assignment_marks_label,
+                "color": STANDARD_GRADIENT,
+                "meta": assignment_marks_meta,
+                "yUnit": "%",
+                "xLabel": "date submitted",
+                "yLabel": "marks (%)",
+            })
+
+            # Graph number of assignments completed against total number of assignments for course
+            total = Assignment.objects.filter(module__course__students__in=[account], module__course=course)
+            completed = total.filter(grade__student=account)
+            num_completed = completed.count()
+            context["graphs"].append({
+                "container_id": "registered-course-2",
+                "title": "course progress",
+                "type": "pie",
+                "data": [num_completed, total.count() - num_completed],
                 "label": ["completed", "uncompleted"],
                 "color": {
                     "type": "list",
                     "value": ["#00AA22", "#22222288"]
                 },
-            }
+            })
 
             context['module_progress'] = []
             for module in Module.objects.filter(course=course):
-                x = random.randint(1, 100)
-                # TODO use real data
-                context['module_progress'].append(
-                    {
-                        "data": {
-                            "data": [x, 100 - x],
-                            "label": ["completed", "uncompleted"],
-                            "color": {
-                                "type": "list",
-                                "value": ["#00AA22", "#22222288"]
-                            },
-                        },
-                        "name": "module: " + module.title,
-                    }
-                )
+                # Graph number of assignments completed for module in course
+                total = Assignment.objects.filter(module__course__students__in=[account], module=module)
+                completed = total.filter(grade__student=account)
+                num_completed = completed.count()
+                context["graphs"].append({
+                    "container_id": "registered-course-3",
+                    "title": "module: " + module.title,
+                    "type": "pie",
+                    "data": [num_completed, total.count() - num_completed],
+                    "label": ["completed", "uncompleted"],
+                    "color": {
+                        "type": "list",
+                        "value": ["#00AA22", "#22222288"]
+                    },
+                })
 
         return JsonResponse(context)
 
@@ -228,47 +236,66 @@ class OwnedCourseAnalyticsAjax(View):
         if response:
             return response
         course = Course.objects.get(id=request.POST.get('course'))
-        import random
-        random.seed(course.id)
-        context = {}
-        context['title'] = course.title
-        # TODO use real data
-        context['number_data'] = {
-            "student_count": random.randint(100, 500)
-        }
-        as_data = [0.0004 * pow(random.randint(0, 100) - 50, 3) + 50 for i in range(random.randint(5, 15))]
-        as_label = ['ws' + str(i) for i in range(len(as_data))]
-        # TODO use real data
-        context['average_score'] = {
-            "data": as_data,
-            "label": as_label,
-            "color": {
-                "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
-        }
-        at_data = [0.0011 * pow(random.randint(0, 60) - 30, 3) + 30 for i in range(len(as_label))]
-        # TODO use real data
-        context['average_time'] = {
-            "data": at_data,
-            "label": as_label,
-            "color": {
-                "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
+        course_students = course.students.all()
+
+        context = {
+            "title": course.title,
+            "graphs": [],
+            "number_data": [
+                {
+                    "container_id": "owned-course-numbers-1",
+                    "name": "student count",
+                    "value": course_students.count(),
+                }
+            ]
         }
 
-        context['modules'] = {}
+        # Graph average score for each assignment in course
+        course_assignments = Assignment.objects.filter(module__course=course).order_by('order')
+        average_scores = [mean(grade.grade for grade in Grade.objects.filter(assignment=assignment))
+                          for assignment in course_assignments]
+        assignment_titles = [assignment.title for assignment in course_assignments]
+        assignment_meta = [("assignment: " + assignment.title) for assignment in course_assignments]
+        context["graphs"].append({
+            "container_id": "owned-course-1",
+            "title": "average score",
+            "type": "bar",
+            "data": average_scores,
+            "label": assignment_titles,
+            "color": STANDARD_GRADIENT,
+            "meta": assignment_meta,
+            "yUnit": "%",
+            "xLabel": "date submitted",
+            "yLabel": "average marks (%)",
+        })
+
+        # Graph average time taken (minutes) to complete each assignment in course
+        average_times = [mean(grade.time_taken.total_seconds()
+                              for grade in Grade.objects.filter(assignment=assignment)) / 60
+                         for assignment in course_assignments]
+        context["graphs"].append({
+            "container_id": "owned-courses-2",
+            "title": "average time taken",
+            "type": "bar",
+            "data": average_times,
+            "label": assignment_titles,
+            "color": STANDARD_GRADIENT,
+            "meta": assignment_meta,
+            "yUnit": "mins",
+            "xLabel": "date submitted",
+            "yLabel": "average time (mins)",
+        })
+
+        # Identify all modules and their assignments
+        context["modules"] = {}
         for module in Module.objects.filter(course=course):
-            context['modules'][module.id] = {
-                "assignments": [],
+            context["modules"][module.id] = {
+                "assignments": [{
+                    "label": assignment.title,
+                    "id": assignment.id
+                } for assignment in module.assignments.all()],
                 "name": module.title
             }
-        for assignment in Assignment.objects.filter(module__course=course):
-            context['modules'][assignment.module.id]['assignments'].append({
-                "label": assignment.title,
-                "id": assignment.id
-            })
         return JsonResponse(context)
 
 
@@ -282,33 +309,58 @@ class CourseAssignmentAnalyticsAjax(View):
         if response:
             return response
         assignment = get_object_or_404(Assignment, id=request.POST.get('assignment'))
-        import random
-        context = {}
-        context['number_data'] = {
-            # TODO use real data
-            "average_score": random.randint(0, 100),
-            # TODO use real data
-            "average_time": random.randint(20, 60)
+
+        context = {
+            "graphs": [],
+            "number_data": [
+                {
+                    "container_id": "course-assignment-numbers-1",
+                    "name": "average score",
+                    "value": mean(float(grade.grade) for grade in Grade.objects.filter(assignment=assignment)),
+                },
+                {
+                    "container_id": "course-assignment-numbers-1",
+                    "name": "average time",
+                    "value": mean(grade.time_taken.total_seconds()
+                                  for grade in Grade.objects.filter(assignment=assignment)) / 60
+                },
+            ]
         }
-        labels = [student.userid for student in assignment.module.course.students.all()]
-        # TODO use real data
-        context['assignment_marks'] = {
-            "data": [random.randint(0, 100) for _ in range(len(labels))],
-            "label": labels,
-            "color": {
-                "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
-        }
-        # TODO use real data
-        context['assignment_time'] = {
-            "data": [random.randint(20, 60) for _ in range(len(labels))],
-            "label": labels,
-            "color": {
-                "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
-            }
-        }
+
+        # Graph of marks each student received for the given assignment
+        students = assignment.module.course.students.all()
+        student_grades = Grade.objects.filter(student__in=students, assignment=assignment)
+        student_marks = [grade.grade for grade in student_grades]
+        student_ids = [student.userid + ": " + student.styled_name for student in students]
+        submission_meta = ["Submitted:" + str(grade.datetime_submitted) for grade in student_grades]
+        context["graphs"].append({
+            "container_id": "course-assignment-1",
+            "title": "student marks",
+            "type": "bar",
+            "data": student_marks,
+            "label": student_ids,
+            "color": STANDARD_GRADIENT,
+            "meta": submission_meta,
+            "yUnit": "%",
+            "xLabel": "date submitted",
+            "yLabel": "marks (%)",
+        })
+
+        # Graph of time taken (minutes) for each student to complete the given assignment
+        student_times = [Grade.objects.get(student=student, assignment=assignment).time_taken.total_seconds() / 60
+                         for student in students]
+        context["graphs"].append({
+            "container_id": "course-assignment-2",
+            "title": "time taken",
+            "type": "bar",
+            "data": student_times,
+            "label": student_ids,
+            "color": STANDARD_GRADIENT,
+            "meta": submission_meta,
+            "yUnit": "mins",
+            "xLabel": "date submitted",
+            "yLabel": "time taken (mins)",
+        })
         return JsonResponse(context)
 
 
@@ -317,6 +369,7 @@ def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
     Generate standard json response for invalid forms
     (uses error code 422 - Unprocessable Entity)
     form -- Form, which has been shown to be invalid
+    return -- JsonResponse with error code and form parameters
     """
     response = JsonResponse({'form': form.errors})
     response.status_code = 422
@@ -325,6 +378,13 @@ def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
 
 def validate_account_view_ajax(current_user: User, account: User,
                                needs_view_perm: bool = False) -> Union[JsonResponse, None]:
+    """
+    Ensure the given user has permissions to view analytics data for the given account
+    current_user -- User attempting to view the analytics
+    account -- Account the current_user is trying to view
+    needs_view_perm -- Whether the current_user should have permission to view all profiles to view this account
+    return -- JsonResponse with error code if current_user is not authorized else None
+    """
     if (not current_user.has_perm('accounts.view_profile') and (needs_view_perm or current_user != account)
             or not current_user.is_authenticated):
         response = JsonResponse({})
@@ -351,8 +411,9 @@ def get_user_details(account: User, reader: User) -> Dict[str, any]:
 
 def parse_details(account: User, allowed_details: Sequence[str]) -> Dict[str, any]:
     """
-    account --
-
+    Parse details on the given account into dictionary format
+    account -- User to be parsed
+    allowed_details -- Parameters to be parsed from the account
     """
     details = {}
     if 'userid' in allowed_details:
@@ -388,3 +449,8 @@ PARTIAL_STAFF_VIEW = ("userid", "firstname", "email",
                       "student", "staff")
 FULL_VIEW = ("userid", "firstname", "lastname", "contacts", "online",
              "student", "staff", "superuser")
+
+STANDARD_GRADIENT = {
+    "type": "gradient",
+    "value": ["#FF0000", "#FFFF00", "#00FF00"]
+}

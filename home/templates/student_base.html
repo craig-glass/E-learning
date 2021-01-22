@@ -1,0 +1,429 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
+    <title>{% block title %}Educate{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <a href="/" class="logo">EPiC</a>
+                <form action="/search/" method="GET" class="search-form" style="float: left; padding-left: 10px">
+                    <input id="query-input" type="text" name="query" placeholder="Search...">
+                </form>
+                <p><a style="font-size:15px;" class="button effect" onClick="javascript:history.go(-1);" type="submit"
+                      value="Previous Page"><span class="fas fa-backward"></span> Previous Page</a></p>
+
+            </div>
+            <div class="col-6">
+                <ul class="menu">
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}"><span class="far fa-user"></span> Sign Out</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}"><span class="far fa-user"></span> Sign In</a></li>
+                    {% endif %}
+                </ul>
+
+            </div>
+            <div class="col-12">
+                <a href="/"><img src="{% static 'images/logo.png' %}" alt="Logo" class="img-responsive"></a>
+            </div>
+        </div>
+    </div>
+
+</header>
+<div class="studenth1">
+    {% block h1 %}
+    {% endblock %}
+</div>
+<div id="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {% block modulebar %}
+                {% endblock %}
+
+                <div id="sideMenu" style="              text-align:center; margin-bottom:100px;">
+
+                    <p><a class="button effect" href="#"><span class="fas fa-home"></span> Home</a></p>
+                    <p><a class="button effect" href="{% url 'students:student_course_list' %}"><span class="fas fa-book"></span>
+                        Courses</a></p>
+                    <p><a class="button effect" href="{% url 'announcements:announcements' course.id %}"><span
+                            class="fab fa-discourse"></span>
+                        Announcements</a></p>
+                    <p><a class="button effect" href="{% url 'students:student_course_detail' course.id %}"><span
+                            class="fab fa-readme"></span> Modules</a></p>
+                    <p><a class="button effect" href="{% url 'students:assignments_list_student_view' course.id %}"><span
+                            class="fas fa-pencil-alt"></span> Assignments</a></p>
+                    <p><a class="button effect" href="{% url 'students:quiz_list_student_view' course.id %}"><span
+                            class="fas fa-pencil-alt"></span> Quizzes</a></p>
+                    <p><a class="button effect" href="{% url 'event_calendar:calendar' %}"><span
+                            class="fas fa-calendar-week"></span> Calendar</a></p>
+                    <p><a class="button effect" href="/account/profile/{{ user_details.userid }}"><span
+                            class="fas fa-user-circle"></span> Account</a></p>
+                </div>
+
+            </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        {% block domready %}
+        {% endblock %}
+    });
+
+    /**
+     * Generate and assign validation methods to inputs within the given form and assign an ajax call of given url with
+     * data specified in the form to the submit
+     * @param {jQuery} form Form element being setup
+     * @param {String} ajaxURL URL for the ajax to be called by the form's submit
+     * @param {function(Object)} success Function to be called on successful ajax response
+     *                                   Object - Response object to be retrieved from ajax
+     * @param {function(Object)} error Function to be called on failed ajax response
+     *                                 Object - Response object to be retrieved from ajax
+     */
+    function assignStandardFormSetup(form, ajaxURL, success, error) {
+        assignFormValidators(form);
+        // Disable on-submit redirection
+        form.submit(function (e) {
+            return false;
+        });
+        // Assign ajax call to any present submit buttons
+        form.find(':submit').each(function (index, element) {
+            $(element).on('click', function () {
+                // Ensure form data is valid
+                let isValid = validateForm(form);
+                if (!isValid) {
+                    form.find('.response-text').each(function (index, element) {
+                        $(element).html('Invalid inputs');
+                        $(element).removeClass('success').addClass('error');
+                    })
+                    return;
+                }
+
+                // Call ajax with form data
+                let formData = parseFormData(form);
+                standardAjaxCall(ajaxURL, formData, success, error);
+            });
+        });
+    }
+
+    /**
+     * @param {String} ajaxURL URL for the ajax to call to
+     * @param {Object} data Dictionary format data to pass through the ajax
+     * @param {function(Object)} success Function to be called on successful ajax response
+     *                                   Object - Response object to be retrieved from ajax
+     * @param {function(Object)} error Function to be called on failed ajax response
+     *                                 Object - Response object to be retrieved from ajax
+     */
+    function standardAjaxCall(ajaxURL, data, success, error) {
+        $.ajax({
+            url: ajaxURL,
+            type: "POST",
+            data: data,
+            dataType: "json",
+            headers: {"X-CSRFToken": '{{ csrf_token }}'},
+            success: success,
+            error: error,
+        });
+    }
+
+    /**
+     * Assign validation methods to the inputs of the given form element based on input type and predefined classes
+     * @param {jQuery} form Form element to be updated
+     */
+    function assignFormValidators(form) {
+        // Update every input with validation functions
+        form.find(':input').each(function (index, element) {
+            if ($(element).hasClass('form-exempt')) {
+                return;
+            }
+            switch ($(element).prop('tagName')) {
+                case 'INPUT':
+                    let validationFunction = function () {
+                    }
+                    switch ($(element).attr('type')) {
+                        case 'text':
+                            validationFunction = function () {
+                                regexValidateInput($(element), '^ +$');
+                            }
+                            if ($(element).hasClass('validate_text_email')) {
+                                validationFunction = function () {
+                                    regexValidateInput($(element), "^[^.@]+([.][^.@]+)*@[^.@]+[.][^.@]+([.][^.@]+)*$", true);
+                                }
+                            }
+                            if ($(element).hasClass('validate_text_phone_number')) {
+                                validationFunction = function () {
+                                    regexValidateInput($(element), ['^ *$', '[0-9]'], [false, true]);
+                                }
+                            }
+                            if ($(element).hasClass('validate_text_not_empty')) {
+                                validationFunction = function () {
+                                    regexValidateInput($(element), '^ *$');
+                                }
+                            }
+
+                            // Validate current value if not empty
+                            if ($(element).val() !== null && $(element).val() !== '') {
+                                validationFunction();
+                            }
+                            // Assign function
+                            $(element).on('input', validationFunction)
+                            break;
+                    }
+                    break;
+                case 'SELECT':
+                    $(element).on('change', function () {
+                        selectValidateInput($(element));
+                    });
+                    break;
+            }
+        });
+    }
+
+    /**
+     * Validate given input using a regular expression
+     * @param {jQuery} input Input element being validated
+     * @param {String|String[]} regex Regular expression to compare the input's value against
+     *                                Set to array to assess multiple regular expressions
+     * @param {boolean|boolean[]} regexIsValid Regex will be treated as a valid condition if true else invalid if false
+     *                                         Set to array to treat specific indexes of regex differently
+     *                                         Set as single boolean to apply the same condition to all regex values
+     */
+    function regexValidateInput(input, regex = "", regexIsValid = false) {
+        if (typeof regex === "string") {
+            regex = [regex];
+        }
+        if (typeof regexIsValid === 'boolean') {
+            let original = regexIsValid;
+            regexIsValid = [];
+            for (let i = 0; i < regex.length; i++) {
+                regexIsValid.push(original);
+            }
+        }
+        // Ensure arrays are of the same length
+        while (regex.length < regexIsValid.length) {
+            regex.push("");
+        }
+        while (regexIsValid.length < regex.length) {
+            regexIsValid.push(false)
+        }
+        let valid = true;
+        for (let i = 0; i < regex.length; i++) {
+            // Match value with all regular expressions
+            // Same index value of regexIsValid used to assert if the value should or shouldn't match
+            if ((new RegExp(regex[i]).test(input.val())) ^ regexIsValid[i]) {
+                valid = false;
+                break;
+            }
+        }
+        if (valid) {
+            setInputValid(input);
+        } else {
+            setInputInvalid(input);
+        }
+    }
+
+    /**
+     * Validate given input to confirm a valid option is selected
+     * @param {jQuery} input Select element being validated
+     */
+    function selectValidateInput(input) {
+        if (input.find(':selected').prop('disabled')) {
+            setInputInvalid(input);
+        } else {
+            setInputValid(input);
+        }
+    }
+
+    function setInputValid(input) {
+        input.removeClass('invalid').addClass('valid');
+    }
+
+    function setInputInvalid(input) {
+        input.removeClass('valid').addClass('invalid');
+    }
+
+    /**
+     * Retrieve json format form data to be submitted
+     * @param {jQuery} form Form element to be parsed
+     * @return {Object} key-value (name-data) object extracted from the form
+     */
+    function parseFormData(form) {
+        let formData = {}
+        form.find(':input').each(function (index, element) {
+            if ($(element).hasClass('form-exempt')) {
+                return;
+            }
+            // Retrieve correct format values from element
+            switch ($(element).prop('tagName')) {
+                case 'INPUT':
+                    switch ($(element).attr('type')) {
+                        case 'text':
+                            formData[$(element).attr('name')] = $(element).val() === '' ? null : $(element).val();
+                            break;
+                        case 'checkbox':
+                            formData[$(element).attr('name')] = $(element).is(':checked');
+                            break;
+                        case 'hidden':
+                            formData[$(element).attr('name')] = $(element).val();
+                            break;
+                    }
+                    break;
+                case 'SELECT':
+                    formData[$(element).attr('name')] = $(element).val();
+                    break;
+            }
+        });
+        return formData;
+    }
+
+    /**
+     * @param {jQuery} form Form element to be validated
+     * @return {boolean} false if inputs are invalid, or required inputs are unset, else true
+     */
+    function validateForm(form) {
+        let isValid = true;
+        // Ensure no inputs are invalid
+        form.find(':input').each(function (index, element) {
+            isValid = isValid && !$(element).hasClass('invalid');
+        })
+        // Ensure required inputs are all valid
+        form.find(':input').filter('.required').each(function (index, element) {
+            console.log($(element))
+            if (!$(element).hasClass('valid')) {
+                isValid = false;
+                $(element).addClass('invalid');
+            }
+        })
+        return isValid;
+    }
+
+    /**
+     * @param {String} responseText Text to be shown
+     * @param {jQuery} element Element To which the response will be rendered
+     *                         A form input will render to any .response-text child elements
+     */
+    function standardSuccessResponse(responseText, element) {
+        if (element.prop('tagName') === 'FORM') {
+            element.find('.response-text').each(function (index, element2) {
+                _standardSuccessResponse(responseText, $(element2));
+            });
+        } else {
+            _standardSuccessResponse(responseText, element)
+        }
+    }
+
+    function _standardSuccessResponse(responseText, element) {
+        element.text(responseText);
+        element.removeClass('error').addClass('success');
+    }
+
+    /**
+     * @param {Object} response Json response from the server
+     * @param {jQuery} element Element To which the response will be rendered
+     *                         A form input will render to any .response-text child elements
+     */
+    function standardErrorResponse(response, element) {
+        // e.g. "Error 500: Internal Server Error"
+        if (element.prop('tagName') === 'FORM') {
+            element.find('.response-text').each(function (index, element2) {
+                _standardErrorResponse(response, $(element2));
+            });
+        } else {
+            _standardErrorResponse(response, element);
+        }
+    }
+
+    function _standardErrorResponse(response, element) {
+        switch (response.status) {
+            case 422:
+                let errorText = ['Invalid Inputs: ']
+                for (let item in response.responseJSON.form) {
+                    errorText.push(item + " -> " + response.responseJSON.form[item]);
+                }
+                element.text(errorText.join('\n'));
+                element.removeClass('success').addClass('error');
+                break;
+            default:
+                if (response.responseJSON !== undefined &&
+                    response.responseJSON.responseMessage !== undefined) {
+                    element.text(response.responseJSON.responseMessage);
+                } else {
+                    element.text('Error ' + response.status + ': ' + response.statusText);
+                }
+                element.removeClass('success').addClass('error');
+        }
+    }
+
+    $(document).ready(function () {
+        $('body').find('.navbar').each(function (index, element) {
+            $(element).find('p').each(function (index2, element2) {
+                let f = window[$(element2).attr('data-function')];
+                if (index2 === 0) {
+                    $(element2).addClass('active');
+                    if (typeof f === 'function') {
+                        f($(element2).attr('data-value'));
+                    }
+                }
+                $(element2).attr('tabindex', '0');
+                $(element2).keypress(function (event) {
+                    $(element2).click();
+                });
+                $(element2).on('click', function () {
+                    $(element2).parent('.navbar').find('.active').each(function (index3, element3) {
+                        $(element3).removeClass('active');
+                    });
+                    $(element2).addClass('active');
+                    f($(element2).attr('data-value'));
+                });
+            });
+        });
+    });
+</script>
+{% block extrajavascript %}{% endblock %}
+
+</body>
+</html>
+
+
+
+
+
+
+

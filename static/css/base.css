@@ -230,7 +230,9 @@ h1 {
     float: left;
     width: 100%;
     background-color: #efefef;
-    text-align: left;
+    text-align: center;
+    padding:10px 20px;
+    margin: 5%;
 }
 
 .modules {
@@ -360,6 +362,7 @@ ul.content-types li {
 
 form p {
     overflow: auto;
+    text-align:center;
 }
 
 pre.error {
@@ -442,11 +445,12 @@ input, select, textarea {
     overflow: auto;
     padding: 0;
     margin: 0;
+    margin-bottom:50px;
 }
 
 .navbar.navbar-side-view {
     display: inline-block!important;
-    width: 20%;
+    width: 100% !important;
 }
 
 .navbar p{
@@ -785,13 +789,7 @@ ul.content-types {
     margin: 15px;
 }
 
-.row {
-    display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-  flex-wrap: wrap;
-}
+
 
 [class*="col-"] {
     display: flex;
@@ -823,3 +821,13 @@ ul.content-types {
         width: 50px;
     }
 }
+
+
+
+input, label{
+    float: none;
+}
+label{
+    display: block;
+}
+

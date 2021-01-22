@@ -10,6 +10,10 @@ import json
 
 User = get_user_model()
 
+def home(request):
+	template='home/homepage.html'
+	return render(request,template)
+
 
 class HomePageView(TemplateView):
     template_name = 'home/homepage.html'

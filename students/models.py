@@ -23,6 +23,7 @@ class QuizSubmission(models.Model):
     date_submitted = models.DateTimeField(auto_now=True)
     quiz = models.ForeignKey(Quiz,
                              on_delete=models.CASCADE,
+                             related_name='submissions',
                              default=None)
     score = models.PositiveIntegerField(null=True,
                                         default=0)

@@ -18,7 +18,7 @@
     <div class="navbar navbar-function-link">
         {% for module in object.modules.all %}
             <p data-link="{% url 'students:student_course_detail_module' object.id module.id %}">
-                Module: {{ module.id }}<br>{{ module.title }}
+                Module:<br>{{ module.title }}
             </p>
         {% endfor %}
     </div>

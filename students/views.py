@@ -55,30 +55,28 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        for course in qs:
-            print(course, course.students)
         return qs.filter(students__in=[self.request.user])
 
 
-class StudentHomePageView(DetailView):
+class StudentHomePageView(LoginRequiredMixin, DetailView):
     model = Course
     template_name = 'students/home.html'
 
 
-class StudentDetailViewMixin(DetailView):
+class StudentDetailViewMixin(LoginRequiredMixin, DetailView):
     model = Course
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(students__in=[self.request.user])
+
     def get_context_data(self, **kwargs):
-        print(kwargs)
-        print(self.kwargs)
         context = super().get_context_data(**kwargs)
-        print(context)
         course = self.get_object()
         if 'module_id' in self.kwargs:
             context['module'] = course.modules.get(
                 id=self.kwargs['module_id']
             )
-        print(context)
 
         return context
 
@@ -95,7 +93,7 @@ class QuizListStudentView(StudentDetailViewMixin):
     template_name = 'students/quizzes/list.html'
 
 
-class AssignmentDetailStudentView(DetailView):
+class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
     model = Course
     template_name = 'students/assignments/detail.html'
 
@@ -234,7 +232,24 @@ class QuizSubmissionView(TemplateResponseMixin, View):
                                           quiz_submission=quiz_submission, is_correct=correct)
             score = QuizAnswer.objects.filter(quiz_submission=quiz_submission, is_correct=True).count()
             QuizSubmission.objects.filter(id=quiz_submission.id).update(score=score)
-            return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
+            return redirect('students:quiz_submitted_view', self.course.id, self.module.id, self.quiz.id)
         return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
 
 
+class QuizSubmittedView(LoginRequiredMixin, DetailView):
+    model = Course
+    template_name = 'students/quizzes/submitted.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.get_object()
+        context['module'] = course.modules.get(
+            id=self.kwargs['module_id']
+        )
+        context['quiz'] = context['module'].quizzes.get(
+            id=self.kwargs['quiz_id']
+        )
+        context['submission'] = context['quiz'].submissions.filter(
+            student=self.request.user).latest('id')
+
+        return context

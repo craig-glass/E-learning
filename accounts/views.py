@@ -181,7 +181,7 @@ class RegisteredCourseAnalyticsAjax(View):
                 "label": [mark.datetime_submitted for mark in assignment_marks],
                 "color": {
                     "type": "gradient",
-                    "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+                    "value": ["#FF0000", "#FFFF00", "#00FF00"]
                 }
             })
 
@@ -258,7 +258,7 @@ class OwnedCourseAnalyticsAjax(View):
             "label": assignment_titles,
             "color": {
                 "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+                "value": ["#FF0000", "#FFFF00", "#00FF00"]
             }
         })
 
@@ -273,7 +273,7 @@ class OwnedCourseAnalyticsAjax(View):
             "label": assignment_titles,
             "color": {
                 "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+                "value": ["#FF0000", "#FFFF00", "#00FF00"]
             }
         })
 
@@ -328,7 +328,7 @@ class CourseAssignmentAnalyticsAjax(View):
             "label": [student.id for student in students],
             "color": {
                 "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+                "value": ["#FF0000", "#FFFF00", "#00FF00"]
             }
         })
 
@@ -342,7 +342,7 @@ class CourseAssignmentAnalyticsAjax(View):
             "label": [student.id for student in students],
             "color": {
                 "type": "gradient",
-                "gradient": ["#FF0000", "#FFFF00", "#00FF00"]
+                "value": ["#FF0000", "#FFFF00", "#00FF00"]
             }
         })
         return JsonResponse(context)
@@ -353,6 +353,7 @@ def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
     Generate standard json response for invalid forms
     (uses error code 422 - Unprocessable Entity)
     form -- Form, which has been shown to be invalid
+    return -- JsonResponse with error code and form parameters
     """
     response = JsonResponse({'form': form.errors})
     response.status_code = 422
@@ -361,6 +362,13 @@ def invalid_form_response(form: forms.ModelForm) -> JsonResponse:
 
 def validate_account_view_ajax(current_user: User, account: User,
                                needs_view_perm: bool = False) -> Union[JsonResponse, None]:
+    """
+    Ensure the given user has permissions to view analytics data for the given account
+    current_user -- User attempting to view the analytics
+    account -- Account the current_user is trying to view
+    needs_view_perm -- Whether the current_user should have permission to view all profiles to view this account
+    return -- JsonResponse with error code if current_user is not authorized else None
+    """
     if (not current_user.has_perm('accounts.view_profile') and (needs_view_perm or current_user != account)
             or not current_user.is_authenticated):
         response = JsonResponse({})
@@ -387,8 +395,9 @@ def get_user_details(account: User, reader: User) -> Dict[str, any]:
 
 def parse_details(account: User, allowed_details: Sequence[str]) -> Dict[str, any]:
     """
-    account --
-
+    Parse details on the given account into dictionary format
+    account -- User to be parsed
+    allowed_details -- Parameters to be parsed from the account
     """
     details = {}
     if 'userid' in allowed_details:

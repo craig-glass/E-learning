@@ -1,9 +1,39 @@
 /**
- * Set-up given element to display a pie chart with the given data
- * @param {HTMLElement} element Container to render graph in
- * @param {Object} dataset Data to be rendered to the graph
+ * @typedef {Object} graphOptions
+ * @property {Object} dataset - Parameters used to define the properties of the graph.
+ * @property {Array.<Number>} dataset.data - List of values for each point of data on the graph.
+ * @property {Array.<String>} dataset.label - List of labels for each value in dataset.data.
+ *                                            Expected to be equal in length to dataset.data.
+ * @property {Object} [dataset.color] - Object describing how colors should be mapped to values on the graph.
+ *                                      Leave undefined to randomize colors.
+ *           {String} dataset.color.type - Algorithm type to be used:
+ *                                         <ul>
+ *                                         <li>random/undefined - Randomize the colors based on the label of a given value
+ *                                         <li>list - Map defined list of colors to values of same index
+ *                                         <li>gradient - Map colors along an evenly distributed gradient
+ *                                                        between on given colors.
+ *                                         </ul>
+ *           {Array.<String>} dataset.color.value - List of colors dependant on color.type:
+ *                                                  <ul>
+ *                                                  <li>random - Not required
+ *                                                  <li>list - List of colors to directly map.
+ *                                                             Expected to be equal in length to dataset.data
+ *                                                  <li>gradient - List of colors (at least two) to gradate between
+ *                                                  </ul
+ * @property {String} dataset.title - Title to be shown on top of graph
+ * @property {String} dataset.type - {@link https://docs.jboss.org/richfaces/latest/jsdoc/chart.js.html Chart.js}
+ *                                   graph type
+ * @property {Object} dataset.custom_settings - Additional
+ *                                              {@link https://docs.jboss.org/richfaces/latest/jsdoc/chart.js.html Chart.js} settings to be applied.
+ *                                              This will override any default settings.
  */
-function setToGraph(element, dataset) {
+
+/**
+ * Set-up given element - to display a pie chart with the given data
+ * @param {HTMLElement} element - Container to render graph in
+ * @param {graphOptions} graphOptions - Graph definition options {@link graphOptions}
+ */
+function setToGraph(element, graphOptions) {
     if (element.tagName.toLowerCase() !== 'div') {
         throw Error('Element must be of type "div"')
     }
@@ -11,33 +41,37 @@ function setToGraph(element, dataset) {
     let canvas = document.createElement('canvas');
     canvas.id = name;
     element.appendChild(canvas);
-    generateGraph(canvas, dataset);
+    generateGraph(canvas, graphOptions);
 }
 
 /**
  * Generate graph on given element with given parameters
- * @param {HTMLCanvasElement} element Canvas to render graph in
- * @param {Object} dataset Data to be rendered to the graph
+ * @param {HTMLCanvasElement} element - Canvas to render graph in.
+ * @param {graphOptions} graphOptions - Graph definition options {@link graphOptions}
  */
-function generateGraph(element, {data, label, color, title, type, custom_settings}) {
-    if (color === undefined) {
-        color = generateColorsRandomSeeded(label);
-    } else {
-        switch (color.type) {
-            case 'list': // Map colors using provided list
-                color = color.value;
-                break;
-            case 'gradient': // Generate colors along provided gradient
-                // Get suggested min and max from settings if present
-                let ticks = (((((custom_settings || {})['options'] || {})['scales'] || {})['yAxes']
-                    || [{}])[0]['ticks'] || {});
-                color = generateColorsGradient(
-                    data,
-                    ticks['suggestedMin'] || 0, ticks['suggestedMax'] || 0,
-                    color['gradient']
-                );
-                break;
-        }
+function generateGraph(element,
+                       {
+                           data, label, color = {},
+                           title = '', type = 'bar', custom_settings = {}
+                       }) {
+    switch (color.type) {
+        case undefined:
+        case 'random':
+            color = generateColorsRandomSeeded(label);
+            break;
+        case 'list': // Map colors using provided list
+            color = color.value;
+            break;
+        case 'gradient': // Generate colors along provided gradient
+            // Get suggested min and max from settings if present
+            let ticks = ((((custom_settings['options'] || {})['scales'] || {})['yAxes']
+                || [{}])[0]['ticks'] || {});
+            color = generateColorsGradient(
+                data,
+                ticks['suggestedMin'] || 0, ticks['suggestedMax'] || 0,
+                color.value
+            );
+            break;
     }
     // Default settings for the chart.js graphs
     let config = {
@@ -72,6 +106,20 @@ function generateGraph(element, {data, label, color, title, type, custom_setting
     }
 
     switch (type) {
+        case 'bar':
+            merge(config,
+                {
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    suggestedMax: 100,
+                                }
+                            }]
+                        }
+                    }
+                });
+            break;
         case 'pie':
             merge(config,
                 {
@@ -88,8 +136,7 @@ function generateGraph(element, {data, label, color, title, type, custom_setting
                 })
             break;
     }
-    if (custom_settings !== undefined)
-        merge(config, custom_settings);
+    merge(config, custom_settings);
 
     let ctx = element.getContext('2d');
     window[name] = new Chart(ctx, config);
@@ -97,8 +144,8 @@ function generateGraph(element, {data, label, color, title, type, custom_setting
 
 /**
  * Randomly generate list of colors, each seeded corresponding indexes of the given list
- * @param {Array.<String>} seeds List of rng seeds to apply to each color
- * @returns {Array.<String>} List of hex string colors of same length as seeds list
+ * @param {Array.<String>} seeds - List of rng seeds to apply to each color
+ * @returns {Array.<String>} - List of hex string colors of same length as seeds list
  */
 function generateColorsRandomSeeded(seeds) {
     let colors = [];
@@ -121,10 +168,10 @@ function generateColorsRandomSeeded(seeds) {
 /**
  * Take the given array of numbers and produce an equal length array of hex colors, with
  * each color mapped according to the relative value of each corresponding value.
- * @param {Array.<Number>} data List of values to be mapped to colors
- * @param {Number} min Minimum possible value (can be overriden by data)
- * @param {Number} max Maximum possible value (can be overriden by data)
- * @param {Array.<String>} gradient Array of hex colors to gradiate evenly between
+ * @param {Array.<Number>} data - List of values to be mapped to colors
+ * @param {Number} min - Minimum possible value (can be overriden by data)
+ * @param {Number} max - Maximum possible value (can be overriden by data)
+ * @param {Array.<String>} gradient - Array of hex colors to gradiate evenly between
  */
 function generateColorsGradient(data, min, max, gradient) {
     // Override max and min if larger/smaller values exist within the data
@@ -134,7 +181,8 @@ function generateColorsGradient(data, min, max, gradient) {
     let threshold = (max - min) / (gradient.length - 1);
 
     let colors = [];
-    let r, g, b, redStart, greenStart, blueStart, redEnd, greenEnd, blueEnd, redDelta, greenDelta, blueDelta, startColor, endColor;
+    let r, g, b, redStart, greenStart, blueStart, redEnd, greenEnd, blueEnd, redDelta, greenDelta, blueDelta,
+        startColor, endColor;
     for (let value of data) {
         // Identify which gradient block the current value is in
         let index = 0;
@@ -165,12 +213,13 @@ function generateColorsGradient(data, min, max, gradient) {
         r = redStart + (specialMod((value - min), (threshold)) * redDelta / threshold);
         g = greenStart + (specialMod((value - min), (threshold)) * greenDelta / threshold);
         b = blueStart + (specialMod((value - min), (threshold)) * blueDelta / threshold);
-
+        console.log(r + " " + g + " " + b)
         // Convert the rgb values to hex string equivalent
         // "0" is used to ensure single digits have trailing zeros
-        r = "0" + Math.floor(r).toString(16);
-        g = "0" + Math.floor(g).toString(16);
-        b = "0" + Math.floor(b).toString(16);
+        r = "0" + Math.max(Math.floor(r), 0).toString(16);
+        g = "0" + Math.max(Math.floor(g), 0).toString(16);
+        b = "0" + Math.max(Math.floor(b), 0).toString(16);
+        console.log(r + " " + g + " " + b)
 
         // Append in format "#rrggbb"
         colors.push('#'
@@ -212,11 +261,11 @@ function generateHash(s) {
 
 /**
  * Add contents of object b to object a (overriding contents of a where appropriate)
- * @param {Object} a Main object being updated
- * @param {Object} b Secondary object from which values will be read
- * @param {Array.<String>|null} path Recursive history of keys
+ * @param {Object} a - Main object being updated
+ * @param {Object} b - Secondary object from which values will be read
+ * @param {Array.<String>|null} path - Recursive history of keys
  */
-function merge(a, b, path=null) {
+function merge(a, b, path = null) {
     if (path === null) {
         path = []
     }

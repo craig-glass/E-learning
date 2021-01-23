@@ -188,6 +188,7 @@
                     if (response.modules !== undefined) {
                         let navbarContainer = $('#course-assignment-navbars');
                         navbarContainer.html('');
+                        let navbars = []
                         for (let module in response.modules) {
                             navbarContainer.append($('<h4>').text(response.modules[module].name));
                             let navbar = $('<div>').addClass('navbar').addClass('navbar-no-auto');
@@ -198,7 +199,10 @@
                                     .attr('data-function', 'updateCourseAssignmentGraphs')
                                     .text(assignment.label));
                             }
-                            updateNavbar(navbar);
+                            navbars.push(navbar);
+                        }
+                        for (let n of navbars) {
+                            updateNavbar(n, navbars);
                         }
                     }
                 },

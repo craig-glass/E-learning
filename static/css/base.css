@@ -631,11 +631,11 @@ div.moveable-list-contents div:hover {
     background-color: var(--nav-bar-button);
 }
 
-.side-menu button.hide-btn {
+.side-menu button.compress-button {
     font-size: 2em;
 }
 
-.side-menu button.hide-btn:hover, .side-menu button.hide-btn:focus {
+.side-menu button.compress-button:hover, .side-menu button.compress-button:focus {
     background-color: var(--main-vlight-col);
 }
 
@@ -656,13 +656,9 @@ div.moveable-list-contents div:hover {
     display: inline-block;
 }
 
-.dropdown-container {
+.side-link-container {
     display: block;
 }
-
-/*.dropdown-container.shown {*/
-/*    display: block;*/
-/*}*/
 
 .fa-caret-down, .fa-caret-right {
     float: right;
@@ -815,7 +811,7 @@ ul.content-types {
         width: 50px;
     }
 
-    .side-menu:not(.container-hidden) {
+    .side-menu:not(.container-compressed) {
         position: absolute;
         z-index: 1;
         width: 100% !important;

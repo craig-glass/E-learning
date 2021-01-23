@@ -3,8 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
-from django.shortcuts import get_object_or_404, redirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.detail import DetailView
@@ -44,14 +43,37 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
                             args=[self.course.id])
 
 
-class StudentCourseListView(LoginRequiredMixin, View):
+class ModulePageMixin(View):
+    def get_context(self, request, course_id=None, module_id=None):
+        context = {}
+        context["course_list"] = Course.objects.filter(students__in=[request.user]).order_by('id')
+        context["course"] = None if course_id is None else get_object_or_404(Course, id=course_id)
+        context["module_list"] = (None if context["course"] is None
+                                  else Module.objects.filter(course=context["course"]).order_by('order'))
+        context["module"] = None if module_id is None else get_object_or_404(Module, id=module_id)
+        for x in context:
+            print(context[x])
+        return context
+
+
+class StudentCourseListView(LoginRequiredMixin, ModulePageMixin):
     template_name = 'students/course/list.html'
 
     def get(self, request, pk=None):
-        context = {
-            "course_list": Course.objects.filter(students__in=[request.user]).order_by('id'),
-            "course": None if pk is None else Course.objects.get(id=pk),
-        }
+        context = self.get_context(request, pk)
+        return render(request, self.template_name, context)
+
+
+class StudentCourseDetailView(LoginRequiredMixin, View):
+    def get(self, request, pk, module_id):
+        return redirect('students:module_home_page', pk=pk, module_id=module_id)
+
+
+class ModuleHomePageView(LoginRequiredMixin, ModulePageMixin):
+    template_name = 'students/course/module_home.html'
+
+    def get(self, request, pk, module_id):
+        context = self.get_context(request, pk, module_id)
         return render(request, self.template_name, context)
 
 
@@ -76,18 +98,6 @@ class StudentDetailViewMixin(LoginRequiredMixin, DetailView):
             )
 
         return context
-
-
-class StudentCourseDetailView(View):
-    template_name = 'students/course/detail.html'
-
-    def get(self, request, pk, module_id):
-        context = {
-            "course_list": Course.objects.filter(students__in=[request.user]),
-            "course": Course.objects.get(id=pk),
-            "module": Module.objects.get(id=module_id),
-        }
-        return render(request, self.template_name, context)
 
 
 class AssignmentListStudentView(StudentDetailViewMixin):

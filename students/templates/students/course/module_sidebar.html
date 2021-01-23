@@ -13,10 +13,10 @@
         loadNavigator(
             $('#module-side-menu'),
             [
-                {% for module in course.modules.all %}
+                {% for m in module_list %}
                     {
-                        href: '{% url 'students:student_course_detail_module' course.id module.id %}',
-                        text: '{{ module.title }}',
+                        href: '{% url 'students:student_course_detail_module' course.id m.id %}',
+                        text: '{{ m.title }}',
                         icon: 'fas fa-book-open',
                         type: 'link',
                     },

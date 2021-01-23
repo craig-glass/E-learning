@@ -1,0 +1,11 @@
+{% extends "students/course/detail.html" %}
+
+{% block extrabreadcrumbs %}
+    <a href="{% url 'students:module_home_page' course.id module.id %}">Homepage</a>
+{% endblock %}
+
+{% block subcontent %}
+    <div class="plain-text-area" style="height: 100%">
+        {{ module.description }}
+    </div>
+{% endblock %}

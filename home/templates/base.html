@@ -300,7 +300,6 @@
         })
         // Ensure required inputs are all valid
         form.find(':input').filter('.required').each(function (index, element) {
-            console.log($(element))
             if (!$(element).hasClass('valid')) {
                 isValid = false;
                 $(element).addClass('invalid');
@@ -366,7 +365,7 @@
         }
     }
 
-    function loadNavigator(container, manualLinks, doAjax = true) {
+    function loadNavigator(container, manualLinks, doAjax = true, hidden = false) {
         let depth = container.parents('.dropdown-container').length + 1;
         for (let link of manualLinks) {
             switch (link.type) {
@@ -408,21 +407,20 @@
                 container.append(responseText);
                 standardErrorResponse(response, responseText);
             }
-        )
+        );
     }
 
     function _addNavLink(container, text, url, depth, iconClass = null) {
         let link = $('<a>').attr('href', url);
 
-        link.hide();
+        let hidden = container.hasClass('container-hidden') || container.parents('.container-hidden').length > 0;
         if (iconClass) {
             container.append(styleNavLink(
-                link, text, depth, $('<i>').addClass(iconClass)
+                link, text, depth, hidden, $('<i>').addClass(iconClass)
             ));
         } else {
-            container.append(styleNavLink(link, text, depth));
+            container.append(styleNavLink(link, text, depth, hidden));
         }
-        link.show('slow');
     }
 
     function _addNavButton(container, text, functionString, contextString, ajaxURL, iconClass, depth) {
@@ -431,17 +429,16 @@
             .attr('data-function', functionString)
             .attr('data-context', contextString)
             .attr('data-url', ajaxURL);
-        button.hide();
+        let hidden = container.hasClass('container-hidden') || container.parents('.container-hidden').length > 0;
         if (iconClass) {
             container.append(styleNavButton(
-                button, text, depth, $('<i>').addClass(iconClass)
+                button, text, depth, hidden, $('<i>').addClass(iconClass)
             ));
         } else {
             container.append(styleNavButton(
-                button, text, depth
+                button, text, depth, hidden
             ));
         }
-        button.show('slow');
         container.append(
             buttonContainer
         );
@@ -479,7 +476,8 @@
                     type: 'link',
                 },
             ],
-            false
+            false,
+            true
         );
     }
 
@@ -523,19 +521,23 @@
         )
     }
 
-    function styleNavLink(link, text, depth, icon = null) {
+    function styleNavLink(link, text, depth, hidden = false, icon = null) {
         link.text('- '.repeat(depth - 1));
         if (icon) {
             link.append(icon).html(link.html() + " ");
         } else {
             link.html(link.html() + '+ ')
         }
-        link.append($('<span>').text(text));
+        if (hidden) {
+            link.append($('<span>').text(text).hide());
+        } else {
+            link.append($('<span>').text(text));
+        }
         return link.html(link.html()).css('padding-left', '4');
     }
 
-    function styleNavButton(button, text, depth, icon = null) {
-        button = styleNavLink(button, text, depth, icon);
+    function styleNavButton(button, text, depth, hidden = false, icon = null) {
+        button = styleNavLink(button, text, depth, hidden, icon);
         return button.append($('<span>').html('&nbsp;').append($('<i>').addClass('fa fa-caret-right')));
     }
 
@@ -557,17 +559,24 @@
         });
     }
 
-    function hideSideMenu(container) {
-        console.log(container);
+    function hideSideMenu(container, slow = true) {
         if (container.hasClass('container-hidden')) {
             container.removeClass('container-hidden');
             container.find('span').each(function (index, element) {
-                $(element).show('slow');
+                if (slow) {
+                    $(element).show('slow');
+                } else {
+                    $(element).show();
+                }
             });
         } else {
             container.addClass('container-hidden');
             container.find('span').each(function (index, element) {
-                $(element).hide('slow');
+                if (slow) {
+                    $(element).hide('slow');
+                } else {
+                    $(element).hide();
+                }
             });
         }
     }
@@ -615,7 +624,6 @@
                     } else {
                         container.addClass('container-hidden');
                         container.children(':not(.hide-btn)').each(function (index2, element2) {
-                            console.log($(element));
                             $(element2).hide('slow');
                         });
                     }
@@ -626,7 +634,7 @@
         });
 
         body.find('.side-menu').each(function (index, element) {
-            _loadSideNavigator($(element));
+            _loadSideNavigator($(element).addClass('container-hidden'));
         });
 
         body.find('.navbar').each(function (index, element) {

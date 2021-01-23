@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% load course %}
+
 {% block title %}
-    {{ object.title }}
+    Module {{ module.order|add:1 }}:{{ module.title }}
 {% endblock %}
 
 {% block h1 %}
     {% with course=module.course %}
-        <h1>
-            {{ module.title }}
-        </h1>
+        <h1>Course "{{ course.title }}"</h1>
     {% endwith %}
 {% endblock %}
+
 
 
 {% block content %}
@@ -18,10 +18,10 @@
         <div class="contents">
             <h3>Modules</h3>
             <ul id="modules">
-                {% for m in course.modules.all %}
+                {% for m in object.modules.all %}
                     <li data-id="{{ m.id }}"
                         {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'students:assignments_list_student_view' object.id %}">
+                        <a href="{% url 'students:quiz_list_student_view_module' object.id m.id %}">
                             <span>
                                 Module<span class="order">{{ m.order|add:1 }}</span>
                             </span>
@@ -36,20 +36,17 @@
         </div>
     </div>
 
-
     <div class="col-12 col-md-9">
+        <div class="module">
+            <div>
 
-        <div class="modules">
-            <p>Assignment Due: {{ assignment.due_date }}</p>
-            {% for content in assignment.contents.all %}
-                {% with item=content.item %}
-                    <h2>{{ item.title }}</h2>
-                    {{ item.render }}
-                {% endwith %}
-            {% endfor %}
-            <a href="{% url 'students:assignment_submission' object.id module.id assignment.id %}">Assignment Submission</a>
+                    <div>
+                        <h3>{{ submission.quiz }}</h3>
+                        <p>Score: {{ submission.score }}</p>
+                        <p>Date submitted: {{ submission.date_submitted }}</p>
+                    </div>
+            </div>
         </div>
     </div>
-
 
 {% endblock %}

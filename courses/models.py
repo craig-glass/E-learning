@@ -66,12 +66,13 @@ class Assignment(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     order = OrderField(blank=True, for_fields=['module'])
+    due_date = models.DateTimeField(null=True)
 
     class Meta:
         ordering = ['order']
 
     def __str__(self):
-        return f'{self.order}.{self.title}'
+        return self.title
 
 
 class Content(models.Model):
@@ -139,7 +140,7 @@ class Image(ItemBase):
 
 
 class Video(ItemBase):
-    file = models.FileField(upload_to='videos')
+    url = models.URLField()
 
 
 class Quiz(models.Model):

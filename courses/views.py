@@ -173,11 +173,11 @@ class ModuleContentListView(ModuleViewsMixin):
 
 
 class AssignmentContentListView(ModuleViewsMixin):
-    template_name = 'courses/manage/module/assignments/list.html'
+    template_name = 'courses/manage/assignments/list.html'
 
 
 class QuizListView(ModuleViewsMixin):
-    template_name = 'courses/manage/module/quizzes/list.html'
+    template_name = 'courses/manage/quizzes/list.html'
 
 
 class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
@@ -205,7 +205,7 @@ class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View
 
 
 class QuizCreateView(QuizAssignmentCreateView):
-    template_name = 'courses/manage/module/quizzes/formset.html'
+    template_name = 'courses/manage/quizzes/formset.html'
 
     def get_formset(self, data=None):
         return QuizFormSet(instance=self.module,
@@ -213,7 +213,7 @@ class QuizCreateView(QuizAssignmentCreateView):
 
 
 class CourseAssignmentUpdateView(QuizAssignmentCreateView):
-    template_name = 'courses/manage/module/assignments/formset.html'
+    template_name = 'courses/manage/assignments/formset.html'
 
     def get_formset(self, data=None):
         return AssignmentFormSet(instance=self.module,
@@ -221,7 +221,7 @@ class CourseAssignmentUpdateView(QuizAssignmentCreateView):
 
 
 class AssignmentUpdateView(TemplateResponseMixin, View):
-    template_name = 'courses/manage/module/assignments/content-list.html'
+    template_name = 'courses/manage/assignments/content-list.html'
 
     def get(self, request, module_id, assignment_id):
         assignment = get_object_or_404(Assignment,
@@ -235,7 +235,7 @@ class AssignmentUpdateView(TemplateResponseMixin, View):
 
 
 class QuizUpdateView(TemplateResponseMixin, View):
-    template_name = 'courses/manage/module/quizzes/content-list.html'
+    template_name = 'courses/manage/quizzes/content-list.html'
 
     def get(self, request, module_id, quiz_id):
         quiz = get_object_or_404(Quiz,
@@ -251,7 +251,7 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
     obj = None
     quiz = None
     module = None
-    template_name = 'courses/manage/module/quizzes/form.html'
+    template_name = 'courses/manage/quizzes/form.html'
 
     def get_form(self, model, *args, **kwargs):
         Form = modelform_factory(model, exclude=['order',
@@ -300,7 +300,7 @@ class AddChoiceView(TemplateResponseMixin, View):
     question = None
     module = None
     quiz = None
-    template_name = 'courses/manage/module/quizzes/choices/formset.html'
+    template_name = 'courses/manage/quizzes/choices/formset.html'
 
     def get_formset(self, data=None):
         return ChoiceFormSet(instance=self.question,
@@ -339,7 +339,7 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
     obj = None
     assignment = None
     module = None
-    template_name = 'courses/manage/module/assignments/form.html'
+    template_name = 'courses/manage/assignments/form.html'
 
     def get_model(self, model_name):
         if model_name in ['text', 'video', 'image', 'file']:

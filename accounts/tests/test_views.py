@@ -1,16 +1,16 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from accounts import views
+from accounts.views import AccountDisplayView
 
 
 class RegistrationTest(TestCase):
 
     def setUp(self):
-        self.user = views.User.objects.create_user(
+        self.user = AccountDisplayView.objects.create_user(
             userid='tiger',
             password='password',
-            email='tiger@mail.com'
+            email='tiger@mail.com',
         )
         self.user.save()
 

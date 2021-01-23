@@ -6,7 +6,10 @@
 {% endblock %}
 
 {% block account_view_content %}
+
+
     <div id="user-details-div">
+                <div class="col-12">
         <p>UserID: {{ user_details.userid }}</p>
         <form id="account-update-form" method="post" action="">
             <input type="hidden" name="userid" value="{{ user_details.userid }}">
@@ -37,6 +40,8 @@
 
         </form>
     </div>
+        </div>
+
 {% endblock %}
 {% block extrajavascript %}
     <script>

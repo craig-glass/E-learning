@@ -9,20 +9,28 @@
 {% endblock %}
 
 {% block content %}
-    {% if object_list %}
-        <div class="navbar navbar-side-view navbar-function-link">
-            {% for course in object_list %}
-                <p data-link="{% url 'students:student_course_detail' course.id %}">
-                    Course:<br>{{ course.title }}
-                </p>
-            {% endfor %}
+    <div class="container-fluid">
+        <div class="row">
+            {% if object_list %}
+                <div class="navbar navbar-side-view navbar-function-link">
+                    {% for course in object_list %}
+                        <div class="col-12" style="width:100% !important;">
+                            <p data-link="{% url 'students:student_course_detail' course.id %}">
+                                Course:<br>{{ course.title }}
+                            </p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <p>
+                        You are not enrolled in any courses yet.
+                        <a href="{% url 'courses:course_list' %}">Browse courses</a>
+                    </p>
+                </div>
+            {% endif %}
+
         </div>
-    {% else %}
-        <p>
-            You are not enrolled in any courses yet.
-            <a href="{% url 'courses:course_list' %}">Browse courses</a>
-        </p>
-    {% endif %}
-    <br>
-    <a href="{% url 'courses:course_list' %}">Browse courses</a>
+    </div>
+
 {% endblock %}

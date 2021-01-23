@@ -17,7 +17,7 @@ urlpatterns = [
          views.StudentHomePageView.as_view(),
          name='student_home_page'),
     path('course/<pk>/',
-         views.StudentCourseDetailView.as_view(),
+         views.StudentCourseListView.as_view(),
          name='student_course_detail'),
     path('course/<pk>/<module_id>/',
          views.StudentCourseDetailView.as_view(),

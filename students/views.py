@@ -1,24 +1,19 @@
 from django.apps import apps
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateResponseMixin, View
-from django.views.generic.edit import CreateView, FormView
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.apps import apps
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic.base import TemplateResponseMixin, View
-
-from courses.models import Quiz, Module, Course, Question, Choice
-from config import settings
-from .forms import CourseEnrollForm, QuizAnswerForm
-from django.views.generic.list import ListView
-from courses.models import Course, Module, Assignment
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, FormView
 
-from .models import AssignmentSubmission, QuizAnswer, QuizSubmission
+from courses.models import Course, Module, Assignment
+from courses.models import Quiz, Question, Choice
+from .forms import CourseEnrollForm
+from .models import QuizAnswer, QuizSubmission
 
 
 class StudentRegistrationView(CreateView):
@@ -49,15 +44,15 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
                             args=[self.course.id])
 
 
-class StudentCourseListView(LoginRequiredMixin, ListView):
-    model = Course
+class StudentCourseListView(LoginRequiredMixin, View):
     template_name = 'students/course/list.html'
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        for course in qs:
-            print(course, course.students)
-        return qs.filter(students__in=[self.request.user])
+    def get(self, request, pk=None):
+        context = {
+            "course_list": Course.objects.filter(students__in=[request.user]).order_by('id'),
+            "course": None if pk is None else Course.objects.get(id=pk),
+        }
+        return render(request, self.template_name, context)
 
 
 class StudentHomePageView(DetailView):
@@ -83,8 +78,15 @@ class StudentDetailViewMixin(DetailView):
         return context
 
 
-class StudentCourseDetailView(StudentDetailViewMixin):
+class StudentCourseDetailView(View):
     template_name = 'students/course/detail.html'
+
+    def get(self, request, pk):
+        context = {
+            "course_list": Course.objects.filter(students__in=[request.user]),
+            "course": Course.objects.get(id=pk),
+        }
+        return render(request, self.template_name, context)
 
 
 class AssignmentListStudentView(StudentDetailViewMixin):

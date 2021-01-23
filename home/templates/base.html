@@ -65,7 +65,8 @@
 </div>
 
 <div id="content">
-    <div class="side-menu side-link-container" data-compress-function="compressSideMenu">
+    <div id="side-menu" class="side-menu border-r fillx-when-small side-link-container"
+         data-compress-function="compressSideMenu">
         <button class="compress-button"><i class="fas fa-bars"></i></button>
     </div>
 
@@ -539,6 +540,7 @@
                     icon: 'fa fa-home',
                     type: 'link',
                 },
+                {% if request.user.is_student %}
                 {
                     text: 'Course',
                     icon: 'fa fa-book',
@@ -547,6 +549,7 @@
                     context: '{}',
                     type: 'button',
                 },
+                {% endif %}
                 {
                     href: '{% url 'announcements:announcements' %}',
                     text: 'Announcements',
@@ -735,7 +738,7 @@
             });
         });
 
-        body.find('.side-menu').each(function (index, element) {
+        body.find('#side-menu').each(function (index, element) {
             _loadSideNavigator($(element).addClass('container-compressed'));
         });
 

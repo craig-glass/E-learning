@@ -17,6 +17,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 
+    <script>
+        let postSetup = [];
+    </script>
 </head>
 <body>
 
@@ -738,8 +741,14 @@
             });
         });
 
+        if ($(window).width() <= 576) {
+            body.find('.side-menu').each(function (index, element) {
+                $(element).addClass('container-compressed')
+            })
+        }
+
         body.find('#side-menu').each(function (index, element) {
-            _loadSideNavigator($(element).addClass('container-compressed'));
+            _loadSideNavigator($(element));
         });
 
         body.find('.navbar').each(function (index, element) {
@@ -759,6 +768,10 @@
                 body.find('.dropdown-list').hide();
             }
         });
+
+        for (let f of postSetup) {
+            f();
+        }
     });
 </script>
 {% block extrajavascript %}{% endblock %}

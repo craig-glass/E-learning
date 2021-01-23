@@ -81,10 +81,11 @@ class StudentDetailViewMixin(DetailView):
 class StudentCourseDetailView(View):
     template_name = 'students/course/detail.html'
 
-    def get(self, request, pk):
+    def get(self, request, pk, module_id):
         context = {
             "course_list": Course.objects.filter(students__in=[request.user]),
             "course": Course.objects.get(id=pk),
+            "module": Module.objects.get(id=module_id),
         }
         return render(request, self.template_name, context)
 

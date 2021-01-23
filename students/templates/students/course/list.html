@@ -23,13 +23,7 @@
         <div style="height: 100%">
             {% if course %}
                 <h2>Course: {{ course.title }}</h2>
-                <div style="float: right; height: 100%">
-                    <h3 class="hide-when-small">Modules:</h3>
-                    <div id="module-side-menu" class="side-menu border-l side-link-container"
-                         data-compress-function="compressSideMenu">
-                        <button class="compress-button"><i class="fas fa-bars"></i></button>
-                    </div>
-                </div>
+                {% include 'students/course/module_sidebar.html' %}
                 <div style="width: auto; height: 100%; overflow: hidden">
                     <h3 class="hide-when-small">Overview:</h3>
                     <div class="plain-text-area" style="height: 100%">
@@ -45,25 +39,4 @@
         </p>
     {% endif %}
 
-{% endblock %}
-
-{% block extrajavascript %}
-    <script>
-        $(document).ready(function () {
-            loadNavigator(
-                $('#module-side-menu'),
-                [
-                    {% for module in course.modules.all %}
-                        {
-                            href: '{% url 'students:student_course_detail_module' course.id module.id %}',
-                            text: '{{ module.title }}',
-                            icon: 'fas fa-book-open',
-                            type: 'link',
-                        },
-                    {% endfor %}
-                ],
-            false
-            )
-        });
-    </script>
 {% endblock %}

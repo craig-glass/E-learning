@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+{% block navigation %}
+    <a href="{% url 'students:student_course_list' %}">Courses</a>/
+    <a href="{% url 'students:student_course_detail' course.id %}">Course:{{ course.id }}</a>/
+    {% if module %}
+        <a href="{% url 'students:student_course_detail_module' course.id module.id %}">Module:{{ module.id }}</a>/
+    {% endif %}
+{% endblock %}
+{% block header %}
+    <h1>Course: {{ course.title }}<br>Module: {{ module.title }}</h1>
+{% endblock %}
+
+{% block content %}
+    <div style="height: 100%">
+        {% include 'students/course/module_sidebar.html' %}
+        <div style="width: auto; height: 100%; overflow: hidden">
+            <div class="navbar navbar-function-link">
+                <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Module Home</p>
+                <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Lectures</p>
+                <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Assignments</p>
+                <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Quizzes</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

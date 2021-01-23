@@ -814,6 +814,13 @@ ul.content-types {
         height: 50px;
         width: 50px;
     }
+
+    .side-menu:not(.container-hidden) {
+        position: absolute;
+        z-index: 1;
+        width: 100% !important;
+        border: 0;
+    }
 }
 
 

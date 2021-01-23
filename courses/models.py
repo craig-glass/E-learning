@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -66,12 +67,13 @@ class Assignment(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     order = OrderField(blank=True, for_fields=['module'])
+    due_date = models.DateTimeField(null=True)
 
     class Meta:
         ordering = ['order']
 
     def __str__(self):
-        return f'{self.order}.{self.title}'
+        return self.title
 
 
 class Content(models.Model):
@@ -139,5 +141,62 @@ class Image(ItemBase):
 
 
 class Video(ItemBase):
-    file = models.FileField(upload_to='videos')
+    url = models.URLField()
 
+
+class Quiz(models.Model):
+    title = models.CharField(max_length=50)
+    module = models.ForeignKey(Module,
+                               on_delete=models.CASCADE,
+                               related_name='quizzes')
+    description = models.TextField()
+    date_created = models.DateTimeField('date created', null=True)
+
+    class Meta:
+        verbose_name_plural = 'quizzes'
+
+    def __str__(self):
+        return self.title
+
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz,
+                             on_delete=models.CASCADE,
+                             related_name='questions')
+    number = models.PositiveIntegerField()
+    question_text = models.TextField()
+
+    def __str__(self):
+        return str(self.number)
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question,
+                                 on_delete=models.CASCADE,
+                                 related_name='choices')
+    choice_text = models.CharField(max_length=100)
+    correct_answer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.choice_text
+
+
+class Grade(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.PROTECT,
+                                related_name='grades')
+    teacher = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.PROTECT,
+                                )
+    assignment = models.ForeignKey(Assignment,
+                                   on_delete=models.PROTECT,
+                                   null=True,
+                                   blank=True)
+    # quiz = models.ForeignKey(Quiz,
+    #                          on_delete=models.PROTECT,
+    #                          null=True,
+    #                          blank=True)
+    grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+
+    def __str__(self):
+        return self.grade

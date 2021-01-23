@@ -6,17 +6,26 @@
 {% endblock %}
 
 {% block account_view_content %}
+<div class="col-12">
     <p>{{ user_details.userid }}</p>
+    </div>
+</div>
     {% if request.user.is_student %}
         <div id="registered-course-graphs">
             {% if registered_courses %}
+                        <div class="col-12">
                 <h2>Courses you are registered in</h2>
+                        </div>
+              <div class="col-12">
                 <div id="registered-course-navbar" class="navbar">
                     {% for course in registered_courses %}
+                    <div class="col-12">
                         <p data-value="{{ course.id }}"
                            data-function="updateRegisteredGraphs">{{ course.title }}</p>
+                    </div>
                     {% endfor %}
                 </div>
+              </div>
                 <pre id="registered-response-pre" class="response-text"></pre>
 
                 <div id="container-assignment-marks"
@@ -30,22 +39,31 @@
     {% endif %}
     {% if request.user.is_staff %}
         <div id="owned-course-graphs">
+            <div class="row">
             {% if owned_courses %}
+            <div class="col-12">
                 <h2>Courses you own</h2>
+            </div>
+                                     <div class="col-12">
                 <div id="owned-course-navbar" class="navbar">
                     {% for course in owned_courses %}
+                                <div class="col-12">
+
                         <p data-value="{{ course.id }}"
                            data-function="updateOwnedGraphs">{{ course.title }}</p>
+                                </div>
                     {% endfor %}
                 </div>
+                                     </div>
                 <pre id="owned-response-pre" class="response-text"></pre>
-
                 <div id="container-average-score"
-                     style="max-width: 750px" class="graph-container"></div>
+                     style="max-width: 750px" class="graph-container">
+                    </div>
             {% else %}
                 <h2>You currently own no courses</h2>
             {% endif %}
         </div>
+                            </div>
     {% endif %}
 {% endblock %}
 {% block extrajavascript %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load course %}
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+
+{% block h1 %}
+    {% with course=module.course %}
+        <h1>
+            {{ module.title }}
+        </h1>
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-12 col-md-3 col-centered">
+        <div class="contents">
+            <h3>Modules</h3>
+            <ul id="modules">
+                {% for m in course.modules.all %}
+                    <li data-id="{{ m.id }}"
+                        {% if m == module %}class="selected"{% endif %}>
+                        <a href="{% url 'students:quiz_list_student_view_module' course.id m.id %}">
+                            <span>
+                                Module<span class="order">{{ m.order|add:1 }}</span>
+                            </span>
+                            <br>
+                            {{ m.title }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>No modules yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-9">
+
+        <div id="module-content">
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for question in quiz.questions.all %}
+
+                    <p>{{ question.number }}. {{ question.question_text }}</p>
+
+                    {% csrf_token %}
+                    {% for choice in question.choices.all %}
+                        <p>
+                            <input type="radio" id="choice-{{ choice.id }}" name="question-{{ question.id }}"
+                                   value="{{ choice.choice_text }}" required="required">
+                            <label for="{{ choice.id }}">{{ choice.choice_text }}</label>
+                        </p>
+                    {% endfor %}
+                {% endfor %}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

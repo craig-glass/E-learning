@@ -23,8 +23,8 @@
             <div class="navbar navbar-function-link">
                 <p data-link="{% url 'students:module_home_page' course.id module.id %}">Module Home</p>
                 <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Content</p>
-                <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Assignments</p>
-                <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Quizzes</p>
+                <p data-link="{% url 'students:assignments_list_student_view_module' course.id module.id %}">Assignments</p>
+                <p data-link="{% url 'students:quiz_list_student_view_module' course.id module.id %}">Quizzes</p>
             </div>
             <div style="width: 100%; height: 100%">
                 {% block subcontent %}{% endblock %}

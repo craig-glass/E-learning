@@ -77,9 +77,30 @@ class ModuleHomePageView(LoginRequiredMixin, ModulePageMixin):
         return render(request, self.template_name, context)
 
 
-class StudentHomePageView(LoginRequiredMixin, DetailView):
-    model = Course
+class StudentHomePageView(LoginRequiredMixin, ModulePageMixin):
     template_name = 'students/home.html'
+
+    def get(self, request, pk, module_id):
+        context = self.get_context(request, pk, module_id)
+        return render(request, self.template_name, context)
+
+
+class AssignmentListStudentView(LoginRequiredMixin, ModulePageMixin):
+    template_name = 'students/assignments/list.html'
+
+    def get(self, request, pk, module_id):
+        context = self.get_context(request, pk, module_id)
+        context["assignment_list"] = Assignment.objects.filter(module=context["module"])
+        return render(request, self.template_name, context)
+
+
+class QuizListStudentView(LoginRequiredMixin, ModulePageMixin):
+    template_name = 'students/quizzes/list.html'
+
+    def get(self, request, pk, module_id):
+        context = self.get_context(request, pk, module_id)
+        context["quiz_list"] = Quiz.objects.filter(module=context["module"])
+        return render(request, self.template_name, context)
 
 
 class StudentDetailViewMixin(LoginRequiredMixin, DetailView):
@@ -98,14 +119,6 @@ class StudentDetailViewMixin(LoginRequiredMixin, DetailView):
             )
 
         return context
-
-
-class AssignmentListStudentView(StudentDetailViewMixin):
-    template_name = 'students/assignments/list.html'
-
-
-class QuizListStudentView(StudentDetailViewMixin):
-    template_name = 'students/quizzes/list.html'
 
 
 class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):

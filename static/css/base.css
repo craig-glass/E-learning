@@ -75,6 +75,20 @@ h3 {
     font-size: 1.25em;
 }
 
+.a-header {
+    display: inline-block;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: var(--main-vdark-col);
+    padding: 0;
+}
+
+.link-list {
+    border-top: 2px solid var(--main-vdark-col);
+    border-bottom: 2px solid var(--main-vdark-col);
+    margin-bottom: 20px;
+}
+
 .numbers-container {
     width: 100%;
     border-top: 2px solid var(--main-dark-col);
@@ -177,7 +191,6 @@ h3 {
 }
 
 .plain-text-area {
-    float: left;
     width: 100%;
     background-color: var(--text-area-col);
     border-top: 2px solid var(--main-vdark-col);
@@ -188,7 +201,6 @@ h3 {
 }
 
 .plain-text-area-container {
-    float: left;
     width: 100%;
     background-color: var(--main-light-col);
     border: 2px solid var(--main-vdark-col);

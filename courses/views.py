@@ -8,7 +8,7 @@ from students.forms import CourseEnrollForm
 from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet
 from .models import Course, ModuleContent, AssignmentContent, Quiz, Question
 from django.apps import apps
-from django.forms.models import modelform_factory
+from django.forms.models import modelform_factory, modelformset_factory
 from .models import Module, Assignment, Content
 from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 from django.db.models import Count
@@ -254,9 +254,11 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
     template_name = 'courses/manage/quizzes/form.html'
 
     def get_form(self, model, *args, **kwargs):
-        Form = modelform_factory(model, exclude=['order',
-                                                 'quiz'])
-        return Form(*args, **kwargs)
+        Formset = modelformset_factory(model,
+                                       exclude=['order',
+                                                'quiz'],
+                                       extra=1)
+        return Formset(*args, **kwargs)
 
     def dispatch(self, request, module_id, quiz_id, id=None):
         self.quiz = get_object_or_404(Quiz,
@@ -271,28 +273,26 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
         return super().dispatch(request, module_id, quiz_id, id)
 
     def get(self, request, module_id, quiz_id, id=None):
-        form = self.get_form(self.model, instance=self.obj)
+        question_formset = self.get_form(self.model, queryset=self.model.objects.none())
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
 
-        return self.render_to_response({'form': form,
+        return self.render_to_response({'question_formset': question_formset,
                                         'module': module,
                                         'object': self.obj})
 
     def post(self, request, module_id, quiz_id, id=None):
-        form = self.get_form(self.model,
-                             data=request.POST,
-                             files=request.FILES)
+        question_formset = self.get_form(self.model,
+                                         data=request.POST)
 
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.quiz = self.quiz
-            obj.number = request.POST['number']
-            obj.question_text = request.POST['question_text']
-            obj.save()
+        if question_formset.is_valid():
+            question_formset.save(commit=False)
+            for form in question_formset:
+                form.instance.quiz = self.quiz
+            question_formset.save()
             return redirect('courses:quiz_edit', self.module.id, self.quiz.id)
-        return self.render_to_response({'form': form,
+        return self.render_to_response({'question_formset': question_formset,
                                         'object': self.obj})
 
 

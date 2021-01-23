@@ -41,14 +41,42 @@
                 <div class="col-12 col-md-9">
 
                     <div class="module">
-                        <form action="" method="post" enctype="multipart/form-data">
-                            {{ form.as_p }}
+                        <form id="form-container" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <p><input type="submit" value="Save question"></p>
+                            {{ question_formset.management_form }}
+                            {% for form in question_formset %}
+                            <div class="question_formset">
+                            {{ form.as_p }}
+                            </div>
+                            {% endfor %}
+                            <button id="add-form" type="button">Add Question</button>
+                            <button type="submit">Save Questions</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     {% endwith %}
+<script>
+    let questionForm = document.querySelectorAll(".question_formset")
+    let container = document.querySelector("#form-container")
+    let addButton = document.querySelector("#add-form")
+    let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+    let formNum = questionForm.length - 1
+    addButton.addEventListener('click', addForm)
+
+    function addForm(e){
+        e.preventDefault()
+
+        let newForm = questionForm[0].cloneNode(true)
+        let formRegex = RegExp(`form-(\\d){1}-`, 'g')
+
+        formNum++
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+        container.insertBefore(newForm, addButton)
+
+        totalForms.setAttribute('value', `${formNum+1}`)
+    }
+</script>
 {% endblock %}

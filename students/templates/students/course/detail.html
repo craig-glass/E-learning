@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="navbar navbar-function-link">
         <div class="container-fluid">
-    <div class="row" style="width: 120%;">
+    <div class="navbar navbar-function-link">
+    <div class="row">
         {% for module in object.modules.all %}
-                <div class="col-12">
+                <div class="col-12 col-md-6">
             <p data-link="{% url 'students:student_course_detail_module' object.id module.id %}">
                 Module:<br>{{ module.title }}
             </p>
@@ -31,6 +31,9 @@
                     </div>
         <div class="container-fluid">
     <div class="row">
+<div class="col-12">
+    <p><button id="speak" class="button effect" style="float:right !important;"><span class="far fa-comment-dots"></span> Text to Speech</button></p>
+</div>
                 <div class="col-12">
     <div class="modules">
         {% for content in module.contents.all %}
@@ -43,4 +46,32 @@
         </div>
     </div>
         </div>
+
+
+
+<script>
+    $(function(){
+
+
+    $('#speak').click(function(){
+      var text = $('.modules').text()
+      var msg = new SpeechSynthesisUtterance();
+      var voices = window.speechSynthesis.getVoices();
+      msg.voice = voices[$('#voices').val()];
+      msg.rate = 1;
+      msg.pitch = 1;
+      msg.text = text;
+
+      msg.onend = function(e) {
+        console.log('Finished in ' + event.elapsedTime + ' seconds.');
+      };
+
+      speechSynthesis.speak(msg);
+    })
+  }
+);
+
+
+
+</script>
 {% endblock %}

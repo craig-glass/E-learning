@@ -14,6 +14,8 @@
                 </a>
                 <div class="plain-text-area">{{ quiz.description }}</div>
             </div>
+        {% empty %}
+            <p>This module has no quizzes yet</p>
         {% endfor %}
     </div>
 {% endblock %}

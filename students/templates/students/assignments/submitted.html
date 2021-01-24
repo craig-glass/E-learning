@@ -8,10 +8,24 @@
 {% endblock %}
 
 {% block subcontent %}
-    <h2>{{ submission.assignment }}</h2>
+    <h2>{{ submission.assignment.title }}</h2>
     <div style="border-bottom: 2px solid var(--main-vdark-col); overflow: hidden">
-        <p style="float: left; margin: 0">Date submitted: {{ submission.date_submitted }}</p>
-        <a href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}"
-           class="link-button" style="float: right">Back to Assignment</a>
+        <div style="float: left">
+            <p>Date submitted: {{ submission.date_submitted }}</p>
+            {% if grade %}
+                <p>Score: {{ grade.grade }}/100</p>
+            {% else %}
+                <p>Score: [Not Marked]</p>
+            {% endif %}
+        </div>
+        <div style="float: right;">
+            <a href="{% url 'students:assignments_list_student_view_module' course.id module.id %}"
+               class="link-button" style="width: 100%; display: inline-block">Back to Assignments</a>
+            {% if not overdue %}
+                <br>
+                <a href="{% url 'students:assignment_submission_redo' course.id module.id assignment.id %}"
+                   class="link-button" style="width: 100%; display: inline-block">Re-submit</a>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

@@ -1,3 +1,5 @@
+import datetime
+
 from django.apps import apps
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -9,10 +11,10 @@ from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView
 
-from courses.models import Course, Module, Assignment, AssignmentContent
+from courses.models import Course, Module, Assignment, AssignmentContent, Grade
 from courses.models import Quiz, Question, Choice
 from .forms import CourseEnrollForm
-from .models import QuizAnswer, QuizSubmission
+from .models import QuizAnswer, QuizSubmission, AssignmentSubmission
 
 
 class StudentRegistrationView(CreateView):
@@ -43,8 +45,8 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
                             args=[self.course.id])
 
 
-class ModulePageMixin(View):
-    def get_context(self, request, course_id=None, module_id=None, assignment_id=None, **kwargs):
+class ModulePageMixin():
+    def get_context(self, request, course_id=None, module_id=None, assignment_id=None, quiz_id=None, **kwargs):
         context = {}
         context["course_list"] = Course.objects.filter(students__in=[request.user]).order_by('id')
         context["course"] = None if course_id is None else get_object_or_404(Course, id=course_id)
@@ -54,10 +56,13 @@ class ModulePageMixin(View):
         context["assignment_list"] = (None if context["module"] is None
                                       else Assignment.objects.filter(module=context["module"]))
         context["assignment"] = None if assignment_id is None else get_object_or_404(Assignment, id=assignment_id)
+        context["quiz_list"] = (None if context["module"] is None
+                                else Quiz.objects.filter(module=context["module"]))
+        context["quiz"] = None if quiz_id is None else get_object_or_404(Quiz, id=quiz_id)
         return context
 
 
-class StudentCourseListView(LoginRequiredMixin, ModulePageMixin):
+class StudentCourseListView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/course/list.html'
 
     def get(self, request, pk=None):
@@ -70,7 +75,7 @@ class StudentCourseDetailView(LoginRequiredMixin, View):
         return redirect('students:module_home_page', pk=pk, module_id=module_id)
 
 
-class ModuleHomePageView(LoginRequiredMixin, ModulePageMixin):
+class ModuleHomePageView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/course/module_home.html'
 
     def get(self, request, pk, module_id):
@@ -78,7 +83,7 @@ class ModuleHomePageView(LoginRequiredMixin, ModulePageMixin):
         return render(request, self.template_name, context)
 
 
-class StudentHomePageView(LoginRequiredMixin, ModulePageMixin):
+class StudentHomePageView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/home.html'
 
     def get(self, request, pk, module_id):
@@ -86,7 +91,7 @@ class StudentHomePageView(LoginRequiredMixin, ModulePageMixin):
         return render(request, self.template_name, context)
 
 
-class AssignmentListStudentView(LoginRequiredMixin, ModulePageMixin):
+class AssignmentListStudentView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/assignments/list.html'
 
     def get(self, request, pk, module_id):
@@ -94,12 +99,11 @@ class AssignmentListStudentView(LoginRequiredMixin, ModulePageMixin):
         return render(request, self.template_name, context)
 
 
-class QuizListStudentView(LoginRequiredMixin, ModulePageMixin):
+class QuizListStudentView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/quizzes/list.html'
 
     def get(self, request, pk, module_id):
         context = self.get_context(request, pk, module_id)
-        context["quiz_list"] = Quiz.objects.filter(module=context["module"])
         return render(request, self.template_name, context)
 
 
@@ -121,7 +125,7 @@ class StudentDetailViewMixin(LoginRequiredMixin, DetailView):
         return context
 
 
-class AssignmentDetailStudentView(LoginRequiredMixin, ModulePageMixin):
+class AssignmentDetailStudentView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/assignments/detail.html'
 
     def get(self, request, pk, module_id, assignment_id):
@@ -149,7 +153,7 @@ class AssignmentSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
                                                  ])
         return Form(*args, **kwargs)
 
-    def dispatch(self, request, pk, module_id, assignment_id, id=None):
+    def dispatch(self, request, pk, module_id, assignment_id, id=None, redo=None):
         self.assignment = get_object_or_404(Assignment,
                                             id=assignment_id)
         self.module = get_object_or_404(Module,
@@ -161,22 +165,22 @@ class AssignmentSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
             self.obj = get_object_or_404(self.model,
                                          id=id,
                                          owner=request.user)
-        return super().dispatch(request, pk, module_id, assignment_id, id)
+        return super().dispatch(request, pk, module_id, assignment_id, id, redo=redo)
 
-    def get(self, request, pk, module_id, assignment_id, id=None):
+    def get(self, request, pk, module_id, assignment_id, id=None, redo=None):
         form = self.get_form(self.model, instance=self.obj)
-        module = get_object_or_404(Module,
-                                   id=module_id)
-        assignment = get_object_or_404(Assignment,
-                                       id=assignment_id)
-        course = get_object_or_404(Course,
-                                   id=pk)
         context = self.get_context(request, pk, module_id, assignment_id=assignment_id)
         context["form"] = form
         context["object"] = self.obj
+        if not redo and AssignmentSubmission.objects.filter(assignment=context["assignment"],
+                                                            student=request.user).count():
+            return redirect("students:assignment_submitted_view", pk, module_id, assignment_id)
+        elif context["assignment"].due_date is not None and context["assignment"].due_date < datetime.datetime.now():
+            context["overdue"] = True
+            return redirect("students:assignment_submitted_view", pk, module_id, assignment_id)
         return self.render_to_response(context)
 
-    def post(self, request, course_id, module_id, assignment_id, id=None):
+    def post(self, request, course_id, module_id, assignment_id, id=None, redo=None):
         form = self.get_form(self.model,
                              files=request.FILES)
         if form.is_valid():
@@ -191,7 +195,7 @@ class AssignmentSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
                                         'object': self.obj})
 
 
-class QuizSubmissionView(TemplateResponseMixin, View):
+class QuizSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
     model = None
     module = None
     course = None
@@ -203,7 +207,7 @@ class QuizSubmissionView(TemplateResponseMixin, View):
         return apps.get_model(app_label='students',
                               model_name='QuizAnswer')
 
-    def dispatch(self, request, pk, module_id, quiz_id, id=None):
+    def dispatch(self, request, pk, module_id, quiz_id, id=None, redo=None):
         self.quiz = get_object_or_404(Quiz,
                                       id=quiz_id)
         self.module = get_object_or_404(Module,
@@ -215,23 +219,20 @@ class QuizSubmissionView(TemplateResponseMixin, View):
             self.obj = get_object_or_404(self.model,
                                          id=id,
                                          owner=request.user)
-        return super().dispatch(request, pk, module_id, quiz_id, id)
+        return super().dispatch(request, pk, module_id, quiz_id, id, redo=redo)
 
-    def get(self, request, pk, module_id, quiz_id, id=None):
+    def get(self, request, pk, module_id, quiz_id, id=None, redo=None):
+        context = self.get_context(request, pk, module_id, quiz_id=quiz_id)
+        context["object"] = self.obj
+        if not redo and QuizSubmission.objects.filter(quiz=context["quiz"],
+                                                      student=request.user).count():
+            return redirect("students:quiz_submitted_view", pk, module_id, quiz_id)
+        elif context["quiz"].due_date is not None and context["quiz"].due_date < datetime.datetime.now():
+            context["overdue"] = True
+            return redirect("students:quiz_submitted_view", pk, module_id, quiz_id)
+        return self.render_to_response(context)
 
-        module = get_object_or_404(Module,
-                                   id=module_id)
-        quiz = get_object_or_404(Quiz,
-                                 id=quiz_id)
-        course = get_object_or_404(Course,
-                                   id=pk)
-
-        return self.render_to_response({'module': module,
-                                        'course': course,
-                                        'quiz': quiz,
-                                        'object': self.obj})
-
-    def post(self, request, pk, module_id, quiz_id, id=None):
+    def post(self, request, pk, module_id, quiz_id, id=None, redo=None):
 
         input_names = [name for name in request.POST.keys() if name.startswith('question')]
 
@@ -254,31 +255,25 @@ class QuizSubmissionView(TemplateResponseMixin, View):
         return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
 
 
-class QuizSubmittedView(LoginRequiredMixin, DetailView):
-    model = Course
+class QuizSubmittedView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/quizzes/submitted.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        course = self.get_object()
-        context['module'] = course.modules.get(
-            id=self.kwargs['module_id']
-        )
-        context['quiz'] = context['module'].quizzes.get(
-            id=self.kwargs['quiz_id']
-        )
-        context['submission'] = context['quiz'].submissions.filter(
-            student=self.request.user).latest('id')
-
-        return context
+    def get(self, request, pk, module_id, quiz_id):
+        context = self.get_context(request, pk, module_id, quiz_id=quiz_id)
+        context["submission"] = context["quiz"].submissions.filter(
+            student=self.request.user
+        ).latest('id')
+        return render(request, self.template_name, context)
 
 
-class AssignmentSubmittedView(LoginRequiredMixin, ModulePageMixin):
+class AssignmentSubmittedView(LoginRequiredMixin, ModulePageMixin, View):
     template_name = 'students/assignments/submitted.html'
 
-    def get(self, request, pk, module_id, assignment_id):
+    def get(self, request, pk, module_id, assignment_id, redo=False):
         context = self.get_context(request, pk, module_id, assignment_id=assignment_id)
         context["submission"] = context["assignment"].submissions.filter(
             student=self.request.user
         ).latest('id')
+        context["grade"] = Grade.objects.filter(assignment=context["assignment"],
+                                                student=request.user).latest('datetime_submitted')
         return render(request, self.template_name, context)

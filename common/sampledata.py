@@ -324,6 +324,18 @@ AssignmentContent.objects.create(
         title="q2"
     )[0]
 )
+arithmetic_q1 = Quiz.objects.get_or_create(module=arithmetic, title="Also Basic sums",
+                                           description="Answer the following")[0]
+q = Question.objects.get_or_create(quiz=arithmetic_q1, number=1, question_text="What is 420 - 69")[0]
+Choice.objects.get_or_create(question=q, choice_text="Nice", correct_answer=True)
+Choice.objects.get_or_create(question=q, choice_text="Noice", correct_answer=True)
+Choice.objects.get_or_create(question=q, choice_text="351", correct_answer=False)
+Choice.objects.get_or_create(question=q, choice_text="Niiiiiiiiice", correct_answer=True)
+q = Question.objects.get_or_create(quiz=arithmetic_q1, number=2, question_text="What is 8000000 + 8135")[0]
+Choice.objects.get_or_create(question=q, choice_text="8008135", correct_answer=True)
+Choice.objects.get_or_create(question=q, choice_text="The funny number", correct_answer=True)
+Choice.objects.get_or_create(question=q, choice_text="Immature", correct_answer=False)
+Choice.objects.get_or_create(question=q, choice_text="Nice?", correct_answer=False)
 arithmetic_a2 = Assignment.objects.get_or_create(module=arithmetic, title="Less basic sums", order=2,
                                                  description="What is 69 - 420?")[0]
 arithmetic_a3 = Assignment.objects.get_or_create(module=arithmetic, title="Lesserer basic sums", order=2,

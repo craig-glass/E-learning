@@ -45,7 +45,7 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
                             args=[self.course.id])
 
 
-class ModulePageMixin():
+class ModulePageMixin:
     def get_context(self, request, course_id=None, module_id=None, assignment_id=None, quiz_id=None, **kwargs):
         context = {}
         context["course_list"] = Course.objects.filter(students__in=[request.user]).order_by('id')

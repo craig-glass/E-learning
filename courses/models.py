@@ -150,6 +150,7 @@ class Quiz(models.Model):
                                related_name='quizzes')
     description = models.TextField()
     date_created = models.DateTimeField('date created', null=True)
+    due_date = models.DateTimeField(null=True)
 
     class Meta:
         verbose_name_plural = 'quizzes'

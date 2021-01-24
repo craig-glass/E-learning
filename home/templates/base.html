@@ -646,7 +646,7 @@
         if (sideMenu.hasClass('container-compressed')) { // Currently compressed
             sideMenu.removeClass('container-compressed');
             // Show all span contents
-            sideMenu.find('span').each(function (index, element) {
+            sideMenu.find('span,h3').each(function (index, element) {
                 if (slow) {
                     $(element).show('slow');
                 } else {
@@ -656,7 +656,7 @@
         } else { // Currently not compressed
             sideMenu.addClass('container-compressed');
             // Hide all span contents
-            sideMenu.find('span').each(function (index, element) {
+            sideMenu.find('span,h3').each(function (index, element) {
                 if (slow) {
                     $(element).hide('slow');
                 } else {

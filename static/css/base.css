@@ -50,7 +50,6 @@ a:hover {
 
 ul {
     float: left;
-    text-align: center;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -75,12 +74,33 @@ h3 {
     font-size: 1.25em;
 }
 
+.file-submit-form {
+    width: 100%;
+    margin: 0;
+}
+
+.file-submit-form input {
+    width: 100%;
+    border: 1px solid var(--text-area-dark-col);
+    padding: 4px;
+}
+
 .a-header {
     display: inline-block;
     font-size: 1.25em;
     font-weight: bold;
     color: var(--main-vdark-col);
     padding: 0;
+}
+
+.link-button {
+    border: 1px solid var(--main-vdark-col);
+    background-color: var(--main-light-col);
+    padding: 2px;
+}
+
+.link-button:hover, .link-button:focus {
+    background-color: var(--text-area-dark-col-hl);
 }
 
 .link-list {
@@ -251,7 +271,6 @@ h3 {
     float: left;
     width: 100%;
     background-color: #efefef;
-    text-align: center;
     padding: 10px 20px;
     margin: 5%;
 }
@@ -286,13 +305,6 @@ h3 {
 .module label {
     float: none !important;
     display: block !important;
-}
-
-.module input, textarea, #id_subject {
-    float: none !important;
-    border: 0;
-    padding: 7px 0;
-    border-bottom: 3px solid #ccc;
 }
 
 header {
@@ -381,10 +393,6 @@ ul.content-types li {
     display: none;
 }
 
-form p {
-    overflow: auto;
-    text-align: center;
-}
 
 pre.error {
     color: red;
@@ -414,16 +422,16 @@ label {
     margin: 0 0 8px 0;
 }
 
-input, select, textarea {
-    border: 1px solid #ccc;
-    border-bottom: 3px solid #ccc;
-    padding: 8px 12px;
-    font-size: 1.2em;
-    font-family: 'Courier New', monospace;
-    float: left;
-    clear: both;
-    width: 300px;
-}
+/*input, select, textarea {*/
+/*    border: 1px solid #ccc;*/
+/*    border-bottom: 3px solid #ccc;*/
+/*    padding: 8px 12px;*/
+/*    font-size: 1.2em;*/
+/*    font-family: 'Courier New', monospace;*/
+/*    float: left;*/
+/*    clear: both;*/
+/*    width: 300px;*/
+/*}*/
 
 .invalid {
     border: 2px solid red;
@@ -539,11 +547,6 @@ ul#course-modules li:hover {
     padding: 10px 20px;
     border: 1px solid #ccc;
     background: #fff
-}
-
-#module-contents form {
-    margin: 0;
-    padding: 0;
 }
 
 #module-contents a {

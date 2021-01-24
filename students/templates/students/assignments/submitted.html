@@ -1,51 +1,17 @@
-{% extends "base.html" %}
-{% load course %}
+{% extends "students/course/detail.html" %}
 
-{% block title %}
-    Module {{ module.order|add:1 }}:{{ module.title }}
+{% block extrabreadcrumbs %}
+    <a href="{% url 'students:assignments_list_student_view_module' course.id module.id %}">Assignments</a>/
+    <a href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}">
+        Assignment:{{ assignment.id }}</a>/
+    <a href="{% url 'students:assignment_submission' course.id module.id assignment.id %}">Submission</a>/
 {% endblock %}
 
-{% block h1 %}
-    {% with course=module.course %}
-        <h1>Course "{{ course.title }}"</h1>
-    {% endwith %}
-{% endblock %}
-
-
-
-{% block content %}
-    <div class="col-12 col-md-3 col-centered">
-        <div class="contents">
-            <h3>Modules</h3>
-            <ul id="modules">
-                {% for m in object.modules.all %}
-                    <li data-id="{{ m.id }}"
-                        {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'students:quiz_list_student_view_module' object.id m.id %}">
-                            <span>
-                                Module<span class="order">{{ m.order|add:1 }}</span>
-                            </span>
-                            <br>
-                            {{ m.title }}
-                        </a>
-                    </li>
-                {% empty %}
-                    <li>No modules yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
+{% block subcontent %}
+    <h2>{{ submission.assignment }}</h2>
+    <div style="border-bottom: 2px solid var(--main-vdark-col); overflow: hidden">
+        <p style="float: left; margin: 0">Date submitted: {{ submission.date_submitted }}</p>
+        <a href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}"
+           class="link-button" style="float: right">Back to Assignment</a>
     </div>
-
-    <div class="col-12 col-md-9">
-        <div class="module">
-            <div>
-
-                    <div>
-                        <h3>{{ submission.assignment }}</h3>
-                        <p>Date submitted: {{ submission.date_submitted }}</p>
-                    </div>
-            </div>
-        </div>
-    </div>
-
 {% endblock %}

@@ -30,6 +30,7 @@ staff_permissions = [
 ]
 staff_group = Group.objects.get_or_create(name="staff")[0]
 for permission in staff_permissions:
+    print(permission)
     staff_group.permissions.add(Permission.objects.get(codename=permission))
 print("Created Groups")
 
@@ -218,8 +219,22 @@ Announcement.objects.get_or_create(title="PSA", author=admin, course=longest_wor
 print("Created Announcements")
 
 # Module class DEPENDS ON Course
+# ModuleContent class DEPENDS ON module
+# Text class DEPENDS ON User
+ModuleContent.objects.all().delete()
 arithmetic = Module.objects.get_or_create(course=core_maths, title="Arithmetic", order=1,
                                           description="Basic numbers and arithmetic operations")[0]
+ModuleContent.objects.create(
+    module=arithmetic, order=1,
+    item=Text.objects.get_or_create(
+        owner=arithmetic.course.owner,
+        content="To truly comprehend the question that is 'What is 1 + 1?', we must first ask the question; why do we"
+                " truly want to know 1 + 1? What benefit do we gain from this knowledge? How does this make us feel?"
+                " Only then can we truly enter a stat of mind in which 'What is 1 + 1' has a profound, and powerful"
+                " answer.",
+        title="What is 1 + 1?",
+    )[0]
+)
 trigonometry = Module.objects.get_or_create(course=core_maths, title="Trigonometry", order=2,
                                             description="Basically just pythagoras' theorem")[0]
 
@@ -421,6 +436,7 @@ knowledge_a1 = Assignment.objects.get_or_create(module=knowledge, title="Know", 
                                                 description="Show you know what you know.")[0]
 print("Created Assignments")
 
+# Grade class DEPENDS ON User, Assignment
 start = timezone.datetime(2020, 9, 16, tzinfo=pytz.UTC)
 end = timezone.now()
 delta = int((end - start).total_seconds())

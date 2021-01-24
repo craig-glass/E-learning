@@ -22,7 +22,7 @@
         <div style="width: auto; height: 100%; overflow: hidden">
             <div class="navbar navbar-function-link">
                 <p data-link="{% url 'students:module_home_page' course.id module.id %}">Module Home</p>
-                <p data-link="{% url 'students:student_course_detail_module' course.id module.id %}">Content</p>
+                <p data-link="{% url 'students:module_content_view' course.id module.id %}">Content</p>
                 <p data-link="{% url 'students:assignments_list_student_view_module' course.id module.id %}">Assignments</p>
                 <p data-link="{% url 'students:quiz_list_student_view_module' course.id module.id %}">Quizzes</p>
             </div>

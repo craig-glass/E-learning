@@ -277,3 +277,11 @@ class AssignmentSubmittedView(LoginRequiredMixin, ModulePageMixin, View):
         context["grade"] = Grade.objects.filter(assignment=context["assignment"],
                                                 student=request.user).latest('datetime_submitted')
         return render(request, self.template_name, context)
+
+
+class ModuleContentView(LoginRequiredMixin, ModulePageMixin, View):
+    template_name = 'students/contents/detail.html'
+
+    def get(self, request, pk, module_id):
+        context = self.get_context(request, pk, module_id)
+        return render(request, self.template_name, context)

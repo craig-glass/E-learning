@@ -58,4 +58,7 @@ urlpatterns = [
     path('course/<pk>/module/<module_id>/quiz/<quiz_id>/submitted/',
          views.QuizSubmittedView.as_view(),
          name='quiz_submitted_view'),
+    path('course/<pk>/module/<module_id>/content/',
+         views.ModuleContentView.as_view(),
+         name='module_content_view'),
 ]

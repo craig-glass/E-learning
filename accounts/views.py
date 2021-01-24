@@ -418,6 +418,8 @@ def parse_details(account: User, allowed_details: Sequence[str]) -> Dict[str, an
     details = {}
     if 'userid' in allowed_details:
         details["userid"] = account.userid
+    if 'name' in allowed_details:
+        details["name"] = account.styled_name
     if 'firstname' in allowed_details:
         details["firstname"] = account.first_name
     if 'lastname' in allowed_details:
@@ -443,11 +445,11 @@ def parse_details(account: User, allowed_details: Sequence[str]) -> Dict[str, an
     return details
 
 
-PARTIAL_VIEW = ("userid", "firstname",
+PARTIAL_VIEW = ("userid", "name",
                 "student", "staff")
-PARTIAL_STAFF_VIEW = ("userid", "firstname", "email",
+PARTIAL_STAFF_VIEW = ("userid", "name", "email",
                       "student", "staff")
-FULL_VIEW = ("userid", "firstname", "lastname", "contacts", "online",
+FULL_VIEW = ("userid", "name", "firstname", "lastname", "contacts",
              "student", "staff", "superuser")
 
 STANDARD_GRADIENT = {

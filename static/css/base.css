@@ -267,7 +267,7 @@ h3 {
     color: var(--main-vdark-col);
 }
 
-.module, .profile, .create, #user-details-div {
+.module, .profile, .create {
     float: left;
     width: 100%;
     background-color: #efefef;
@@ -392,7 +392,6 @@ ul.content-types li {
 .hidden {
     display: none;
 }
-
 
 pre.error {
     color: red;

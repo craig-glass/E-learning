@@ -5,20 +5,47 @@
 {% endblock %}
 
 {% block content %}
-        <div class="container-fluid">
-    <div class="row">
-    <div class="col-12">
-        <p>
-            <a class="button effect" href="/account/edit/{{ user_details.userid }}">Settings</a>
-            <a class="button effect" href="/account/analytics/{{ user_details.userid }}">Analytics</a>
-        </p>
+    <div style="float: right; height: 100%">
+        <div id="account-side-menu" class="side-menu border-l side-link-container"
+             data-compress-function="compressSideMenu">
+            <h3 class="hide-when-small">Profile:</h3>
+            <button class="compress-button"><i class="fas fa-bars"></i></button>
+        </div>
     </div>
 
+    <div style="width: auto; height: 100%; overflow: hidden">
         {% block account_view_content %}
         {% endblock %}
+    </div>
 
-
-
-
-
+    <script>
+    postSetup.push(profileSetup)
+    function profileSetup() {
+        loadNavigator(
+            $('#account-side-menu'),
+            [
+                {
+                    href: '{% url 'accounts:account_view' user_details.userid %}',
+                    text: 'Profile',
+                    type: 'link',
+                },
+                {% if is_user %}
+                {
+                    href: '{% url 'accounts:account_edit' user_details.userid %}',
+                    text: 'Settings',
+                    type: 'link',
+                },
+                {% endif %}
+                {% if show_analytics %}
+                {
+                    href: '{% url 'accounts:account_analytics' user_details.userid %}',
+                    text: 'Analytics',
+                    type: 'link',
+                }
+                {% endif %}
+            ],
+            false
+        )
+    }
+    </script>
 {% endblock %}

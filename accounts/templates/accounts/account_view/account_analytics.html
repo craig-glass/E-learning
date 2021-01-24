@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block account_view_content %}
-    <p>{{ user_details.userid }}</p>
     {% if request.user.is_student %}
         <div id="registered-course-graphs" style="width: 100%">
             {% if registered_courses %}
@@ -23,7 +22,7 @@
                 <div class="container-numbers"></div>
                 <div class="container-graphs"></div>
             {% else %}
-                <h2>You are currently not registered for any courses</h2>
+                <h3>You are currently not registered for any courses</h3>
             {% endif %}
         </div>
     {% endif %}
@@ -42,7 +41,7 @@
                 <div class="container-numbers"></div>
                 <div class="container-graphs"></div>
             {% else %}
-                <h2>You currently own no courses</h2>
+                <h3>You currently own no courses</h3>
             {% endif %}
         </div>
         <div id="course-assignment-graphs" style="width: 100%">

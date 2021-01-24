@@ -182,13 +182,13 @@ class Choice(models.Model):
 
 class Grade(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.PROTECT,
+                                on_delete=models.CASCADE,
                                 related_name='grades')
     teacher = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.PROTECT,
-                                )
+                                on_delete=models.SET_NULL,
+                                null=True)
     assignment = models.ForeignKey(Assignment,
-                                   on_delete=models.PROTECT,
+                                   on_delete=models.SET_NULL,
                                    null=True,
                                    blank=True)
     # quiz = models.ForeignKey(Quiz,

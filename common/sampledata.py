@@ -1,10 +1,10 @@
-import datetime
 import random
+
 import pytz
-
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.fields import GenericRelation
+from django.db import IntegrityError
 
-from django.utils import timezone
 from accounts.models import *
 from announcements.models import *
 from courses.models import *
@@ -13,6 +13,7 @@ from home.models import *
 from students.models import *
 
 # Run using ./manage.py shell < common/sampledata.py
+
 
 print("Starting...")
 # Define groups
@@ -23,8 +24,10 @@ for permission in student_permissions:
 
 staff_permissions = [
     "add_profile", "change_profile", "delete_profile", "view_profile",
+    "add_course", "change_course", "delete_course", "view_course", "change_module",
+    "add_assignment", "change_assignment", "delete_assignment", "view_assignment",
     "can_accept", "can_reject",
-    "can_add"
+    "can_add",
 ]
 staff_group = Group.objects.get_or_create(name="staff")[0]
 for permission in staff_permissions:
@@ -300,8 +303,27 @@ knowledge = Module.objects.get_or_create(course=longest_word, title="Now You Kno
 print("Created Modules")
 
 # Assignment class DEPENDS ON module
+# AssignmentContent class DEPENDS ON assignment
+# Text class DEPENDS ON User
+AssignmentContent.objects.all().delete()
 arithmetic_a1 = Assignment.objects.get_or_create(module=arithmetic, title="Basic sums", order=1,
-                                                 description="What is 420 - 69?")[0]
+                                                 description="Answer the following and submit in a text document.")[0]
+AssignmentContent.objects.create(
+    assignment=arithmetic_a1, order=1,
+    item=Text.objects.get_or_create(
+        owner=arithmetic_a1.module.course.owner,
+        content="What is 420 - 69?",
+        title="q1"
+    )[0]
+)
+AssignmentContent.objects.create(
+    assignment=arithmetic_a1, order=2,
+    item=Text.objects.get_or_create(
+        owner=arithmetic_a1.module.course.owner,
+        content="What is 8000000 + 8135",
+        title="q2"
+    )[0]
+)
 arithmetic_a2 = Assignment.objects.get_or_create(module=arithmetic, title="Less basic sums", order=2,
                                                  description="What is 69 - 420?")[0]
 arithmetic_a3 = Assignment.objects.get_or_create(module=arithmetic, title="Lesserer basic sums", order=2,

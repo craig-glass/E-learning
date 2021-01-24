@@ -26,8 +26,7 @@ staff_permissions = [
     "add_profile", "change_profile", "delete_profile", "view_profile",
     "add_course", "change_course", "delete_course", "view_course", "change_module",
     "add_assignment", "change_assignment", "delete_assignment", "view_assignment",
-    "can_accept", "can_reject",
-    "can_add",
+    "accept_account_submissions", "reject_account_submissions", "add_account_submissions",
 ]
 staff_group = Group.objects.get_or_create(name="staff")[0]
 for permission in staff_permissions:

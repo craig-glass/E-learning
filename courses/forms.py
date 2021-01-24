@@ -15,7 +15,8 @@ AssignmentFormSet = inlineformset_factory(Module,
                                           Assignment,
                                           fields=[
                                               'title',
-                                              'description'],
+                                              'description',
+                                              'due_date'],
                                           extra=2,
                                           can_delete=True)
 

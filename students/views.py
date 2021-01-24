@@ -55,30 +55,28 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        for course in qs:
-            print(course, course.students)
         return qs.filter(students__in=[self.request.user])
 
 
-class StudentHomePageView(DetailView):
+class StudentHomePageView(LoginRequiredMixin, DetailView):
     model = Course
     template_name = 'students/home.html'
 
 
-class StudentDetailViewMixin(DetailView):
+class StudentDetailViewMixin(LoginRequiredMixin, DetailView):
     model = Course
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(students__in=[self.request.user])
+
     def get_context_data(self, **kwargs):
-        print(kwargs)
-        print(self.kwargs)
         context = super().get_context_data(**kwargs)
-        print(context)
         course = self.get_object()
         if 'module_id' in self.kwargs:
             context['module'] = course.modules.get(
                 id=self.kwargs['module_id']
             )
-        print(context)
 
         return context
 
@@ -95,7 +93,7 @@ class QuizListStudentView(StudentDetailViewMixin):
     template_name = 'students/quizzes/list.html'
 
 
-class AssignmentDetailStudentView(DetailView):
+class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
     model = Course
     template_name = 'students/assignments/detail.html'
 
@@ -165,12 +163,12 @@ class AssignmentSubmissionView(TemplateResponseMixin, View):
                              files=request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.student1 = request.user
+            obj.student = request.user
             obj.assignment = self.assignment
             obj.course = self.course
             obj.submitted_file = request.FILES['submitted_file']
             obj.save()
-            return redirect('students:student_assignment_detail', self.course.id, self.module.id, self.assignment.id)
+            return redirect('students:assignment_submitted_view', self.course.id, self.module.id, self.assignment.id)
         return self.render_to_response({'form': form,
                                         'object': self.obj})
 
@@ -234,7 +232,43 @@ class QuizSubmissionView(TemplateResponseMixin, View):
                                           quiz_submission=quiz_submission, is_correct=correct)
             score = QuizAnswer.objects.filter(quiz_submission=quiz_submission, is_correct=True).count()
             QuizSubmission.objects.filter(id=quiz_submission.id).update(score=score)
-            return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
+            return redirect('students:quiz_submitted_view', self.course.id, self.module.id, self.quiz.id)
         return redirect('students:quiz_detail_student_view', self.course.id, self.module.id, self.quiz.id)
 
 
+class QuizSubmittedView(LoginRequiredMixin, DetailView):
+    model = Course
+    template_name = 'students/quizzes/submitted.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.get_object()
+        context['module'] = course.modules.get(
+            id=self.kwargs['module_id']
+        )
+        context['quiz'] = context['module'].quizzes.get(
+            id=self.kwargs['quiz_id']
+        )
+        context['submission'] = context['quiz'].submissions.filter(
+            student=self.request.user).latest('id')
+
+        return context
+
+
+class AssignmentSubmittedView(LoginRequiredMixin, DetailView):
+    model = Course
+    template_name = 'students/assignments/submitted.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.get_object()
+        context['module'] = course.modules.get(
+            id=self.kwargs['module_id']
+        )
+        context['assignment'] = context['module'].assignments.get(
+            id=self.kwargs['assignment_id']
+        )
+        context['submission'] = context['assignment'].submissions.filter(
+            student=self.request.user).latest('id')
+
+        return context

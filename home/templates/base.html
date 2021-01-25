@@ -551,8 +551,8 @@
                     {
                         text: 'Your Courses',
                         icon: 'fas fa-folder',
-                        function: '',
-                        ajax: '',
+                        function: '_loadStaffCourseNavigator',
+                        ajax: 'staffCourseListAjax',
                         context: '{}',
                         type: 'button',
                     },
@@ -579,7 +579,7 @@
             container,
             [{
                 href: '{% url 'students:student_course_list' %}',
-                text: 'My Courses',
+                text: 'Course List',
                 type: 'link',
             }]
         );
@@ -595,7 +595,7 @@
                 text: 'Course Homepage',
                 type: 'link',
             }]
-        )
+        );
     }
 
     function _loadModuleContentsNavigator(container) {
@@ -629,7 +629,65 @@
                 },
             ],
             false
-        )
+        );
+    }
+
+    function _loadStaffCourseNavigator(container) {
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'courses:manage_course_list' %}',
+                text: 'Course List',
+                type: 'link',
+            }]
+        );
+    }
+
+    function _loadStaffModuleNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'courses:course_detail' 12345 %}'
+                    .replace('12345', context.course_id),
+                text: 'Course Homepage',
+                type: 'link',
+            }]
+        );
+    }
+
+    function _loadStaffModuleContentsNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [
+                {
+                    href: '{% url 'courses:course_module_update' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Homepage',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:module_content_list' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Contents',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:assignment_content_list' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Assignments',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:quiz_list_view' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Quizzes',
+                    type: 'link',
+                },
+            ],
+            false
+        );
     }
 
     /**

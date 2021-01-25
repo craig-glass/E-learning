@@ -437,6 +437,7 @@ knowledge_a1 = Assignment.objects.get_or_create(module=knowledge, title="Know", 
 print("Created Assignments")
 
 # Grade class DEPENDS ON User, Assignment
+Grade.objects.all().delete()
 start = timezone.datetime(2020, 9, 16, tzinfo=pytz.UTC)
 end = timezone.now()
 delta = int((end - start).total_seconds())

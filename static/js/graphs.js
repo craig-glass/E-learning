@@ -20,7 +20,8 @@
  *                                                             Expected to be equal in length to dataset.data
  *                                                  <li>gradient - List of colors (at least two) to gradate between
  *                                                  </ul
- * @property {Array.<String>} dataset.meta
+ * @property {Array.<String>} dataset.meta - Tooltip metadata to be displayed on highlighting a given index
+ * @property {Array.<Number>} dataset.invalid - Indexes of values to be highlighted as invalid
  * @property {String} xUnit - Units to be shown for x-axis data
  * @property {String} yUnit - Units to be shown for y-axis data
  * @property {String} xLabel - Label to be shown on x-axis
@@ -56,7 +57,7 @@ function setToGraph(element, graphOptions) {
  */
 function generateGraph(element,
                        {
-                           data, label, color = {}, meta = [],
+                           data, label, color = {}, meta = [], invalid = [],
                            xUnit = '', yUnit = '', xLabel = '', yLabel = '',
                            title = '', type = 'bar', custom_settings = {}
                        }) {
@@ -163,6 +164,9 @@ function generateGraph(element,
                         },
                         label: function (tooltipItem, data) {
                             let value = data['datasets'][0]['data'][tooltipItem['index']];
+                            if (invalid.includes(tooltipItem['index'])) {
+                                return '';
+                            }
                             if (value % 1 === 0) {
                                 value = Math.round(value);
                             } else {
@@ -185,6 +189,12 @@ function generateGraph(element,
         }
     );
     merge(config, custom_settings);
+
+    let max = Math.max(...data, config['options']['scales']['yAxes'][0]['ticks']['suggestedMax']);
+    for (let index of invalid) {
+        color[index] = '#000000AA'
+        data[index] = max;
+    }
 
     let ctx = element.getContext('2d');
     window[name] = new Chart(ctx, config);

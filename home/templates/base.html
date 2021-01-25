@@ -68,7 +68,7 @@
 </div>
 
 <div id="content">
-    <div id="side-menu" class="side-menu border-r fillx-when-small side-link-container"
+    <div id="side-menu" class="side-menu border-r side-menu-fillx-when-small side-link-container"
          data-compress-function="sideMenuPartialCompress">
         <button class="compress-button"><i class="fas fa-bars"></i></button>
     </div>
@@ -537,14 +537,24 @@
                     type: 'link',
                 },
                 {% if request.user.is_student %}
-                {
-                    text: 'Course',
-                    icon: 'fa fa-book',
-                    function: '_loadCourseNavigator',
-                    ajax: '/courseListAjax',
-                    context: '{}',
-                    type: 'button',
-                },
+                    {
+                        text: 'Registered Courses',
+                        icon: 'fa fa-book',
+                        function: '_loadCourseNavigator',
+                        ajax: '/courseListAjax',
+                        context: '{}',
+                        type: 'button',
+                    },
+                {% endif %}
+                {% if request.user.is_staff %}
+                    {
+                        text: 'Your Courses',
+                        icon: 'fas fa-folder',
+                        function: '',
+                        ajax: '',
+                        context: '{}',
+                        type: 'button',
+                    },
                 {% endif %}
                 {
                     href: '{% url 'announcements:announcements' %}',
@@ -612,7 +622,7 @@
         button.on('click', function () {
             // Disable dropdown if currently compressed
             if (button.parents().hasClass('container-compressed')) {
-                return
+                button.parents().find('.compress-button').click();
             }
             let container = button.next(); // Container to which children will be appended
             if (container.hasClass('shown')) { // Container is visible and populated
@@ -714,7 +724,7 @@
     function updateNavbar(navbar, relatedNavbars = null) {
         let container = navbar.find('div').hide();
         let header = navbar.find('h3');
-        header.on('click', function() {
+        header.on('click', function () {
             container.toggle();
         });
         navbar.find('p').each(function (index, navbarLink) {

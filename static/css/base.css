@@ -38,6 +38,14 @@ html, body {
     color: var(--main-vdark-col);
     background-color: white;
     background-size: cover;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 a {
@@ -59,14 +67,6 @@ h1, h2, h3, h4, h5, h6 {
     overflow: auto;
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    -ms-word-break: break-all;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
 }
 
 h1 {
@@ -231,10 +231,14 @@ h3 {
 
 .plain-text-area-container {
     width: 100%;
-    background-color: var(--main-light-col);
+    background-color: transparent;
     border: 2px solid var(--main-vdark-col);
-    margin: 8px 0 8px 0;
+    margin: 16px 0 16px 0;
     padding: 0;
+}
+
+.plain-text-area-container h3 {
+    background-color: var(--main-light-col-hl);
 }
 
 .caption {
@@ -859,7 +863,11 @@ ul.content-types {
         width: 50px;
     }
 
-    .side-menu:not(.container-compressed).fillx-when-small {
+    .fillx-when-small {
+        width: 100% !important;
+    }
+
+    .side-menu:not(.container-compressed).side-menu-fillx-when-small {
         position: absolute;
         width: 100% !important;
         z-index: 1;

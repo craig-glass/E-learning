@@ -1,12 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 
-{% block h1 %}
-    <h1>Welcome!</h1>
-{% endblock %}
-
 {% block content %}
-
-
-
+    <h1>Welcome</h1>
+    <div class="fillx-when-small" style="display: inline-block">
+        {% if request.user.is_student %}
+            <a class="link-button" style="width: 100%; display: inline-block"
+               href="{% url 'students:student_course_list' %}">
+                Registered Courses
+            </a>
+            <br>
+        {% endif %}
+        {% if request.user.is_staff %}
+            <a class="link-button" style="width: 100%; display: inline-block"
+               href="{% url 'courses:manage_course_list' %}">
+                Your Courses
+            </a>
+            <br>
+        {% endif %}
+        <a class="link-button" style="width: 100%; display: inline-block"
+           href="{% url 'courses:course_list' %}">
+            All Courses
+        </a>
+    </div>
+    <div class="plain-text-area">
+        <h3>Welcome to my welcoming welcome page</h3>
+        Are you feeling welcome? Your welcome!
+    </div>
+    <div class="plain-text-area">
+        <h3>PWA Setup Instructions</h3>
+        Pneumonoultramicroscopicsilicovolcanoconiosis ridden antidisestablishmentarianists
+        have a greater disposition towards pseudopseudoparahypothyroidism
+    </div>
 {% endblock %}

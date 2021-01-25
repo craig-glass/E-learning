@@ -607,7 +607,25 @@
                         .replace('12345', context.course_id).replace('54321', context.module_id),
                     text: 'Module Homepage',
                     type: 'link',
-                }
+                },
+                {
+                    href: '{% url 'students:module_content_view' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Contents',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'students:assignments_list_student_view_module' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Assignments',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'students:quiz_list_student_view_module' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Quizzes',
+                    type: 'link',
+                },
             ],
             false
         )

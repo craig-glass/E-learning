@@ -10,9 +10,10 @@ import json
 
 User = get_user_model()
 
+
 def home(request):
-	template='home/homepage.html'
-	return render(request,template)
+    template = 'home/homepage.html'
+    return render(request, template)
 
 
 class HomePageView(TemplateView):
@@ -39,7 +40,7 @@ class CourseListAjax(View):
             for course in Course.objects.filter(students__in=[request.user]):
                 context["nav_links"].append({
                     "text": course.title,
-                    "context": json.dumps({"course_id": course.id }),
+                    "context": json.dumps({"course_id": course.id}),
                     "function": "_loadModuleNavigator",
                     "ajax": "\moduleListAjax",
                     "icon": "fas fa-book-open",

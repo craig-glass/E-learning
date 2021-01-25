@@ -45,10 +45,19 @@
                             {% csrf_token %}
                             {{ question_formset.management_form }}
                             {% for form in question_formset %}
-                            <div class="question_formset">
-                            {{ form.as_p }}
-                            </div>
+                                <div class="question_formset">
+                                    {{ form.as_p }}
+                                </div>
+
+                                {% for f in choices_formset %}
+                                    <div class="choices_formset">
+                                        {{ f.as_p }}
+                                    </div>
+                                {% endfor %}
                             {% endfor %}
+
+                            <button id="add-choices-form" type="button">Add Choice</button>
+
                             <button id="add-form" type="button">Add Question</button>
                             <button type="submit">Save Questions</button>
                         </form>
@@ -57,26 +66,46 @@
             </div>
         </div>
     {% endwith %}
-<script>
-    let questionForm = document.querySelectorAll(".question_formset")
-    let container = document.querySelector("#form-container")
-    let addButton = document.querySelector("#add-form")
-    let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+    <script>
+        let questionForm = document.querySelectorAll(".question_formset")
+        let choicesForm = document.querySelectorAll(".choices_formset")
+        let container = document.querySelector("#form-container")
+        let addButton = document.querySelector("#add-form")
+        let addButtonChoices = document.querySelector("#add-choices-form")
+        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+        let totalChoicesForm = document.querySelector("#id_choices-TOTAL_FORMS")
 
-    let formNum = questionForm.length - 1
-    addButton.addEventListener('click', addForm)
 
-    function addForm(e){
-        e.preventDefault()
+        let formNum = questionForm.length - 1
+        let choicesFormNum = choicesForm.length - 1
+        addButton.addEventListener('click', addForm)
+        addButtonChoices.addEventListener('click', addChoicesForm)
 
-        let newForm = questionForm[0].cloneNode(true)
-        let formRegex = RegExp(`form-(\\d){1}-`, 'g')
+        function addForm(e) {
+            e.preventDefault()
 
-        formNum++
-        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
-        container.insertBefore(newForm, addButton)
+            let newForm = questionForm[0].cloneNode(true)
+            let formRegex = RegExp(`form-(\\d){1}-`, 'g')
 
-        totalForms.setAttribute('value', `${formNum+1}`)
-    }
-</script>
+            formNum++
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+            container.insertBefore(newForm, addButton)
+            container.insertBefore(addButtonChoices, addButton)
+
+            totalForms.setAttribute('value', `${formNum + 1}`)
+        }
+
+        function addChoicesForm(e) {
+            e.preventDefault()
+
+            let newForm = choicesForm[0].cloneNode(true)
+            let formRegex = RegExp(`choices-(\\d){1}-`, 'g')
+
+            choicesFormNum++
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `choices-${formNum}-${choicesFormNum}-`)
+            container.insertBefore(newForm, addButtonChoices)
+
+            totalChoicesForm.setAttribute('value', `${choicesFormNum + 1}`)
+        }
+    </script>
 {% endblock %}

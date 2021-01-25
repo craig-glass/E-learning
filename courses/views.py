@@ -6,7 +6,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.base import TemplateResponseMixin, View
 from students.forms import CourseEnrollForm
 from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet
-from .models import Course, ModuleContent, AssignmentContent, Quiz, Question
+from .models import Course, ModuleContent, AssignmentContent, Quiz, Question, Choice
 from django.apps import apps
 from django.forms.models import modelform_factory, modelformset_factory
 from .models import Module, Assignment, Content
@@ -274,11 +274,13 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
 
     def get(self, request, module_id, quiz_id, id=None):
         question_formset = self.get_form(self.model, queryset=self.model.objects.none())
+        choices_formset = ChoiceFormSet()
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
 
         return self.render_to_response({'question_formset': question_formset,
+                                        'choices_formset': choices_formset,
                                         'module': module,
                                         'object': self.obj})
 
@@ -286,13 +288,35 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
         question_formset = self.get_form(self.model,
                                          data=request.POST)
 
+        choice_formset = ChoiceFormSet()
+
         if question_formset.is_valid():
-            question_formset.save(commit=False)
+            i = 0
             for form in question_formset:
                 form.instance.quiz = self.quiz
-            question_formset.save()
+                form.save()
+
+                choices = [name for name in request.POST.keys()
+                           if name.endswith('choice_text')
+                           and name.startswith('choices-%s' % i)]
+                correct_answer = [name for name in request.POST.keys()
+                                  if name.endswith('correct_answer')
+                                  and name.startswith('choices-%s' % i)]
+                correct_answer_id = [int(s) for s in correct_answer[0].split('-') if s.isdigit()]
+
+                for choice in choices:
+                    answer = False
+                    choice_id = [int(s) for s in choice.split('-') if s.isdigit()]
+                    if choice_id == correct_answer_id:
+                        answer = True
+                    Choice.objects.create(question=form.instance,
+                                          choice_text=request.POST[choice],
+                                          correct_answer=answer)
+                i += 1
+
             return redirect('courses:quiz_edit', self.module.id, self.quiz.id)
         return self.render_to_response({'question_formset': question_formset,
+                                        'choices_formset': choice_formset,
                                         'object': self.obj})
 
 

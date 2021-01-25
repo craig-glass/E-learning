@@ -35,6 +35,5 @@ ChoiceFormSet = inlineformset_factory(Question,
                                           'choice_text',
                                           'correct_answer'
                                       ],
-                                      extra=4,
-                                      max_num=4)
+                                      extra=1)
 

@@ -46,8 +46,7 @@
                                         <p>{{ choice.choice_text }}</p>
                                     {% endfor %}
                                     <br>
-                                    <a href="{% url 'courses:edit_choices' module.id quiz.id question.id %}">Edit Choices</a>
-                                </div>
+                                    </div>
                             {% empty %}
                                 <p>This quiz has no questions yet</p>
                             {% endfor %}

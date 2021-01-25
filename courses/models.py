@@ -173,9 +173,14 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question,
                                  on_delete=models.CASCADE,
-                                 related_name='choices')
+                                 related_name='choices',
+                                 null=True)
     choice_text = models.CharField(max_length=100)
     correct_answer = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'choice'
+        verbose_name_plural = 'choices'
 
     def __str__(self):
         return self.choice_text

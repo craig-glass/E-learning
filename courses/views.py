@@ -195,14 +195,6 @@ class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View
         return self.render_to_response({'module': self.module,
                                         'formset': formset})
 
-    def post(self, request, *args, **kwargs):
-        formset = self.get_formset(data=request.POST)
-        if formset.is_valid():
-            formset.save()
-            return redirect('courses:manage_course_list')
-        return self.render_to_response({'module': self.module,
-                                        'formset': formset})
-
 
 class QuizCreateView(QuizAssignmentCreateView):
     template_name = 'courses/manage/quizzes/formset.html'
@@ -211,6 +203,14 @@ class QuizCreateView(QuizAssignmentCreateView):
         return QuizFormSet(instance=self.module,
                            data=data)
 
+    def post(self, request, module_id, *args, **kwargs):
+        formset = self.get_formset(data=request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect('courses:quiz_list_view', module_id)
+        return self.render_to_response({'module': self.module,
+                                        'formset': formset})
+
 
 class CourseAssignmentUpdateView(QuizAssignmentCreateView):
     template_name = 'courses/manage/assignments/formset.html'
@@ -218,6 +218,14 @@ class CourseAssignmentUpdateView(QuizAssignmentCreateView):
     def get_formset(self, data=None):
         return AssignmentFormSet(instance=self.module,
                                  data=data)
+
+    def post(self, request, module_id, *args, **kwargs):
+        formset = self.get_formset(data=request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect('courses:assignment_content_list', module_id)
+        return self.render_to_response({'module': self.module,
+                                        'formset': formset})
 
 
 class AssignmentUpdateView(TemplateResponseMixin, View):

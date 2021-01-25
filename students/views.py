@@ -2,6 +2,7 @@ from django.apps import apps
 from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.forms import UserCreationForm
@@ -207,7 +208,6 @@ class QuizSubmissionView(TemplateResponseMixin, View):
                                  id=quiz_id)
         course = get_object_or_404(Course,
                                    id=pk)
-
         return self.render_to_response({'module': module,
                                         'course': course,
                                         'quiz': quiz,

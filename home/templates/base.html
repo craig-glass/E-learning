@@ -802,7 +802,7 @@
         let container = navbar.find('div').hide();
         let header = navbar.find('h3');
         header.on('click', function () {
-            container.toggle();
+            container.toggle('slow');
         });
         navbar.find('p').each(function (index, navbarLink) {
             // Assign tab indexes to links to allow keyboard navigation
@@ -831,7 +831,7 @@
                 } else {
                     window[$(navbarLink).attr('data-function')]($(navbarLink).attr('data-value'));
                     header.text(header.text().split(':')[0] + ':' + $(navbarLink).text());
-                    container.toggle();
+                    container.hide('slow');
                 }
             });
             if (window.location.pathname + window.location.search === $(navbarLink).attr('data-link')) {
@@ -913,7 +913,7 @@
             let parent = $(e.target).parents();
             if (!(parent.hasClass('dropdown') || parent.hasClass('navbar'))) {
                 body.find('.dropdown-list').hide();
-                body.find('.navbar div').hide();
+                body.find('.navbar div').hide('slow');
             }
         });
 

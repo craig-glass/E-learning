@@ -504,9 +504,7 @@ label {
 
 }
 
-.navbar h3 {
-    cursor: pointer;
-}
+
 
 .navbar div {
     position: sticky;
@@ -514,13 +512,20 @@ label {
     width: 100%;
 }
 
-.navbar p {
-    display: block;
+.navbar h3, .navbar p {
     vertical-align: middle;
     text-decoration: none;
     text-align: center;
     padding: 10px;
     margin: 0;
+}
+
+.navbar h3 {
+    cursor: pointer;
+}
+
+.navbar p {
+    display: block;
     color: var(--main-vdark-col);
     background-color: var(--nav-bar-button);
     opacity: 0.9;

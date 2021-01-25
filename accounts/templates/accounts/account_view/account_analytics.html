@@ -12,10 +12,13 @@
             {% if registered_courses %}
                 <h2>Courses you are registered in</h2>
                 <div id="registered-course-navbar" class="navbar">
-                    {% for course in registered_courses %}
-                        <p data-value="{{ course.id }}"
-                           data-function="updateRegisteredGraphs">{{ course.title }}</p>
-                    {% endfor %}
+                    <h3>Select Course:</h3>
+                    <div>
+                        {% for course in registered_courses %}
+                            <p data-value="{{ course.id }}"
+                               data-function="updateRegisteredGraphs">{{ course.title }}</p>
+                        {% endfor %}
+                    </div>
                 </div>
                 <pre id="registered-response-pre" class="response-text"></pre>
 
@@ -31,10 +34,13 @@
             {% if owned_courses %}
                 <h2>Courses you own</h2>
                 <div id="owned-course-navbar" class="navbar">
-                    {% for course in owned_courses %}
-                        <p data-value="{{ course.id }}"
-                           data-function="updateOwnedGraphs">{{ course.title }}</p>
-                    {% endfor %}
+                    <h3>Select Course:</h3>
+                    <div>
+                        {% for course in owned_courses %}
+                            <p data-value="{{ course.id }}"
+                               data-function="updateOwnedGraphs">{{ course.title }}</p>
+                        {% endfor %}
+                    </div>
                 </div>
                 <pre id="owned-response-pre" class="response-text"></pre>
 
@@ -191,12 +197,17 @@
                         for (let module in response.modules) {
                             navbarContainer.append($('<h4>').text(response.modules[module].name));
                             let navbar = $('<div>').addClass('navbar').addClass('navbar-no-auto');
+                            navbar.append($('<h3>').text('Select Module:'));
+                            let linkContainer = $('<div>');
+                            navbar.append(linkContainer);
                             navbarContainer.append(navbar);
                             for (let assignment of response.modules[module].assignments) {
-                                navbar.append($('<p>')
+                                linkContainer.append(
+                                    $('<p>')
                                     .attr('data-value', assignment.id)
                                     .attr('data-function', 'updateCourseAssignmentGraphs')
-                                    .text(assignment.label));
+                                    .text(assignment.label)
+                                );
                             }
                             navbars.push(navbar);
                         }

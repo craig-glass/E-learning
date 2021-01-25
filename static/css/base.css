@@ -6,6 +6,7 @@
     light - primary main color, for lightly colored backgrounds
     vlight - lightest color, used for light on dark style text and default background
     hl - highlight for a given color (slight increase in light)
+    ts - transparent equivalent of a color
      */
     --main-vdark-col: black;
     --main-vdark-col-hl: #1f1f1f;
@@ -58,6 +59,14 @@ h1, h2, h3, h4, h5, h6 {
     overflow: auto;
     font-family: 'Courier New', monospace;
     font-weight: bold;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 h1 {
@@ -469,37 +478,45 @@ label {
     display: table;
     width: 100%;
     align-content: center;
-    background-color: var(--text-area-col);
-    overflow: auto;
+    background-color: var(--main-light-col);
+    border-bottom: 2px solid var(--main-dark-col);
+    overflow: hidden;
     padding: 0;
     margin: 0;
 }
 
-.navbar.navbar-side-view {
-    display: inline-block !important;
-    width: auto;
+.navbar:hover {
+
+}
+
+.navbar h3 {
+    cursor: pointer;
+}
+
+.navbar div {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
 }
 
 .navbar p {
-    display: table-cell;
+    display: block;
     vertical-align: middle;
     text-decoration: none;
     text-align: center;
     padding: 10px;
     margin: 0;
     color: var(--main-vdark-col);
-    background-color: transparent;
+    background-color: var(--nav-bar-button);
+    opacity: 0.9;
     border: 1px dotted var(--main-light-col);
-}
-
-.navbar.navbar-side-view p {
-    display: block !important;
 }
 
 .navbar p:hover, .navbar p:focus, .navbar .active {
     border-style: solid;
     border-color: var(--main-dark-col);
-    background-color: var(--text-area-col-hl);
+    background-color: var(--nav-bar-button-hl);
+    opacity: 0.9;
 }
 
 .navbar p:hover {
@@ -842,18 +859,15 @@ ul.content-types {
         width: 50px;
     }
 
-    .side-menu:not(.container-compressed) {
+    .side-menu:not(.container-compressed).fillx-when-small {
         position: absolute;
+        width: 100% !important;
         z-index: 1;
         border: 0;
     }
 
-    .fillx-when-small {
-        width: 100% !important;
-    }
-
     .hide-when-small {
-        /*display: none !important;*/
+        display: none !important;
     }
 }
 

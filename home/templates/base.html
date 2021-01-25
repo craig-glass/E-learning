@@ -788,27 +788,20 @@
         });
     }
 
+    function _announceText(text) {
+        var msg = new SpeechSynthesisUtterance();
+        var voices = window.speechSynthesis.getVoices();
+        msg.voice = voices[$('#voices').val()];
+        msg.rate = 1;
+        msg.pitch = 1;
+        msg.text = text;
+        speechSynthesis.speak(msg);
+    }
+
     $(function () {
         $('#speak').click(function () {
             $('body').find('.plain-text-area').each(function (index, element) {
-                var text = $(element).text();
-                var msg = new SpeechSynthesisUtterance();
-                var voices = window.speechSynthesis.getVoices();
-                msg.voice = voices[$('#voices').val()];
-                msg.rate = 1;
-                msg.pitch = 1;
-                msg.text = text;
-                speechSynthesis.speak(msg);
-                $(element).children().each(function (index2, element2) {
-                    console.log(element2)
-                    var msg = new SpeechSynthesisUtterance();
-                    var voices = window.speechSynthesis.getVoices();
-                    msg.voice = voices[$('#voices').val()];
-                    msg.rate = 1;
-                    msg.pitch = 1;
-                    msg.text = text;
-                    speechSynthesis.speak(msg);
-                });
+                _announceText($(element).text());
             });
         });
     });

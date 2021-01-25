@@ -509,7 +509,7 @@ label {
 }
 
 .navbar div {
-    position: absolute;
+    position: sticky;
     overflow: hidden;
     width: 100%;
 }
@@ -879,7 +879,7 @@ ul.content-types {
     }
 
     .side-menu:not(.container-compressed).side-menu-fillx-when-small {
-        position: absolute;
+        position: fixed;
         width: 100% !important;
         z-index: 1;
         border: 0;

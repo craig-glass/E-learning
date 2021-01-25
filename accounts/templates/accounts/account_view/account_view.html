@@ -5,24 +5,20 @@
 {% endblock %}
 
 {% block account_view_content %}
-    <div class="profile">
-            <div class="col-12">
-        <div id="user-details-div" style="margin-bottom: 10%;font-size: x-large;">
-            <p>User ID: {{ user_details.userid }}</p>
-            <p>Full Name: {{ user_details.firstname }} {{ user_details.lastname }}</p>
-            <p>Contact Details</p>
+    <div class="plain-text-area" style="height: 100%">
+        <div style="width: 100%; height: 100%">
+            <h3>UID:[{{ user_details.userid }}]</h3>
+            <p><span style="font-weight: bold">Name</span> - {{ user_details.name }}</p>
+            {% if user_details.firstname %}
+                <p><span style="font-weight: bold">Full Name</span> - {{ user_details.firstname }} {{ user_details.lastname }}</p>
+            {% endif %}
+            <h3>Contact Details:</h3>
             <div id="contacts-div" style="overflow: hidden">
                 {% for contact in user_details.contacts %}
-                    <p>{{ contact.show_as }}: {{ contact.value }}</p>
+                    <p><span style="font-weight: bold">{{ contact.show_as }}</span> - {{ contact.value }}</p>
                 {% endfor %}
             </div>
-        </div>
-        <div id="user-status-div" style="float: right">
-            {% if user_details.online %}
-                <div class="dot" style="background-color: #44FF66; float: right"></div>
-            {% else %}
-                <div class="dot" style="background-color: #FF0000; float: right"></div>
-            {% endif %}
+            <h3>Permissions</h3>
             {% if user_details.superuser %}
                 <p>Admin</p>
             {% endif %}
@@ -34,11 +30,4 @@
             {% endif %}
         </div>
     </div>
-    </div>
-
-
-
-
-
-
 {% endblock %}

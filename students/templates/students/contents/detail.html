@@ -1,0 +1,15 @@
+{% extends "students/course/detail.html" %}
+
+{% block extrabreadcrumbs %}
+    <a href="{% url 'students:assignments_list_student_view_module' course.id module.id %}">Contents</a>/
+{% endblock %}
+
+{% block subcontent %}
+    <h2>Module Content</h2>
+    <div class="plain-text-area" style="height: 100%">
+        {% for content in module.contents.all %}
+            <h3>{{ content.item.title }}</h3>
+            {{ content.item.render }}
+        {% endfor %}
+    </div>
+{% endblock %}

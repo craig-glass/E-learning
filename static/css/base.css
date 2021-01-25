@@ -6,6 +6,7 @@
     light - primary main color, for lightly colored backgrounds
     vlight - lightest color, used for light on dark style text and default background
     hl - highlight for a given color (slight increase in light)
+    ts - transparent equivalent of a color
      */
     --main-vdark-col: black;
     --main-vdark-col-hl: #1f1f1f;
@@ -22,6 +23,7 @@
     --text-area-col: #eaeaea;
     --text-area-col-hl: lightgray;
     --text-area-dark-col: #b8b8b8;
+    --text-area-dark-col-hl: #dbdbdb;
 
     --nav-bar-link: var(--text-area-col);
     --nav-bar-link-hl: var(--text-area-col-hl);
@@ -36,6 +38,14 @@ html, body {
     color: var(--main-vdark-col);
     background-color: white;
     background-size: cover;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 a {
@@ -49,21 +59,94 @@ a:hover {
 
 ul {
     float: left;
-    text-align: center;
 }
 
 h1, h2, h3, h4, h5, h6 {
+    width: 100%;
+    margin: 0;
+    overflow: auto;
     font-family: 'Courier New', monospace;
     font-weight: bold;
 }
 
 h1 {
-    width: 100%;
-    overflow: auto;
     padding: 20px 0 20px 40px;
-    margin: 0;
     border-bottom: 6px solid var(--main-vdark-col);
     background-color: var(--text-area-dark-col);
+}
+h2 {
+    padding: 10px 0 10px 40px;
+    border-bottom: 2px solid var(--main-vdark-col);
+    background-color: var(--text-area-dark-col-hl);
+}
+h3 {
+    font-size: 1.25em;
+}
+
+.file-submit-form {
+    width: 100%;
+    margin: 0;
+}
+
+.file-submit-form input {
+    width: 100%;
+    border: 1px solid var(--text-area-dark-col);
+    padding: 4px;
+}
+
+.a-header {
+    display: inline-block;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: var(--main-vdark-col);
+    padding: 0;
+}
+
+.link-button {
+    border: 1px solid var(--main-vdark-col);
+    background-color: var(--main-light-col);
+    padding: 2px;
+}
+
+.link-button:hover, .link-button:focus {
+    background-color: var(--text-area-dark-col-hl);
+}
+
+.link-list {
+    border-top: 2px solid var(--main-vdark-col);
+    border-bottom: 2px solid var(--main-vdark-col);
+    margin-bottom: 20px;
+}
+
+.numbers-container {
+    width: 100%;
+    border-top: 2px solid var(--main-dark-col);
+    border-bottom: 2px solid var(--main-dark-col);
+    padding: 0;
+    margin: 0;
+}
+
+.numbers-container p {
+    display: inline-block;
+    padding: 4px;
+}
+
+.graph-container {
+    width: 100%;
+    border-top: 2px solid var(--main-light-col);
+    border-bottom: 2px solid var(--main-light-col);
+    padding: 0;
+    margin: 0;
+}
+
+.graph-container.pie canvas {
+    display: inline-block !important;
+    max-width: 500px;
+}
+
+.graph-container.bar canvas {
+    display: inline-block;
+    max-width: 750px;
 }
 
 /* Dropdown based on: https://www.w3schools.com/howto/howto_js_dropdown.asp */
@@ -78,7 +161,7 @@ h1 {
     position: fixed;
     background-color: #F1F1F1;
     overflow: auto;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
     z-index: 1;
 }
 
@@ -137,7 +220,6 @@ h1 {
 }
 
 .plain-text-area {
-    float: left;
     width: 100%;
     background-color: var(--text-area-col);
     border-top: 2px solid var(--main-vdark-col);
@@ -148,12 +230,15 @@ h1 {
 }
 
 .plain-text-area-container {
-    float: left;
     width: 100%;
-    background-color: var(--main-light-col);
+    background-color: transparent;
     border: 2px solid var(--main-vdark-col);
-    margin: 8px 0 8px 0;
+    margin: 16px 0 16px 0;
     padding: 0;
+}
+
+.plain-text-area-container h3 {
+    background-color: var(--main-light-col-hl);
 }
 
 .caption {
@@ -195,12 +280,11 @@ h1 {
     color: var(--main-vdark-col);
 }
 
-.module, .profile, .create, #user-details-div {
+.module, .profile, .create {
     float: left;
     width: 100%;
     background-color: #efefef;
-    text-align: center;
-    padding:10px 20px;
+    padding: 10px 20px;
     margin: 5%;
 }
 
@@ -234,13 +318,6 @@ h1 {
 .module label {
     float: none !important;
     display: block !important;
-}
-
-.module input, textarea, #id_subject {
-    float: none !important;
-    border: 0;
-    padding: 7px 0;
-    border-bottom: 3px solid #ccc;
 }
 
 header {
@@ -329,11 +406,6 @@ ul.content-types li {
     display: none;
 }
 
-form p {
-    overflow: auto;
-    text-align:center;
-}
-
 pre.error {
     color: red;
 }
@@ -362,16 +434,16 @@ label {
     margin: 0 0 8px 0;
 }
 
-input, select, textarea {
-    border: 1px solid #ccc;
-    border-bottom: 3px solid #ccc;
-    padding: 8px 12px;
-    font-size: 1.2em;
-    font-family: 'Courier New', monospace;
-    float: left;
-    clear: both;
-    width: 300px;
-}
+/*input, select, textarea {*/
+/*    border: 1px solid #ccc;*/
+/*    border-bottom: 3px solid #ccc;*/
+/*    padding: 8px 12px;*/
+/*    font-size: 1.2em;*/
+/*    font-family: 'Courier New', monospace;*/
+/*    float: left;*/
+/*    clear: both;*/
+/*    width: 300px;*/
+/*}*/
 
 .invalid {
     border: 2px solid red;
@@ -410,54 +482,53 @@ input, select, textarea {
     display: table;
     width: 100%;
     align-content: center;
-    background-color: transparent;
-    overflow: auto;
+    background-color: var(--main-light-col);
+    border-bottom: 2px solid var(--main-dark-col);
+    overflow: hidden;
     padding: 0;
     margin: 0;
-    margin-bottom:50px;
 }
 
-.navbar.navbar-side-view {
-    display: inline-block!important;
-    width: 100% !important;
+.navbar:hover {
+
 }
 
-.navbar p{
-    display: table-cell;
+.navbar h3 {
+    cursor: pointer;
+}
+
+.navbar div {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+}
+
+.navbar p {
+    display: block;
     vertical-align: middle;
     text-decoration: none;
     text-align: center;
-    padding: 12px;
+    padding: 10px;
     margin: 0;
     color: var(--main-vdark-col);
-    background-color: var(--main-light-col);
-    border: 0;
-    border-top: 4px solid var(--main-dark-col);
-    border-bottom: 4px solid var(--main-dark-col);
+    background-color: var(--nav-bar-button);
+    opacity: 0.9;
+    border: 1px dotted var(--main-light-col);
 }
 
-.navbar.navbar-side-view p {
-    display: block!important;
-}
-
-.navbar p:hover, .navbar p:focus {
-    background-color: var(--main-light-col-hl);
+.navbar p:hover, .navbar p:focus, .navbar .active {
+    border-style: solid;
+    border-color: var(--main-dark-col);
+    background-color: var(--nav-bar-button-hl);
+    opacity: 0.9;
 }
 
 .navbar p:hover {
     cursor: pointer;
 }
 
-.navbar .active {
-    border-left: 8px solid var(--main-dark-col-hl);
-    border-right: 8px solid var(--main-dark-col-hl);
-    background-color: var(--main-light-col-hl);
-    padding: 12px 4px 12px 4px;
-}
-
 .navbar .active:focus {
-    background-color: var(--main-dark-col-hl);
-    color: var(--main-vlight-col)
+    border-width: 2px;
 }
 
 textarea {
@@ -496,11 +567,6 @@ ul#course-modules li:hover {
     padding: 10px 20px;
     border: 1px solid #ccc;
     background: #fff
-}
-
-#module-contents form {
-    margin: 0;
-    padding: 0;
 }
 
 #module-contents a {
@@ -568,17 +634,36 @@ div.moveable-list-contents div:hover {
     font-size: 20px;
 }
 
+#content {
+    display: table !important;
+    width: 100%;
+    height: 100% !important;
+    overflow: hidden;
+}
+
+#content > div {
+    display: table-cell !important;
+    width: 100%;
+    height: 100% !important;
+}
+
 .side-menu {
+    width: auto !important;
+    height: 100% !important;
     white-space: nowrap;
-    display: table-cell;
     vertical-align: top;
     overflow: hidden;
-    border-right: 2px solid var(--main-vdark-col);
     background-color: var(--nav-bar-link);
-    width: auto;
-    height: 100vh;
     margin: 0;
     padding: 0;
+}
+
+.side-menu.border-r {
+    border-right: 2px solid var(--main-vdark-col);
+}
+
+.side-menu.border-l {
+    border-left: 2px solid var(--main-vdark-col);
 }
 
 .side-menu a, .side-menu button {
@@ -598,11 +683,11 @@ div.moveable-list-contents div:hover {
     background-color: var(--nav-bar-button);
 }
 
-.side-menu button.hide-btn {
+.side-menu button.compress-button {
     font-size: 2em;
 }
 
-.side-menu button.hide-btn:hover, .side-menu button.hide-btn:focus {
+.side-menu button.compress-button:hover, .side-menu button.compress-button:focus {
     background-color: var(--main-vlight-col);
 }
 
@@ -623,13 +708,9 @@ div.moveable-list-contents div:hover {
     display: inline-block;
 }
 
-.dropdown-container {
+.side-link-container {
     display: block;
 }
-
-/*.dropdown-container.shown {*/
-/*    display: block;*/
-/*}*/
 
 .fa-caret-down, .fa-caret-right {
     float: right;
@@ -748,10 +829,9 @@ ul.content-types {
 }
 
 
-
 [class*="col-"] {
     display: flex;
-  flex-direction: column;
+    flex-direction: column;
 }
 
 #main-content {
@@ -760,8 +840,12 @@ ul.content-types {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 576px) {
@@ -778,14 +862,29 @@ ul.content-types {
         height: 50px;
         width: 50px;
     }
+
+    .fillx-when-small {
+        width: 100% !important;
+    }
+
+    .side-menu:not(.container-compressed).side-menu-fillx-when-small {
+        position: absolute;
+        width: 100% !important;
+        z-index: 1;
+        border: 0;
+    }
+
+    .hide-when-small {
+        display: none !important;
+    }
 }
 
 
-
-input, label{
+input, label {
     float: none;
 }
-label{
+
+label {
     display: block;
 }
 

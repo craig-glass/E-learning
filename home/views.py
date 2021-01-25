@@ -37,7 +37,7 @@ class CourseListAjax(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         context = {"nav_links": []}
         if request.user.is_authenticated and request.user.is_student:
-            for course in Course.objects.filter(students__in=[request.user]):
+            for course in Course.objects.filter(students__in=[request.user]).order_by('id'):
                 context["nav_links"].append({
                     "text": course.title,
                     "context": json.dumps({"course_id": course.id}),
@@ -58,7 +58,7 @@ class ModuleListAjax(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         context = {"nav_links": []}
         if request.user.is_authenticated and request.user.is_student:
-            for module in Module.objects.filter(course=get_object_or_404(Course, id=request.POST.get('course_id'))):
+            for module in Module.objects.filter(course=get_object_or_404(Course, id=request.POST.get('course_id'))).order_by('order'):
                 context["nav_links"].append({
                     "text": module.title,
                     "context": json.dumps({

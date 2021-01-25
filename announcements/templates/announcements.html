@@ -14,10 +14,13 @@
             <h3>You are not linked to any courses</h3>
         {% else %}
             <div class="navbar">
-                {% for course in courses %}
-                    <p data-value="{{ course.id }}"
-                       data-function="updateAnnouncements">{{ course.title }}</p>
-                {% endfor %}
+                <h3>Select Course:</h3>
+                <div>
+                    {% for course in courses %}
+                        <p data-value="{{ course.id }}"
+                           data-function="updateAnnouncements">{{ course.title }}</p>
+                    {% endfor %}
+                </div>
             </div>
         {% endif %}
         <pre id="response-pre"></pre>
@@ -40,7 +43,7 @@
                 let field = $('<div>').addClass('plain-text-area-container');
                 container.append(field);
                 field.append(
-                    $('<h4>').text(announcement.title)
+                    $('<h3>').text(announcement.title)
                 );
                 field.append(
                     $('<pre>')
@@ -49,8 +52,8 @@
                 );
                 field.append(
                     $('<p>')
-                    .text(announcement.author + " - " + announcement.created)
-                    .addClass('caption')
+                        .text(announcement.author + " - " + announcement.created)
+                        .addClass('caption')
                 );
             }
         }

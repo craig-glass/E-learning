@@ -73,8 +73,15 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     def is_student(self):
         return self.groups.filter(name='student').exists()
 
+    @property
+    def styled_name(self):
+        name = self.first_name
+        if self.last_name:
+            name = self.last_name[0] + "." + name
+        return name
+
     def __str__(self):
-        return self.userid
+        return self.userid + ": " + self.styled_name
 
     class Meta:
         ordering = ['first_name', 'last_name', 'userid']
@@ -101,8 +108,8 @@ class AccountSubmission(models.Model):
             models.Index(fields=['course']),
         ]
         permissions = [
-            ('can_accept', 'Can accept course submissions'),
-            ('can_reject', 'Can reject course submissions'),
-            ('can_add', 'Can add course submission to any new account')
+            ('accept_account_submissions', 'Can accept course submissions'),
+            ('reject_account_submissions', 'Can reject course submissions'),
+            ('add_account_submissions', 'Can add course submission to any new account')
         ]
         default_permissions = []

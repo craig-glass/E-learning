@@ -1,5 +1,4 @@
-import datetime
-
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -151,6 +150,7 @@ class Quiz(models.Model):
                                related_name='quizzes')
     description = models.TextField()
     date_created = models.DateTimeField('date created', null=True)
+    due_date = models.DateTimeField(null=True)
 
     class Meta:
         verbose_name_plural = 'quizzes'
@@ -188,20 +188,27 @@ class Choice(models.Model):
 
 class Grade(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.PROTECT,
+                                on_delete=models.CASCADE,
                                 related_name='grades')
     teacher = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.PROTECT,
-                                )
+                                on_delete=models.SET_NULL,
+                                null=True)
     assignment = models.ForeignKey(Assignment,
-                                   on_delete=models.PROTECT,
+                                   on_delete=models.SET_NULL,
                                    null=True,
                                    blank=True)
     # quiz = models.ForeignKey(Quiz,
     #                          on_delete=models.PROTECT,
     #                          null=True,
     #                          blank=True)
+
     grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+    datetime_started = models.DateTimeField()
+    datetime_submitted = models.DateTimeField(default=timezone.now())
+
+    @property
+    def time_taken(self):
+        return self.datetime_submitted - self.datetime_started
 
     def __str__(self):
-        return self.grade
+        return f'{self.assignment}:{self.student}:{self.grade}'

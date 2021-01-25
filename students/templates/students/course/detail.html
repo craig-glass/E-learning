@@ -5,73 +5,54 @@
 {% endblock %}
 {% block navigation %}
     <a href="{% url 'students:student_course_list' %}">Courses</a>/
-    <a href="{% url 'students:student_course_detail' object.id %}">Course:{{ course.id }}</a>/
+    <a href="{% url 'students:student_course_detail' course.id %}">Course:{{ course.id }}</a>/
     {% if module %}
-        <a href="{% url 'students:student_course_detail_module' object.id module.id %}">Module:{{ module.id }}</a>/
+        {% url 'students:student_course_detail_module' course.id module.id as module_url%}
+        <a href="{{ module_url }}">Module:{{ module.id }}</a>/
     {% endif %}
+    {% block extrabreadcrumbs %}{% endblock %}
 {% endblock %}
 {% block header %}
-    <h1>Course [{{ object.title }}] Modules</h1>
+    <h1>Course: {{ course.title }}<br>Module: {{ module.title }}</h1>
 {% endblock %}
 
 {% block content %}
-        <div class="container-fluid">
-    <div class="navbar navbar-function-link">
-    <div class="row">
-        {% for module in object.modules.all %}
-                <div class="col-12 col-md-6">
-            <p data-link="{% url 'students:student_course_detail_module' object.id module.id %}">
-                Module:<br>{{ module.title }}
-            </p>
-                        </div>
-        {% endfor %}
-
-    </div>
-    </div>
-                    </div>
-        <div class="container-fluid">
-    <div class="row">
-<div class="col-12">
     <p><button id="speak" class="button effect" style="float:right !important;"><span class="far fa-comment-dots"></span> Text to Speech</button></p>
-</div>
-                <div class="col-12">
-    <div class="modules">
-        {% for content in module.contents.all %}
-            {% with item=content.item %}
-                <h2>{{ item.title }}</h2>
-                {{ item.render }}
-            {% endwith %}
-        {% endfor %}
-    </div>
+    <div style="height: 100%; overflow: visible">
+        {% include 'students/course/module_sidebar.html' %}
+        <div style="width: auto; height: 100%; overflow: hidden">
+            <div class="navbar navbar-function-link">
+                <h3>Navigate:</h3>
+                <div>
+                    <p data-link="{% url 'students:module_home_page' course.id module.id %}">Module Home</p>
+                    <p data-link="{% url 'students:module_content_view' course.id module.id %}">Content</p>
+                    <p data-link="{% url 'students:assignments_list_student_view_module' course.id module.id %}">Assignments</p>
+                    <p data-link="{% url 'students:quiz_list_student_view_module' course.id module.id %}">Quizzes</p>
+                </div>
+            </div>
+            <div style="width: 100%; height: 100%">
+                {% block subcontent %}{% endblock %}
+            </div>
         </div>
     </div>
-        </div>
+    <script>
+        $(function(){
+            $('#speak').click(function(){
+              var text = $('.modules').text()
+              var msg = new SpeechSynthesisUtterance();
+              var voices = window.speechSynthesis.getVoices();
+              msg.voice = voices[$('#voices').val()];
+              msg.rate = 1;
+              msg.pitch = 1;
+              msg.text = text;
 
+              msg.onend = function(e) {
+                console.log('Finished in ' + event.elapsedTime + ' seconds.');
+              };
 
-
-<script>
-    $(function(){
-
-
-    $('#speak').click(function(){
-      var text = $('.modules').text()
-      var msg = new SpeechSynthesisUtterance();
-      var voices = window.speechSynthesis.getVoices();
-      msg.voice = voices[$('#voices').val()];
-      msg.rate = 1;
-      msg.pitch = 1;
-      msg.text = text;
-
-      msg.onend = function(e) {
-        console.log('Finished in ' + event.elapsedTime + ' seconds.');
-      };
-
-      speechSynthesis.speak(msg);
-    })
-  }
-);
-
-
-
-</script>
+              speechSynthesis.speak(msg);
+            })
+          }
+        );
+    </script>
 {% endblock %}

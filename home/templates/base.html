@@ -65,6 +65,7 @@
 
 <div id="navigation" class="breadcrumbs">
     <a href="/">Home</a>/{% block navigation %}{% endblock %}
+    <button id="speak" style="float: right"><span class="far fa-comment-dots"></span> Text to Speech</button>
 </div>
 
 <div id="content">
@@ -786,6 +787,31 @@
             }
         });
     }
+
+    $(function () {
+        $('#speak').click(function () {
+            $('body').find('.plain-text-area').each(function (index, element) {
+                var text = $(element).text();
+                var msg = new SpeechSynthesisUtterance();
+                var voices = window.speechSynthesis.getVoices();
+                msg.voice = voices[$('#voices').val()];
+                msg.rate = 1;
+                msg.pitch = 1;
+                msg.text = text;
+                speechSynthesis.speak(msg);
+                $(element).children().each(function (index2, element2) {
+                    console.log(element2)
+                    var msg = new SpeechSynthesisUtterance();
+                    var voices = window.speechSynthesis.getVoices();
+                    msg.voice = voices[$('#voices').val()];
+                    msg.rate = 1;
+                    msg.pitch = 1;
+                    msg.text = text;
+                    speechSynthesis.speak(msg);
+                });
+            });
+        });
+    });
 
     $(document).ready(function () {
         let body = $('body');

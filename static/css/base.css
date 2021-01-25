@@ -213,10 +213,21 @@ h3 {
     border-bottom: 2px solid black;
     font-size: 1.25em;
     color: var(--main-dark-col);
+    overflow: hidden;
 }
 
 .breadcrumbs a:hover {
     color: var(--main-vdark-col);
+}
+
+.breadcrumbs button {
+    color: var(--main-dark-col);
+    background-color: var(--main-light-col);
+    border: 1px solid var(--main-dark-col);
+}
+
+.breadcrumbs button:hover, .breadcrumbs button:focus {
+    background-color: var(--main-light-col-hl);
 }
 
 .plain-text-area {

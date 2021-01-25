@@ -17,7 +17,6 @@
 {% endblock %}
 
 {% block content %}
-    <p><button id="speak" class="button effect" style="float:right !important;"><span class="far fa-comment-dots"></span> Text to Speech</button></p>
     <div style="height: 100%; overflow: visible">
         {% include 'students/course/module_sidebar.html' %}
         <div style="width: auto; height: 100%; overflow: hidden">
@@ -30,29 +29,9 @@
                     <p data-link="{% url 'students:quiz_list_student_view_module' course.id module.id %}">Quizzes</p>
                 </div>
             </div>
-            <div style="width: 100%; height: 100%">
+            <div id="module-content" style="width: 100%; height: 100%">
                 {% block subcontent %}{% endblock %}
             </div>
         </div>
     </div>
-    <script>
-        $(function(){
-            $('#speak').click(function(){
-              var text = $('.modules').text()
-              var msg = new SpeechSynthesisUtterance();
-              var voices = window.speechSynthesis.getVoices();
-              msg.voice = voices[$('#voices').val()];
-              msg.rate = 1;
-              msg.pitch = 1;
-              msg.text = text;
-
-              msg.onend = function(e) {
-                console.log('Finished in ' + event.elapsedTime + ' seconds.');
-              };
-
-              speechSynthesis.speak(msg);
-            })
-          }
-        );
-    </script>
 {% endblock %}

@@ -224,7 +224,7 @@ class ModuleViewsMixin(TemplateResponseMixin, View):
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
-        return self.render_to_response({'module': module})
+        return self.render_to_response({'course': module.course, 'module': module})
 
 
 class ModuleListView(ModuleViewsMixin):

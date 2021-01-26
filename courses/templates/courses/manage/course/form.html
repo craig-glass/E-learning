@@ -6,6 +6,11 @@
         Create a new course
     {% endif %}
 {% endblock %}
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+    <a href="{% url 'courses:course_edit' object.id %}">Edit {{ object.id }}</a>/
+{% endblock %}
+
 {% block content %}
     <h1>
         {% if object %}
@@ -14,20 +19,14 @@
             Create a new course
         {% endif %}
     </h1>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="module">
-                    <h2>Course info</h2>
-                    <form method="post">
-                        {{ form.as_p }}
-                        {% csrf_token %}
-                        <button class="button effect" type="submit" value="Save course"><span
-                                class="fas fa-check-circle"></span> Save Course
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
+    <div class="plain-text-area">
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button class="button effect" type="submit" value="Save course"><span
+                    class="fas fa-check-circle"></span> Save Course
+            </button>
+        </form>
     </div>
 {% endblock %}

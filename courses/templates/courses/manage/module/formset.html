@@ -1,24 +1,23 @@
 {% extends "base.html" %}
 {% block title %}
-Edit "{{ course.title }}"
+    Edit "{{ course.title }}"
 {% endblock %}
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+    <a href="{% url 'courses:course_module_update' course.id %}">Modules</a>/
+{% endblock %}
+
 {% block content %}
-<h1>Edit "{{ course.title }}"</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-<div class="module">
-    <h2>Course modules</h2>
+    <h1>Edit "{{ course.title }}" Modules</h1>
+    <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
     <form method="post">
         {{ formset }}
         {{ formset.management_form }}
         {% csrf_token %}
-    </div>
-        </div>
-        <div class="col-12">
-        <p><button class="button effect" type="submit" value="Save Modules"><span class="fas fa-check-circle"></span> Save Modules</button></p>
-        </div>
+        <p>
+            <button class="button effect" type="submit" value="Save Modules">
+                <span class="fas fa-check-circle"></span> Save Modules
+            </button>
+        </p>
     </form>
-</div>
-</div>
 {% endblock %}

@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Delete course{% endblock %}
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+    <a href="{% url 'courses:course_delete' object.id %}">Delete {{ object.id }}</a>/
+{% endblock %}
+
 {% block content %}
-    <h1>Delete course "{{ object.title }}"</h1>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="module">
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <p>Are you sure you want to delete "{{ object }}"?</p>
-                        <button class="button effect" type="submit" value="Confirm"><span
-                                class="fas fa-trash-alt"></span>
-                            Delete
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>Delete Course "{{ object.title }}"</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3 style="color: red">Are you sure you want to delete Course "{{ object }}"?</h3>
+        <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
+        <button class="button effect" type="submit" value="Confirm"><span
+                class="fas fa-trash-alt"></span>
+            Delete
+        </button>
+    </form>
 {% endblock %}

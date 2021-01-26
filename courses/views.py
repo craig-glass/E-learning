@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.base import TemplateResponseMixin, View
 from students.forms import CourseEnrollForm
-from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet
+from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet, QuestionForm
 from .models import Course, ModuleContent, AssignmentContent, Quiz, Question, Choice
 from django.apps import apps
 from django.forms.models import modelform_factory, modelformset_factory
@@ -195,14 +195,6 @@ class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View
         return self.render_to_response({'module': self.module,
                                         'formset': formset})
 
-    def post(self, request, *args, **kwargs):
-        formset = self.get_formset(data=request.POST)
-        if formset.is_valid():
-            formset.save()
-            return redirect('courses:manage_course_list')
-        return self.render_to_response({'module': self.module,
-                                        'formset': formset})
-
 
 class QuizCreateView(QuizAssignmentCreateView):
     template_name = 'courses/manage/quizzes/formset.html'
@@ -211,6 +203,14 @@ class QuizCreateView(QuizAssignmentCreateView):
         return QuizFormSet(instance=self.module,
                            data=data)
 
+    def post(self, request, module_id, *args, **kwargs):
+        formset = self.get_formset(data=request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect('courses:quiz_list_view', module_id)
+        return self.render_to_response({'module': self.module,
+                                        'formset': formset})
+
 
 class CourseAssignmentUpdateView(QuizAssignmentCreateView):
     template_name = 'courses/manage/assignments/formset.html'
@@ -218,6 +218,14 @@ class CourseAssignmentUpdateView(QuizAssignmentCreateView):
     def get_formset(self, data=None):
         return AssignmentFormSet(instance=self.module,
                                  data=data)
+
+    def post(self, request, module_id, *args, **kwargs):
+        formset = self.get_formset(data=request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect('courses:assignment_content_list', module_id)
+        return self.render_to_response({'module': self.module,
+                                        'formset': formset})
 
 
 class AssignmentUpdateView(TemplateResponseMixin, View):
@@ -255,8 +263,7 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
 
     def get_form(self, model, *args, **kwargs):
         Formset = modelformset_factory(model,
-                                       exclude=['order',
-                                                'quiz'],
+                                       form=QuestionForm,
                                        extra=1)
         return Formset(*args, **kwargs)
 
@@ -292,7 +299,10 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
 
         if question_formset.is_valid():
             i = 0
+            print(request.POST)
+
             for form in question_formset:
+                print(form)
                 form.instance.quiz = self.quiz
                 form.save()
 

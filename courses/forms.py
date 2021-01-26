@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.models import inlineformset_factory
+from django.forms.models import inlineformset_factory, ModelForm
 from .models import Course, Module, Assignment, Quiz, Question, Choice
 
 ModuleFormSet = inlineformset_factory(Course,
@@ -28,7 +28,6 @@ QuizFormSet = inlineformset_factory(Module,
                                     extra=2,
                                     can_delete=True)
 
-
 ChoiceFormSet = inlineformset_factory(Question,
                                       Choice,
                                       fields=[
@@ -36,4 +35,14 @@ ChoiceFormSet = inlineformset_factory(Question,
                                           'correct_answer'
                                       ],
                                       extra=1)
+
+
+class QuestionForm(ModelForm):
+    class Meta:
+        model = Question
+        fields = ['number', 'question_text']
+
+    def __init__(self, *args, **kwargs):
+        super(QuestionForm, self).__init__(*args, **kwargs)
+        self.empty_permitted = False
 

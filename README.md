@@ -87,7 +87,28 @@ That's it, you should have now successfully deployed the app on your local machi
 
 ### Remote Setup
 
-How to run remotely using heroku
+You will need a heroku account for this step. You can sign up here:
+
+https://signup.heroku.com/ 
+
+Once you have a heroku account, install the heroku command prompt:
+
+https://devcenter.heroku.com/articles/heroku-cli
+
+Now you can create an app with:
+
+heroku create <app-name>
+
+In your heroku account you will see your app. In your app, navigate to the resources tab and chose find more add-ons. 
+Find heroku postgres and add the add-on to your app. You should now see heroku postgres in your list of installed add-ons
+on your app dashboard. Click on it, then click on settings, then 'view credentials'.
+Here you will find the necessary information to set your variables in the config.setting.py file.
+
+Most of the configuration is already setup to deploy in a production environment to heroku so only a few things will
+need changing in the config.settings.py file. 
+
+First, change the DEBUG variable to False. We don't want any sensitive data shown to users. 
+Second, change the variables in DATABASES to match your postgresql database on heroku.
 
 ## Usage
 

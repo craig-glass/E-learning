@@ -99,11 +99,13 @@ class CourseJoinView(View):
     """
     template_name = 'accounts/account_create/course_join.html'
 
-    def get(self, request: HttpRequest) -> HttpResponse:
+    def get(self, request: HttpRequest, course_id: int = None) -> HttpResponse:
         current_user = request.user
+        courses = Course.objects.filter(id=course_id)
         context = {
             "subjects": Subject.objects.all(),
             "courses": Course.objects.all(),
+            "autocourse": None if not courses.exists() else courses[0]
         }
         return render(request, self.template_name, context)
 

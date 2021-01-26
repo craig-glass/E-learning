@@ -1,45 +1,72 @@
 {% extends 'base.html' %}
 {% block title %}Courses{% endblock %}
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+{% endblock %}
+
 {% block content %}
-    <h1>Courses</h1>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-3">
-
-
-                <div id="sideMenu">
-                    <p><a href="{% url 'courses:course_create' %}" class="button effect"><span
-                            class="fas fa-plus-square"></span> Create new course</a></p>
-                    <p><a href="{% url 'announcements:add_announcement' %}" class="button effect"><span
-                            class="fas fa-plus-square"></span> Add Announcements</a></p>
-                    <p><a href="{% url 'event_calendar:event_new' %}" class="button effect"><span
-                            class="fas fa-plus-square"></span> Add to Calendar</a></p>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-9">
-                <div class="module">
-                    {% for course in object_list %}
-                        <div class="course-info">
-                            <h3>{{ course.title }}</h3>
-                            <p>
-                                <a href="{% url 'courses:course_edit' course.id %}">Edit</a>
-                                <a href="{% url 'courses:course_delete' course.id %}">Delete</a>
-                                <a href="{% url 'courses:course_module_update' course.id %}">Edit modules</a>
-                                {% if course.modules.count > 0 %}
-                                    <a href="{% url 'courses:module_list' course.modules.first.id %}">
-                                        Manage contents
-                                    </a>
-                                {% endif %}
-                            </p>
-                        </div>
-                    {% empty %}
-                        <p>You haven't created any courses yet.</p>
-                    {% endfor %}
-                </div>
-            </div>
-
-
+    <h1>Your Courses</h1>
+    <div style="float: right; height: 100%">
+        <div id="course-side-menu" class="side-menu border-l side-link-container"
+             data-compress-function="sideMenuPartialCompress">
+            <button class="compress-button"><i class="fas fa-bars"></i></button>
         </div>
     </div>
+
+    <div style="width: auto; overflow: hidden">
+        {% for c in course_list %}
+            <div class="plain-text-area">
+                <h3>{{ c.title }}</h3>
+                <p>Subject: {{ c.subject }} - Students: {{ c.students.count }} - Created: {{ c.created }}</p>
+                <a class="link-button" href="{% url 'courses:course_edit' c.id %}">
+                    Edit
+                </a>
+                <a class="link-button" href="{% url 'courses:course_delete' c.id %}">
+                    Delete
+                </a>
+                <a class="link-button" href="{% url 'courses:course_module_update' c.id %}">
+                    Edit modules
+                </a>
+                {% if c.modules.count > 0 %}
+                    <a class="link-button" href="{% url 'courses:module_list' c.modules.first.id %}">
+                        Manage contents
+                    </a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>You haven't created any courses yet.</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        postSetup.push(courseSetup);
+
+        function courseSetup() {
+            loadNavigator(
+                $('#course-side-menu'),
+                [
+                    {
+                        href: '{% url 'courses:course_create'%}',
+                        text: 'Create Course',
+                        icon: 'fas fa-plus-square',
+                        type: 'link',
+                    },
+                    {
+                        href: '{% url 'announcements:add_announcement'%}',
+                        text: 'Add Announcements',
+                        icon: 'fas fa-plus-square',
+                        type: 'link',
+                    },
+                    {
+                        href: '{% url 'event_calendar:event_new'%}',
+                        text: 'Add to Calendar',
+                        icon: 'fas fa-plus-square',
+                        type: 'link',
+                    },
+                ],
+                false
+            )
+        }
+    </script>
+
 {% endblock %}

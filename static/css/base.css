@@ -106,6 +106,7 @@ h3 {
     border: 1px solid var(--main-vdark-col);
     background-color: var(--main-light-col);
     padding: 2px;
+    margin: 0;
 }
 
 .link-button:hover, .link-button:focus {

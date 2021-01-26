@@ -235,6 +235,14 @@ ModuleContent.objects.create(
         title="What is 1 + 1?",
     )[0]
 )
+ModuleContent.objects.create(
+    module=arithmetic, order=2,
+    item=Video.objects.get_or_create(
+        owner=arithmetic.course.owner,
+        url="https://www.youtube.com/watch?v=Y82jDHRrswc",
+        title="The fitnessgram pacer test"
+    )[0]
+)
 trigonometry = Module.objects.get_or_create(course=core_maths, title="Trigonometry", order=2,
                                             description="Basically just pythagoras' theorem")[0]
 

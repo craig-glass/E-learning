@@ -191,6 +191,13 @@ h3 {
     color: var(--main-vlight-col-hl);
 }
 
+.image-span {
+    display: inline-block;
+    width: 500px;
+    height: 500px;
+    background-size: cover;
+}
+
 .image-link {
     background-position: center;
     background-repeat: no-repeat;

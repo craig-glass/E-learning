@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.urls import Resolver404
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.db.models import Q
@@ -30,6 +31,47 @@ class SearchView(View):
             "models": MODELS.keys(),
         }
         return render(request, self.template_name, context)
+
+
+class Error400View(View):
+    template_name = 'home/error_pages/error_page.html'
+
+    def get(self, request: HttpRequest, exception) -> HttpResponse:
+        context = {
+            "error_code": 400,
+            "error_message": str(exception),
+        }
+        return render(request, self.template_name, context)
+
+
+class Error403View(View):
+    template_name = 'home/error_pages/error_page.html'
+
+    def get(self, request: HttpRequest, exception) -> HttpResponse:
+        context = {
+            "error_code": 403,
+            "error_message": str(exception),
+        }
+        return render(request, self.template_name, context)
+
+
+class Error404View(View):
+    template_name = 'home/error_pages/error_page.html'
+
+    def get(self, request: HttpRequest, exception) -> HttpResponse:
+        context = {
+            "error_code": 404,
+            "error_message": str(exception),
+        }
+        return render(request, self.template_name, context)
+
+
+def error_500_view(request):
+    context = {
+        "error_code": 404,
+        "error_message": "Server Error",
+    }
+    return render(request, 'home/error_pages/error_page.html', context)
 
 
 class CourseListAjax(View):

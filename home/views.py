@@ -68,7 +68,7 @@ class Error404View(View):
 
 def error_500_view(request):
     context = {
-        "error_code": 404,
+        "error_code": 500,
         "error_message": "Server Error",
     }
     return render(request, 'home/error_pages/error_page.html', context)

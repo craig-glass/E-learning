@@ -449,7 +449,7 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
                                                  'updated'])
         return Form(*args, **kwargs)
 
-    def dispatch(self, request, assignment_id, module_id, model_name, id=None):
+    def dispatch(self, request, module_id, assignment_id, model_name, id=None):
         self.assignment = get_object_or_404(Assignment,
                                             id=assignment_id,
                                             )
@@ -461,16 +461,21 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
             self.obj = get_object_or_404(self.model,
                                          id=id,
                                          owner=request.user)
-        return super().dispatch(request, assignment_id, module_id, model_name, id)
+        return super().dispatch(request, module_id, assignment_id, model_name, id)
 
     def get(self, request, module_id, assignment_id, model_name, id=None):
         form = self.get_form(self.model, instance=self.obj)
+        print(module_id, assignment_id, model_name)
+        print(Module.objects.filter(id=module_id))
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
+        assignment = get_object_or_404(Assignment,
+                                       id=assignment_id)
 
         return self.render_to_response({'form': form,
                                         'module': module,
+                                        'assignment': assignment,
                                         'object': self.obj})
 
     def post(self, request, module_id, assignment_id, model_name, id=None):

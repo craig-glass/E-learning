@@ -4,11 +4,11 @@
 {% endblock %}
 {% block navigation %}
     <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
-    <a href="{% url 'courses:module_list' course.id %}">Modules</a>/
+    <a href="{% url 'courses:module_list' module.id %}">Modules</a>/
 {% endblock %}
 
 {% block content %}
-        <h1>Course "{{ course.title }}"</h1>
+        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
         <a class="link-button" href="{% url 'courses:manage_course_list' %}"
            style="width: 100%; display: inline-block">
             Back to Course List

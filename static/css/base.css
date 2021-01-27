@@ -49,8 +49,12 @@ html, body {
 }
 
 a {
-    color: var(--main-dark-col);
+    color: var(--main-vdark-col);
     text-decoration: none !important;
+}
+
+form {
+    color: var(--main-vdark-col);
 }
 
 a:hover {
@@ -106,6 +110,7 @@ h3 {
     display: inline-block;
     height: auto;
     border: 1px solid var(--main-vdark-col);
+    color: var(--main-vdark-col);
     background-color: var(--main-light-col);
     padding: 2px;
     margin: 0;
@@ -363,6 +368,10 @@ header {
     margin: 0;
     padding: 0;
     width: 100%;
+}
+
+.sortable-list li {
+    cursor: grab;
 }
 
 .contents ul {

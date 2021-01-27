@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.base import TemplateResponseMixin, View
 from students.forms import CourseEnrollForm
-from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet
+from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet, QuestionFormSet
 from .models import Course, ModuleContent, AssignmentContent, Quiz, Question, Choice
 from django.apps import apps
 from django.forms.models import modelform_factory, modelformset_factory
@@ -261,18 +261,12 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
     module = None
     template_name = 'courses/manage/quizzes/form.html'
 
-    def get_form(self, model, *args, **kwargs):
-        Formset = modelformset_factory(model,
-                                       exclude=['order',
-                                                'quiz'],
-                                       extra=1)
-        return Formset(*args, **kwargs)
-
     def dispatch(self, request, module_id, quiz_id, id=None):
         self.quiz = get_object_or_404(Quiz,
                                       id=quiz_id)
         self.module = get_object_or_404(Module,
-                                        id=module_id)
+                                        id=module_id,
+                                        course__owner=request.user)
         self.model = apps.get_model(app_label='courses',
                                     model_name='Question')
         if id:
@@ -281,50 +275,23 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
         return super().dispatch(request, module_id, quiz_id, id)
 
     def get(self, request, module_id, quiz_id, id=None):
-        question_formset = self.get_form(self.model, queryset=self.model.objects.none())
-        choices_formset = ChoiceFormSet()
-        module = get_object_or_404(Module,
-                                   id=module_id,
-                                   course__owner=request.user)
+        question_formset = QuestionFormSet(instance=self.quiz)
 
         return self.render_to_response({'question_formset': question_formset,
-                                        'choices_formset': choices_formset,
-                                        'module': module,
+                                        'quiz': self.quiz,
+                                        'module': self.module,
                                         'object': self.obj})
 
     def post(self, request, module_id, quiz_id, id=None):
-        question_formset = self.get_form(self.model,
-                                         data=request.POST)
-
-        choice_formset = ChoiceFormSet()
+        question_formset = QuestionFormSet(request.POST, instance=self.quiz)
 
         if question_formset.is_valid():
             i = 0
-            for form in question_formset:
-                form.instance.quiz = self.quiz
-                form.save()
-
-                choices = [name for name in request.POST.keys()
-                           if name.endswith('choice_text')
-                           and name.startswith('choices-%s' % i)]
-                correct_answer = [name for name in request.POST.keys()
-                                  if name.endswith('correct_answer')
-                                  and name.startswith('choices-%s' % i)]
-                correct_answer_id = [int(s) for s in correct_answer[0].split('-') if s.isdigit()]
-
-                for choice in choices:
-                    answer = False
-                    choice_id = [int(s) for s in choice.split('-') if s.isdigit()]
-                    if choice_id == correct_answer_id:
-                        answer = True
-                    Choice.objects.create(question=form.instance,
-                                          choice_text=request.POST[choice],
-                                          correct_answer=answer)
-                i += 1
+            print(request.POST)
+            question_formset.save()
 
             return redirect('courses:quiz_edit', self.module.id, self.quiz.id)
         return self.render_to_response({'question_formset': question_formset,
-                                        'choices_formset': choice_formset,
                                         'object': self.obj})
 
 

@@ -44,16 +44,20 @@
                         <form id="form-container" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ question_formset.management_form }}
+                            {{ question_formset.non_form_errors }}
                             {% for form in question_formset %}
                                 <div class="question_formset">
-                                    {{ form.as_p }}
+                                    {{ form }}
                                 </div>
-
-                                {% for f in choices_formset %}
-                                    <div class="choices_formset">
-                                        {{ f.as_p }}
-                                    </div>
-                                {% endfor %}
+                                {% if form.nested %}
+                                    {{ form.nested.management_form }}
+                                    {{ form.nested.non_form_errors }}
+                                    {% for f in form.nested %}
+                                        <div class="choices_formset">
+                                            {{ f }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
 
                             <button id="add-choices-form" type="button">Add Choice</button>

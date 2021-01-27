@@ -49,15 +49,19 @@
                                 <div class="question_formset">
                                     {{ form }}
                                 </div>
-                                {% if form.nested %}
-                                    {{ form.nested.management_form }}
-                                    {{ form.nested.non_form_errors }}
-                                    {% for f in form.nested %}
-                                        <div class="choices_formset">
-                                            {{ f }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
+
+                                <div class="choices_management_form">
+                                    {% if form.nested %}
+                                        {{ form.nested.management_form }}
+                                        {{ form.nested.non_form_errors }}
+                                        {% for f in form.nested %}
+                                            <div class="choices_formset">
+                                                {{ f }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
                             {% endfor %}
 
                             <button id="add-choices-form" type="button">Add Choice</button>
@@ -73,15 +77,21 @@
     <script>
         let questionForm = document.querySelectorAll(".question_formset")
         let choicesForm = document.querySelectorAll(".choices_formset")
+        let choicesManagementForm = document.querySelectorAll(".choices_management_form")
         let container = document.querySelector("#form-container")
         let addButton = document.querySelector("#add-form")
         let addButtonChoices = document.querySelector("#add-choices-form")
-        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
-        let totalChoicesForm = document.querySelector("#id_choices-TOTAL_FORMS")
+        let totalForms = document.querySelector("#id_questions-TOTAL_FORMS")
+        let totalChoicesForm = document.querySelector("#id_choices-questions-0-choices-TOTAL_FORMS")
+
 
 
         let formNum = questionForm.length - 1
         let choicesFormNum = choicesForm.length - 1
+
+        let totalChoicesFormList = [
+            {label: formNum, value: totalChoicesForm} ]
+
         addButton.addEventListener('click', addForm)
         addButtonChoices.addEventListener('click', addChoicesForm)
 
@@ -89,27 +99,37 @@
             e.preventDefault()
 
             let newForm = questionForm[0].cloneNode(true)
-            let formRegex = RegExp(`form-(\\d){1}-`, 'g')
+            let formRegex = RegExp(`questions-(\\d){1}-`, 'g')
+            let newChoiceForm = choicesManagementForm[0].cloneNode(true)
 
             formNum++
-            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
-            container.insertBefore(newForm, addButton)
-            container.insertBefore(addButtonChoices, addButton)
+            choicesFormNum = 0
 
+            newChoiceForm.innerHTML = newChoiceForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
+            totalChoicesForm.innerHTML = totalChoicesForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
+            totalChoicesFormList.push({label: formNum, value: totalChoicesForm })
+
+
+            container.insertBefore(newForm, addButton)
+            container.insertBefore(newChoiceForm, addButton)
+            container.insertBefore(addButtonChoices, addButton)
             totalForms.setAttribute('value', `${formNum + 1}`)
+
         }
 
         function addChoicesForm(e) {
             e.preventDefault()
 
             let newForm = choicesForm[0].cloneNode(true)
-            let formRegex = RegExp(`choices-(\\d){1}-`, 'g')
+            let formRegex = RegExp(`questions-(\\d){1}-choices-(\\d){1}-`, 'g')
 
             choicesFormNum++
-            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `choices-${formNum}-${choicesFormNum}-`)
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `questions-${formNum}-choices-${choicesFormNum}-`)
             container.insertBefore(newForm, addButtonChoices)
 
-            totalChoicesForm.setAttribute('value', `${choicesFormNum + 1}`)
+            totalChoicesFormList[formNum].value.setAttribute('value', `${choicesFormNum + 1}`)
+
         }
     </script>
 {% endblock %}

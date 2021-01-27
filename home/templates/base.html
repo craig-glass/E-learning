@@ -645,12 +645,13 @@
 
     function _loadStaffModuleNavigator(container) {
         let context = JSON.parse(container.attr('data-context'));
+        console.log(context);
         loadNavigator(
             container,
             [{
-                href: '{% url 'courses:course_detail' 12345 %}'
+                href: '{% url 'courses:course_edit' 12345 %}'
                     .replace('12345', context.course_id),
-                text: 'Course Homepage',
+                text: 'Edit Course',
                 type: 'link',
             }]
         );

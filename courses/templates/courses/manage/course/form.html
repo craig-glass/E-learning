@@ -8,7 +8,11 @@
 {% endblock %}
 {% block navigation %}
     <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
-    <a href="{% url 'courses:course_edit' object.id %}">Edit {{ object.id }}</a>/
+    {% if object %}
+        <a href="{% url 'courses:course_edit' object.id %}">Edit {{ object.id }}</a>/
+    {% else %}
+        <a href="{% url 'courses:course_create' %}">Create Course</a>/
+    {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -19,17 +19,17 @@
                 <h3>{{ c.title }}</h3>
                 <p>Subject: {{ c.subject }} - Students: {{ c.students.count }} - Created: {{ c.created }}</p>
                 <a class="link-button" href="{% url 'courses:course_edit' c.id %}">
-                    Edit
+                    Edit course
                 </a>
                 <a class="link-button" href="{% url 'courses:course_delete' c.id %}">
-                    Delete
+                    Delete course
                 </a>
                 <a class="link-button" href="{% url 'courses:course_module_update' c.id %}">
-                    Edit modules
+                    Edit module details
                 </a>
                 {% if c.modules.count > 0 %}
                     <a class="link-button" href="{% url 'courses:module_list' c.modules.first.id %}">
-                        Manage contents
+                        Manage modules
                     </a>
                 {% endif %}
             </div>

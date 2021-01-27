@@ -9,11 +9,15 @@
 
 {% block content %}
         <h1>Course "{{ course.title }}"</h1>
+        <a class="link-button" href="{% url 'courses:manage_course_list' %}"
+           style="width: 100%; display: inline-block">
+            Back to Course List
+        </a>
         <h2>Modules</h2>
         {% for m in course.modules.all %}
             <div class="plain-text-area">
                 <a {% if not m == module %}href="{% url "courses:module_list" m.id %}"{% endif %}>
-                    <h3>Module{{ m.order|add:1 }}: {{ m.title }}</h3>
+                    <h3>Module {{ m.order|add:1 }}: {{ m.title }}</h3>
                 </a>
                 Assignments: {{ m.assignments.count }} - Content Objects: {{ m.contents.count }}
             </div>

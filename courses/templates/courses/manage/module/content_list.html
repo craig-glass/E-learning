@@ -6,7 +6,7 @@
 {% block navigation %}
     <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
     <a href="{% url 'courses:module_list' module.course.id %}">Modules</a>/
-    <a href="{% url 'courses:module_content_list' module.course.id %}">Content Edit</a>/
+    <a href="{% url 'courses:module_content_list' module.course.id %}">Manage Content</a>/
 {% endblock %}
 
 {% block content %}

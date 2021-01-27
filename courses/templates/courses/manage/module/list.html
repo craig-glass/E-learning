@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Module {{ module.order|add:1 }}:{{ module.title }}
+    Module {{ module.order|add:1 }}: {{ module.title }}
 {% endblock %}
 {% block navigation %}
     <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
@@ -13,17 +13,25 @@
            style="width: 100%; display: inline-block">
             Back to Course List
         </a>
-        <h2>Modules</h2>
-        {% for m in course.modules.all %}
-            <div class="plain-text-area">
-                <a {% if not m == module %}href="{% url "courses:module_list" m.id %}"{% endif %}>
-                    <h3>Module {{ m.order|add:1 }}: {{ m.title }}</h3>
-                </a>
-                Assignments: {{ m.assignments.count }} - Content Objects: {{ m.contents.count }}
-            </div>
-        {% empty %}
-            <p>This course has no modules</p>
-        {% endfor %}
+        <div style="width: 100%">
+            <h2>Modules</h2>
+            <ul id="module-list" class="sortable-list" style="list-style: none">
+                {% for m in course.modules.all %}
+                    <li data-id="{{ m.id }}"{% if m == module %}
+                        class="selected"{% endif %}>
+                        <div class="plain-text-area">
+                            <a {% if not m == module %}href="{% url "courses:module_list" m.id %}"{% endif %}>
+                                <h3>Module {{ m.order|add:1 }}: {{ m.title }}</h3>
+                            </a>
+                            Assignments: {{ m.assignments.count }} - Content Objects: {{ m.contents.count }}
+                        </div>
+                    </li>
+                {% empty %}
+                    <li>This course has no modules</li>
+                {% endfor %}
+            </ul>
+        </div>
+
         <h2>Actions</h2>
         <a class="link-button" href="{% url "courses:course_module_update" course.id %}"
            style="width: 100%; display: inline-block">
@@ -42,4 +50,44 @@
             <span class="fas fa-tasks"></span> Manage Module {{ module.order|add:1 }}:  "{{ module.title }}" Quizzes
         </a>
 
+{% endblock %}
+
+{% block extrajavascript %}
+    <script>
+        $(document).ready(function () {
+            $('#module-list').sortable({
+                stop: function (event, ui) {
+                    modules_order = {};
+                    $('#module-list').children().each(function () {
+                        $(this).find('.order').text($(this).index() + 1);
+                        modules_order[$(this).data('id')] = $(this).index();
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "courses:module_order" %}',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify(modules_order)
+                    });
+                }
+            });
+
+            $('#module-contents-list').sortable({
+                stop: function (event, ui) {
+                    contents_order = {};
+                    $('#module-contents-list').children().each(function () {
+                        contents_order[$(this).data('id')] = $(this).index();
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "courses:content_order" %}',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify(contents_order),
+                    });
+                }
+            });
+        });
+    </script>
 {% endblock %}

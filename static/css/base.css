@@ -103,6 +103,8 @@ h3 {
 }
 
 .link-button {
+    display: inline-block;
+    height: auto;
     border: 1px solid var(--main-vdark-col);
     background-color: var(--main-light-col);
     padding: 2px;
@@ -354,6 +356,13 @@ header {
     font-family: 'Courier New', monospace;
     border: 3px solid #727f9f;
     margin-bottom: 20px;
+}
+
+.sortable-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
 .contents ul {

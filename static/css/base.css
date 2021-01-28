@@ -49,8 +49,12 @@ html, body {
 }
 
 a {
-    color: var(--main-dark-col);
+    color: var(--main-vdark-col);
     text-decoration: none !important;
+}
+
+form {
+    color: var(--main-vdark-col);
 }
 
 a:hover {
@@ -103,9 +107,13 @@ h3 {
 }
 
 .link-button {
+    display: inline-block;
+    height: auto;
     border: 1px solid var(--main-vdark-col);
+    color: var(--main-vdark-col);
     background-color: var(--main-light-col);
     padding: 2px;
+    margin: 0;
 }
 
 .link-button:hover, .link-button:focus {
@@ -188,6 +196,13 @@ h3 {
 
 .header-link:hover {
     color: var(--main-vlight-col-hl);
+}
+
+.image-span {
+    display: inline-block;
+    width: 500px;
+    height: 500px;
+    background-size: cover;
 }
 
 .image-link {
@@ -348,6 +363,17 @@ header {
     margin-bottom: 20px;
 }
 
+.sortable-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.sortable-list li {
+    cursor: grab;
+}
+
 .contents ul {
     list-style: none;
     margin: 0;
@@ -504,23 +530,28 @@ label {
 
 }
 
-.navbar h3 {
-    cursor: pointer;
-}
+
 
 .navbar div {
-    position: absolute;
+    position: sticky;
     overflow: hidden;
     width: 100%;
 }
 
-.navbar p {
-    display: block;
+.navbar h3, .navbar p {
     vertical-align: middle;
     text-decoration: none;
     text-align: center;
     padding: 10px;
     margin: 0;
+}
+
+.navbar h3 {
+    cursor: pointer;
+}
+
+.navbar p {
+    display: block;
     color: var(--main-vdark-col);
     background-color: var(--nav-bar-button);
     opacity: 0.9;
@@ -879,7 +910,7 @@ ul.content-types {
     }
 
     .side-menu:not(.container-compressed).side-menu-fillx-when-small {
-        position: absolute;
+        position: fixed;
         width: 100% !important;
         z-index: 1;
         border: 0;

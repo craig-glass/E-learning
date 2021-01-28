@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.urls import Resolver404
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.db.models import Q
@@ -32,6 +33,47 @@ class SearchView(View):
         return render(request, self.template_name, context)
 
 
+class Error400View(View):
+    template_name = 'home/error_pages/error_page.html'
+
+    def get(self, request: HttpRequest, exception) -> HttpResponse:
+        context = {
+            "error_code": 400,
+            "error_message": str(exception),
+        }
+        return render(request, self.template_name, context)
+
+
+class Error403View(View):
+    template_name = 'home/error_pages/error_page.html'
+
+    def get(self, request: HttpRequest, exception) -> HttpResponse:
+        context = {
+            "error_code": 403,
+            "error_message": str(exception),
+        }
+        return render(request, self.template_name, context)
+
+
+class Error404View(View):
+    template_name = 'home/error_pages/error_page.html'
+
+    def get(self, request: HttpRequest, exception) -> HttpResponse:
+        context = {
+            "error_code": 404,
+            "error_message": str(exception),
+        }
+        return render(request, self.template_name, context)
+
+
+def error_500_view(request):
+    context = {
+        "error_code": 500,
+        "error_message": "Server Error",
+    }
+    return render(request, 'home/error_pages/error_page.html', context)
+
+
 class CourseListAjax(View):
 
     def post(self, request: HttpRequest) -> JsonResponse:
@@ -42,7 +84,7 @@ class CourseListAjax(View):
                     "text": course.title,
                     "context": json.dumps({"course_id": course.id}),
                     "function": "_loadModuleNavigator",
-                    "ajax": "\moduleListAjax",
+                    "ajax": "/moduleListAjax",
                     "icon": "fas fa-book-open",
                     "type": "list",
                 })
@@ -66,6 +108,50 @@ class ModuleListAjax(View):
                         "module_id": module.id,
                     }),
                     "function": "_loadModuleContentsNavigator",
+                    "type": "list",
+                })
+        else:
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        return JsonResponse(context)
+
+
+class StaffCourseListAjax(View):
+
+    def post(self, request: HttpRequest) -> JsonResponse:
+        context = {"nav_links": []}
+        if request.user.is_authenticated and request.user.is_staff:
+            for course in Course.objects.filter(owner=request.user).order_by('id'):
+                context["nav_links"].append({
+                    "text": course.title,
+                    "context": json.dumps({"course_id": course.id}),
+                    "function": "_loadStaffModuleNavigator",
+                    "ajax": "/staffModuleListAjax",
+                    "icon": "fas fa-book-open",
+                    "type": "list",
+                })
+        else:
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        return JsonResponse(context)
+
+
+class StaffModuleListAjax(View):
+
+    def post(self, request: HttpRequest) -> JsonResponse:
+        context = {"nav_links": []}
+        if request.user.is_authenticated and request.user.is_staff:
+            for module in Module.objects.filter(
+                    course=get_object_or_404(Course, id=request.POST.get('course_id'))).order_by('order'):
+                context["nav_links"].append({
+                    "text": module.title,
+                    "context": json.dumps({
+                        "course_id": request.POST.get('course_id'),
+                        "module_id": module.id,
+                    }),
+                    "function": "_loadStaffModuleContentsNavigator",
                     "type": "list",
                 })
         else:

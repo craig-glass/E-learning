@@ -111,15 +111,46 @@ Now you can create an app with:
 heroku create <app-name>
 
 In your heroku account you will see your app. In your app, navigate to the resources tab and chose find more add-ons. 
-Find heroku postgres and add the add-on to your app. You should now see heroku postgres in your list of installed add-ons
-on your app dashboard. Click on it, then click on settings, then 'view credentials'.
+Find heroku postgres and add the add-on to your app. You should now see heroku postgres in your list of installed add-ons on your app dashboard. Click on it, then click on settings, then 'view credentials'.
 Here you will find the necessary information to set your variables in the config.setting.py file.
 
-Most of the configuration is already setup to deploy in a production environment to heroku so only a few things will
-need changing in the config.settings.py file. 
+Most of the configuration is already setup to deploy in a production environment to heroku so only a few things will need changing in the config.settings.py file. 
 
 First, change the DEBUG variable to False. We don't want any sensitive data shown to users. 
 Second, change the variables in DATABASES to match your postgresql database on heroku.
+
+Now that your database is configured for your heroku postgres database, you can go ahead and make migrations. This will create all of the necessary tables in your database using the django models from the app:
+
+python manage.py makemigrations
+
+python manage.py migrate
+
+Your database for your heroku account will now be created and ready to use.
+
+You have created a heroku app but you are yet to push your local repository. Do this now:
+
+git add .
+
+git commit -m "<your commit message>"
+ 
+git push heroku master
+
+You will be given a link with your apps domain name at the end of the build log in your terminal. Keep a note of this.
+Now that you have successfully pushed your app to heroku, all you need to do is scale your dynos for deployment with the following command:
+
+heroku ps:scale web=1
+
+The number here is the number of dynos you would like running for that particular process. 1 dyno will get the app up and running but the performance will not be that great, especially if you are expecting a lot of traffic. Increasing the number here will allow heroku to rout HTTP requests across more running instances of your web servers which will increase performance. 
+
+You can also scale vertically, adding dynos for worker processes which will allow your app to deal with a larger volumer of jobs:
+
+heroku ps: scale worker=1
+
+Or in one command:
+
+heroku ps: scale web=1 worker=1
+
+That's it. Your app should now be up and running. You can view it by clicking 'Open App' in heroku, or just type the name of your site into the website.
 
 ## Usage
 

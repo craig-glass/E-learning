@@ -275,7 +275,7 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
         return super().dispatch(request, module_id, quiz_id, id)
 
     def get(self, request, module_id, quiz_id, id=None):
-        question_formset = QuestionFormSet(instance=self.quiz)
+        question_formset = QuestionFormSet(instance=self.quiz, queryset=Question.objects.none())
 
         return self.render_to_response({'question_formset': question_formset,
                                         'quiz': self.quiz,

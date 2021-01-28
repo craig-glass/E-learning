@@ -803,6 +803,11 @@
     function updateNavbar(navbar, relatedNavbars = null) {
         let container = navbar.find('div').hide();
         let header = navbar.find('h3');
+        let headerText = header.text();
+        header.text('');
+        header.append($('<span>').addClass('fas fa-plus-circle'));
+        let headerTextSpan = $('<span>').text(headerText).addClass('navbar-header-text');
+        header.append(headerTextSpan);
         header.on('click', function () {
             container.toggle('slow');
         });
@@ -832,14 +837,14 @@
                     window.location.href = $(navbarLink).attr('data-link');
                 } else {
                     window[$(navbarLink).attr('data-function')]($(navbarLink).attr('data-value'));
-                    header.text(header.text().split(':')[0] + ':' + $(navbarLink).text());
+                    headerTextSpan.text(headerTextSpan.text().split(':')[0] + ':' + $(navbarLink).text());
                     container.hide('slow');
                 }
             });
             if (window.location.pathname + window.location.search === $(navbarLink).attr('data-link')) {
                 // Display as active if link attribute matches current url
                 $(navbarLink).addClass('active');
-                header.text(header.text().split(':')[0] + ':' + $(navbarLink).text());
+                headerTextSpan.text(headerTextSpan.text().split(':')[0] + ':' + $(navbarLink).text());
             }
             if (index === 0 && !navbar.hasClass('navbar-function-link') && !navbar.hasClass('navbar-no-auto')) {
                 // Call on click function on first index link (unless specified otherwise)

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'embed_video',
+    'embed_video',
     'whitenoise.runserver_nostatic',
     'courses.apps.CoursesConfig',
     'accounts.apps.AccountsConfig',
@@ -87,16 +87,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'Tgyh109!',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+
 
 
 # DATABASES = {
@@ -109,7 +100,6 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

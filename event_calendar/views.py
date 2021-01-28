@@ -1,5 +1,7 @@
 import calendar
 from datetime import datetime, timedelta, date
+
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.safestring import mark_safe
@@ -23,17 +25,20 @@ class CalendarView(generic.ListView):
         context['next_month'] = next_month(d)
         return context
 
+
 def get_date(req_month):
     if req_month:
         year, month = (int(x) for x in req_month.split('-'))
         return date(year, month, day=1)
     return datetime.today()
 
+
 def prev_month(d):
     first = d.replace(day=1)
     prev_month = first - timedelta(days=1)
     month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
     return month
+
 
 def next_month(d):
     days_in_month = calendar.monthrange(d.year, d.month)[1]
@@ -44,16 +49,14 @@ def next_month(d):
 
 
 def event(request, event_id=None):
-    instance = get_object_or_404(Event, pk=event_id)
-    form = EventForm(request.POST or None, instance=instance)
-    return render(request, 'event.html', {'form': form})
-
-
-def event_new(request):
-    instance = Event()
+    if event_id:
+        instance = get_object_or_404(Event, pk=event_id)
+    else:
+        instance = Event()
 
     form = EventNewForm(request.POST or None, instance=instance)
+    form.fields['course'].queryset = Course.objects.filter(Q(owner=request.user) | Q(students__in=[request.user]))
     if request.POST and form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse('event_calendar:calendar'))
-    return render(request, 'event_new.html', {'form': form})
+    return render(request, 'event_new.html', {'form': form, 'event_id': event_id})

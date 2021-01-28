@@ -17,10 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from home.views import SearchView, CourseListAjax, ModuleListAjax
+from home.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
+handler400 = Error400View.as_view()
+handler403 = Error403View.as_view()
+handler404 = Error404View.as_view()
+handler500 = error_500_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +41,8 @@ urlpatterns = [
 
     path('courseListAjax', CourseListAjax.as_view()),
     path('moduleListAjax', ModuleListAjax.as_view()),
+    path('staffCourseListAjax', StaffCourseListAjax.as_view()),
+    path('staffModuleListAjax', StaffModuleListAjax.as_view()),
 ]
 
 if settings.DEBUG:

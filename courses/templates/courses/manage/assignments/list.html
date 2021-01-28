@@ -1,97 +1,73 @@
 {% extends "base.html" %}
 {% load course %}
-
 {% block title %}
-Module {{ module.order|add:1 }}:{{ module.title }}
+    Module {{ module.order|add:1 }}:{{ module.title }}
 {% endblock %}
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+    <a href="{% url 'courses:module_list' module.id %}">Modules</a>/
+    <a href="{% url 'courses:assignment_content_list' module.id %}">Assignments</a>/
+{% endblock %}
+
 {% block content %}
-{% with course=module.course %}
-<h1>Course "{{ course.title }}"</h1>
-
-<div class="container-fluid">
-<div class="row justify-content-center">
-<div class="col-12 col-md-3 col-centered">
-<div class="contents">
-    <h3>Modules</h3>
-    <ul id="modules">
-        {% for m in course.modules.all %}
-        <li data-id="{{ m.id }}"{% if m == module %}
-        class="selected"{% endif %}>
-        <a href="{% url "courses:module_list" m.id %}">
-            <span>
-                Module<span class="order">
-                {{ m.order|add:1 }}
-            </span>
-            </span>
-            <br>
-            {{ m.title }}
+    {% with course=module.course %}
+        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+        <a href="{% url 'courses:module_list' module.id %}"
+           class="link-button" style="width: 100%">
+            Back to Module Management
         </a>
-        </li>
-    {% empty %}
-    <li>No modules yet</li>
-    {% endfor %}
-    </ul>
-<p><a href="{% url "courses:course_module_update" course.id %}">
-    Edit modules
-</a></p>
-</div>
-</div>
+        <h2>Assignments</h2>
 
-    <div class="col-12 col-md-9">
-
-<div class="module" style="margin-top:0px; margin-bottom:40px;">
-    <div>
         {% for assignment in module.assignments.all %}
-        <div>
-            <h3>{{ assignment.title }}</h3>
-            <p>{{ assignment.description }}</p>
-            <a href="{% url 'courses:assignment_update' module.id assignment.id %}" style="color:white;">Edit</a>
-        </div>
-    {% empty %}
-    <p>This module has no contents yet</p>
-    {% endfor %}
-    </div>
-</div>
+            <div class="plain-text-area">
+                <a href="{% url 'courses:assignment_update' module.id assignment.id %}">
+                    <h3>{{ assignment.title }} <span class="fas fa-edit" style="display: inline"></span></h3>
+                </a>
+                <p>{{ assignment.description }}</p>
+            </div>
+        {% empty %}
+            <p>This module has no assignments yet</p>
+        {% endfor %}
 
-        <p><a class="button effect" href="{% url 'courses:course_assignment_update' module.id %}"><span class="fas fa-plus-square"></span> Create Assignment</a></p>
-    </div>
-
-</div>
-</div>
-{% endwith %}
+        <a class="link-button" href="{% url 'courses:course_assignment_update' module.id %}">
+            <span class="fas fa-plus-square"></span> Create Assignment
+        </a>
+    {% endwith %}
 {% endblock %}
-{% block domready %}
-$('#modules').sortable({
-    stop: function(event, ui){
-    modules_order = {};
-    $('#modules').children().each(function(){
-    $(this).find('.order').text($(this).index() + 1);
-    modules_order[$(this).data('id')] = $(this).index();
-    });
-    $.ajax({
-    type: 'POST',
-    url: '{% url "courses:module_order" %}',
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    data: JSON.stringify(modules_order)
-    });
-    }
-});
+{% block extrajavascript %}
+    <script>
+        $('#modules').sortable({
+            stop: function (event, ui) {
+                modules_order = {};
+                $('#modules').children().each(function () {
+                    $(this).find('.order').text($(this).index() + 1);
+                    modules_order[$(this).data('id')] = $(this).index();
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "courses:module_order" %}',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data: JSON.stringify(modules_order)
+                });
+            }
+        });
 
-$('#module-contents').sortable({
-    stop: function(event, ui){
-    contents_order = {};
-    $('#module-contents').children().each(function(){
-    contents_order[$(this).data('id')] = $(this).index();
-    });
+        $('#module-contents').sortable({
+            stop: function (event, ui) {
+                contents_order = {};
+                $('#module-contents').children().each(function () {
+                    contents_order[$(this).data('id')] = $(this).index();
+                });
 
-    $.ajax({
-    type: 'POST',
-    url: '{% url "courses:content_order" %}',
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    data: JSON.stringify(contents_order),
-    });
-    }
-});
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "courses:content_order" %}',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data: JSON.stringify(contents_order),
+                });
+            }
+        });
+    </script>
 {% endblock %}

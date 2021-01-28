@@ -96,10 +96,15 @@
                 },
             );
             // Update course select with default values
+            let selector = $('#subject');
             setCourseList();
-            $('#subject').on('change', function () {
+            selector.on('change', function () {
                 setCourseList();
             });
+            {% if autocourse %}
+                $('#course').val('{{ autocourse.id }}')
+                selector.val('{{ autocourse.subject.id }}')
+            {% endif %}
 
             // If user is logged in set email to be their own
             let email = $('#email');

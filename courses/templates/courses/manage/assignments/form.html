@@ -1,54 +1,49 @@
 {% extends "base.html" %}
 {% load course %}
-
 {% block title %}
-{% if object %}
-Edit content "{{ object.title }}"
-{% else %}
-Add new content
-{% endif %}
+    {% if object %}
+        Edit content "{{ object.title }}"
+    {% else %}
+        Add new content
+    {% endif %}
 {% endblock %}
-{% block content %}
-{% with course=module.course %}
-<h1>
-{{ course.title }}
-</h1>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-3">
-<div class="contents">
-    <h3>Modules</h3>
-    <ul id="modules">
-        {% for m in course.modules.all %}
-        <li data-id="{{ m.id }}"{% if m == module %}
-        class="selected"{% endif %}>
-        <a href="{% url "courses:module_list" m.id %}">
-            <span>
-                Module<span class="order">
-                {{ m.order|add:1 }}
-            </span>
-            </span>
-            <br>
-            {{ m.title }}
-        </a>
-        </li>
-    {% empty %}
-    <li>No modules yet</li>
-    {% endfor %}
-    </ul>
-</div>
-        </div>
-    <div class="col-12 col-md-9">
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+    <a href="{% url 'courses:module_list' module.id %}">Modules</a>/
+    <a href="{% url 'courses:assignment_content_list' module.id %}">Assignments</a>/
+    <a href="{% url 'courses:assignment_update' module.id assignment.id %}">
+        Assignment {{ assignment.order|add:1 }}
+    </a>/
+    <a href=".">
+        {% if object %}
+            Edit content {{ object.id }}
+        {% else %}
+            Add new content
+        {% endif %}
+    </a>/
+{% endblock %}
 
-<div class="module">
-    <form action="" method="post" enctype="multipart/form-data">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Save content"></p>
-    </form>
-</div>
-    </div>
-    </div>
-</div>
-{% endwith %}
+{% block content %}
+    {% with course=module.course %}
+        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+        <a class="link-button" style="width: 100%"
+           href="{% url 'courses:assignment_update' module.id assignment.id %}">
+            Back to Assignment
+        </a>
+        <h2>
+            {% if object %}
+                Edit content "{{ object.title }}"
+            {% else %}
+                Add new content
+            {% endif %}
+        </h2>
+
+        <div class="plain-text-area">
+            <form action="" method="post" enctype="multipart/form-data">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <p><input type="submit" value="Save content"></p>
+            </form>
+        </div>
+    {% endwith %}
 {% endblock %}

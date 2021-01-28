@@ -2,7 +2,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic.base import TemplateResponseMixin, View
 from students.forms import CourseEnrollForm
 from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet, QuestionFormSet
@@ -28,6 +28,48 @@ class OwnerEditMixin(object):
         return super().form_valid(form)
 
 
+class CoursePageMixin:
+    def get_context(self, request, course_slug=None, module_id=None,
+                    assignment_id=None, quiz_id=None, subject_slug=None, **kwargs):
+        context = {}
+        context["subject_list"] = Subject.objects.all()
+        if subject_slug is None:
+            context["subject"] = None
+            context["course_list"] = Course.objects.all().order_by('id')
+        else:
+            context["subject"] = get_object_or_404(Subject, slug=subject_slug)
+            context["course_list"] = Course.objects.filter(subject=context["subject"])
+        context["course"] = None if course_slug is None else get_object_or_404(Course, slug=course_slug)
+        context["module_list"] = (None if context["course"] is None
+                                  else Module.objects.filter(course=context["course"]).order_by('order'))
+        context["module"] = None if module_id is None else get_object_or_404(Module, id=module_id)
+        context["assignment_list"] = (None if context["module"] is None
+                                      else Assignment.objects.filter(module=context["module"]))
+        context["assignment"] = None if assignment_id is None else get_object_or_404(Assignment, id=assignment_id)
+        context["quiz_list"] = (None if context["module"] is None
+                                else Quiz.objects.filter(module=context["module"]))
+        context["quiz"] = None if quiz_id is None else get_object_or_404(Quiz, id=quiz_id)
+        return context
+
+
+class OwnedCoursePageMixin(CoursePageMixin):
+    def get_context(self, request, course_slug=None, module_id=None,
+                    assignment_id=None, quiz_id=None, **kwargs):
+        context = {}
+        context["course_list"] = Course.objects.filter(owner=request.user).order_by('id')
+        context["course"] = None if course_slug is None else get_object_or_404(Course, id=course_slug)
+        context["module_list"] = (None if context["course"] is None
+                                  else Module.objects.filter(course=context["course"]).order_by('order'))
+        context["module"] = None if module_id is None else get_object_or_404(Module, id=module_id)
+        context["assignment_list"] = (None if context["module"] is None
+                                      else Assignment.objects.filter(module=context["module"]))
+        context["assignment"] = None if assignment_id is None else get_object_or_404(Assignment, id=assignment_id)
+        context["quiz_list"] = (None if context["module"] is None
+                                else Quiz.objects.filter(module=context["module"]))
+        context["quiz"] = None if quiz_id is None else get_object_or_404(Quiz, id=quiz_id)
+        return context
+
+
 class OwnerCourseMixin(OwnerMixin,
                        LoginRequiredMixin,
                        PermissionRequiredMixin):
@@ -40,9 +82,30 @@ class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
     template_name = 'courses/manage/course/form.html'
 
 
-class ManageCourseListView(OwnerCourseMixin, ListView):
+class CourseListView(CoursePageMixin, View):
+    template_name = 'courses/course/list.html'
+
+    def get(self, request, subject=None):
+        context = self.get_context(request, subject_slug=subject)
+        return render(request, self.template_name, context)
+
+
+class CourseDetailView(CoursePageMixin, View):
+    template_name = 'courses/course/detail.html'
+
+    def get(self, request, slug):
+        context = self.get_context(request, course_slug=slug)
+        return render(request, self.template_name, context)
+
+
+class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
+                           OwnedCoursePageMixin, View):
     template_name = 'courses/manage/course/list.html'
     permission_required = 'courses.view_course'
+
+    def get(self, request):
+        context = self.get_context(request)
+        return render(request, self.template_name, context)
 
 
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
@@ -161,7 +224,7 @@ class ModuleViewsMixin(TemplateResponseMixin, View):
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
-        return self.render_to_response({'module': module})
+        return self.render_to_response({'course': module.course, 'module': module})
 
 
 class ModuleListView(ModuleViewsMixin):
@@ -353,7 +416,7 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
                                                  'updated'])
         return Form(*args, **kwargs)
 
-    def dispatch(self, request, assignment_id, module_id, model_name, id=None):
+    def dispatch(self, request, module_id, assignment_id, model_name, id=None):
         self.assignment = get_object_or_404(Assignment,
                                             id=assignment_id,
                                             )
@@ -365,16 +428,21 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
             self.obj = get_object_or_404(self.model,
                                          id=id,
                                          owner=request.user)
-        return super().dispatch(request, assignment_id, module_id, model_name, id)
+        return super().dispatch(request, module_id, assignment_id, model_name, id)
 
     def get(self, request, module_id, assignment_id, model_name, id=None):
         form = self.get_form(self.model, instance=self.obj)
+        print(module_id, assignment_id, model_name)
+        print(Module.objects.filter(id=module_id))
         module = get_object_or_404(Module,
                                    id=module_id,
                                    course__owner=request.user)
+        assignment = get_object_or_404(Assignment,
+                                       id=assignment_id)
 
         return self.render_to_response({'form': form,
                                         'module': module,
+                                        'assignment': assignment,
                                         'object': self.obj})
 
     def post(self, request, module_id, assignment_id, model_name, id=None):
@@ -409,34 +477,3 @@ class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
                                          module__course__owner=request.user).update(
                 order=order)
         return self.render_json_response({'saved': 'OK'})
-
-
-class CourseListView(TemplateResponseMixin, View):
-    model = Course
-    template_name = 'courses/course/list.html'
-
-    def get(self, request, subject=None):
-        subjects = Subject.objects.annotate(
-            total_courses=Count('courses')
-        )
-        courses = Course.objects.annotate(
-            total_modules=Count('modules')
-        )
-        if subject:
-            subject = get_object_or_404(Subject, slug=subject)
-            courses = courses.filter(subject=subject)
-        return self.render_to_response({'subjects': subjects,
-                                        'subject': subject,
-                                        'courses': courses})
-
-
-class CourseDetailView(DeleteView):
-    model = Course
-    template_name = 'courses/course/detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['enroll_form'] = CourseEnrollForm(
-            initial={'course': self.object}
-        )
-        return context

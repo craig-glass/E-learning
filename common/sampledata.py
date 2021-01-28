@@ -235,6 +235,14 @@ ModuleContent.objects.create(
         title="What is 1 + 1?",
     )[0]
 )
+ModuleContent.objects.create(
+    module=arithmetic, order=2,
+    item=Video.objects.get_or_create(
+        owner=arithmetic.course.owner,
+        url="https://www.youtube.com/watch?v=Y82jDHRrswc",
+        title="The fitnessgram pacer test"
+    )[0]
+)
 trigonometry = Module.objects.get_or_create(course=core_maths, title="Trigonometry", order=2,
                                             description="Basically just pythagoras' theorem")[0]
 
@@ -431,12 +439,23 @@ fitness_a2 = Assignment.objects.get_or_create(module=fitness, title="Do a back f
 
 summit_a1 = Assignment.objects.get_or_create(module=summit, title="Do a funny dance", order=1,
                                              description="Make me laugh.")[0]
+summit_q1 = Quiz.objects.get_or_create(module=summit, title="Difficult questions",
+                                       description="These are life's most difficult questions")[0]
+q = Question.objects.get_or_create(quiz=summit_q1, number=1, question_text="What is the meaning of liff")[0]
+Choice.objects.get_or_create(question=q, choice_text="42", correct_answer=False)
+Choice.objects.get_or_create(question=q, choice_text="A book, the contents of which are totally belied by its cover",
+                             correct_answer=True)
+q = Question.objects.get_or_create(quiz=summit_q1, number=2, question_text="What is love?")[0]
+Choice.objects.get_or_create(question=q, choice_text="Chemicals 'n stuff", correct_answer=False)
+Choice.objects.get_or_create(question=q, choice_text="Baby don't hurt me", correct_answer=True)
+Choice.objects.get_or_create(question=q, choice_text="The feeling I get when I look at beer", correct_answer=False)
 
 knowledge_a1 = Assignment.objects.get_or_create(module=knowledge, title="Know", order=1,
                                                 description="Show you know what you know.")[0]
 print("Created Assignments")
 
 # Grade class DEPENDS ON User, Assignment
+Grade.objects.all().delete()
 start = timezone.datetime(2020, 9, 16, tzinfo=pytz.UTC)
 end = timezone.now()
 delta = int((end - start).total_seconds())

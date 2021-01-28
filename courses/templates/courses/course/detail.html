@@ -1,39 +1,25 @@
 {% extends "base.html" %}
 {% block title %}
-    {{ object.title }}
+    Course: {{ course.title }}
 {% endblock %}
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+{% endblock %}
+
 {% block content %}
-    {% with subject=object.subject %}
-        <h1>
-            {{ object.title }}
-        </h1>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-
-                    <div class="module">
-                        <h2>Overview</h2>
-                        <p>
-                            <a href="{% url 'courses:course_list_subject' subject.slug %}">
-                                {{ subject.title }}
-                            </a>.
-                            {{ object.modules.count }} modules.
-                            Instructor: {{ object.owner.get_full_name }}
-                        </p>
-                        {{ object.overview| linebreaks }}
-                        {% if request.user.is_authenticated %}
-                            <form action="{% url 'students:student_enroll_course' %}" method="post">
-                                {{ enroll_form }}
-                                {% csrf_token %}
-                                <input type="submit" value="Enroll now">
-                            </form>
-                        {% else %}
-                            <a href="{% url 'students:student_registration' %}" class="button">Register to enroll</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {% endwith %}
+    <h1>
+        {{ course.title }}
+    </h1>
+    <div class="plain-text-area">
+        <h3>Details</h3>
+        Subject:<a href="{% url 'courses:course_list_subject' course.subject.slug %}">{{ course.subject }}</a> -
+        Owner:<a href="{% url 'accounts:account_view' course.owner.userid %}">{{ course.owner.styled_name }}</a> -
+        {{ c.modules.count }} modules
+        <h3>Overview</h3>
+        {{ course.overview }}
+    </div>
+    <div class="fillx-when-small" style="display: inline-block">
+        <a class="link-button" href="{% url 'accounts:course_register_autocourse' course.id %}"
+           style="width: 100%; display:inline-block">Enroll Now</a>
+    </div>
 {% endblock %}

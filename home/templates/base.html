@@ -552,8 +552,8 @@
                     {
                         text: 'Your Courses',
                         icon: 'fas fa-folder',
-                        function: '',
-                        ajax: '',
+                        function: '_loadStaffCourseNavigator',
+                        ajax: '/staffCourseListAjax',
                         context: '{}',
                         type: 'button',
                     },
@@ -580,7 +580,7 @@
             container,
             [{
                 href: '{% url 'students:student_course_list' %}',
-                text: 'My Courses',
+                text: 'Course List',
                 type: 'link',
             }]
         );
@@ -596,7 +596,7 @@
                 text: 'Course Homepage',
                 type: 'link',
             }]
-        )
+        );
     }
 
     function _loadModuleContentsNavigator(container) {
@@ -630,7 +630,66 @@
                 },
             ],
             false
-        )
+        );
+    }
+
+    function _loadStaffCourseNavigator(container) {
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'courses:manage_course_list' %}',
+                text: 'Course List',
+                type: 'link',
+            }]
+        );
+    }
+
+    function _loadStaffModuleNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        console.log(context);
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'courses:course_edit' 12345 %}'
+                    .replace('12345', context.course_id),
+                text: 'Edit Course',
+                type: 'link',
+            }]
+        );
+    }
+
+    function _loadStaffModuleContentsNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [
+                {
+                    href: '{% url 'courses:course_module_update' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Homepage',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:module_content_list' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Contents',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:assignment_content_list' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Assignments',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:quiz_list_view' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Quizzes',
+                    type: 'link',
+                },
+            ],
+            false
+        );
     }
 
     /**
@@ -745,7 +804,7 @@
         let container = navbar.find('div').hide();
         let header = navbar.find('h3');
         header.on('click', function () {
-            container.toggle();
+            container.toggle('slow');
         });
         navbar.find('p').each(function (index, navbarLink) {
             // Assign tab indexes to links to allow keyboard navigation
@@ -774,7 +833,7 @@
                 } else {
                     window[$(navbarLink).attr('data-function')]($(navbarLink).attr('data-value'));
                     header.text(header.text().split(':')[0] + ':' + $(navbarLink).text());
-                    container.toggle();
+                    container.hide('slow');
                 }
             });
             if (window.location.pathname + window.location.search === $(navbarLink).attr('data-link')) {
@@ -856,7 +915,7 @@
             let parent = $(e.target).parents();
             if (!(parent.hasClass('dropdown') || parent.hasClass('navbar'))) {
                 body.find('.dropdown-list').hide();
-                body.find('.navbar div').hide();
+                body.find('.navbar div').hide('slow');
             }
         });
 

@@ -10,11 +10,11 @@
     <form action="" method="post">
         {% csrf_token %}
         {% for question in quiz.questions.all %}
-            <p>{{ question.number }}. {{ question.question_text }}</p>
+            <h3>{{ question.number }}. {{ question.question_text }}</h3>
 
             {% csrf_token %}
             {% for choice in question.choices.all %}
-                <p style="display: inline; border: 1px solid var(--main-vdark-col); padding: 6px; margin: 0">
+                <p style="padding: 6px; margin: 0">
                     <input type="radio" id="choice-{{ choice.id }}" name="question-{{ question.id }}"
                            value="{{ choice.choice_text }}" required="required" style="display: inline-block">
                     <label for="choice-{{ choice.id }}" style="display: inline-block">{{ choice.choice_text }}</label>

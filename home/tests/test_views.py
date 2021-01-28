@@ -18,10 +18,6 @@ class HomePageViewTest(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/homepage.html')
 
-    def test_home_page_contains_correct_html(self):
-        response = self.client.get('')
-        self.assertContains(response, '<h1>Welcome!</h1>')
-
 
 class SearchViewTest(TestCase):
 

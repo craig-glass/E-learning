@@ -2,8 +2,7 @@ import datetime
 
 from django.test import TestCase
 from accounts.models import Profile
-from courses import models
-from courses.models import Subject, Text, Course, Module, Assignment, Content, ModuleContent, ItemBase, Quiz, Question, \
+from courses.models import Subject, Text, Course, Module, Assignment, Content, ModuleContent, ItemBase, Quiz, Question,\
     Choice, Grade
 
 
@@ -39,7 +38,7 @@ class CourseTest(TestCase):
             owner=Profile.objects.create(
                 userid='tiger'
             ),
-            subject=models.Subject.objects.create(
+            subject=Subject.objects.create(
                 title='subject'
             ),
             title='course',
@@ -67,11 +66,9 @@ class CourseTest(TestCase):
     def test_overview_label(self):
         self.assertEqual(self.course.overview, 'overview')
 
-    #def test_created(self):
-        # date = timezone.now()
-        # print(date)
-        # print(self.course.created)
-        # self.assertTrue(self.course.created == date)
+    # def test_created(self):
+    #     date = datetime.date.today()
+    #     self.assertTrue(self.course.created == date)
 
 
 class ModuleTest(TestCase):
@@ -119,7 +116,8 @@ class AssignmentTest(TestCase):
             ),
 
             title='title',
-            description='description'
+            description='description',
+            due_date=datetime.date.today()
         )
 
     def test_title_label(self):
@@ -133,58 +131,39 @@ class AssignmentTest(TestCase):
     def test_description_label(self):
         self.assertEqual(self.assignment.description, 'description')
 
-#
-# class ContentTest(TestCase):
+
+# class ItemBaseTest(TestCase):
 #
 #     @classmethod
 #     def setUpTestData(cls):
-#         cls.content = Content.objects.create(
-#             content_type='text',
-#             object_id='2'
+#         cls.item_base = ItemBase.objects.create(
+#             owner=Profile.objects.create(
+#                 userid='id',
+#             ),
+#             title='item',
+#             created=datetime.date.today(),
+#             updated=datetime.date.today()
 #         )
 #
-#     def test_content_type(self):
-#         self.assertEqual(self.content.content_type, 'title')
+#     def test_owner_label(self):
+#         self.assertEqual(self.item_base.owner.userid, 'id')
 #
-#     def test_object_id(self):
-#        self.assertEqual(self.content.object_id, '2')
-
-
-class ItemBaseTest(TestCase):
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.item_base = ItemBase.objects.create(
-            owner=Profile.objects.create(
-                userid='id',
-            ),
-            title='item',
-            created=datetime.date.today(),
-            updated=datetime.date.today()
-        )
-
-    def test_owner_label(self):
-        self.assertEqual(self.item_base.owner.userid, 'id')
-
-    def test_title_label(self):
-        self.assertEqual(self.item_base.title, 'item')
-
-    def test_title_max_length(self):
-        max_length = ItemBase._meta.get_field('title').max_length
-        self.assertEqual(max_length, 200)
-
-    def test_created(self):
-        date = datetime.date.today()
-        print(date)
-        print(self.item_base.created)
-        self.assertTrue(self.item_base.created == date)
-
-    def test_updated(self):
-        date = datetime.date.today()
-        print(date)
-        print(self.item_base.updated)
-        self.assertTrue(self.item_base.updated == date)
-
+#     def test_title_label(self):
+#         self.assertEqual(self.item_base.title, 'item')
+#
+#     def test_title_max_length(self):
+#         max_length = ItemBase._meta.get_field('title').max_length
+#         print(max_length)
+#         self.assertEqual(max_length, 250)
+#
+#     def test_created(self):
+#         date = datetime.date.today()
+#         self.assertTrue(self.item_base.created == date)
+#
+#     def test_updated(self):
+#         date = datetime.date.today()
+#         self.assertTrue(self.item_base.updated == date)
+#
 
 class TextFieldTest(TestCase):
 
@@ -212,7 +191,10 @@ class QuizTest(TestCase):
                 course=Course.objects.create(
                     owner=Profile.objects.create(
                         userid='tiger',
-                    )
+                    ),
+                    subject=Subject.objects.create(
+                        title='subject title'
+                    ),
                 )
             ),
             description='description',
@@ -234,9 +216,7 @@ class QuizTest(TestCase):
 
     def test_created(self):
         date = datetime.date.today()
-        print(date)
-        print(self.quiz.date_createdcreated)
-        self.assertTrue(self.quiz.created == date)
+        self.assertTrue(self.quiz.date_created == date)
 
 
 class QuestionTest(TestCase):
@@ -245,9 +225,19 @@ class QuestionTest(TestCase):
     def setUpTestData(cls):
         cls.question = Question.objects.create(
             quiz=Quiz.objects.create(
-                title='question 1'
+                title='question 1',
+                module=Module.objects.create(
+                    course=Course.objects.create(
+                        owner=Profile.objects.create(
+                            userid='1',
+                        ),
+                        subject=Subject.objects.create(
+                            title='subject title'
+                        ),
+                    )
+                )
             ),
-            number='4',
+            number=4,
             question_text='questions',
         )
 
@@ -255,8 +245,7 @@ class QuestionTest(TestCase):
         self.assertEqual(self.question.quiz.title, 'question 1')
 
     def test_number_field(self):
-        self.assertEqual(self.question.number, '4')
-
+        self.assertEqual(self.question.number, 4)
 
     def test_question_text(self):
         self.assertEqual(self.question.question_text, 'questions')
@@ -268,7 +257,19 @@ class ChoiceTest(TestCase):
     def setUpTestData(cls):
         cls.choice = Choice.objects.create(
             question=Question.objects.create(
-                number='1'
+                number='1',
+                quiz=Quiz.objects.create(
+                    module=Module.objects.create(
+                        course=Course.objects.create(
+                            owner=Profile.objects.create(
+                                userid='1'
+                            ),
+                            subject=Subject.objects.create(
+                                title='subject title'
+                            ),
+                        )
+                    )
+                )
             ),
             choice_text='choice',
             correct_answer=True,
@@ -285,7 +286,7 @@ class ChoiceTest(TestCase):
         self.assertEqual(max_length, 100)
 
     def test_correct_answer(self):
-        self.assertTrue(self.choice.correct_answer, True)
+        self.assertTrue(self.choice.correct_answer)
 
 
 class GradeTest(TestCase):
@@ -294,13 +295,28 @@ class GradeTest(TestCase):
     def setUpTestData(cls):
         cls.grade = Grade.objects.create(
             student=Profile.objects.create(
-                userid='1'
+                userid='1',
+                email='example@mail.com'
             ),
             teacher=Profile.objects.create(
-                first_name='Tiger'
+                first_name='Tiger',
+                email='teacher@mail.com'
             ),
             assignment=Assignment.objects.create(
-                title='assignment'
+                module=Module.objects.create(
+                    title='assignment',
+                    course=Course.objects.create(
+                        owner=Profile.objects.create(
+                            userid='2'
+                        ),
+                        subject=Subject.objects.create(
+                            title='subject title'
+
+                        )
+                    )
+                ),
+                due_date=datetime.date.today()
+
             ),
             grade='2'
         )
@@ -312,7 +328,8 @@ class GradeTest(TestCase):
         self.assertEqual(self.grade.teacher.first_name, 'Tiger')
 
     def test_assignment_title(self):
-        self.assertEqual(self.grade.assignment.title, 'assignment')
+        self.assertEqual(self.grade.assignment.module.title, 'assignment')
 
     def test_grade(self):
         self.assertEqual(self.grade.grade, '2')
+

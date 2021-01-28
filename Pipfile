@@ -19,6 +19,7 @@ django-embed-video = "*"
 #version = "*"
 reverse = "*"
 self = "*"
+postgres = "*"
 
 [requires]
 python_full_version = "3.7"

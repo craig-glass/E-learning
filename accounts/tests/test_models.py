@@ -1,20 +1,7 @@
 import datetime
 from django.test import TestCase
 from courses.models import Course, Subject
-from accounts.models import ProfileManager, Profile, AccountSubmission
-
-
-class ProfileManagerTest(TestCase):
-
-    def setUp(self):
-        User = ProfileManager.create_user()
-        self.user = User.objects.create(
-            #userid="tiger", password="password", email='tiger@email.com')
-            userid="tiger")
-        self.profile = self.user.profile
-
-    def tearDown(self):
-        self.user.delete()
+from accounts.models import Profile, AccountSubmission
 
 
 class ProfileTest(TestCase):
@@ -35,53 +22,46 @@ class ProfileTest(TestCase):
         self.assertEqual(self.profile.userid, 't123')
 
     def test_userid_max_length(self):
-        profile = Profile.objects.get(id=1)
-        max_length = profile._meta.get_field('userid').max_length
+        max_length = Profile._meta.get_field('userid').max_length
         self.assertEqual(max_length, 50)
 
     def test_userid_help_text(self):
-        profile = Profile.objects.get(id=1)
-        help_text = profile._meta.get_field('userid').help_text
+        help_text = Profile._meta.get_field('userid').help_text
         self.assertEqual(help_text, 'Unique identifier for the account')
 
     def test_email_label(self):
         self.assertEqual(self.profile.email, 'tiger@mail.com')
 
     def test_email_max_length(self):
-        profile = Profile.objects.get(id=1)
-        max_length = profile._meta.get_field('email').max_length
+        max_length = Profile._meta.get_field('email').max_length
         self.assertEqual(max_length, 254)
 
     def test_first_name_label(self):
         self.assertEqual(self.profile.first_name, 'tiger')
 
     def test_first_name_max_length(self):
-        profile = Profile.objects.get(id=1)
-        max_length = profile._meta.get_field('first_name').max_length
+        max_length = Profile._meta.get_field('first_name').max_length
         self.assertEqual(max_length, 150)
 
     def test_last_name_label(self):
         self.assertEqual(self.profile.last_name, 'k')
 
     def test_last_name_max_length(self):
-        profile = Profile.objects.get(id=1)
-        max_length = profile._meta.get_field('last_name').max_length
+        max_length = Profile._meta.get_field('last_name').max_length
         self.assertEqual(max_length, 150)
 
     def test_phone_number_label(self):
         self.assertEqual(self.profile.phone_number, '01-21-31')
 
     def test_phone_number_max_length(self):
-        profile = Profile.objects.get(id=1)
-        max_length = profile._meta.get_field('phone_number').max_length
+        max_length = Profile._meta.get_field('phone_number').max_length
         self.assertEqual(max_length, 20)
 
     def test_term_address_label(self):
         self.assertEqual(self.profile.term_address, 'newcastle')
 
     def test_term_address_max_length(self):
-        profile = Profile.objects.get(id=1)
-        max_length = profile._meta.get_field('term_address').max_length
+        max_length = Profile._meta.get_field('term_address').max_length
         self.assertEqual(max_length, 150)
 
     def test_date_joined_in_past(self):
@@ -111,10 +91,8 @@ class AccountSubmissionTest(TestCase):
                 ),
                 subject=Subject.objects.create(
                     title='subject'
-                ),
+                )
             ),
-            title='course_name',
-            slug='name',
             valid='True',
             date_submitted=datetime.date.today()
         )
@@ -128,7 +106,7 @@ class AccountSubmissionTest(TestCase):
         self.assertEqual(max_length, 254)
 
     def test_valid_label(self):
-        self.assertEqual(self.submit.valid, 'True')
+        self.assertTrue(self.submit.valid, True)
 
     def test_date_submitted_is_today(self):
         date = datetime.date.today()

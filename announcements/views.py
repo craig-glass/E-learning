@@ -9,6 +9,9 @@ from .models import Announcement
 
 
 class AnnouncementList(View):
+    """
+    View for displaying list of announcements for each course
+    """
     template_name = 'announcements.html'
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -21,6 +24,9 @@ class AnnouncementList(View):
 
 
 class GetAnnouncementsAjax(View):
+    """
+    Ajax request for list of announcements for a given course
+    """
     def post(self, request: HttpRequest) -> JsonResponse:
         if not request.user.is_authenticated:
             response = JsonResponse({})
@@ -30,6 +36,7 @@ class GetAnnouncementsAjax(View):
         announcements = Announcement.objects.filter(course=course)
         context = {"announcements": []}
         for announcement in announcements:
+            # Parse announcement details into json format dict
             author = announcement.author.userid
             print(announcement.author.first_name, announcement.author.last_name, announcement.author.userid)
             if announcement.author.last_name:
@@ -48,6 +55,7 @@ class GetAnnouncementsAjax(View):
 
 
 def addAnnouncements(request):
+    """View for displaying an announcement creation form"""
     announcement_form = forms.modelform_factory(Announcement, fields=('title', 'course', 'author', 'content'))
     data = request.POST or None
     form = announcement_form(data=data)

@@ -34,22 +34,25 @@
     <script>
 
         /**
-         *
-         * @param {Object} announcements
+         * Set the contents of the announcements container to show the given announcements.
+         * @param {Object} announcements - Announcement information to display.
          */
         function setAnnouncements(announcements) {
             let container = $('#announcement-container').html('');
             for (let announcement of announcements) {
                 let field = $('<div>').addClass('plain-text-area-container');
                 container.append(field);
+                // Header
                 field.append(
                     $('<h3>').text(announcement.title)
                 );
+                // Main announcement text
                 field.append(
                     $('<pre>')
                         .text(announcement.content)
                         .addClass('plain-text-area')
                 );
+                // Footer
                 field.append(
                     $('<p>')
                         .text(announcement.author + " - " + announcement.created)
@@ -58,6 +61,10 @@
             }
         }
 
+        /**
+         * Retrieve list of announcements for given course then display them.
+         * @param {Number} courseId - Id of the course for which announcements should be displayed.
+         */
         function updateAnnouncements(courseId) {
             standardAjaxCall(
                 '/announcements/getAnnouncementsAjax',

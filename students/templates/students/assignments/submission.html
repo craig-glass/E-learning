@@ -1,59 +1,22 @@
-{% extends "base.html" %}
-{% load course %}
+{% extends "students/course/detail.html" %}
 
-{% block title %}
-    {% if object %}
-        Edit content "{{ object.title }}"
-    {% else %}
-        Add new content
-    {% endif %}
+{% block extrabreadcrumbs %}
+    <a href="{% url 'students:assignments_list_student_view_module' course.id module.id %}">Assignments</a>/
+    <a href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}">
+        Assignment:{{ assignment.id }}</a>/
+    <a href="{% url 'students:assignment_submission' course.id module.id assignment.id %}">Submission</a>/
 {% endblock %}
-{% block content %}
-    {% with course=module.course %}
-        <h1>
-            {% if object %}
-                Edit content "{{ object.title }}"
-            {% else %}
-                Add new content
-            {% endif %}
-        </h1>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <div class="contents">
-                        <h3>Modules</h3>
-                        <ul id="modules">
-                            {% for m in course.modules.all %}
-                                <li data-id="{{ m.id }}"{% if m == module %}
-                                    class="selected"{% endif %}>
-                                    <a href="{% url "courses:module_list" m.id %}">
-                                        <span>
-                                            Module<span class="order">
-                                            {{ m.order|add:1 }}
-                                        </span>
-                                        </span>
-                                        <br>
-                                        {{ m.title }}
-                                    </a>
-                                </li>
-                            {% empty %}
-                                <li>No modules yet</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 col-md-9">
-                    <div class="module" style="margin-top:0;">
-                        <p>Assignment Due: {{ assignment.due_date }}</p>
-                        <form action="" method="post" enctype="multipart/form-data">
-                            {{ form.as_p }}
-                            {% csrf_token %}
-                            <button class="button effect" type="submit" value="Submit">Submit Assignment</button>
-                        </form>
-                    </div>
-                </div>
 
-            </div>
-        </div>
-    {% endwith %}
+{% block subcontent %}
+    <h2>{{ assignment.title }}</h2>
+    <p style="float: left; margin: 0">Assignment Due: {{ assignment.due_date }}</p>
+    <a href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}"
+       class="link-button" style="float: right">Back to Assignment</a>
+    <div class="plain-text-area" style="overflow: hidden">
+        <form action="" method="post" enctype="multipart/form-data" class="file-submit-form">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit" value="Submit">Submit Assignment</button>
+        </form>
+    </div>
 {% endblock %}

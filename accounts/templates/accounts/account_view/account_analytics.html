@@ -1,4 +1,5 @@
 {% extends "accounts/account_view/account_view_base.html" %}
+{% load static %}
 
 {% block navigation %}
     <a href="{% url 'accounts:account_view' user_details.userid %}">Profile</a>/
@@ -6,121 +7,136 @@
 {% endblock %}
 
 {% block account_view_content %}
-<div class="col-12">
-    <p>{{ user_details.userid }}</p>
-    </div>
-</div>
     {% if request.user.is_student %}
-        <div id="registered-course-graphs">
+        <div id="registered-course-graphs" style="width: 100%">
             {% if registered_courses %}
-                        <div class="col-12">
                 <h2>Courses you are registered in</h2>
-                        </div>
-              <div class="col-12">
                 <div id="registered-course-navbar" class="navbar">
-                    {% for course in registered_courses %}
-                    <div class="col-12">
-                        <p data-value="{{ course.id }}"
-                           data-function="updateRegisteredGraphs">{{ course.title }}</p>
+                    <h3>Select Course:</h3>
+                    <div>
+                        {% for course in registered_courses %}
+                            <p data-value="{{ course.id }}"
+                               data-function="updateRegisteredGraphs">{{ course.title }}</p>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-              </div>
                 <pre id="registered-response-pre" class="response-text"></pre>
 
-                <div id="container-assignment-marks"
-                     style="max-width: 750px" class="graph-container"></div>
-                <div id="container-course-progress"
-                     style="max-width: 400px" class="graph-container"></div>
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% else %}
-                <h2>You are currently not registered for any courses</h2>
+                <h3>You are currently not registered for any courses</h3>
             {% endif %}
         </div>
     {% endif %}
     {% if request.user.is_staff %}
-        <div id="owned-course-graphs">
-            <div class="row">
+        <div id="owned-course-graphs" style="width: 100%">
             {% if owned_courses %}
-            <div class="col-12">
                 <h2>Courses you own</h2>
-            </div>
-                                     <div class="col-12">
                 <div id="owned-course-navbar" class="navbar">
-                    {% for course in owned_courses %}
-                                <div class="col-12">
-
-                        <p data-value="{{ course.id }}"
-                           data-function="updateOwnedGraphs">{{ course.title }}</p>
-                                </div>
-                    {% endfor %}
-                </div>
-                                     </div>
-                <pre id="owned-response-pre" class="response-text"></pre>
-                <div id="container-average-score"
-                     style="max-width: 750px" class="graph-container">
+                    <h3>Select Course:</h3>
+                    <div>
+                        {% for course in owned_courses %}
+                            <p data-value="{{ course.id }}"
+                               data-function="updateOwnedGraphs">{{ course.title }}</p>
+                        {% endfor %}
                     </div>
+                </div>
+                <pre id="owned-response-pre" class="response-text"></pre>
+
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
             {% else %}
-                <h2>You currently own no courses</h2>
+                <h3>You currently own no courses</h3>
             {% endif %}
         </div>
-                            </div>
+        <div id="course-assignment-graphs" style="width: 100%">
+            {% if owned_courses %}
+                <h3 id="assignment-header">Course [] Modules</h3>
+                <div id="course-assignment-navbars" style="width: 100%"></div>
+                <pre id="assignment-response-pre" class="response-text"></pre>
+
+                <div class="container-numbers"></div>
+                <div class="container-graphs"></div>
+            {% endif %}
+        </div>
     {% endif %}
 {% endblock %}
 {% block extrajavascript %}
-    {% include "accounts/analytics/graphs.html" %}
+    <script src={% static 'js/graphs.js' %}></script>
     <script>
-        function setAssignmentMarks(data) {
-            setToGraph(
-                document.getElementById('container-assignment-marks'),
-                data,
-                'assignment marks',
-                'bar',
-            );
-        }
-
-        function setCourseProgress(data) {
-            setToGraph(
-                document.getElementById('container-course-progress'),
-                data,
-                'course progress',
-                'pie',
-                {
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                display: false
-                            }],
-                            xAxes: [{
-                                display: false
-                            }]
-                        }
-                    }
+        /**
+         * Fill container with graphs of the given data.
+         * @param {jQuery} container - jQuery element to contain the graphs.
+         * @param {Array.<Object>} graphData - Array of Objects defining data and format of graphs to be rendered.
+         *                                     {@link graphOptions graph options}.
+         * @param {String} graphData[].container_id - Id of the graph container to put the graph in.
+         *                                            Set multiple graphs to the same id to position them
+         *                                            in line with each other.
+         */
+        function addGraphs(container, graphData) {
+            for (let graph of graphData) {
+                // Put graphs with the same container id in the same div
+                let graphContainer = $('#' + graph.container_id);
+                if (!graphContainer.length) {
+                    graphContainer = $('<div>').attr('id', graph.container_id)
+                        .addClass('graph-container').addClass(graph.type);
+                    container.append(graphContainer);
                 }
-            );
+                setToGraph(
+                    graphContainer[0],
+                    graph
+                );
+            }
         }
 
-        function setAverageScores(data) {
-            setToGraph(
-                document.getElementById('container-average-score'),
-                data,
-                'average student score',
-                'bar'
-            );
+        /**
+         * Fill container with numerical statistics from the given data
+         * @param {jQuery} container - jQuery element to contain the stats.
+         * @param {Array.<Object>} numberData - Array of objects, each defining the parameters of a statistic.
+         * @param {String} numberData[].container_id - Id of the stat container to put the stats in.
+         *                                                 Set multiple stats to the same id to position them
+         *                                                 in line with each other.
+         * @param {String} numberData[].name - Name of the statistic or very short description.
+         * @param {*} numberData[].value - Value of the statistic.
+         * @param [units] - Units to be appended to value.
+         */
+        function addStats(container, numberData, units = '') {
+            for (let stat of numberData) {
+                let numbersContainer = $('#' + stat.container_id);
+                if (!numbersContainer.length) {
+                    numbersContainer = $('<div>').attr('id', stat.container_id)
+                        .addClass('numbers-container')
+                    container.append(numbersContainer);
+                }
+                let value = stat.value;
+                if (value % 1 === 0) {
+                    value = Math.round(value);
+                } else {
+                    value = value.toPrecision(3)
+                }
+                numbersContainer.append(
+                    $('<p>').text(stat.name + ":" + value)
+                )
+            }
         }
 
         /**
          * Empty all child elements containing graphs
-         * @param parent Parent element to empty
+         * @param parent - Parent element to empty
          */
         function clearGraphs(parent) {
-            parent.find('.graph-container').each(function (index, element) {
-                $(element).html('')
+            parent.find('.container-graphs').each(function (index, element) {
+                $(element).html('');
+            });
+            parent.find('.container-numbers').each(function (index, element) {
+                $(element).html('');
             });
         }
 
         /**
          * Query then set registered course graph data for the given course
-         * @param course Course id to query data for
+         * @param course - Course id to query data for
          */
         function updateRegisteredGraphs(course) {
             standardAjaxCall(
@@ -132,12 +148,15 @@
                 function (response) {
                     // Clear any existing response text
                     standardSuccessResponse('', $('#registered-response-pre'));
-                    clearGraphs($('#registered-course-graphs'));
+                    let registeredCourses = $('#registered-course-graphs');
+                    clearGraphs(registeredCourses);
+                    let graphsContainer = registeredCourses.find('.container-graphs');
+                    let numbersContainer = registeredCourses.find('.container-numbers');
 
-                    if (response.assignment_marks !== undefined)
-                        setAssignmentMarks(response.assignment_marks);
-                    if (response.course_progress !== undefined)
-                        setCourseProgress(response.course_progress)
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs);
                 },
                 function (response) {
                     standardErrorResponse(response, $('#registered-response-pre'));
@@ -147,7 +166,7 @@
 
         /**
          * Query then set owned course graph data for the given course
-         * @param course Course id to query data for
+         * @param course - Course id to query data for
          */
         function updateOwnedGraphs(course) {
             standardAjaxCall(
@@ -158,14 +177,77 @@
                 },
                 function (response) {
                     // Clear any existing response text
-                    standardSuccessResponse('', $('#registered-response-pre'));
-                    clearGraphs($('#owned-course-graphs'));
+                    standardSuccessResponse('', $('#owned-response-pre'));
+                    $('#assignment-header').text('Course [' + response.title + '] Modules');
 
-                    if (response.average_score !== undefined)
-                        setAverageScores(response.average_score);
+                    let ownedCourses = $('#owned-course-graphs');
+                    clearGraphs(ownedCourses);
+                    let graphsContainer = ownedCourses.find('.container-graphs');
+                    let numbersContainer = ownedCourses.find('.container-numbers');
+
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs);
+
+                    if (response.modules !== undefined) {
+                        let navbarContainer = $('#course-assignment-navbars');
+                        navbarContainer.html('');
+                        let navbars = []
+                        for (let module in response.modules) {
+                            navbarContainer.append($('<h4>').text(response.modules[module].name));
+                            let navbar = $('<div>').addClass('navbar').addClass('navbar-no-auto');
+                            navbar.append($('<h3>').text('Select Assignment:'));
+                            let linkContainer = $('<div>');
+                            navbar.append(linkContainer);
+                            navbarContainer.append(navbar);
+                            for (let assignment of response.modules[module].assignments) {
+                                linkContainer.append(
+                                    $('<p>')
+                                    .attr('data-value', assignment.id)
+                                    .attr('data-function', 'updateCourseAssignmentGraphs')
+                                    .text(assignment.label)
+                                );
+                            }
+                            navbars.push(navbar);
+                        }
+                        for (let n of navbars) {
+                            updateNavbar(n, navbars);
+                        }
+                    }
                 },
                 function (response) {
-                    standardErrorResponse(response, $('#registered-response-pre'));
+                    standardErrorResponse(response, $('#owned-response-pre'));
+                }
+            );
+        }
+
+        /**
+         * Query then set course assignment graph data for the given assignment
+         * @param assignment - Assignment id to query data for
+         */
+        function updateCourseAssignmentGraphs(assignment) {
+            standardAjaxCall(
+                '/account/courseAssignmentAnalyticsAjax',
+                {
+                    "account": "{{ user_details.userid }}",
+                    "assignment": assignment
+                },
+                function (response) {
+                    standardSuccessResponse('', $('assignment-response-pre'));
+
+                    let courseAssignments = $('#course-assignment-graphs');
+                    clearGraphs(courseAssignments);
+                    let graphsContainer = courseAssignments.find('.container-graphs');
+                    let numbersContainer = courseAssignments.find('.container-numbers');
+
+                    if (response.number_data !== undefined)
+                        addStats(numbersContainer, response.number_data);
+                    if (response.graphs !== undefined)
+                        addGraphs(graphsContainer, response.graphs);
+                },
+                function (response) {
+                    standardErrorResponse(response, $('#assignment-response-pre'));
                 }
             );
         }

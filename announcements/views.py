@@ -1,9 +1,9 @@
-from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import render
-from django.views.generic import View
 from django.db.models import Q
+from django import forms
+from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.views.generic import View
 
-from announcements.forms import AnnouncementForm
 from courses.models import Course
 from .models import Announcement
 
@@ -17,7 +17,6 @@ class AnnouncementList(View):
             context["courses"] = Course.objects.filter(
                 Q(students__in=[request.user]) | Q(owner=request.user)
             ).distinct()
-        print(context)
         return render(request, self.template_name, context)
 
 
@@ -49,12 +48,15 @@ class GetAnnouncementsAjax(View):
 
 
 def addAnnouncements(request):
-    form = AnnouncementForm()
-    if request.method == 'POST':
-        form = AnnouncementForm(request.POST)
-
-        if form.is_valid():
-            form.save()
+    announcement_form = forms.modelform_factory(Announcement, fields=('title', 'course', 'author', 'content'))
+    data = request.POST or None
+    form = announcement_form(data=data)
+    form.fields['course'].queryset = Course.objects.filter(owner=request.user)
+    form.fields['author'].widget = forms.HiddenInput()
+    form.fields['author'].initial = request.user
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('announcements:announcements')
 
     context = {'form': form}
     return render(request, 'add_announcement.html', context)

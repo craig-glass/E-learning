@@ -5,6 +5,7 @@
 <head>
     {% progressive_web_app_meta %}
     <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="160x160" href="{% static 'images/logo160.png' %}">
     <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
     <title>{% block title %}Educate{% endblock %}</title>
@@ -14,6 +15,12 @@
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+
+    <script>
+        let postSetup = [];
+    </script>
 </head>
 <body>
 
@@ -59,14 +66,16 @@
 
 <div id="navigation" class="breadcrumbs">
     <a href="/">Home</a>/{% block navigation %}{% endblock %}
+    <button id="speak" style="float: right"><span class="far fa-comment-dots"></span> Text to Speech</button>
 </div>
 
-<div id="content" style="display: table; height: 100%">
-    <div class="side-menu dropdown-container" data-hide-function="hideSideMenu">
-        <button class="hide-btn"><i class="fas fa-bars"></i></button>
+<div id="content">
+    <div id="side-menu" class="side-menu border-r side-menu-fillx-when-small side-link-container"
+         data-compress-function="sideMenuPartialCompress">
+        <button class="compress-button"><i class="fas fa-bars"></i></button>
     </div>
 
-    <div style="display: table-cell; width: 100%; height: 100%">
+    <div>
         {% block header %}{% endblock %}
         {% block content %}{% endblock %}
     </div>
@@ -297,7 +306,6 @@
         })
         // Ensure required inputs are all valid
         form.find(':input').filter('.required').each(function (index, element) {
-            console.log($(element))
             if (!$(element).hasClass('valid')) {
                 isValid = false;
                 $(element).addClass('invalid');
@@ -363,21 +371,43 @@
         }
     }
 
-    function loadNavigator(container, manualLinks, doAjax=true) {
-        let depth = container.parents('.dropdown-container').length + 1;
+    /**
+     * Load navigation links/buttons onto container.
+     * @param {jQuery} container - Container to which the new buttons should be appended.
+     * @param {Array.<Object>} manualLinks - Array of objects describing links/buttons to be appended prior to any ajax.
+     * @param {String} manualLinks[].text - Text to be displayed on link/button.
+     * @param {String} [manualLinks[].icon] - Fontawesome icon class to be displayed before text
+     *                                        (or instead of text when hidden). Defaults to +.
+     * @param {String} manualLinks[].type - Link type (either "link" or "button"):
+     * <ul>
+     *     <li>link:
+     * @param {String} [manualLinks[].href] - URL to which the link should lead.
+     *     <li>button:
+     * @param {String} [manualLinks[].function] - Function name to be called when the button is clicked.
+     * @param {String} [manualLinks[].ajax] - Ajax URL to be called when populating sub-lists
+     * @param {String} [manualLinks[].context] - Json String format ajax parameters.
+     * </ul>
+     * @param doAjax - Whether an ajax should be called to further populate the container.
+     */
+    function loadNavigator(container, manualLinks, doAjax = true) {
+        // Determines level of indentation required for child links/buttons
+        let depth = container.parents('.side-link-container').length + 1;
+        // Populate container with manually defined links
         for (let link of manualLinks) {
             switch (link.type) {
                 case 'link':
                     _addNavLink(container, link.text, link.href, depth, link.icon);
                     break;
                 case 'button':
-                    _addNavButton(container, link.text, link.function, link.context, link.ajax, link.icon, depth);
+                    _addNavButton(container, link.text, link.function, link.context,
+                        link.ajax, depth, link.icon);
                     break;
             }
         }
         if (!doAjax) {
             return;
         }
+        // Show loading icon whilst reading from server
         let loader = $('<div>').addClass('loader');
         container.append(loader);
         standardAjaxCall(
@@ -386,11 +416,12 @@
             function (response) {
                 loader.remove();
                 if (response.nav_links !== undefined) {
+                    // Populate container with ajax defined links/buttons
                     for (let nav_link of response.nav_links) {
                         switch (nav_link.type) {
                             case 'list':
                                 _addNavButton(container, nav_link.text, nav_link.function, nav_link.context,
-                                    nav_link.ajax, nav_link.icon, depth);
+                                    nav_link.ajax, depth, nav_link.icon);
                                 break;
                             case 'link':
                                 _addNavLink(container, nav_link.text, urlFunction(nav_link.url_params), depth);
@@ -405,46 +436,98 @@
                 container.append(responseText);
                 standardErrorResponse(response, responseText);
             }
-        )
+        );
     }
 
-    function _addNavLink(container, text, url, depth, iconClass=null) {
+    /**
+     * Append formatted link to container.
+     * @param {jQuery} container - Container to append to.
+     * @param {String} text - Foreground text to display on the link
+     * @param {String} url - URL to which the link should lead.
+     * @param {Number} depth - Indentation level to apply to link foreground text.
+     * @param {String} iconClass - Fontawesome icon class to prepend to foreground.
+     * @private
+     */
+    function _addNavLink(container, text, url, depth, iconClass = null) {
         let link = $('<a>').attr('href', url);
 
-        link.hide();
         if (iconClass) {
-            container.append(styleNavLink(
+            // Style with icon
+            container.append(_styleNavElement(
                 link, text, depth, $('<i>').addClass(iconClass)
             ));
         } else {
-            container.append(styleNavLink(link, text, depth));
+            // Style without icon
+            container.append(_styleNavElement(link, text, depth));
         }
-        link.show('slow');
     }
 
-    function _addNavButton(container, text, functionString, contextString, ajaxURL, iconClass, depth) {
-        let button = $('<button>').addClass('dropdown-btn');
-        let buttonContainer = $('<div>').addClass('dropdown-container')
+    /**
+     * Append formatted button to container.
+     * @param {jQuery} container - Container to append to.
+     * @param {String} text - Foreground text to display on the button.
+     * @param {String} functionString - Name of function to be called on button click.
+     * @param {String} contextString - Json String format ajax parameters.
+     * @param {String} ajaxURL - Ajax URL to be called to populate a child container with.
+     * @param {Number} depth - Indentation level to apply to button foreground text.
+     * @param {String} iconClass - Fontawesome icon class to prepend to foreground.
+     */
+    function _addNavButton(container, text, functionString, contextString, ajaxURL, depth, iconClass) {
+        let button = $('<button>');
+        let buttonContainer = $('<div>').addClass('side-link-container')
             .attr('data-function', functionString)
             .attr('data-context', contextString)
             .attr('data-url', ajaxURL);
-        button.hide();
         if (iconClass) {
-            container.append(styleNavButton(
+            container.append(_styleNavButton(
                 button, text, depth, $('<i>').addClass(iconClass)
             ));
         } else {
-            container.append(styleNavButton(
+            container.append(_styleNavButton(
                 button, text, depth
             ));
         }
-        button.show('slow');
         container.append(
             buttonContainer
         );
         _updateDropdownButton(button);
     }
 
+    /**
+     * Add and style contents of the given element.
+     * @param {jQuery} element - Element to be styled.
+     * @param {String} text - Foreground text to be displayed on the element.
+     * @param {Number} depth - Indentation level to apply to element foreground text.
+     * @param {jQuery} icon - Icon class to be prepended to the element's foreground.
+     * @returns {jQuery} - Formatted navigation element.
+     * @private
+     */
+    function _styleNavElement(element, text, depth, icon = null) {
+        element.text('- '.repeat(depth - 1));
+        if (icon) {
+            element.append(icon).html(element.html() + " ");
+        } else {
+            element.html(element.html() + '+ ')
+        }
+        element.append($('<span>').text(text));
+        return element.html(element.html()).css('padding-left', '4');
+    }
+
+    /**
+     * As with {@link _styleNavElement}, but with additional button-specific formatting.
+     * @returns {jQuery} - Formatted navigation button.
+     * @private
+     */
+    function _styleNavButton(button, text, depth, icon = null) {
+        button = _styleNavElement(button, text, depth, icon);
+        return button.append($('<span>').html('&nbsp;').append($('<i>').addClass('fa fa-caret-right')));
+    }
+
+    /**
+     * Base side-bar loader function.
+     * @param {jQuery} container - Container to which the side-bar is to be displayed
+     * @private
+     */
     function _loadSideNavigator(container) {
         loadNavigator(
             container,
@@ -455,14 +538,26 @@
                     icon: 'fa fa-home',
                     type: 'link',
                 },
-                {
-                    text: 'Course',
-                    icon: 'fa fa-book',
-                    function: '_loadCourseNavigator',
-                    ajax: '/courseListAjax',
-                    context: '{}',
-                    type: 'button',
-                },
+                {% if request.user.is_student %}
+                    {
+                        text: 'Registered Courses',
+                        icon: 'fa fa-book',
+                        function: '_loadCourseNavigator',
+                        ajax: '/courseListAjax',
+                        context: '{}',
+                        type: 'button',
+                    },
+                {% endif %}
+                {% if request.user.is_staff %}
+                    {
+                        text: 'Your Courses',
+                        icon: 'fas fa-folder',
+                        function: '_loadStaffCourseNavigator',
+                        ajax: '/staffCourseListAjax',
+                        context: '{}',
+                        type: 'button',
+                    },
+                {% endif %}
                 {
                     href: '{% url 'announcements:announcements' %}',
                     text: 'Announcements',
@@ -485,7 +580,7 @@
             container,
             [{
                 href: '{% url 'students:student_course_list' %}',
-                text: 'My Courses',
+                text: 'Course List',
                 type: 'link',
             }]
         );
@@ -501,7 +596,7 @@
                 text: 'Course Homepage',
                 type: 'link',
             }]
-        )
+        );
     }
 
     function _loadModuleContentsNavigator(container) {
@@ -514,123 +609,299 @@
                         .replace('12345', context.course_id).replace('54321', context.module_id),
                     text: 'Module Homepage',
                     type: 'link',
-                }
+                },
+                {
+                    href: '{% url 'students:module_content_view' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Contents',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'students:assignments_list_student_view_module' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Assignments',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'students:quiz_list_student_view_module' 12345 54321 %}'
+                        .replace('12345', context.course_id).replace('54321', context.module_id),
+                    text: 'Module Quizzes',
+                    type: 'link',
+                },
             ],
             false
-        )
+        );
     }
 
-    function styleNavLink(link, text, depth, icon=null) {
-        link.text('- '.repeat(depth - 1));
-        if (icon) {
-            link.append(icon).html(link.html() + " ");
-        } else {
-            link.html(link.html() + '+ ')
-        }
-        link.append($('<span>').text(text));
-        return link.html(link.html()).css('padding-left', '4');
+    function _loadStaffCourseNavigator(container) {
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'courses:manage_course_list' %}',
+                text: 'Course List',
+                type: 'link',
+            }]
+        );
     }
 
-    function styleNavButton(button, text, depth, icon=null) {
-        button = styleNavLink(button, text, depth, icon);
-        return button.append($('<span>').html('&nbsp;').append($('<i>').addClass('fa fa-caret-right')));
+    function _loadStaffModuleNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        console.log(context);
+        loadNavigator(
+            container,
+            [{
+                href: '{% url 'courses:course_edit' 12345 %}'
+                    .replace('12345', context.course_id),
+                text: 'Edit Course',
+                type: 'link',
+            }]
+        );
     }
 
-    function _updateDropdownButton(element) {
-        element.on('click', function() {
-            let container = element.next();
-            if (container.hasClass('shown')) {
+    function _loadStaffModuleContentsNavigator(container) {
+        let context = JSON.parse(container.attr('data-context'));
+        loadNavigator(
+            container,
+            [
+                {
+                    href: '{% url 'courses:course_module_update' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Homepage',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:module_content_list' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Contents',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:assignment_content_list' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Assignments',
+                    type: 'link',
+                },
+                {
+                    href: '{% url 'courses:quiz_list_view' 12345 %}'
+                        .replace('12345', context.module_id),
+                    text: 'Module Quizzes',
+                    type: 'link',
+                },
+            ],
+            false
+        );
+    }
+
+    /**
+     * Assign side-bar dropdown functionality to given button element.
+     * @param {jQuery} button - Button to assign functions to.
+     * @private
+     */
+    function _updateDropdownButton(button) {
+        button.on('click', function () {
+            // Disable dropdown if currently compressed
+            if (button.parents().hasClass('container-compressed')) {
+                button.parents().find('.compress-button').click();
+            }
+            let container = button.next(); // Container to which children will be appended
+            if (container.hasClass('shown')) { // Container is visible and populated
+                // Hide container
                 container.removeClass('shown').hide('slow');
-                element.find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right');
-            } else if (container.hasClass('been-shown')) {
+                button.find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right');
+            } else if (container.hasClass('been-shown')) { // Container is not visible but still populated
+                // Show container
                 container.addClass('shown').show('slow');
-                element.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
-            } else {
+                button.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+            } else { // Container is not visible or populated
+                // Show container
                 container.addClass('shown');
                 container.addClass('been-shown');
-                element.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+                button.find('.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down');
+                // Call container population function
                 window[container.attr('data-function')](container);
             }
         });
     }
 
-    function hideSideMenu(container) {
-        console.log(container);
-        if (container.hasClass('container-hidden')) {
-            container.removeClass('container-hidden');
-            container.find('span').each(function (index, element) {
-                $(element).show('slow');
+    /**
+     * Toggle side-menu between full view and compressed view, leaving icons in tact.
+     * @param {jQuery} sideMenu - Side-menu container element.
+     * @param {boolean} slow - Toggle smoothly if true else change instantly.
+     */
+    function sideMenuPartialCompress(sideMenu, slow = true) {
+        if (sideMenu.hasClass('container-compressed')) { // Currently compressed
+            sideMenu.removeClass('container-compressed');
+            // Show all span contents
+            sideMenu.find('span,h3').each(function (index, element) {
+                if (slow) {
+                    $(element).show('slow');
+                } else {
+                    $(element).show();
+                }
             });
-        } else {
-            container.addClass('container-hidden');
-            container.find('span').each(function (index, element) {
-                $(element).hide('slow');
+        } else { // Currently not compressed
+            // Hide any dropdown contents before compressing
+            sideMenu.find('button').each(function (index, element) {
+                let container = $(element).next();
+                if (container.hasClass('shown')) {
+                    $(element).click();
+                }
+            });
+            sideMenu.addClass('container-compressed');
+            // Hide all span contents
+            sideMenu.find('span,h3').each(function (index, element) {
+                if (slow) {
+                    $(element).hide('slow');
+                } else {
+                    $(element).hide();
+                }
             });
         }
     }
 
+    /**
+     * Toggle side-menu between full view and compressed view, leaving only the toggle button.
+     * @param {jQuery} sideMenu - Side-menu container element.
+     * @param {boolean} slow - Toggle smoothly if true else change instantly.
+     */
+    function sideMenuFullCompress(sideMenu, slow = true) {
+        if (sideMenu.hasClass('container-compressed')) { // Currently compressed
+            sideMenu.removeClass('container-compressed').removeClass('full-compress');
+            // Show all elements
+            sideMenu.find('>').not('.compress-button').each(function (index, element) {
+                if (slow) {
+                    $(element).show('slow')
+                } else {
+                    $(element).show()
+                }
+            });
+        } else { // Currently not compressed
+            // Hide any dropdown contents before compressing
+            sideMenu.find('button').each(function (index, element) {
+                let container = $(element).next();
+                if (container.hasClass('shown')) {
+                    $(element).click();
+                }
+            });
+            sideMenu.addClass('container-compressed').addClass('full-compress');
+            // Hide all elements except compression button
+            sideMenu.find('>').not('.compress-button').each(function (index, element) {
+                if (slow) {
+                    $(element).hide('slow')
+                } else {
+                    $(element).hide()
+                }
+            });
+        }
+    }
+
+    /**
+     * Assign on-click functionality to given navbar element.
+     * @param {jQuery} navbar - Navbar structure to assign functionality to.
+     * @param {Array.<jQuery>} relatedNavbars - List of navbars to be considered linked
+     */
+    function updateNavbar(navbar, relatedNavbars = null) {
+        let container = navbar.find('div').hide();
+        let header = navbar.find('h3');
+        header.on('click', function () {
+            container.toggle('slow');
+        });
+        navbar.find('p').each(function (index, navbarLink) {
+            // Assign tab indexes to links to allow keyboard navigation
+            $(navbarLink).attr('tabindex', '0');
+            $(navbarLink).keypress(function (event) {
+                $(navbarLink).click();
+            });
+            // Assign on click function to link
+            $(navbarLink).on('click', function () {
+                // Set only this link to be active
+                if (relatedNavbars === null) {
+                    navbar.find('.active').each(function (index, activeLink) {
+                        $(activeLink).removeClass('active');
+                    });
+                } else {
+                    for (let n of relatedNavbars) {
+                        n.find('.active').each(function (index, activeLink) {
+                            $(activeLink).removeClass('active');
+                        });
+                    }
+                }
+                $(navbarLink).addClass('active');
+                // Call respective click function
+                if (navbar.hasClass('navbar-function-link')) {
+                    window.location.href = $(navbarLink).attr('data-link');
+                } else {
+                    window[$(navbarLink).attr('data-function')]($(navbarLink).attr('data-value'));
+                    header.text(header.text().split(':')[0] + ':' + $(navbarLink).text());
+                    container.hide('slow');
+                }
+            });
+            if (window.location.pathname + window.location.search === $(navbarLink).attr('data-link')) {
+                // Display as active if link attribute matches current url
+                $(navbarLink).addClass('active');
+                header.text(header.text().split(':')[0] + ':' + $(navbarLink).text());
+            }
+            if (index === 0 && !navbar.hasClass('navbar-function-link') && !navbar.hasClass('navbar-no-auto')) {
+                // Call on click function on first index link (unless specified otherwise)
+                $(navbarLink).click();
+            }
+        });
+    }
+
+    function _announceText(text) {
+        var msg = new SpeechSynthesisUtterance();
+        var voices = window.speechSynthesis.getVoices();
+        msg.voice = voices[$('#voices').val()];
+        msg.rate = 1;
+        msg.pitch = 1;
+        msg.text = text;
+        speechSynthesis.speak(msg);
+    }
+
+    $(function () {
+        $('#speak').click(function () {
+            $('body').find('.plain-text-area').each(function (index, element) {
+                _announceText($(element).text());
+            });
+        });
+    });
+
     $(document).ready(function () {
         let body = $('body');
 
-        body.find('.hide-btn').each(function(index, element) {
+        body.find('.compress-button').each(function (index, element) {
             let container = $(element).parent();
-            $(element).on('click', function(index, element) {
-                let hideFunction = container.attr('data-hide-function');
-                if (hideFunction === undefined) {
-                    if (container.hasClass('container-hidden')) {
-                        container.removeClass('container-hidden');
-                        container.children(':not(.hide-btn)').each(function (index2, element2) {
-                            $(element2).show('slow');
+            $(element).on('click', function () {
+                let compressFunction = container.attr('data-compress-function');
+                // Toggle between compressed and uncompressed
+                if (compressFunction === undefined) {
+                    // Default compress method, completely hide/show all other sibling elements
+                    if (container.hasClass('container-compressed')) {
+                        // Currently compressed
+                        container.removeClass('container-compressed');
+                        container.children(':not(.compress-button)').each(function (index2, sibling) {
+                            $(sibling).show('slow');
                         });
                     } else {
-                        container.addClass('container-hidden');
-                        container.children(':not(.hide-btn)').each(function (index2, element2) {
-                            console.log($(element));
-                            $(element2).hide('slow');
+                        // Currently in full display
+                        container.addClass('container-compressed');
+                        container.children(':not(.compress-button)').each(function (index2, sibling) {
+                            $(sibling).hide('slow');
                         });
                     }
                 } else {
-                    window[hideFunction](container);
+                    // Call assigned compression function
+                    window[compressFunction](container);
                 }
             });
         });
 
-        body.find('.side-menu').each(function(index, element) {
+        body.find('#side-menu').each(function (index, element) {
             _loadSideNavigator($(element));
         });
 
         body.find('.navbar').each(function (index, element) {
-            $(element).find('p').each(function (index2, element2) {
-
-                $(element2).attr('tabindex', '0');
-                $(element2).keypress(function (event) {
-                    $(element2).click();
-                });
-                if ($(element).hasClass('navbar-function-link')) {
-                    $(element2).on('click', function () {
-                        window.location.href = $(element2).attr('data-link');
-                    });
-                } else {
-                    let f = window[$(element2).attr('data-function')];
-                    $(element2).on('click', function () {
-                        $(element2).parent('.navbar').find('.active').each(function (index3, element3) {
-                            $(element3).removeClass('active');
-                        });
-                        $(element2).addClass('active');
-                        f($(element2).attr('data-value'));
-                    });
-                }
-                if ($(element).hasClass('navbar-function-link')) {
-                    if (window.location.pathname === $(element2).attr('data-link')) {
-                        $(element2).addClass('active');
-                    }
-                } else {
-                    if (index2 === 0) {
-                        $(element2).addClass('active');
-                        $(element2).click();
-                    }
-                }
-            });
+            updateNavbar($(element));
         });
 
         body.find('.dropdown').each(function (index, element) {
@@ -640,11 +911,23 @@
         });
 
         $(window).click(function (e) {
+            // Hide any visible dropdowns (unless they're being clicked)
             let parent = $(e.target).parents();
-            if (!parent.hasClass('dropdown')) {
+            if (!(parent.hasClass('dropdown') || parent.hasClass('navbar'))) {
                 body.find('.dropdown-list').hide();
+                body.find('.navbar div').hide('slow');
             }
         });
+
+        for (let f of postSetup) {
+            f();
+        }
+
+        if ($(window).width() <= 576) {
+            body.find('.compress-button').each(function (index, element) {
+                $(element).click();
+            });
+        }
     });
 </script>
 {% block extrajavascript %}{% endblock %}

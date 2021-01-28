@@ -9,9 +9,11 @@ urlpatterns = [
     path('edit/<str:userid>/', views.AccountSettingsView.as_view(), name='account_edit'),
     path('analytics/<str:userid>/', views.AccountAnalyticsView.as_view(), name='account_analytics'),
     path('register/', views.CourseJoinView.as_view(), name='course_register'),
+    path('register/<int:course_id>', views.CourseJoinView.as_view(), name='course_register_autocourse'),
 
     path('updateAccountAjax', views.AccountUpdateAjax.as_view()),
     path('courseJoinAjax', views.CourseJoinAjax.as_view()),
     path('registeredCourseAnalyticsAjax', views.RegisteredCourseAnalyticsAjax.as_view()),
     path('ownedCourseAnalyticsAjax', views.OwnedCourseAnalyticsAjax.as_view()),
+    path('courseAssignmentAnalyticsAjax', views.CourseAssignmentAnalyticsAjax.as_view()),
 ]

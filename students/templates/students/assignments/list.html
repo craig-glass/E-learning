@@ -1,55 +1,21 @@
-{% extends "base.html" %}
-{% load course %}
+{% extends "students/course/detail.html" %}
 
-{% block title %}
-    Module {{ module.order|add:1 }}:{{ module.title }}
+{% block extrabreadcrumbs %}
+    <a href="{% url 'students:assignments_list_student_view_module' course.id module.id %}">Assignments</a>
 {% endblock %}
 
-{% block h1 %}
-    {% with course=module.course %}
-        <h1>Course "{{ course.title }}"</h1>
-    {% endwith %}
-{% endblock %}
-
-
-
-{% block content %}
-    <div class="col-12 col-md-3 col-centered">
-        <div class="contents">
-            <h3>Modules</h3>
-            <ul id="modules">
-                {% for m in object.modules.all %}
-                    <li data-id="{{ m.id }}"
-                        {% if m == module %}class="selected"{% endif %}>
-                        <a href="{% url 'students:assignments_list_student_view_module' object.id m.id %}">
-                            <span>
-                                Module<span class="order">{{ m.order|add:1 }}</span>
-                            </span>
-                            <br>
-                            {{ m.title }}
-                        </a>
-                    </li>
-                {% empty %}
-                    <li>No modules yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-
-    <div class="col-12 col-md-9">
-        <div class="module">
-            <div>
-                {% for assignment in module.assignments.all %}
-                    <div>
-                        <h3>{{ assignment.title }}</h3>
-                        <p>{{ assignment.description }}</p>
-                        <a href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}">View</a>
-                    </div>
-                {% empty %}
-                    <p>This module has no assignments yet</p>
-                {% endfor %}
+{% block subcontent %}
+     <div>
+        {% for assignment in assignment_list %}
+            <div class="link-list">
+                <a class="a-header"
+                   href="{% url 'students:student_assignment_detail' course.id module.id assignment.id %}">
+                    {{ assignment.title }}
+                </a>
+                <div class="plain-text-area">{{ assignment.description }}</div>
             </div>
-        </div>
+        {% empty %}
+            <p>This module has no assignments yet</p>
+        {% endfor %}
     </div>
 {% endblock %}

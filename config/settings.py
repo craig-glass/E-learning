@@ -17,7 +17,6 @@ from django.urls import reverse_lazy
 BASE_DIR = Path(__file__).resolve().parent.parent
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'home/static/js', 'serviceworker.js')
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = '2ib3az=8!zwur8z*c8qxz6ix=mljsr5&1d1ppv8-llb&d_4yrz'
 DEBUG = True
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
-
 
 # Application definition
 
@@ -82,10 +80,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
+#
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'epic',
+        'USER': 'postgres',
+        'PASSWORD': 'mysecretpassword',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 # DATABASES = {
@@ -98,6 +108,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -117,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -131,7 +141,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -140,7 +149,6 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 
 STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 LOGIN_REDIRECT_URL = reverse_lazy('students:student_course_list')
 LOGOUT_REDIRECT_URL = reverse_lazy('homepage')

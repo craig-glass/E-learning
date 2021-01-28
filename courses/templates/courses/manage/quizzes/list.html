@@ -1,61 +1,33 @@
 {% extends "base.html" %}
 {% load course %}
-
 {% block title %}
     Module {{ module.order|add:1 }}:{{ module.title }}
 {% endblock %}
+{% block navigation %}
+    <a href="{% url 'courses:manage_course_list' %}">Your Courses</a>/
+    <a href="{% url 'courses:module_list' module.id %}">Modules</a>/
+    <a href="{% url 'courses:quiz_list_view' module.id %}">Quizzes</a>/
+{% endblock %}
+
 {% block content %}
     {% with course=module.course %}
-        <h1>Course "{{ course.title }}"</h1>
+        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+        <a href="{% url 'courses:module_list' module.id %}"
+           class="link-button" style="width: 100%">
+            Back to Module Management
+        </a>
+        <h2>Quizzes</h2>
 
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-3 col-centered">
-                    <div class="contents">
-                        <h3>Modules</h3>
-                        <ul id="modules">
-                            {% for m in course.modules.all %}
-                                <li data-id="{{ m.id }}"{% if m == module %}
-                                    class="selected"{% endif %}>
-                                    <a href="{% url "courses:module_list" m.id %}">
-                                    <span>
-                                        Module<span class="order">
-                                        {{ m.order|add:1 }}
-                                    </span>
-                                    </span>
-                                        <br>
-                                        {{ m.title }}
-                                    </a>
-                                </li>
-                            {% empty %}
-                                <li>No modules yet</li>
-                            {% endfor %}
-                        </ul>
-                        <p><a href="{% url "courses:course_module_update" course.id %}">
-                            Edit modules
-                        </a></p>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-9">
-
-                    <div class="module" style="margin-top:0px; margin-bottom:40px;">
-                        <div>
-                            {% for quiz in module.quizzes.all %}
-                                <div>
-                                    <h3>{{ quiz.title }}</h3>
-                                    <p>{{ quiz.description }}</p>
-                                    <a href="{% url 'courses:quiz_edit' module.id quiz.id %}">Edit</a>
-                                </div>
-                            {% empty %}
-                                <p>This module has no quizzes yet</p>
-                            {% endfor %}
-                        </div>
-                        <a href="{% url 'courses:quiz_create' module.id %}"> Create Quizzes</a>
-                    </div>
-                </div>
+        {% for quiz in module.quizzes.all %}
+            <div class="plain-text-area">
+                <a href="{% url 'courses:assignment_update' module.id quiz.id %}">
+                    <h3>{{ quiz.title }} <span class="fas fa-edit" style="display: inline"></span></h3>
+                </a>
+                <p>{{ quiz.description }}</p>
             </div>
-        </div>
+        {% empty %}
+            <p>This module has no quizzes yet</p>
+        {% endfor %}
     {% endwith %}
 {% endblock %}
 {% block domready %}

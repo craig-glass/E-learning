@@ -61,11 +61,9 @@
                                         {% endfor %}
                                     {% endif %}
                                 </div>
-
                             {% endfor %}
 
                             <button id="add-choices-form" type="button">Add Choice</button>
-
                             <button id="add-form" type="button">Add Question</button>
                             <button type="submit">Save Questions</button>
                         </form>
@@ -129,7 +127,6 @@
             container.insertBefore(newForm, addButtonChoices)
 
             totalChoicesFormList[formNum].value.setAttribute('value', `${choicesFormNum + 1}`)
-
         }
     </script>
 {% endblock %}

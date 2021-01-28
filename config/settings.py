@@ -86,28 +86,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 #
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'epic',
-        'USER': 'postgres',
-        'PASSWORD': 'mysecretpassword',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd2s3ovn6nm9aca',
-#         'USER': 'nrlgffsvddvdmd',
-#         'PASSWORD': 'b5fcb3e4a4b1b6e2a4acf44185cd06455237f24a5973ab31f1f261fe9f78945e',
-#         'HOST': 'ec2-52-20-66-171.compute-1.amazonaws.com',
+#         'NAME': 'epic',
+#         'USER': 'postgres',
+#         'PASSWORD': 'mysecretpassword',
+#         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd2s3ovn6nm9aca',
+        'USER': 'nrlgffsvddvdmd',
+        'PASSWORD': 'b5fcb3e4a4b1b6e2a4acf44185cd06455237f24a5973ab31f1f261fe9f78945e',
+        'HOST': 'ec2-52-20-66-171.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation

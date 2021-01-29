@@ -15,16 +15,23 @@ models.py: Test user input and website functionality by creating
 mock data for all objects within a class. E.g. creating a profile with
 userid and password for accounts, to see if the class holds the data
 correctly, and it displays the correct information.
+Date and time tests are done to make sure that the date itself is correct
+and that it is in the right format.
 
 views.py: Test all URLs work correctly, and the correct template is
 used for each page. URLs may also be specific to each user and there are
 certain permissions required to enter a page, some users may not have.
 These must be tested to ensure users get redirected to the correct page.
+Also, page status codes must be tested as a superuser to ensure users
+with permissions can go to the pages they want to.
 
 To ensure that the tests are written correctly, and it tests exactly
 what was intended, I ran the server and tested the site as if I was a
-user (student, staff and admin login) to see if the permissions each user
-have are working as they should.
+user (student, staff and admin login) to see if the permissions each 
+user have are working as they should.
+I also used the website to try raise an error on purpose, using 
+different methods like trying to enter a page signed out and testing
+course URLs before being assigned to a course.
 
 
 
@@ -59,9 +66,22 @@ django.db.utils.DataError: value too long for type character varying(50)
 ```
 
 
-test_views.py: 
+test_views.py: Class Tested : AccountDisplayView, AccountAnalyticsView,
+CourseJoinView, AccountSettingsView
 
+- Tested all accounts URLs logged in - pass with status code 200.
+- Tested URLs as an anonymous user - pass with status code 302.
+- If the 'course_id' of the URL is a string instead of an integer, an
+error occurs with: 
+  
+```
+django.urls.exceptions.NoReverseMatch: Reverse for 'course_register
+_autocourse' with keyword arguments '{'course_id': 'str'}' not found.
+1 pattern(s) tried: ['account/register/(?P<course_id>[0-9]+)$']
+```
 
+- Tested behaviour when user is signed out: page redirects to the 
+  login page
 
 
 ### Announcements:
@@ -84,31 +104,47 @@ django.db.utils.IntegrityError: duplicate key value violates unique
 constraint "accounts_profile_email_key"
 DETAIL:  Key (email)=() already exists.
 ```
+
+- Similar to the above, the constraint 'course' has 2 ForeignKey object
+  inside it. These must also be filled in with unique details or an 
+  error occurs:
+  
+```
+django.db.utils.IntegrityError: null value in column "subject_id" of
+ relation "courses_course" violates not-null constraint
+DETAIL:  Failing row contains (1, , , , 2021-01-29 10:34:03.789695+00,
+ 2, null).
+```
   
 
 test_views.py: Classes Tested : AnnouncementList, GetAnnouncementsAjax
 
-- Tested all announcements' URLs - all passed with response status 
-  code 200
-  If the URL '/announcements/add/' is visited signed out, an error 
+- Tested all announcements' URLs while signed in - all passed with 
+  response status code 200 
+  
+- If the URL '/announcements/add/' is visited signed out, an error 
   occurs as the user is not permitted to add announcements without login
   error with the result:
   
 ```
 TypeError: 'AnonymousUser' object is not iterable
 ```
-  
+
+- Tests on add announcement page as a superuser passes with page status
+  code 200
   
 
 
 ### Courses:
 
 
-test_models.py: Class Tested : Subject, Course, Module, Assignment,
+test_models.py: Classes Tested : Subject, Course, Module, Assignment,
 TextField, Quiz, Question, Choice, Grade
 
 - Created test objects for each class and ran similar tests to
   accounts and announcements - all passed.
+- Exactly the same errors as previous test models where key constraints
+  must be created and unique to others
   
 - Tests for classes ItemBase and Content have no objects to create,
 therefore returns with error:
@@ -130,9 +166,32 @@ However, even if the grade is too high (over 100), the test brings up
 no errors.
 
 
-test_views.py: 
 
+test_views.py: Classes Tested: OwnerCourseMixin, OwnerCourseEditMixin,
+CourseListView, CourseDetailView, ManageCourseListView,
+CourseCreateView, CourseUpdateView, CourseDeleteView, 
+CourseModuleUpdateView, ContentCreateUpdateView, ContentDeleteView, 
+ModuleListView, ModuleContentListView, AssignmentContentListView,
+QuizListView, QuizAssignmentCreateView, QuizCreateView,
+CourseAssignmentUpdateView, AssignmentUpdateView, QuizUpdateView,
+QuizCreateUpdateView, AddChoiceView, AssignmentCreateUpdateView,
+ModuleOrderView, ContentOrderView
 
+- Tested all courses URLs while logged in and logged out: all passed
+  with status code 200 if logged in and 302 if signed out.
+
+- Tested erroneous behavior when loading pages that require certain
+permissions as a user with no permissions:
+  
+```
+raise PermissionDenied(self.get_permission_denied_message())
+django.core.exceptions.PermissionDenied
+
+```
+
+- Same tests ran on URLs as other apps where kwargs must be specific
+in the URL, such as 'quiz_id' must be an integer, or an error occurs.
+  
 
 
 ### Event Calendar:
@@ -165,7 +224,12 @@ test_views.py: Class Tested : CalendarView
   However, when loading the calendar page while logged-out, your events
   may still show on the calendar, which, if pressed will result in an
   error due to user not being signed in.
-
+  
+- Same error message as accounts test where constraints such as 
+  'module_id' in the URL cannot be a string, error if so.
+  
+- To create a new event, one must have permission to do so. Tests
+  as a superuser all passed whereas an anonymous user got an error
 
 
 ### Home:
@@ -186,7 +250,7 @@ QuizAnswer
   accounts and announcements - all passed.
   
 - All objects with a unique ForeignKey needed different constraints, or 
-a not-null constraint error occurs.
+  a not-null constraint error occurs.
   
 - Date and time tests would fail as the quiz submissions recorded
   milliseconds which would differ from the time recorded in the test
@@ -196,7 +260,6 @@ a not-null constraint error occurs.
   which means score can be valued with any positive integer.
   
 
-
   
 test_views.py: Class Tested : StudentRegistrationView, 
 StudentCourseListView, StudentCourseDetailView, ModuleHomePageView,
@@ -205,3 +268,6 @@ StudentHomePageView, AssignmentListStudentView
 - Tested students URLs - when user is logged out, it redirects them
   to the login page and therefore the response status code is 302 for
   the page user wants to visit.
+  
+- Same error tests ran on URLs as other apps where kwargs must be
+  specific in the URL, or an error occurs.

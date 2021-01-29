@@ -1,11 +1,12 @@
 import datetime
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from accounts.models import Profile
-from courses.models import Subject, Text, Course, Module, Assignment, Content, ModuleContent, ItemBase, Quiz, Question,\
-    Choice, Grade
+from courses.models import Subject, Text, Course, Module, Assignment, Quiz, Question, Choice, Grade
+
+"""
+Each class tests their relevant classes from models.py with the same class name
+"""
 
 
 class SubjectTest(TestCase):
@@ -67,10 +68,6 @@ class CourseTest(TestCase):
 
     def test_overview_label(self):
         self.assertEqual(self.course.overview, 'overview')
-
-    # def test_created(self):
-    #     date = datetime.date.today()
-    #     self.assertTrue(self.course.created == date)
 
 
 class ModuleTest(TestCase):
@@ -134,56 +131,6 @@ class AssignmentTest(TestCase):
         self.assertEqual(self.assignment.description, 'description')
 
 
-# class ContentTest(TestCase):
-#
-#     @classmethod
-#     def setUpTestData(cls):
-#         cls.content_type=Content.objects.create(
-#             ContentType='text',
-#             object_id=2,
-#             item=GenericForeignKey
-#         )
-#
-#     def test_content_type(self):
-#         self.assertEqual(self.content_type.ContentType, 'text')
-#
-#     def test_object_id(self):
-#         self.assertEqual(self.content_type.object_id, 2)
-
-
-# class ItemBaseTest(TestCase):
-#
-#     @classmethod
-#     def setUpTestData(cls):
-#         cls.item_base = ItemBase.objects.create(
-#             owner=Profile.objects.create(
-#                 userid='id',
-#             ),
-#             title='item',
-#             created=datetime.date.today(),
-#             updated=datetime.date.today()
-#         )
-#
-#     def test_owner_label(self):
-#         self.assertEqual(self.item_base.owner.userid, 'id')
-#
-#     def test_title_label(self):
-#         self.assertEqual(self.item_base.title, 'item')
-#
-#     def test_title_max_length(self):
-#         max_length = ItemBase._meta.get_field('title').max_length
-#         print(max_length)
-#         self.assertEqual(max_length, 250)
-#
-#     def test_created(self):
-#         date = datetime.date.today()
-#         self.assertTrue(self.item_base.created == date)
-#
-#     def test_updated(self):
-#         date = datetime.date.today()
-#         self.assertTrue(self.item_base.updated == date)
-
-
 class TextFieldTest(TestCase):
 
     @classmethod
@@ -197,6 +144,9 @@ class TextFieldTest(TestCase):
 
     def test_text_field(self):
         self.assertEqual(self.text.content, 'text')
+
+    def test_owner_id(self):
+        self.assertEqual(self.text.owner.userid, 'id')
 
 
 class QuizTest(TestCase):

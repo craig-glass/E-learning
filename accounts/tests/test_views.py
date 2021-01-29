@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
@@ -8,7 +7,9 @@ from accounts.views import AccountDisplayView
 
 
 class RegistrationTest(TestCase):
-
+    """
+    URL tests as a normal user and its responses according to different pages
+    """
     def setUp(self):
         self.factory = RequestFactory()
         self.user = Profile.objects.create_user(
@@ -18,11 +19,9 @@ class RegistrationTest(TestCase):
         )
 
     def test_authenticated_profile_page(self):
-        request = self.factory.get('/account/profile/', kwargs={'userid': 'test1'})
-        request.user = self.user.is_authenticated
-        response = AccountDisplayView.as_view()(request)
+        url = self.factory.post('/account/profile/', kwargs={'userid': 'test1'})
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.template_name[0], 'accounts/account_view/account_view.html')
 
     def test_response_with_anonymous_user(self):
         request = self.factory.get('/account/profile/')
@@ -39,7 +38,7 @@ class RegistrationTest(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
 
-    def test_register_page_code(self):
+    def test_register_status_code(self):
         response = self.client.get('/account/register/')
         self.assertEquals(response.status_code, 200)
 
@@ -47,22 +46,18 @@ class RegistrationTest(TestCase):
         url = self.factory.post(reverse('accounts:account_view', kwargs={'userid': 'test1'}))
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed('accounts/account_view/account_view.html')
 
     def test_account_edit_page_status_code(self):
         url = self.factory.post(reverse('accounts:account_edit', kwargs={'userid': 'test1'}))
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed('accounts/account_view/account_view.html')
 
     def test_account_analytics_page_status_code(self):
         url = self.factory.post(reverse('accounts:account_analytics', kwargs={'userid': 'test1'}))
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed('accounts/account_view/account_analytics.html')
 
     def test_course_register_autocourse_page_status_code(self):
         url = self.factory.post(reverse('accounts:course_register_autocourse', kwargs={'course_id': 1}))
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed('accounts/account_view/account_view.html')

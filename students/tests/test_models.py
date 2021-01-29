@@ -6,6 +6,10 @@ from accounts.models import Profile
 from courses.models import Course, Assignment, Module, Subject, Quiz, Question
 from students.models import AssignmentSubmission, QuizSubmission, QuizAnswer
 
+"""
+Each class tests their relevant classes from models.py with the same class name
+"""
+
 
 class AssignmentSubmissionTest(TestCase):
 

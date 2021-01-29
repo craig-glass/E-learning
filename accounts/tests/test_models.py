@@ -3,6 +3,10 @@ from django.test import TestCase
 from courses.models import Course, Subject
 from accounts.models import Profile, AccountSubmission
 
+"""
+Each class tests their relevant classes from models.py with the same class name
+"""
+
 
 class ProfileTest(TestCase):
 

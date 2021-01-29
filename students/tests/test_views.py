@@ -1,14 +1,9 @@
-import datetime
-
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
-from django.contrib.auth.models import User, AnonymousUser
-from django.test import Client
+from django.contrib.auth.models import AnonymousUser
 
 from accounts.models import Profile
-from courses.models import Course, Subject, Module
-from students.views import StudentRegistrationView, StudentCourseListView, StudentHomePageView, StudentCourseDetailView, \
-    AssignmentListStudentView, QuizListStudentView, AssignmentDetailStudentView
+from students.views import StudentCourseListView
 
 
 class RegistrationTest(TestCase):
@@ -101,30 +96,6 @@ class LoggedInPageTest(TestCase):
                                                                                                  'module_id': 1, }))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-    # def test_student_assignment_detail_page_status_code(self):
-    #     url = self.factory.post(reverse('students:student_assignment_detail', kwargs={'pk': 1, 'module_id':1,
-    #                                                                                   'assessment_id': 2}))
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_assignment_submission_page_status_code(self):
-    #     url = self.factory.post(reverse('students:assignment_submission', kwargs={'module_id': 1,
-    #                                                                               'assessment_id': 2}))
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_assignment_submission_redo_status_code(self):
-    #     url = self.factory.post(reverse('students:assignment_submission_redo', kwargs={'pk': 1, 'module_id': 1,
-    #                                                                                    'assessment_id': 2}))
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_assignment_submitted_view_status_code(self):
-    #     url = self.factory.post(reverse('students:assignment_submitted_view', kwargs={'pk': 1, 'module_id':1,
-    #                                                                                   'assessment_id': 2}))
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
 
     def test_quiz_list_student_view_status_code(self):
         url = self.factory.post(reverse('students:quiz_list_student_view', kwargs={'pk': 1}))

@@ -1,10 +1,13 @@
 import datetime
 
 from django.test import TestCase
-
 from accounts.models import Profile
 from announcements.models import Announcement
 from courses.models import Course, Subject
+
+"""
+Each class tests their relevant classes from models.py with the same class name
+"""
 
 
 class AnnouncementTest(TestCase):

@@ -7,7 +7,9 @@ import datetime
 
 
 class EventTest(TestCase):
-
+    """
+    Tests for Event class with date and time tests
+    """
     @classmethod
     def setUpTestData(cls):
         cls.event = Event.objects.create(

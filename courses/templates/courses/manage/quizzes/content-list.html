@@ -45,14 +45,15 @@
                                     {% for choice in question.choices.all %}
                                         <p>{{ choice.choice_text }}</p>
                                     {% endfor %}
-                                    <a class="link-button" style="float:left"
+                                    <a class="link-button" style="float:left; color: #000000;"
                                        href="{% url 'courses:edit_choices' module.id quiz.id question.id %}"><span
                                             class="fas fa-edit"></span>Edit
                                         Question</a>
                                     <form action="{% url "courses:question_delete" question.id %}" method="post">
                                         <br>
-                                        <button class="link-button" style="margin-left: 10px" type="submit" value="Delete Question"><span
-                                                class="fas fa-check-circle"></span>Delete question
+                                        <button class="link-button" style="margin-left: 10px" type="submit"
+                                                value="Delete Question"><span
+                                                class="fas fa-check-circle"></span>Delete Question
                                         </button>
                                         {% csrf_token %}
                                     </form>

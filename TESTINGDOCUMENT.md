@@ -3,10 +3,10 @@
 
 ##Test plan
 
-To test every class within an app for its functionality and purpose
-and ensure all code works the way it was intended to.
-To create tests which will fail certain functions in order to raise
-the errors.
+To test every class within an app for its functionality and purpose and
+ensure all code works the way it was intended to.
+To create tests which will purposely fail to see if the errors that occur
+are exactly as expected.
 
 
 ##Testing Methodology
@@ -106,7 +106,7 @@ DETAIL:  Key (email)=() already exists.
 ```
 
 - Similar to the above, the constraint 'course' has 2 ForeignKey object
-  inside it. These must also be filled in with unique details or an 
+  inside it. These must also be filled in with unique details, or an 
   error occurs:
   
 ```

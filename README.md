@@ -106,6 +106,10 @@ And then:
 ```
 python manage.py migrate
 ```
+To populate the database with sample data simply type the command:
+```
+python manage.py loaddata db.json
+```
 The project should now be ready to run locally at localhost:<port>. 
 Run the project with the following command:
 ```

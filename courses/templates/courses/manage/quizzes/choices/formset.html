@@ -40,6 +40,7 @@
                     <div class="module">
                         <h2>Question Choices</h2>
                         <form method="post">
+                            {{ form }}
                             {{ formset }}
                             {{ formset.management_form }}
                             {% csrf_token %}

@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic.base import TemplateResponseMixin, View
 from students.forms import CourseEnrollForm
-from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet, QuestionFormSet
+from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet, QuestionFormSet, QuestionForm
 from .models import Course, ModuleContent, AssignmentContent, Quiz, Question, Choice
 from django.apps import apps
 from django.forms.models import modelform_factory, modelformset_factory
@@ -439,19 +439,26 @@ class AddChoiceView(TemplateResponseMixin, View):
         return super().dispatch(request, module_id, quiz_id, question_id)
 
     def get(self, request, *args, **kwargs):
+        form = QuestionForm(instance=self.question)
         formset = self.get_formset()
         return self.render_to_response({'module': self.module,
                                         'quiz': self.quiz,
+                                        'form': form,
                                         'question': self.question,
                                         'formset': formset})
 
     def post(self, request, *args, **kwargs):
+        form = QuestionForm(instance=self.question, data=request.POST)
         formset = self.get_formset(data=request.POST)
+        if form.is_valid():
+            form.instance.quiz = self.quiz
+            form.save()
         if formset.is_valid():
             formset.save()
             return redirect('courses:quiz_edit', self.module.id, self.quiz.id)
         return self.render_to_response({'module': self.module,
                                         'quiz': self.quiz,
+                                        'form': form,
                                         'question': self.question,
                                         'formset': formset})
 

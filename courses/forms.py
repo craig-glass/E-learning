@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.models import inlineformset_factory, ModelForm, BaseInlineFormSet
+from django.forms.models import inlineformset_factory, ModelForm, BaseInlineFormSet, modelform_factory
 from .models import Course, Module, Assignment, Quiz, Question, Choice
 
 
@@ -87,3 +87,10 @@ QuestionFormSet = inlineformset_factory(Quiz,
                                         fields=['number',
                                                 'question_text'],
                                         extra=1)
+
+
+class QuestionForm(ModelForm):
+    class Meta:
+        model = Question
+        fields = ['number', 'question_text' ]
+

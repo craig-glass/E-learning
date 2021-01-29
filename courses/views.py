@@ -93,22 +93,31 @@ class OwnedCoursePageMixin(CoursePageMixin):
 class OwnerCourseMixin(OwnerMixin,
                        LoginRequiredMixin,
                        PermissionRequiredMixin):
-    """This adds the model used for querysets and ensures user
-    is logged in and has correct permissions"""
+    """
+    This adds the model used for querysets and ensures user
+    is logged in and has correct permissions
+    """
+
     model = Course
     fields = ['subject', 'title', 'slug', 'overview']
     success_url = reverse_lazy('courses:manage_course_list')
 
 
 class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
-    """This combines OwnerCourseMixin and OwnerEditMixin
+    """
+    This combines OwnerCourseMixin and OwnerEditMixin
     to define template that is used mutually by CreateView
-    and UpdateView"""
+    and UpdateView
+    """
+
     template_name = 'courses/manage/course/form.html'
 
 
 class CourseListView(CoursePageMixin, View):
-    """Lists courses"""
+    """
+    Lists courses
+    """
+
     template_name = 'courses/course/list.html'
 
     def get(self, request, subject=None):
@@ -117,8 +126,11 @@ class CourseListView(CoursePageMixin, View):
 
 
 class CourseDetailView(CoursePageMixin, View):
-    """Renders a detailed view of courses and modules it
-    contains"""
+    """
+    Renders a detailed view of courses and modules it
+    contains
+    """
+
     template_name = 'courses/course/detail.html'
 
     def get(self, request, slug):
@@ -128,7 +140,10 @@ class CourseDetailView(CoursePageMixin, View):
 
 class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
                            OwnedCoursePageMixin, View):
-    """Lists courses created by the user"""
+    """
+    Lists courses created by the user
+    """
+
     template_name = 'courses/manage/course/list.html'
     permission_required = 'courses.view_course'
 
@@ -138,25 +153,37 @@ class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
-    """Checks the current user has correct permissions and
-    allows the user to create page if authenticated"""
+    """
+    Checks the current user has correct permissions and
+    allows the user to create page if authenticated
+    """
+
     permission_required = 'courses.add_course'
 
 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
-    """Checks current user's permissions to update course"""
+    """
+    Checks current user's permissions to update course
+    """
+
     permission_required = 'courses.change_course'
 
 
 class CourseDeleteView(OwnerCourseMixin, DeleteView):
-    """Checks user's permissions to delete course"""
+    """
+    Checks user's permissions to delete course
+    """
+
     template_name = 'courses/manage/course/delete.html'
     permission_required = 'courses.delete_course'
 
 
 class CourseModuleUpdateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
-    """Dispatches course object based on url and allows
-    user to update modules"""
+    """
+    Dispatches course object based on url and allows
+    user to update modules
+    """
+
     template_name = 'courses/manage/module/formset.html'
     course = None
     permission_required = 'courses.change_module'
@@ -186,8 +213,11 @@ class CourseModuleUpdateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
 
 
 class ContentCreateUpdateView(TemplateResponseMixin, View):
-    """Dispatches module and allows user to create and update
-    content for module"""
+    """
+    Dispatches module and allows user to create and update
+    content for module
+    """
+
     module = None
     model = None
     obj = None
@@ -246,8 +276,10 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 
 
 class ContentDeleteView(View):
-    """Checks that the user is the course owner and allows
-    to delete module content if authenticated"""
+    """
+    Checks that the user is the course owner and allows
+    to delete module content if authenticated
+    """
 
     def post(self, request, id):
         content = get_object_or_404(ModuleContent,
@@ -260,8 +292,10 @@ class ContentDeleteView(View):
 
 
 class ModuleViewsMixin(TemplateResponseMixin, View):
-    """Retrieves module related to course based on modules
-    id given in url"""
+    """
+    Retrieves module related to course based on modules
+    id given in url
+    """
 
     def get(self, request, module_id):
         module = get_object_or_404(Module,
@@ -271,28 +305,43 @@ class ModuleViewsMixin(TemplateResponseMixin, View):
 
 
 class ModuleListView(ModuleViewsMixin):
-    """Renders a list of modules"""
+    """
+    Renders a list of modules
+    """
+
     template_name = 'courses/manage/module/list.html'
 
 
 class ModuleContentListView(ModuleViewsMixin):
-    """Renders module content"""
+    """
+    Renders module content
+    """
+
     template_name = 'courses/manage/module/content_list.html'
 
 
 class AssignmentContentListView(ModuleViewsMixin):
-    """Renders assignment content related to selected module"""
+    """
+    Renders assignment content related to selected module
+    """
+
     template_name = 'courses/manage/assignments/list.html'
 
 
 class QuizListView(ModuleViewsMixin):
-    """Renders list of quizzes related to selected module"""
+    """
+    Renders list of quizzes related to selected module
+    """
+
     template_name = 'courses/manage/quizzes/list.html'
 
 
 class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
-    """Gets selected module, checks permissions and renders
-    a formset"""
+    """
+    Gets selected module, checks permissions and renders
+    a formset
+    """
+
     module = None
     permission_required = 'courses.change_module'
 
@@ -309,8 +358,11 @@ class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View
 
 
 class QuizCreateView(QuizAssignmentCreateView):
-    """Renders a quiz form set for users to create
-    quizzes for selected module"""
+    """
+    Renders a quiz form set for users to create
+    quizzes for selected module
+    """
+
     template_name = 'courses/manage/quizzes/formset.html'
 
     def get_formset(self, data=None):
@@ -327,8 +379,11 @@ class QuizCreateView(QuizAssignmentCreateView):
 
 
 class CourseAssignmentUpdateView(QuizAssignmentCreateView):
-    """Renders a formset for users to create assignments for
-    selected module"""
+    """
+    Renders a formset for users to create assignments for
+    selected module
+    """
+
     template_name = 'courses/manage/assignments/formset.html'
 
     def get_formset(self, data=None):
@@ -345,8 +400,11 @@ class CourseAssignmentUpdateView(QuizAssignmentCreateView):
 
 
 class AssignmentUpdateView(TemplateResponseMixin, View):
-    """Renders the contents of assignment that is selected and allows
-    user to add content"""
+    """
+    Renders the contents of assignment that is selected and allows
+    user to add content
+    """
+
     template_name = 'courses/manage/assignments/content-list.html'
 
     def get(self, request, module_id, assignment_id):
@@ -361,8 +419,11 @@ class AssignmentUpdateView(TemplateResponseMixin, View):
 
 
 class QuizUpdateView(TemplateResponseMixin, View):
-    """Renders the selected quiz with a list of current
-    questions with the option to add more questions"""
+    """
+    Renders the selected quiz with a list of current
+    questions with the option to add more questions
+    """
+
     template_name = 'courses/manage/quizzes/content-list.html'
 
     def get(self, request, module_id, quiz_id):
@@ -375,8 +436,11 @@ class QuizUpdateView(TemplateResponseMixin, View):
 
 
 class QuizCreateUpdateView(TemplateResponseMixin, View):
-    """Allows users to create question and choices for
-    selected quiz"""
+    """
+    Allows users to create question and choices for
+    selected quiz
+    """
+
     model = None
     obj = None
     quiz = None
@@ -418,7 +482,10 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
 
 
 class AddChoiceView(TemplateResponseMixin, View):
-    """Allows user to edit choices of the question selected"""
+    """
+    Allows user to edit choices of the question selected
+    """
+
     question = None
     module = None
     quiz = None
@@ -464,8 +531,10 @@ class AddChoiceView(TemplateResponseMixin, View):
 
 
 class QuestionDeleteView(View):
-    """Checks that the user is the course owner and allows
-    to delete module content if authenticated"""
+    """
+    Checks that the user is the course owner and allows
+    to delete module content if authenticated
+    """
 
     def post(self, request, id):
         question = get_object_or_404(Question,
@@ -479,8 +548,11 @@ class QuestionDeleteView(View):
 
 
 class AssignmentCreateUpdateView(TemplateResponseMixin, View):
-    """Renders a form for user to create content based on
-    what content type user would like to create"""
+    """
+    Renders a form for user to create content based on
+    what content type user would like to create
+    """
+
     model = None
     obj = None
     assignment = None
@@ -547,6 +619,11 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
 
 
 class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+    """
+    Used in conjuction with 'sortable' AJAX call to re-order
+    modules by drag and drop
+    """
+
     def post(self, request):
         for id, order in self.request_json.items():
             Module.objects.filter(id=id, course__owner=request.user).update(
@@ -555,6 +632,10 @@ class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
 
 
 class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+    """
+    Used in conjuction with 'sortable' AJAX call to re-order
+    content by drag and drop
+    """
     def post(self, request):
         for id, order in self.request_json.items():
             ModuleContent.objects.filter(id=id,

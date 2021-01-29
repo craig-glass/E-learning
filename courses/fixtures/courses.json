@@ -40,7 +40,7 @@
   "pk": 8,
   "fields": {
     "title": "Folk Music",
-    "slug": "folk-music",
+    "slug": "folk",
     "overview": "Everything Folk Music",
     "created": "2021-01-21 14:00:23.343294+00",
     "owner_id": "1",

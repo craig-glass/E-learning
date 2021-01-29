@@ -1,5 +1,6 @@
+from django.db.models.signals import m2m_changed
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
@@ -36,6 +37,9 @@ class Course(models.Model):
     students = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                       related_name='courses_joined',
                                       blank=True)
+    staff = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                   related_name='courses_assisted',
+                                   blank=True)
 
     class Meta:
         ordering = ['-created']

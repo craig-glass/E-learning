@@ -6,7 +6,7 @@ from courses.models import Course
 #This class creates Event model within database with the following attributes.
 #As PostgreSQL is being used, primary key does not need to be defined.
 class Event(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     description = models.TextField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()

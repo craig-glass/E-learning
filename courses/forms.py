@@ -2,6 +2,7 @@ from django import forms
 from django.forms.models import inlineformset_factory, ModelForm, BaseInlineFormSet
 from .models import Course, Module, Assignment, Quiz, Question, Choice
 
+
 ModuleFormSet = inlineformset_factory(Course,
                                       Module,
                                       fields=[
@@ -35,6 +36,15 @@ ChoiceFormSet = inlineformset_factory(Question,
                                           'correct_answer'
                                       ],
                                       extra=1)
+
+"""
+BaseQuestionFormSet:
+This class allows choices to be nested inside 
+a question form so that questions and choices can
+be created together dynamically on the same 
+page. It is set as a parameter as the QuestionFormSet 
+inline formset is created
+"""
 
 
 class BaseQuestionFormSet(BaseInlineFormSet):

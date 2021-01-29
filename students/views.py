@@ -18,6 +18,8 @@ from .models import QuizAnswer, QuizSubmission, AssignmentSubmission
 
 
 class StudentRegistrationView(CreateView):
+    """Renders a registration form for new users to create
+    an account"""
     template_name = 'students/student/registration.html'
     form_class = UserCreationForm
     success_url = reverse_lazy('students:student_course_list')
@@ -32,6 +34,8 @@ class StudentRegistrationView(CreateView):
 
 
 class StudentEnrollCourseView(LoginRequiredMixin, FormView):
+    """Checks user is logged in and renders a form to enroll
+    on a course"""
     course = None
     form_class = CourseEnrollForm
 
@@ -46,6 +50,7 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
 
 
 class ModulePageMixin:
+    """Mixin to provide other views necessary objects"""
     def get_context(self, request, course_id=None, module_id=None, assignment_id=None, quiz_id=None, **kwargs):
         context = {}
         context["course_list"] = Course.objects.filter(students__in=[request.user]).order_by('id')
@@ -63,6 +68,7 @@ class ModulePageMixin:
 
 
 class StudentCourseListView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders list of courses students are enrolled in"""
     template_name = 'students/course/list.html'
 
     def get(self, request, pk=None):
@@ -71,11 +77,13 @@ class StudentCourseListView(LoginRequiredMixin, ModulePageMixin, View):
 
 
 class StudentCourseDetailView(LoginRequiredMixin, View):
+    """Redirects to module home page"""
     def get(self, request, pk, module_id):
         return redirect('students:module_home_page', pk=pk, module_id=module_id)
 
 
 class ModuleHomePageView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders module home page"""
     template_name = 'students/course/module_home.html'
 
     def get(self, request, pk, module_id):
@@ -84,14 +92,17 @@ class ModuleHomePageView(LoginRequiredMixin, ModulePageMixin, View):
 
 
 class StudentHomePageView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders student home page with list of courses enrolled on"""
     template_name = 'students/home.html'
 
     def get(self, request, pk, module_id):
+
         context = self.get_context(request, pk, module_id)
         return render(request, self.template_name, context)
 
 
 class AssignmentListStudentView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders a list of assignments relative to the module selected"""
     template_name = 'students/assignments/list.html'
 
     def get(self, request, pk, module_id):
@@ -100,6 +111,7 @@ class AssignmentListStudentView(LoginRequiredMixin, ModulePageMixin, View):
 
 
 class QuizListStudentView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders a list of quizzes relative to the module selected"""
     template_name = 'students/quizzes/list.html'
 
     def get(self, request, pk, module_id):
@@ -107,25 +119,8 @@ class QuizListStudentView(LoginRequiredMixin, ModulePageMixin, View):
         return render(request, self.template_name, context)
 
 
-class StudentDetailViewMixin(LoginRequiredMixin, DetailView):
-    model = Course
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(students__in=[self.request.user])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        course = self.get_object()
-        if 'module_id' in self.kwargs:
-            context['module'] = course.modules.get(
-                id=self.kwargs['module_id']
-            )
-
-        return context
-
-
 class AssignmentDetailStudentView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders assignment contents based on assignment selected"""
     template_name = 'students/assignments/detail.html'
 
     def get(self, request, pk, module_id, assignment_id):
@@ -134,6 +129,7 @@ class AssignmentDetailStudentView(LoginRequiredMixin, ModulePageMixin, View):
 
 
 class AssignmentSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
+    """Renders a form for students to submit a file"""
     model = None
     module = None
     course = None
@@ -196,6 +192,8 @@ class AssignmentSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
 
 
 class QuizSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
+    """Renders a quizzes questions and multiple choice answers
+    as radio buttons"""
     model = None
     module = None
     course = None
@@ -256,6 +254,7 @@ class QuizSubmissionView(TemplateResponseMixin, ModulePageMixin, View):
 
 
 class QuizSubmittedView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders the date and time quiz was submitted and the students score"""
     template_name = 'students/quizzes/submitted.html'
 
     def get(self, request, pk, module_id, quiz_id):
@@ -267,6 +266,7 @@ class QuizSubmittedView(LoginRequiredMixin, ModulePageMixin, View):
 
 
 class AssignmentSubmittedView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders date assignment was submitted"""
     template_name = 'students/assignments/submitted.html'
 
     def get(self, request, pk, module_id, assignment_id, redo=False):
@@ -280,6 +280,7 @@ class AssignmentSubmittedView(LoginRequiredMixin, ModulePageMixin, View):
 
 
 class ModuleContentView(LoginRequiredMixin, ModulePageMixin, View):
+    """Renders module content relative to module selected"""
     template_name = 'students/contents/detail.html'
 
     def get(self, request, pk, module_id):

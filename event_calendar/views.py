@@ -1,6 +1,7 @@
 import calendar
 from datetime import datetime, timedelta, date
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -11,7 +12,7 @@ from .models import *
 from .utils import Calendar
 
 
-class CalendarView(generic.ListView):
+class CalendarView(LoginRequiredMixin, generic.ListView):
     model = Event
     template_name = 'calendar.html'
 

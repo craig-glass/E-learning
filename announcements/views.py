@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django import forms
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -8,7 +9,7 @@ from courses.models import Course
 from .models import Announcement
 
 
-class AnnouncementList(View):
+class AnnouncementList(LoginRequiredMixin, View):
     template_name = 'announcements.html'
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -20,7 +21,7 @@ class AnnouncementList(View):
         return render(request, self.template_name, context)
 
 
-class GetAnnouncementsAjax(View):
+class GetAnnouncementsAjax(LoginRequiredMixin, View):
     def post(self, request: HttpRequest) -> JsonResponse:
         if not request.user.is_authenticated:
             response = JsonResponse({})

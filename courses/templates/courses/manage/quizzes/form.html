@@ -73,6 +73,9 @@
         </div>
     {% endwith %}
     <script>
+
+
+
         let questionForm = document.querySelectorAll(".question_formset")
         let choicesForm = document.querySelectorAll(".choices_formset")
         let choicesManagementForm = document.querySelectorAll(".choices_management_form")
@@ -92,6 +95,13 @@
 
         addButton.addEventListener('click', addForm)
         addButtonChoices.addEventListener('click', addChoicesForm)
+
+        /**
+         * Function activated when user clicks 'adds question'.
+         * When button is clicked a new form is created and rendered
+         * underneath the previous question
+         * @param e
+         */
 
         function addForm(e) {
             e.preventDefault()
@@ -115,6 +125,13 @@
             totalForms.setAttribute('value', `${formNum + 1}`)
 
         }
+
+        /**
+         * Function activated when user clicks on 'add choice'.
+         * When button is clicked a new choice form will appear
+         * underneath the previous choice form
+         * @param e
+         */
 
         function addChoicesForm(e) {
             e.preventDefault()

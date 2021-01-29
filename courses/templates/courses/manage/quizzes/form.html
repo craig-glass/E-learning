@@ -63,9 +63,17 @@
                                 </div>
                             {% endfor %}
 
-                            <button id="add-choices-form" type="button">Add Choice</button>
-                            <button id="add-form" type="button">Add Question</button>
-                            <button type="submit">Save Questions</button>
+                            <button class="link-button-add" id="add-choices-form" type="button">
+                                <span class="fas fa-plus-square"></span> Add Choice
+                            </button>
+                            <button class="link-button-add" style="margin-left: 10px" id="add-form" type="button">
+                                <span class="fas fa-plus-square"></span> Add Question
+                            </button>
+                            <br>
+                            <hr>
+                            <button class="link-button-add" type="submit"><span
+                                    class="fas fa-check-circle"></span> Save Questions
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -73,7 +81,6 @@
         </div>
     {% endwith %}
     <script>
-
 
 
         let questionForm = document.querySelectorAll(".question_formset")
@@ -86,12 +93,11 @@
         let totalChoicesForm = document.querySelector("#id_choices-questions-0-choices-TOTAL_FORMS")
 
 
-
         let formNum = questionForm.length - 1
         let choicesFormNum = choicesForm.length - 1
 
         let totalChoicesFormList = [
-            {label: formNum, value: totalChoicesForm} ]
+            {label: formNum, value: totalChoicesForm}]
 
         addButton.addEventListener('click', addForm)
         addButtonChoices.addEventListener('click', addChoicesForm)
@@ -116,7 +122,7 @@
             newChoiceForm.innerHTML = newChoiceForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
             newForm.innerHTML = newForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
             totalChoicesForm.innerHTML = totalChoicesForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
-            totalChoicesFormList.push({label: formNum, value: totalChoicesForm })
+            totalChoicesFormList.push({label: formNum, value: totalChoicesForm})
 
 
             container.insertBefore(newForm, addButton)

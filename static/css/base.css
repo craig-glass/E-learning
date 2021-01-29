@@ -116,6 +116,30 @@ h3 {
     margin: 0;
 }
 
+.link-button {
+    display: inline-block;
+    height: auto;
+    border: 1px solid var(--main-vdark-col);
+    color: var(--main-vdark-col);
+    background-color: var(--main-light-col);
+    padding: 2px;
+    margin: 0;
+}
+
+.link-button-add {
+    display: inline-block;
+    height: auto;
+    border: 1px solid var(--main-vdark-col);
+    color: var(--main-vdark-col);
+    background-color: var(--main-light-col);
+    padding: 2px;
+    margin: 0;
+}
+
+.link-button:hover, .link-button:focus, .link-button-add:hover {
+    background-color: var(--text-area-dark-col-hl);
+}
+
 .link-button:hover, .link-button:focus {
     background-color: var(--text-area-dark-col-hl);
 }

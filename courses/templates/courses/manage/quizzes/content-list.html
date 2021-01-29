@@ -45,20 +45,26 @@
                                     {% for choice in question.choices.all %}
                                         <p>{{ choice.choice_text }}</p>
                                     {% endfor %}
+                                    <a class="link-button" style="float:left"
+                                       href="{% url 'courses:edit_choices' module.id quiz.id question.id %}"><span
+                                            class="fas fa-edit"></span>Edit
+                                        Question</a>
                                     <form action="{% url "courses:question_delete" question.id %}" method="post">
                                         <br>
-                                        <a href="{% url 'courses:edit_choices' module.id quiz.id question.id %}">Edit
-                                            Question</a>
-                                        <input class="link-button" type="submit" value="Delete Question">
+                                        <button class="link-button" style="margin-left: 10px" type="submit" value="Delete Question"><span
+                                                class="fas fa-check-circle"></span>Delete question
+                                        </button>
                                         {% csrf_token %}
                                     </form>
                                 </div>
-
                             {% empty %}
                                 <p>This quiz has no questions yet</p>
                             {% endfor %}
+                            <hr>
                             <div>
-                                <a href="{% url 'courses:quiz_questions_create' module.id quiz.id %}">Add Questions</a>
+                                <a class="link-button"
+                                   href="{% url 'courses:quiz_questions_create' module.id quiz.id %}">
+                                    <span class="fas fa-plus-square"></span> Add Questions</a>
                             </div>
                         </div>
                     </div>

@@ -24,20 +24,11 @@ class AnnouncementList(LoginRequiredMixin, View):
             ).distinct()
         return render(request, self.template_name, context)
 
-<< << << < HEAD
-
 
 class GetAnnouncementsAjax(LoginRequiredMixin, View):
-
-    == == == =
-
-class GetAnnouncementsAjax(View):
     """
     Ajax request for list of announcements for a given course
     """
-
->> >> >> > 2511
-d959ddfaa6e6f4b8bc7e7d564ccf9c6d4580
 
 
 def post(self, request: HttpRequest) -> JsonResponse:

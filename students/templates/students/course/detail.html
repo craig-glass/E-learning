@@ -21,7 +21,7 @@
         {% include 'students/course/module_sidebar.html' %}
         <div style="width: auto; height: 100%; overflow: hidden">
             <div class="navbar navbar-function-link">
-                <h3 class="fas fa-plus-circle">  Navigate:</h3>
+                <h3>  Navigate:</h3>
                 <div>
                     <p data-link="{% url 'students:module_home_page' course.id module.id %}">Module Home</p>
                     <p data-link="{% url 'students:module_content_view' course.id module.id %}">Content</p>

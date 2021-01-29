@@ -199,7 +199,7 @@ class Grade(models.Model):
                                    blank=True)
     grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     datetime_started = models.DateTimeField()
-    datetime_submitted = models.DateTimeField(default=timezone.now())
+    datetime_submitted = models.DateTimeField(default=None)
 
     @property
     def time_taken(self):

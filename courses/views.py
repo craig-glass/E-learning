@@ -139,7 +139,7 @@ class CourseDetailView(CoursePageMixin, View):
 
 
 class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
-                           OwnedCoursePageMixin, View):
+                           View):
     """
     Lists courses created by the user
     """
@@ -636,6 +636,7 @@ class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
     Used in conjuction with 'sortable' AJAX call to re-order
     content by drag and drop
     """
+
     def post(self, request):
         for id, order in self.request_json.items():
             ModuleContent.objects.filter(id=id,

@@ -1,0 +1,2343 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2021-01-29T08:40:09.793Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "9",
+    "object_repr": "Nursing",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2021-01-29T08:40:09.887Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "8",
+    "object_repr": "Folk Music",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2021-01-29T08:40:09.980Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "7",
+    "object_repr": "English Literature",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2021-01-29T08:40:10.072Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "6",
+    "object_repr": "Cyber Security",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2021-01-29T08:40:10.163Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "5",
+    "object_repr": "Algebra",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2021-01-29T08:41:28.122Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "Computer Science",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2021-01-29T08:41:28.216Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "2",
+    "object_repr": "English",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2021-01-29T08:41:28.309Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "5",
+    "object_repr": "Health",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2021-01-29T08:41:28.402Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "Maths",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2021-01-29T08:41:28.495Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "Music",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2021-01-29T08:41:59.587Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "6",
+    "object_repr": "Computing",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2021-01-29T08:42:11.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "7",
+    "object_repr": "History",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2021-01-29T08:42:19.604Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "8",
+    "object_repr": "Media",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2021-01-29T08:42:30.292Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "9",
+    "object_repr": "Music",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2021-01-29T08:42:42.478Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "10",
+    "object_repr": "Philosophy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2021-01-29T08:43:09.801Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "11",
+    "object_repr": "Modern Languages",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2021-01-29T08:46:01.495Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "10",
+    "object_repr": "Computer Science",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"module\", \"object\": \"0.Security\"}}, {\"added\": {\"name\": \"module\", \"object\": \"1.Fundamentals of Computing\"}}, {\"added\": {\"name\": \"module\", \"object\": \"2.Algorithms\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2021-01-29T08:46:47.903Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "11",
+    "object_repr": "Computer Science",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"module\", \"object\": \"0.Security\"}}, {\"added\": {\"name\": \"module\", \"object\": \"1.Fundamentals of Computing\"}}, {\"added\": {\"name\": \"module\", \"object\": \"2.Algorithms\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2021-01-29T08:47:24.298Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "10",
+    "object_repr": "Computer Science",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2021-01-29T08:47:45.651Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "11",
+    "object_repr": "Computer Science",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2021-01-29T08:51:58.315Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "12",
+    "object_repr": "Politics and History",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"module\", \"object\": \"0.Classics Academic Mentoring\"}}, {\"added\": {\"name\": \"module\", \"object\": \"1.The Shaping of the 21st Century\"}}, {\"added\": {\"name\": \"module\", \"object\": \"2.British History\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2021-01-29T08:52:15.970Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "12",
+    "object_repr": "Politics and History",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2021-01-29T08:55:26.333Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "13",
+    "object_repr": "Contemporary Music",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"module\", \"object\": \"0.Music Theory\"}}, {\"added\": {\"name\": \"module\", \"object\": \"1.Studio Recording\"}}, {\"added\": {\"name\": \"module\", \"object\": \"2.Music History\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2021-01-29T08:57:34.979Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "14",
+    "object_repr": "Film and Media",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"module\", \"object\": \"0.Technologies\"}}, {\"added\": {\"name\": \"module\", \"object\": \"1.World Cinema\"}}, {\"added\": {\"name\": \"module\", \"object\": \"2.Classic Films\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2021-01-29T08:59:05.691Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "15",
+    "object_repr": "Languages",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"module\", \"object\": \"0.Spanish\"}}, {\"added\": {\"name\": \"module\", \"object\": \"1.French\"}}, {\"added\": {\"name\": \"module\", \"object\": \"2.Italian\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2021-01-29T08:59:52.314Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "15",
+    "object_repr": "Languages",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2021-01-29T09:01:46.060Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "16",
+    "object_repr": "Philosophy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"module\", \"object\": \"0.Philosophy and Religion\"}}, {\"added\": {\"name\": \"module\", \"object\": \"1.Critical Reasoning\"}}, {\"added\": {\"name\": \"module\", \"object\": \"2.Ancient Philosophy\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2021-01-29T09:05:39.528Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "23",
+    "object_repr": "0.Philosophy and Religion",
+    "action_flag": 2,
+    "change_message": "[{\"added\": {\"name\": \"assignment\", \"object\": \"Assignment 1\"}}, {\"added\": {\"name\": \"assignment\", \"object\": \"Assignment 2\"}}, {\"added\": {\"name\": \"quiz\", \"object\": \"Quiz 1\"}}, {\"added\": {\"name\": \"quiz\", \"object\": \"Quiz 2\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2021-01-29T09:08:31.400Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "14",
+    "object_repr": "0.Music Theory",
+    "action_flag": 2,
+    "change_message": "[{\"added\": {\"name\": \"assignment\", \"object\": \"Assignment 1\"}}, {\"added\": {\"name\": \"assignment\", \"object\": \"Assignment 2\"}}, {\"added\": {\"name\": \"quiz\", \"object\": \"Quiz 1\"}}, {\"added\": {\"name\": \"quiz\", \"object\": \"Quiz 2\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2021-01-29T09:24:51.642Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "2",
+    "object_repr": "student1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"course-profile relationship\", \"object\": \"Course_students object (1)\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2021-01-29T09:29:14.247Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "1",
+    "object_repr": "staff",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Permissions\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2021-01-29T09:30:56.615Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "2",
+    "object_repr": "student",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2021-01-29T09:31:19.637Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "2",
+    "object_repr": "student1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2021-01-29T09:32:45.794Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "3",
+    "object_repr": "staff1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"course-profile relationship\", \"object\": \"Course_students object (2)\"}}]"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 4,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 4,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 4,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 4,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 5,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 5,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 5,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 5,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add assignment",
+    "content_type": 6,
+    "codename": "add_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change assignment",
+    "content_type": 6,
+    "codename": "change_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete assignment",
+    "content_type": 6,
+    "codename": "delete_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view assignment",
+    "content_type": 6,
+    "codename": "view_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add course",
+    "content_type": 7,
+    "codename": "add_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change course",
+    "content_type": 7,
+    "codename": "change_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete course",
+    "content_type": 7,
+    "codename": "delete_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view course",
+    "content_type": 7,
+    "codename": "view_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add module",
+    "content_type": 8,
+    "codename": "add_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change module",
+    "content_type": 8,
+    "codename": "change_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete module",
+    "content_type": 8,
+    "codename": "delete_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view module",
+    "content_type": 8,
+    "codename": "view_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add subject",
+    "content_type": 9,
+    "codename": "add_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change subject",
+    "content_type": 9,
+    "codename": "change_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete subject",
+    "content_type": 9,
+    "codename": "delete_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view subject",
+    "content_type": 9,
+    "codename": "view_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add video",
+    "content_type": 10,
+    "codename": "add_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change video",
+    "content_type": 10,
+    "codename": "change_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete video",
+    "content_type": 10,
+    "codename": "delete_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view video",
+    "content_type": 10,
+    "codename": "view_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add text",
+    "content_type": 11,
+    "codename": "add_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change text",
+    "content_type": 11,
+    "codename": "change_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete text",
+    "content_type": 11,
+    "codename": "delete_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view text",
+    "content_type": 11,
+    "codename": "view_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add module content",
+    "content_type": 12,
+    "codename": "add_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change module content",
+    "content_type": 12,
+    "codename": "change_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete module content",
+    "content_type": 12,
+    "codename": "delete_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view module content",
+    "content_type": 12,
+    "codename": "view_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add image",
+    "content_type": 13,
+    "codename": "add_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change image",
+    "content_type": 13,
+    "codename": "change_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete image",
+    "content_type": 13,
+    "codename": "delete_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view image",
+    "content_type": 13,
+    "codename": "view_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add file",
+    "content_type": 14,
+    "codename": "add_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change file",
+    "content_type": 14,
+    "codename": "change_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete file",
+    "content_type": 14,
+    "codename": "delete_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view file",
+    "content_type": 14,
+    "codename": "view_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add assignment content",
+    "content_type": 15,
+    "codename": "add_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change assignment content",
+    "content_type": 15,
+    "codename": "change_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete assignment content",
+    "content_type": 15,
+    "codename": "delete_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view assignment content",
+    "content_type": 15,
+    "codename": "view_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add quiz",
+    "content_type": 16,
+    "codename": "add_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change quiz",
+    "content_type": 16,
+    "codename": "change_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete quiz",
+    "content_type": 16,
+    "codename": "delete_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view quiz",
+    "content_type": 16,
+    "codename": "view_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add question",
+    "content_type": 17,
+    "codename": "add_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change question",
+    "content_type": 17,
+    "codename": "change_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete question",
+    "content_type": 17,
+    "codename": "delete_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view question",
+    "content_type": 17,
+    "codename": "view_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add choice",
+    "content_type": 18,
+    "codename": "add_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change choice",
+    "content_type": 18,
+    "codename": "change_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete choice",
+    "content_type": 18,
+    "codename": "delete_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view choice",
+    "content_type": 18,
+    "codename": "view_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add grade",
+    "content_type": 19,
+    "codename": "add_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change grade",
+    "content_type": 19,
+    "codename": "change_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete grade",
+    "content_type": 19,
+    "codename": "delete_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view grade",
+    "content_type": 19,
+    "codename": "view_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add profile",
+    "content_type": 20,
+    "codename": "add_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change profile",
+    "content_type": 20,
+    "codename": "change_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete profile",
+    "content_type": 20,
+    "codename": "delete_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view profile",
+    "content_type": 20,
+    "codename": "view_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can accept course submissions",
+    "content_type": 21,
+    "codename": "accept_account_submissions"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can reject course submissions",
+    "content_type": 21,
+    "codename": "reject_account_submissions"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can add course submission to any new account",
+    "content_type": 21,
+    "codename": "add_account_submissions"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can add announcement",
+    "content_type": 22,
+    "codename": "add_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 85,
+  "fields": {
+    "name": "Can change announcement",
+    "content_type": 22,
+    "codename": "change_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 86,
+  "fields": {
+    "name": "Can delete announcement",
+    "content_type": 22,
+    "codename": "delete_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 87,
+  "fields": {
+    "name": "Can view announcement",
+    "content_type": 22,
+    "codename": "view_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 88,
+  "fields": {
+    "name": "Can add assignment submission",
+    "content_type": 23,
+    "codename": "add_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 89,
+  "fields": {
+    "name": "Can change assignment submission",
+    "content_type": 23,
+    "codename": "change_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 90,
+  "fields": {
+    "name": "Can delete assignment submission",
+    "content_type": 23,
+    "codename": "delete_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 91,
+  "fields": {
+    "name": "Can view assignment submission",
+    "content_type": 23,
+    "codename": "view_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 92,
+  "fields": {
+    "name": "Can add quiz answer",
+    "content_type": 24,
+    "codename": "add_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 93,
+  "fields": {
+    "name": "Can change quiz answer",
+    "content_type": 24,
+    "codename": "change_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 94,
+  "fields": {
+    "name": "Can delete quiz answer",
+    "content_type": 24,
+    "codename": "delete_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 95,
+  "fields": {
+    "name": "Can view quiz answer",
+    "content_type": 24,
+    "codename": "view_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 96,
+  "fields": {
+    "name": "Can add quiz submission",
+    "content_type": 25,
+    "codename": "add_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 97,
+  "fields": {
+    "name": "Can change quiz submission",
+    "content_type": 25,
+    "codename": "change_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 98,
+  "fields": {
+    "name": "Can delete quiz submission",
+    "content_type": 25,
+    "codename": "delete_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 99,
+  "fields": {
+    "name": "Can view quiz submission",
+    "content_type": 25,
+    "codename": "view_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 100,
+  "fields": {
+    "name": "Can add event",
+    "content_type": 26,
+    "codename": "add_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 101,
+  "fields": {
+    "name": "Can change event",
+    "content_type": 26,
+    "codename": "change_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 102,
+  "fields": {
+    "name": "Can delete event",
+    "content_type": 26,
+    "codename": "delete_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 103,
+  "fields": {
+    "name": "Can view event",
+    "content_type": 26,
+    "codename": "view_event"
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "staff",
+    "permissions": [
+      80,
+      84,
+      85,
+      86,
+      87,
+      12,
+      8,
+      16,
+      21,
+      22,
+      23,
+      24,
+      57,
+      58,
+      59,
+      60,
+      69,
+      70,
+      71,
+      72,
+      25,
+      26,
+      27,
+      28,
+      53,
+      54,
+      55,
+      56,
+      73,
+      74,
+      75,
+      76,
+      49,
+      50,
+      51,
+      52,
+      29,
+      30,
+      31,
+      32,
+      45,
+      46,
+      47,
+      48,
+      65,
+      66,
+      67,
+      68,
+      61,
+      62,
+      63,
+      64,
+      36,
+      41,
+      42,
+      43,
+      44,
+      37,
+      38,
+      39,
+      40,
+      100,
+      101,
+      102,
+      103,
+      20,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "student",
+    "permissions": [
+      80,
+      87,
+      16,
+      24,
+      60,
+      72,
+      28,
+      56,
+      76,
+      52,
+      32,
+      48,
+      68,
+      64,
+      36,
+      44,
+      40,
+      103,
+      20,
+      88,
+      91,
+      92,
+      95,
+      96,
+      99
+    ]
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "courses",
+    "model": "assignment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "courses",
+    "model": "course"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "courses",
+    "model": "module"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "courses",
+    "model": "subject"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "courses",
+    "model": "video"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "courses",
+    "model": "text"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "courses",
+    "model": "modulecontent"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "courses",
+    "model": "image"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "courses",
+    "model": "file"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "courses",
+    "model": "assignmentcontent"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "courses",
+    "model": "quiz"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "courses",
+    "model": "question"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 18,
+  "fields": {
+    "app_label": "courses",
+    "model": "choice"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 19,
+  "fields": {
+    "app_label": "courses",
+    "model": "grade"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 20,
+  "fields": {
+    "app_label": "accounts",
+    "model": "profile"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 21,
+  "fields": {
+    "app_label": "accounts",
+    "model": "accountsubmission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 22,
+  "fields": {
+    "app_label": "announcements",
+    "model": "announcement"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 23,
+  "fields": {
+    "app_label": "students",
+    "model": "assignmentsubmission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 24,
+  "fields": {
+    "app_label": "students",
+    "model": "quizanswer"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 25,
+  "fields": {
+    "app_label": "students",
+    "model": "quizsubmission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 26,
+  "fields": {
+    "app_label": "event_calendar",
+    "model": "event"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "63i91qu9z7c1w49j6uo3abwm6e7bfdca",
+  "fields": {
+    "session_data": ".eJxVjMEKwyAQRP_FcxGNtbo99p5vkDW71rRFISan0n-vgRxaGBiYNzNvEXBbc9gaL2EmcRVanH6ziNOTyw7ogeVe5VTLusxR7hV50CbHSvy6Hd2_g4wt97VLOjLxhcG5CAmUBYWRPJM2JgKgBU1nT6671rbL90i5NAwqsUni8wXstDeM:1l5Pzi:VwNVCi_VagyWhjr3wpYXlvdpUHPBOnTLTr1d4Z44sb4",
+    "expire_date": "2021-02-12T09:23:10.641Z"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 6,
+  "fields": {
+    "title": "Computing",
+    "slug": "computing"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 7,
+  "fields": {
+    "title": "History",
+    "slug": "history"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 8,
+  "fields": {
+    "title": "Media",
+    "slug": "media"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 9,
+  "fields": {
+    "title": "Music",
+    "slug": "music"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 10,
+  "fields": {
+    "title": "Philosophy",
+    "slug": "philosophy"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 11,
+  "fields": {
+    "title": "Modern Languages",
+    "slug": "modern-languages"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 10,
+  "fields": {
+    "owner": 1,
+    "subject": 6,
+    "title": "Computer Science",
+    "slug": "computer-science",
+    "overview": "All aspects of computer science",
+    "created": "2021-01-29T08:46:00.484Z",
+    "students": []
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 12,
+  "fields": {
+    "owner": 1,
+    "subject": 7,
+    "title": "Politics and History",
+    "slug": "politics-and-history",
+    "overview": "Everything politics and history",
+    "created": "2021-01-29T08:51:57.301Z",
+    "students": []
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 13,
+  "fields": {
+    "owner": 1,
+    "subject": 9,
+    "title": "Contemporary Music",
+    "slug": "contemporary-music",
+    "overview": "Everything contemporary music",
+    "created": "2021-01-29T08:55:25.310Z",
+    "students": [
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 14,
+  "fields": {
+    "owner": 1,
+    "subject": 8,
+    "title": "Film and Media",
+    "slug": "film-and-media",
+    "overview": "Everything film and media",
+    "created": "2021-01-29T08:57:33.957Z",
+    "students": []
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 15,
+  "fields": {
+    "owner": 1,
+    "subject": 11,
+    "title": "Languages",
+    "slug": "languages",
+    "overview": "Everything languages",
+    "created": "2021-01-29T08:59:04.674Z",
+    "students": []
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 16,
+  "fields": {
+    "owner": 1,
+    "subject": 10,
+    "title": "Philosophy",
+    "slug": "philosophy",
+    "overview": "Everything philosophy",
+    "created": "2021-01-29T09:01:45.046Z",
+    "students": []
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 5,
+  "fields": {
+    "course": 10,
+    "title": "Security",
+    "description": "Everything security",
+    "order": 0
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 6,
+  "fields": {
+    "course": 10,
+    "title": "Fundamentals of Computing",
+    "description": "The mathematics behind computing",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 7,
+  "fields": {
+    "course": 10,
+    "title": "Algorithms",
+    "description": "Everything algorithmic",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 11,
+  "fields": {
+    "course": 12,
+    "title": "Classics Academic Mentoring",
+    "description": "Everything Classics Academic Mentoring",
+    "order": 0
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 12,
+  "fields": {
+    "course": 12,
+    "title": "The Shaping of the 21st Century",
+    "description": "Everything The Shaping of the 21st Century",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 13,
+  "fields": {
+    "course": 12,
+    "title": "British History",
+    "description": "Everything british history",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 14,
+  "fields": {
+    "course": 13,
+    "title": "Music Theory",
+    "description": "Everything music theory",
+    "order": 0
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 15,
+  "fields": {
+    "course": 13,
+    "title": "Studio Recording",
+    "description": "Everything studio recording",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 16,
+  "fields": {
+    "course": 13,
+    "title": "Music History",
+    "description": "Everything music history",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 17,
+  "fields": {
+    "course": 14,
+    "title": "Technologies",
+    "description": "Film technology",
+    "order": 0
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 18,
+  "fields": {
+    "course": 14,
+    "title": "World Cinema",
+    "description": "Everything world cinema",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 19,
+  "fields": {
+    "course": 14,
+    "title": "Classic Films",
+    "description": "Everything classic films",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 20,
+  "fields": {
+    "course": 15,
+    "title": "Spanish",
+    "description": "Everything spanish",
+    "order": 0
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 21,
+  "fields": {
+    "course": 15,
+    "title": "French",
+    "description": "Everything french",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 22,
+  "fields": {
+    "course": 15,
+    "title": "Italian",
+    "description": "Everything italian",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 23,
+  "fields": {
+    "course": 16,
+    "title": "Philosophy and Religion",
+    "description": "Everything philosophy and reliigion",
+    "order": 0
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 24,
+  "fields": {
+    "course": 16,
+    "title": "Critical Reasoning",
+    "description": "Everything critical reasoning",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 25,
+  "fields": {
+    "course": 16,
+    "title": "Ancient Philosophy",
+    "description": "Everything ancient philosophy",
+    "order": 2
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 1,
+  "fields": {
+    "module": 23,
+    "title": "Assignment 1",
+    "description": "Who is Socrates?",
+    "order": 0,
+    "due_date": "2021-03-04T12:00:00Z"
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 2,
+  "fields": {
+    "module": 23,
+    "title": "Assignment 2",
+    "description": "What is existentialism?",
+    "order": 1,
+    "due_date": "2021-03-12T12:00:00Z"
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 3,
+  "fields": {
+    "module": 14,
+    "title": "Assignment 1",
+    "description": "Write a bach corale",
+    "order": 0,
+    "due_date": "2021-03-06T12:00:00Z"
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 4,
+  "fields": {
+    "module": 14,
+    "title": "Assignment 2",
+    "description": "Analyse a piece of classical music and jot down a music score",
+    "order": 1,
+    "due_date": "2021-04-08T12:00:00Z"
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 5,
+  "fields": {
+    "module": 5,
+    "title": "Assignment 1",
+    "description": "Build a website that is fully secure",
+    "order": 0,
+    "due_date": "2021-02-23T15:00:00Z"
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 6,
+  "fields": {
+    "module": 5,
+    "title": "Assignment 2",
+    "description": "Research advanced security methods",
+    "order": 1,
+    "due_date": "2021-02-23T15:00:00Z"
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 1,
+  "fields": {
+    "content_type": 11,
+    "object_id": 1,
+    "module": 5,
+    "order": 0
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 1,
+  "fields": {
+    "owner": 1,
+    "title": "Introduction to Security",
+    "created": "2021-01-29T09:10:09.453Z",
+    "updated": "2021-01-29T09:10:09.453Z",
+    "content": "Introduction to the module"
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 1,
+  "fields": {
+    "title": "Quiz 1",
+    "module": 23,
+    "description": "Questions on philosophy",
+    "date_created": "2021-01-29T09:04:42Z",
+    "due_date": "2021-02-19T12:00:00Z"
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 2,
+  "fields": {
+    "title": "Quiz 2",
+    "module": 23,
+    "description": "Questions on ancient philosophy",
+    "date_created": "2021-01-29T09:05:16Z",
+    "due_date": "2021-02-20T12:00:00Z"
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 3,
+  "fields": {
+    "title": "Quiz 1",
+    "module": 14,
+    "description": "Classic rock quiz",
+    "date_created": "2021-01-29T09:07:42Z",
+    "due_date": "2021-02-20T12:00:00Z"
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 4,
+  "fields": {
+    "title": "Quiz 2",
+    "module": 14,
+    "description": "Music from the 90s",
+    "date_created": "2021-01-29T09:08:17Z",
+    "due_date": "2021-03-05T12:00:00Z"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 1,
+  "fields": {
+    "quiz": 3,
+    "number": 1,
+    "question_text": "Who played guitar for Guns 'n' Roses?"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 2,
+  "fields": {
+    "quiz": 3,
+    "number": 2,
+    "question_text": "Who sang Yellow Submarine?"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 3,
+  "fields": {
+    "quiz": 3,
+    "number": 3,
+    "question_text": "Who played the drums for The Who?"
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 1,
+  "fields": {
+    "question": 1,
+    "choice_text": "Robbie Krieger",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 2,
+  "fields": {
+    "question": 1,
+    "choice_text": "David Gilmour",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 3,
+  "fields": {
+    "question": 1,
+    "choice_text": "Jimi Hendrix",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 4,
+  "fields": {
+    "question": 1,
+    "choice_text": "Slash",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 5,
+  "fields": {
+    "question": 2,
+    "choice_text": "The Beatles",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 6,
+  "fields": {
+    "question": 2,
+    "choice_text": "The Doors",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 7,
+  "fields": {
+    "question": 2,
+    "choice_text": "The Monkees",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 8,
+  "fields": {
+    "question": 2,
+    "choice_text": "ACDC",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 9,
+  "fields": {
+    "question": 3,
+    "choice_text": "Jon Bonham",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 10,
+  "fields": {
+    "question": 3,
+    "choice_text": "Keith Moon",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 11,
+  "fields": {
+    "question": 3,
+    "choice_text": "John Densmore",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 12,
+  "fields": {
+    "question": 3,
+    "choice_text": "David Grohl",
+    "correct_answer": false
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$Lre7CrClNddu$830rWWIZDQ9vYwLxkKLcVenV6Lm15TgoBOJYSzgC8dw=",
+    "last_login": "2021-01-29T09:23:10.636Z",
+    "is_superuser": true,
+    "userid": "super",
+    "first_name": null,
+    "last_name": null,
+    "email": "super@mail.com",
+    "phone_number": null,
+    "term_address": null,
+    "date_joined": "2021-01-29T08:29:06.580Z",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$2aKUnCiZ1CJy$b81VDrAEgzqmKbbj+2Bh+27RjEfY+Bz792wT0Q1paDY=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "student1",
+    "first_name": "Joe",
+    "last_name": "Bloggs",
+    "email": "student1@mail.com",
+    "phone_number": "0123456789",
+    "term_address": "123 Nowhere Lane",
+    "date_joined": "2021-01-29T09:24:51.628Z",
+    "groups": [
+      2
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$hJmOpSZfk0u8$cp3B0JDpARl6TX/jpT0CTDKVlJPZhA+dEftyJmooyDQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "staff1",
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "staff@mail.com",
+    "phone_number": "0987654321",
+    "term_address": "321 Over There Crescent",
+    "date_joined": "2021-01-29T09:32:45.782Z",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+}
+]

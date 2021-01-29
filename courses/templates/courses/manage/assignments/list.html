@@ -11,27 +11,28 @@
 
 {% block content %}
     {% with course=module.course %}
-        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+        <h1>{{ module.title }}</h1>
         <a href="{% url 'courses:module_list' module.id %}"
            class="link-button" style="width: 100%">
             Back to Module Management
         </a>
         <h2>Assignments</h2>
+        <div class="plain-text-area">
+            {% for assignment in module.assignments.all %}
+                <div class="plain-text-area">
+                    <a href="{% url 'courses:assignment_update' module.id assignment.id %}">
+                        <h3>{{ assignment.title }} <span class="fas fa-edit" style="display: inline"></span></h3>
+                    </a>
+                    <p>{{ assignment.description }}</p>
+                </div>
+            {% empty %}
+                <p>This module has no assignments yet</p>
+            {% endfor %}
 
-        {% for assignment in module.assignments.all %}
-            <div class="plain-text-area">
-                <a href="{% url 'courses:assignment_update' module.id assignment.id %}">
-                    <h3>{{ assignment.title }} <span class="fas fa-edit" style="display: inline"></span></h3>
-                </a>
-                <p>{{ assignment.description }}</p>
-            </div>
-        {% empty %}
-            <p>This module has no assignments yet</p>
-        {% endfor %}
-
-        <a class="link-button" href="{% url 'courses:course_assignment_update' module.id %}">
-            <span class="fas fa-plus-square"></span> Create Assignment
-        </a>
+            <a class="link-button" href="{% url 'courses:course_assignment_update' module.id %}">
+                <span class="fas fa-plus-square"></span> Create Assignment
+            </a>
+        </div>
     {% endwith %}
 {% endblock %}
 {% block extrajavascript %}

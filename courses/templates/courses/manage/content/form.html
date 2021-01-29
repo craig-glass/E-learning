@@ -16,7 +16,7 @@
 
 {% block content %}
     {% with course=module.course %}
-        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+        <h1>{{ module.title }}</h1>
         <a class="link-button" href="{% url "courses:module_content_list" module.id %}"
            style="width: 100%">
             Back to Content List
@@ -28,13 +28,16 @@
                 Add new content
             {% endif %}
         </h2>
-        <form action="" method="post" enctype="multipart/form-data">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <button class="link-button" type="submit" value="Save Content"><span
-                    class="fas fa-check-circle"></span> Save Content
-            </button>
-        </form>
+        <div class="plain-text-area">
+            <form action="" method="post" enctype="multipart/form-data">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button class="link-button" type="submit" value="Save Content"><span
+                        class="fas fa-check-circle"></span> Save Content
+                </button>
+            </form>
+        </div>
+
     {% endwith %}
 {% endblock %}
 

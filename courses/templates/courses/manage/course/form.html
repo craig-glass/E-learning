@@ -18,19 +18,25 @@
 {% block content %}
     <h1>
         {% if object %}
-            Edit course "{{ object.title }}"
+            {{ object.title }}
         {% else %}
             Create a new course
         {% endif %}
     </h1>
-    <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
     <div class="plain-text-area">
-        <form method="post">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <button class="button effect" type="submit" value="Save course"><span
-                    class="fas fa-check-circle"></span> Save Course
-            </button>
-        </form>
+        <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
+        <hr>
+        <h3>Edit Course</h3>
+        <hr>
+        <div class="plain-text-area">
+            <form method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button class="link-button" type="submit" value="Save course"><span
+                        class="fas fa-check-circle"></span> Save Course
+                </button>
+            </form>
+        </div>
     </div>
+
 {% endblock %}

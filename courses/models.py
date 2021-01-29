@@ -36,9 +36,6 @@ class Course(models.Model):
     students = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                       related_name='courses_joined',
                                       blank=True)
-    staff = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                   related_name='staff',
-                                   blank=True)
 
     class Meta:
         ordering = ['-created']

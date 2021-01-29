@@ -11,14 +11,14 @@
 
 {% block content %}
     {% with course=module.course %}
-        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+        <h1>{{ module.title }}</h1>
         <div class="fillx-when-small">
             <a class="link-button" href="{% url 'courses:module_list' module.id %}"
                style="width: 100%">Back to Modules</a>
         </div>
         <h2>Module Content</h2>
 
-        <ul id="module-contents-list" class="sortable-list">
+        <ul class="plain-text-area" id="module-contents-list" class="sortable-list">
             {% for content in module.contents.all %}
                 <li class="plain-text-area" data-id="{{ content.id }}">
                     {% with item=content.item %}

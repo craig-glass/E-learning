@@ -169,7 +169,7 @@ students to view.
 Staff can create/modify announcements, content, lectures, assignments, and
 quizzes. Members of staff also have permissions to view and edit student
 details, either through the user's settings page or through the admin, as well
-as being able to view any students analytics.
+as being able to view any students' analytics.
 
 ### Admin view
 

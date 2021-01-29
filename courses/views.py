@@ -456,6 +456,21 @@ class AddChoiceView(TemplateResponseMixin, View):
                                         'formset': formset})
 
 
+class QuestionDeleteView(View):
+    """Checks that the user is the course owner and allows
+    to delete module content if authenticated"""
+
+    def post(self, request, id):
+        question = get_object_or_404(Question,
+                                     id=id,
+                                     quiz__module__course__owner=request.user)
+        quiz = question.quiz
+        module = quiz.module
+        print(quiz)
+        question.delete()
+        return redirect('courses:quiz_edit', module.id, quiz.id)
+
+
 class AssignmentCreateUpdateView(TemplateResponseMixin, View):
     """Renders a form for user to create content based on
     what content type user would like to create"""

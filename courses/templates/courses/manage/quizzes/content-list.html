@@ -45,9 +45,13 @@
                                     {% for choice in question.choices.all %}
                                         <p>{{ choice.choice_text }}</p>
                                     {% endfor %}
-                                    <br>
-                                    <a href="{% url 'courses:edit_choices' module.id quiz.id question.id %}">Edit
-                                        Question</a>
+                                    <form action="{% url "courses:question_delete" question.id %}" method="post">
+                                        <br>
+                                        <a href="{% url 'courses:edit_choices' module.id quiz.id question.id %}">Edit
+                                            Question</a>
+                                        <input class="link-button" type="submit" value="Delete Question">
+                                        {% csrf_token %}
+                                    </form>
                                 </div>
 
                             {% empty %}
@@ -67,7 +71,7 @@
 {% endblock %}
 {% block extrajavascript %}
     <script>
-       $(document).ready(function () {
+        $(document).ready(function () {
             $('#module-list').sortable({
                 stop: function (event, ui) {
                     modules_order = {};

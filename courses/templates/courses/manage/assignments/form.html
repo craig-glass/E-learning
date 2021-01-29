@@ -25,7 +25,7 @@
 
 {% block content %}
     {% with course=module.course %}
-        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+        <h1>{{ module.title }}</h1>
         <a class="link-button" style="width: 100%"
            href="{% url 'courses:assignment_update' module.id assignment.id %}">
             Back to Assignment

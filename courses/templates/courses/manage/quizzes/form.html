@@ -13,72 +13,44 @@
         <h1>
             {{ course.title }}
         </h1>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <div class="contents">
-                        <h3>Modules</h3>
-                        <ul id="modules">
-                            {% for m in course.modules.all %}
-                                <li data-id="{{ m.id }}"{% if m == module %}
-                                    class="selected"{% endif %}>
-                                    <a href="{% url "courses:module_list" m.id %}">
-                                    <span>
-                                        Module<span class="order">
-                                        {{ m.order|add:1 }}
-                                    </span>
-                                    </span>
-                                        <br>
-                                        {{ m.title }}
-                                    </a>
-                                </li>
-                            {% empty %}
-                                <li>No modules yet</li>
-                            {% endfor %}
-                        </ul>
+        <div class="plain-text-area">
+            <h3>Add Questions:</h3>
+            <hr>
+            <form id="form-container" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ question_formset.management_form }}
+                {{ question_formset.non_form_errors }}
+                {% for form in question_formset %}
+                    <div class="question_formset">
+                        {{ form }}
                     </div>
-                </div>
-                <div class="col-12 col-md-9">
 
-                    <div class="module">
-                        <form id="form-container" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ question_formset.management_form }}
-                            {{ question_formset.non_form_errors }}
-                            {% for form in question_formset %}
-                                <div class="question_formset">
-                                    {{ form }}
-                                </div>
-
-                                <div class="choices_management_form">
-                                    {% if form.nested %}
-                                        {{ form.nested.management_form }}
-                                        {{ form.nested.non_form_errors }}
-                                        {% for f in form.nested %}
-                                            <div class="choices_formset">
-                                                {{ f }}
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
+                    <div class="choices_management_form">
+                        {% if form.nested %}
+                            {{ form.nested.management_form }}
+                            {{ form.nested.non_form_errors }}
+                            {% for f in form.nested %}
+                                <div class="choices_formset">
+                                    {{ f }}
                                 </div>
                             {% endfor %}
-
-                            <button class="link-button-add" id="add-choices-form" type="button">
-                                <span class="fas fa-plus-square"></span> Add Choice
-                            </button>
-                            <button class="link-button-add" style="margin-left: 10px" id="add-form" type="button">
-                                <span class="fas fa-plus-square"></span> Add Question
-                            </button>
-                            <br>
-                            <hr>
-                            <button class="link-button-add" type="submit"><span
-                                    class="fas fa-check-circle"></span> Save Questions
-                            </button>
-                        </form>
-                        <br>
+                        {% endif %}
                     </div>
-                </div>
-            </div>
+                {% endfor %}
+
+                <button class="link-button-add" id="add-choices-form" type="button">
+                    <span class="fas fa-plus-square"></span> Add Choice
+                </button>
+                <button class="link-button-add" style="margin-left: 10px" id="add-form" type="button">
+                    <span class="fas fa-plus-square"></span> Add Question
+                </button>
+                <br>
+                <hr>
+                <button class="link-button-add" type="submit"><span
+                        class="fas fa-check-circle"></span> Save Questions
+                </button>
+            </form>
+            <br>
         </div>
     {% endwith %}
     <script>

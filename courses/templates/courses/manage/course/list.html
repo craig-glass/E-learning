@@ -19,23 +19,25 @@
                 <h3>{{ c.title }}</h3>
                 <p>Subject: {{ c.subject }} - Students: {{ c.students.count }} - Created: {{ c.created }}</p>
                 <a class="link-button" href="{% url 'courses:course_edit' c.id %}">
-                    Edit course
+                    <span class="fas fa-edit"></span> Edit course
                 </a>
                 <a class="link-button" href="{% url 'courses:course_delete' c.id %}">
-                    Delete course
+                    <span class="fas fa-trash-alt"></span>Delete course
                 </a>
                 <a class="link-button" href="{% url 'courses:course_module_update' c.id %}">
-                    Edit module details
+                    <span class="fas fa-edit"></span> Edit modules
                 </a>
                 {% if c.modules.count > 0 %}
                     <a class="link-button" href="{% url 'courses:module_list' c.modules.first.id %}">
-                        Manage modules
+                        <span class="fas fa-edit"></span>Edit content
                     </a>
                 {% endif %}
             </div>
         {% empty %}
             <p>You haven't created any courses yet.</p>
         {% endfor %}
+        <br>
+        <br>
     </div>
 
     <script>

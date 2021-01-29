@@ -9,11 +9,14 @@
     <h1>Delete Course "{{ object.title }}"</h1>
     <form action="" method="post">
         {% csrf_token %}
-        <h3 style="color: red">Are you sure you want to delete Course "{{ object }}"?</h3>
-        <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
-        <button class="button effect" type="submit" value="Confirm"><span
-                class="fas fa-trash-alt"></span>
-            Delete
-        </button>
+        <div class="plain-text-area">
+            <h3 style="color: red">Are you sure you want to delete Course "{{ object }}"?</h3>
+            <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
+            <button class="link-button" type="submit" value="Confirm"><span
+                    class="fas fa-trash-alt"></span>
+                Delete
+            </button>
+        </div>
+
     </form>
 {% endblock %}

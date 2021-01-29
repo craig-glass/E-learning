@@ -8,16 +8,22 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Edit "{{ course.title }}" Modules</h1>
-    <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
-    <form method="post">
-        {{ formset }}
-        {{ formset.management_form }}
-        {% csrf_token %}
-        <p>
-            <button class="button effect" type="submit" value="Save Modules">
-                <span class="fas fa-check-circle"></span> Save Modules
-            </button>
-        </p>
-    </form>
+    <h1>{{ course.title }}</h1>
+    <div class="plain-text-area">
+        <a class="link-button" href="{% url 'courses:manage_course_list' %}">Back to Courses</a>
+        <hr>
+        <h3>Edit Modules:</h3>
+        <hr>
+        <form method="post">
+            {{ formset }}
+            {{ formset.management_form }}
+            {% csrf_token %}
+            <p>
+                <button class="link-button" type="submit" value="Save Modules">
+                    <span class="fas fa-check-circle"></span> Save Modules
+                </button>
+            </p>
+        </form>
+    </div>
+
 {% endblock %}

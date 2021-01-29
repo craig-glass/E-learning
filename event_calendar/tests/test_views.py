@@ -7,12 +7,11 @@ from event_calendar.views import CalendarView
 
 class CalendarViewTest(TestCase):
     """
-    URL tests while signed out - can be viewed by all users but cannot create an event
+    URL tests while signed out - must be logged in
     """
     def test_calendar_status_code(self):
         response = self.client.get('/calendar/view/')
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.template_name[0], 'calendar.html')
 
 
 class LoggedInTest(TestCase):

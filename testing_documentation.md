@@ -122,12 +122,16 @@ test_views.py: Classes Tested : AnnouncementList, GetAnnouncementsAjax
 - Tested all announcements' URLs while signed in - all passed with 
   response status code 200 
   
-- If the URL '/announcements/add/' is visited signed out, an error 
+- If announcements URLs are visited signed out, an error 
   occurs as the user is not permitted to add announcements without login
   error with the result:
   
 ```
 TypeError: 'AnonymousUser' object is not iterable
+```
+```
+self.assertEquals(response.status_code, 200)
+AssertionErrr: 302 != 200
 ```
 
 - Tests on add announcement page as a superuser passes with page status
@@ -219,11 +223,18 @@ relation "courses_course" violates not-null constraint
 
 test_views.py: Class Tested : CalendarView
 
-- Tested all event_calendar's URLs - all passed with response status 
-  code 200. 
+- Tested all event_calendar's URLs signed in - all passed with response
+  status code 200.
   However, when loading the calendar page while logged-out, your events
   may still show on the calendar, which, if pressed will result in an
   error due to user not being signed in.
+  
+- If user is signed-out, they will be redirected to the login page
+
+```
+self.assertEquals(response.status_code, 200)
+AssertionErrr: 302 != 200
+```
   
 - Same error message as accounts test where constraints such as 
   'module_id' in the URL cannot be a string, error if so.

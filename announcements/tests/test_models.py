@@ -46,12 +46,6 @@ class AnnouncementTest(TestCase):
     def test_content_label(self):
         self.assertEqual(self.announcement.content, 'content')
 
-    def test_date_created(self):
-        date = datetime.date.today()
-        print(date)
-        print(self.announcement.date_created)
-        self.assertTrue(self.announcement.date_created == date)
-
     def test_course_subject(self):
         self.assertEqual(self.announcement.course.subject.title, 'subject')
 

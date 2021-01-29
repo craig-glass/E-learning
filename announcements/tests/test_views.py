@@ -11,11 +11,7 @@ class AnnouncementListTest(TestCase):
     """
     def test_page_status_code(self):
         response = self.client.get('/announcements/view/')
-        self.assertEquals(response.status_code, 200)
-
-    def test_announcements_view_template(self):
-        response = self.client.get('/announcements/view/')
-        self.assertTemplateUsed(response, 'announcements.html')
+        self.assertEquals(response.status_code, 302)
 
 
 class LoggedInTest(TestCase):

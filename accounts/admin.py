@@ -40,9 +40,18 @@ accept_submissions.short_description = 'Accept selected submissions'
 reject_submissions.short_description = 'Reject selected submissions'
 
 
-class CourseInline(admin.TabularInline):
+class CourseStudentsInline(admin.TabularInline):
     model = Course.students.through
     extra = 1
+    verbose_name = "Student of Course"
+    verbose_name_plural = "Student of Courses"
+
+
+class CourseStaffInline(admin.TabularInline):
+    model = Course.staff.through
+    extra = 1
+    verbose_name = "Staff of Course"
+    verbose_name_plural = "Staff of Courses"
 
 
 class UserAdmin(BaseUserAdmin):
@@ -50,7 +59,8 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
 
     inlines = [
-        CourseInline
+        CourseStudentsInline,
+        CourseStaffInline
     ]
 
     list_display = ('userid', 'email', 'first_name', 'last_name',

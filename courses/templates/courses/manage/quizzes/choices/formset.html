@@ -40,13 +40,14 @@
                     <div class="module">
                         <h2>Question Choices</h2>
                         <form method="post">
+                            {{ form }}
                             {{ formset }}
                             {{ formset.management_form }}
                             {% csrf_token %}
 
                             <div class="col-12 col-md-9 offset-md-3">
                                 <p>
-                                    <button class="button effect" type="submit" value="Submit"><span
+                                    <button class="link-button" type="submit" value="Submit"><span
                                             class="fas fa-check-circle"></span> Save Choices
                                     </button>
                                 </p>

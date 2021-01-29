@@ -20,7 +20,7 @@
 
         {% for quiz in module.quizzes.all %}
             <div class="plain-text-area">
-                <a href="{% url 'courses:assignment_update' module.id quiz.id %}">
+                <a href="{% url 'courses:quiz_edit' module.id quiz.id %}">
                     <h3>{{ quiz.title }} <span class="fas fa-edit" style="display: inline"></span></h3>
                 </a>
                 <p>{{ quiz.description }}</p>
@@ -30,38 +30,43 @@
         {% endfor %}
     {% endwith %}
 {% endblock %}
-{% block domready %}
-    $('#modules').sortable({
-    stop: function(event, ui){
-    modules_order = {};
-    $('#modules').children().each(function(){
-    $(this).find('.order').text($(this).index() + 1);
-    modules_order[$(this).data('id')] = $(this).index();
-    });
-    $.ajax({
-    type: 'POST',
-    url: '{% url "courses:module_order" %}',
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    data: JSON.stringify(modules_order)
-    });
-    }
-    });
+{% block extrajavascript %}
+    <script>
+        $(document).ready(function () {
+            $('#module-list').sortable({
+                stop: function (event, ui) {
+                    modules_order = {};
+                    $('#module-list').children().each(function () {
+                        $(this).find('.order').text($(this).index() + 1);
+                        modules_order[$(this).data('id')] = $(this).index();
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "courses:module_order" %}',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify(modules_order)
+                    });
+                }
+            });
 
-    $('#module-contents').sortable({
-    stop: function(event, ui){
-    contents_order = {};
-    $('#module-contents').children().each(function(){
-    contents_order[$(this).data('id')] = $(this).index();
-    });
+            $('#module-contents-list').sortable({
+                stop: function (event, ui) {
+                    contents_order = {};
+                    $('#module-contents-list').children().each(function () {
+                        contents_order[$(this).data('id')] = $(this).index();
+                    });
 
-    $.ajax({
-    type: 'POST',
-    url: '{% url "courses:content_order" %}',
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    data: JSON.stringify(contents_order),
-    });
-    }
-    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "courses:content_order" %}',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify(contents_order),
+                    });
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

@@ -58,38 +58,46 @@
 {% endblock %}
 {% block extrajavascript %}
     <script>
-        $('#modules').sortable({
-            stop: function (event, ui) {
-                modules_order = {};
-                $('#modules').children().each(function () {
-                    $(this).find('.order').text($(this).index() + 1);
-                    modules_order[$(this).data('id')] = $(this).index();
-                });
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url "courses:module_order" %}',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    data: JSON.stringify(modules_order)
-                });
-            }
-        });
+        /**
+         * Function used to re-order modules by drag and drop
+         */
+        $(document).ready(function () {
+            $('#module-list').sortable({
+                stop: function (event, ui) {
+                    modules_order = {};
+                    $('#module-list').children().each(function () {
+                        $(this).find('.order').text($(this).index() + 1);
+                        modules_order[$(this).data('id')] = $(this).index();
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "courses:module_order" %}',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify(modules_order)
+                    });
+                }
+            });
 
-        $('#module-content-list').sortable({
-            stop: function (event, ui) {
-                contents_order = {};
-                $('#module-content-list').children().each(function () {
-                    contents_order[$(this).data('id')] = $(this).index();
-                });
+            /**
+             * Function used to re-order module contents by drag and drop
+             */
+            $('#module-contents-list').sortable({
+                stop: function (event, ui) {
+                    contents_order = {};
+                    $('#module-contents-list').children().each(function () {
+                        contents_order[$(this).data('id')] = $(this).index();
+                    });
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url "courses:content_order" %}',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    data: JSON.stringify(contents_order),
-                });
-            }
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "courses:content_order" %}',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify(contents_order),
+                    });
+                }
+            });
         });
     </script>
 {% endblock %}

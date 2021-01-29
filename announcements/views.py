@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django import forms
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -8,10 +9,11 @@ from courses.models import Course
 from .models import Announcement
 
 
-class AnnouncementList(View):
+class AnnouncementList(LoginRequiredMixin, View):
     """
     View for displaying list of announcements for each course
     """
+
     template_name = 'announcements.html'
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -23,35 +25,37 @@ class AnnouncementList(View):
         return render(request, self.template_name, context)
 
 
-class GetAnnouncementsAjax(View):
+class GetAnnouncementsAjax(LoginRequiredMixin, View):
     """
     Ajax request for list of announcements for a given course
     """
-    def post(self, request: HttpRequest) -> JsonResponse:
-        if not request.user.is_authenticated:
-            response = JsonResponse({})
-            response.status_code = 401
-            return response
-        course = request.POST.get('course')
-        announcements = Announcement.objects.filter(course=course)
-        context = {"announcements": []}
-        for announcement in announcements:
-            # Parse announcement details into json format dict
-            author = announcement.author.userid
-            print(announcement.author.first_name, announcement.author.last_name, announcement.author.userid)
-            if announcement.author.last_name:
-                author += ":" + announcement.author.last_name[0]
-                if announcement.author.first_name:
-                    author += "." + announcement.author.first_name
-            elif announcement.author.first_name:
-                author += ":" + announcement.author.first_name
-            context["announcements"].append({
-                "title": announcement.title,
-                "author": author,
-                "content": announcement.content,
-                "created": announcement.date_created
-            })
-        return JsonResponse(context)
+
+
+def post(self, request: HttpRequest) -> JsonResponse:
+    if not request.user.is_authenticated:
+        response = JsonResponse({})
+        response.status_code = 401
+        return response
+    course = request.POST.get('course')
+    announcements = Announcement.objects.filter(course=course)
+    context = {"announcements": []}
+    for announcement in announcements:
+        # Parse announcement details into json format dict
+        author = announcement.author.userid
+        print(announcement.author.first_name, announcement.author.last_name, announcement.author.userid)
+        if announcement.author.last_name:
+            author += ":" + announcement.author.last_name[0]
+            if announcement.author.first_name:
+                author += "." + announcement.author.first_name
+        elif announcement.author.first_name:
+            author += ":" + announcement.author.first_name
+        context["announcements"].append({
+            "title": announcement.title,
+            "author": author,
+            "content": announcement.content,
+            "created": announcement.date_created
+        })
+    return JsonResponse(context)
 
 
 def addAnnouncements(request):

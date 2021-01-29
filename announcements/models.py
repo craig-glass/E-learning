@@ -12,7 +12,8 @@ class Announcement(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     course = models.ForeignKey(Course,
                                on_delete=models.CASCADE,
-                               related_name='announcements')
+                               related_name='announcements',
+                               default=None)
 
     class Meta:
         ordering = ['-date_created']

@@ -1,6 +1,7 @@
 .idea
 Pipfile.lock
 venv
+env
 *.pyc
 */migrations
 staticfiles/*

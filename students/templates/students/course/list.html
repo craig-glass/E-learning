@@ -14,7 +14,7 @@
 {% block content %}
     {% if course_list %}
         <div class="navbar navbar-function-link">
-            <h3>Select Course:</h3>
+            <h3 class="fas fa-plus-circle"> Select Course:</h3>
             <div>
             {% for course in course_list %}
                 <p data-link="{% url 'students:student_course_detail' course.id %}">

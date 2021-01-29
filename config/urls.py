@@ -38,7 +38,6 @@ urlpatterns = [
     path('students/', include('students.urls')),
     path('account/', include('accounts.urls')),
     path('', include('pwa.urls')),
-
     path('courseListAjax', CourseListAjax.as_view()),
     path('moduleListAjax', ModuleListAjax.as_view()),
     path('staffCourseListAjax', StaffCourseListAjax.as_view()),

@@ -1,6 +1,11 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
+"""
+Custom field created to order objects in relation to the
+objects parent 
+"""
+
 
 class OrderField(models.PositiveIntegerField):
     def __init__(self, for_fields=None, *args, **kwargs):

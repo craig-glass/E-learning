@@ -197,11 +197,6 @@ class Grade(models.Model):
                                    on_delete=models.SET_NULL,
                                    null=True,
                                    blank=True)
-    # quiz = models.ForeignKey(Quiz,
-    #                          on_delete=models.PROTECT,
-    #                          null=True,
-    #                          blank=True)
-
     grade = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     datetime_started = models.DateTimeField()
     datetime_submitted = models.DateTimeField(default=timezone.now())

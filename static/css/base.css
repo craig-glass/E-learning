@@ -77,11 +77,13 @@ h1 {
     padding: 20px 0 20px 40px;
     border-bottom: 6px solid var(--main-vdark-col);
     background-color: var(--text-area-dark-col);
+    font-size: 1.6em;
 }
 h2 {
     padding: 10px 0 10px 40px;
     border-bottom: 2px solid var(--main-vdark-col);
     background-color: var(--text-area-dark-col-hl);
+    font-size: 1.4em;
 }
 h3 {
     font-size: 1.25em;
@@ -114,6 +116,30 @@ h3 {
     background-color: var(--main-light-col);
     padding: 2px;
     margin: 0;
+}
+
+.link-button {
+    display: inline-block;
+    height: auto;
+    border: 1px solid var(--main-vdark-col);
+    color: var(--main-vdark-col);
+    background-color: var(--main-light-col);
+    padding: 2px;
+    margin: 0;
+}
+
+.link-button-add {
+    display: inline-block;
+    height: auto;
+    border: 1px solid var(--main-vdark-col);
+    color: var(--main-vdark-col);
+    background-color: var(--main-light-col);
+    padding: 2px;
+    margin: 0;
+}
+
+.link-button:hover, .link-button:focus, .link-button-add:hover {
+    background-color: var(--text-area-dark-col-hl);
 }
 
 .link-button:hover, .link-button:focus {
@@ -891,6 +917,7 @@ ul.content-types {
 }
 
 @media (max-width: 576px) {
+
     .search-form {
         padding-left: 10px;
         padding-right: 10px;
@@ -911,7 +938,12 @@ ul.content-types {
 
     .side-menu:not(.container-compressed).side-menu-fillx-when-small {
         position: fixed;
+        top: 0;
+        left: 0;
         width: 100% !important;
+        height: 100% !important;
+        overflow-x: hidden;
+        overflow-y: scroll;
         z-index: 1;
         border: 0;
     }

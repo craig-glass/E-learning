@@ -81,7 +81,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
         return name
 
     def __str__(self):
-        return self.userid# + ": " + self.styled_name
+        return self.userid
 
     class Meta:
         ordering = ['first_name', 'last_name', 'userid']

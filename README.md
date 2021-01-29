@@ -1,7 +1,12 @@
-# Project Name
+# EPiC Track and Learn
 
-ROHAN BHALLA
-Description goes here
+This goal of this website is to help aid learning of students and for staff to be able to track their students progress.
+There are many features to allow this; students can enroll in courses (pending staff approval) and view all their course
+contents, view a calendar with events, view announcements for different courses, complete quizzes, submit assignments and view 
+their progress through different courses. Staff can create courses, modules, quizzes, assignments, announcements and calendar events
+for students. Staff can also view all students analytical data to track their progress through their enrolled courses. The website
+can also be download on mobile devices as a Progressive Web Application by visiting the website and pressing the "Add to Home Screen"
+button.
 
 ## Installation
 
@@ -190,7 +195,7 @@ Tiger Kato - b9035378@newcastle.ac.uk
 
 Craig Glass - Team Leader, Courses app, Students app
 
-Rohan Bhalla - PWA, Calendar app, Announcements app
+Rohan Bhalla - Progressive Web App, Design, Calendar app, Announcements app
 
 Stuart Lewis - Accounts app, CSS & design, Announcements app
 

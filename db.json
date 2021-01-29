@@ -1,0 +1,4811 @@
+[
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 4,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 4,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 4,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 4,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 5,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 5,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 5,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 5,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add assignment",
+    "content_type": 6,
+    "codename": "add_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change assignment",
+    "content_type": 6,
+    "codename": "change_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete assignment",
+    "content_type": 6,
+    "codename": "delete_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view assignment",
+    "content_type": 6,
+    "codename": "view_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add course",
+    "content_type": 7,
+    "codename": "add_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change course",
+    "content_type": 7,
+    "codename": "change_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete course",
+    "content_type": 7,
+    "codename": "delete_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view course",
+    "content_type": 7,
+    "codename": "view_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add module",
+    "content_type": 8,
+    "codename": "add_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change module",
+    "content_type": 8,
+    "codename": "change_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete module",
+    "content_type": 8,
+    "codename": "delete_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view module",
+    "content_type": 8,
+    "codename": "view_module"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add subject",
+    "content_type": 9,
+    "codename": "add_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change subject",
+    "content_type": 9,
+    "codename": "change_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete subject",
+    "content_type": 9,
+    "codename": "delete_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view subject",
+    "content_type": 9,
+    "codename": "view_subject"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add video",
+    "content_type": 10,
+    "codename": "add_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change video",
+    "content_type": 10,
+    "codename": "change_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete video",
+    "content_type": 10,
+    "codename": "delete_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view video",
+    "content_type": 10,
+    "codename": "view_video"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add text",
+    "content_type": 11,
+    "codename": "add_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change text",
+    "content_type": 11,
+    "codename": "change_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete text",
+    "content_type": 11,
+    "codename": "delete_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view text",
+    "content_type": 11,
+    "codename": "view_text"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add module content",
+    "content_type": 12,
+    "codename": "add_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change module content",
+    "content_type": 12,
+    "codename": "change_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete module content",
+    "content_type": 12,
+    "codename": "delete_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view module content",
+    "content_type": 12,
+    "codename": "view_modulecontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add image",
+    "content_type": 13,
+    "codename": "add_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change image",
+    "content_type": 13,
+    "codename": "change_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete image",
+    "content_type": 13,
+    "codename": "delete_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view image",
+    "content_type": 13,
+    "codename": "view_image"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add file",
+    "content_type": 14,
+    "codename": "add_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change file",
+    "content_type": 14,
+    "codename": "change_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete file",
+    "content_type": 14,
+    "codename": "delete_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view file",
+    "content_type": 14,
+    "codename": "view_file"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add assignment content",
+    "content_type": 15,
+    "codename": "add_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change assignment content",
+    "content_type": 15,
+    "codename": "change_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete assignment content",
+    "content_type": 15,
+    "codename": "delete_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view assignment content",
+    "content_type": 15,
+    "codename": "view_assignmentcontent"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add quiz",
+    "content_type": 16,
+    "codename": "add_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change quiz",
+    "content_type": 16,
+    "codename": "change_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete quiz",
+    "content_type": 16,
+    "codename": "delete_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view quiz",
+    "content_type": 16,
+    "codename": "view_quiz"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add question",
+    "content_type": 17,
+    "codename": "add_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change question",
+    "content_type": 17,
+    "codename": "change_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete question",
+    "content_type": 17,
+    "codename": "delete_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view question",
+    "content_type": 17,
+    "codename": "view_question"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add grade",
+    "content_type": 18,
+    "codename": "add_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change grade",
+    "content_type": 18,
+    "codename": "change_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete grade",
+    "content_type": 18,
+    "codename": "delete_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view grade",
+    "content_type": 18,
+    "codename": "view_grade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add choice",
+    "content_type": 19,
+    "codename": "add_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change choice",
+    "content_type": 19,
+    "codename": "change_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete choice",
+    "content_type": 19,
+    "codename": "delete_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view choice",
+    "content_type": 19,
+    "codename": "view_choice"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add profile",
+    "content_type": 20,
+    "codename": "add_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change profile",
+    "content_type": 20,
+    "codename": "change_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete profile",
+    "content_type": 20,
+    "codename": "delete_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view profile",
+    "content_type": 20,
+    "codename": "view_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can accept course submissions",
+    "content_type": 21,
+    "codename": "accept_account_submissions"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can reject course submissions",
+    "content_type": 21,
+    "codename": "reject_account_submissions"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can add course submission to any new account",
+    "content_type": 21,
+    "codename": "add_account_submissions"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can add announcement",
+    "content_type": 22,
+    "codename": "add_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 85,
+  "fields": {
+    "name": "Can change announcement",
+    "content_type": 22,
+    "codename": "change_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 86,
+  "fields": {
+    "name": "Can delete announcement",
+    "content_type": 22,
+    "codename": "delete_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 87,
+  "fields": {
+    "name": "Can view announcement",
+    "content_type": 22,
+    "codename": "view_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 88,
+  "fields": {
+    "name": "Can add assignment submission",
+    "content_type": 23,
+    "codename": "add_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 89,
+  "fields": {
+    "name": "Can change assignment submission",
+    "content_type": 23,
+    "codename": "change_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 90,
+  "fields": {
+    "name": "Can delete assignment submission",
+    "content_type": 23,
+    "codename": "delete_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 91,
+  "fields": {
+    "name": "Can view assignment submission",
+    "content_type": 23,
+    "codename": "view_assignmentsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 92,
+  "fields": {
+    "name": "Can add quiz submission",
+    "content_type": 24,
+    "codename": "add_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 93,
+  "fields": {
+    "name": "Can change quiz submission",
+    "content_type": 24,
+    "codename": "change_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 94,
+  "fields": {
+    "name": "Can delete quiz submission",
+    "content_type": 24,
+    "codename": "delete_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 95,
+  "fields": {
+    "name": "Can view quiz submission",
+    "content_type": 24,
+    "codename": "view_quizsubmission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 96,
+  "fields": {
+    "name": "Can add quiz answer",
+    "content_type": 25,
+    "codename": "add_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 97,
+  "fields": {
+    "name": "Can change quiz answer",
+    "content_type": 25,
+    "codename": "change_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 98,
+  "fields": {
+    "name": "Can delete quiz answer",
+    "content_type": 25,
+    "codename": "delete_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 99,
+  "fields": {
+    "name": "Can view quiz answer",
+    "content_type": 25,
+    "codename": "view_quizanswer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 100,
+  "fields": {
+    "name": "Can add event",
+    "content_type": 26,
+    "codename": "add_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 101,
+  "fields": {
+    "name": "Can change event",
+    "content_type": 26,
+    "codename": "change_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 102,
+  "fields": {
+    "name": "Can delete event",
+    "content_type": 26,
+    "codename": "delete_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 103,
+  "fields": {
+    "name": "Can view event",
+    "content_type": 26,
+    "codename": "view_event"
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "student",
+    "permissions": []
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "staff",
+    "permissions": [
+      81,
+      83,
+      82,
+      77,
+      78,
+      79,
+      80,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      30
+    ]
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "courses",
+    "model": "assignment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "courses",
+    "model": "course"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "courses",
+    "model": "module"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "courses",
+    "model": "subject"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "courses",
+    "model": "video"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "courses",
+    "model": "text"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "courses",
+    "model": "modulecontent"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "courses",
+    "model": "image"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "courses",
+    "model": "file"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "courses",
+    "model": "assignmentcontent"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "courses",
+    "model": "quiz"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "courses",
+    "model": "question"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 18,
+  "fields": {
+    "app_label": "courses",
+    "model": "grade"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 19,
+  "fields": {
+    "app_label": "courses",
+    "model": "choice"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 20,
+  "fields": {
+    "app_label": "accounts",
+    "model": "profile"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 21,
+  "fields": {
+    "app_label": "accounts",
+    "model": "accountsubmission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 22,
+  "fields": {
+    "app_label": "announcements",
+    "model": "announcement"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 23,
+  "fields": {
+    "app_label": "students",
+    "model": "assignmentsubmission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 24,
+  "fields": {
+    "app_label": "students",
+    "model": "quizsubmission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 25,
+  "fields": {
+    "app_label": "students",
+    "model": "quizanswer"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 26,
+  "fields": {
+    "app_label": "event_calendar",
+    "model": "event"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 1,
+  "fields": {
+    "title": "Mathematics",
+    "slug": "mathematics"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 2,
+  "fields": {
+    "title": "Physics",
+    "slug": "physics"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 3,
+  "fields": {
+    "title": "Biology",
+    "slug": "biology"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 4,
+  "fields": {
+    "title": "Literature",
+    "slug": "literature"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "owner": 1,
+    "subject": 1,
+    "title": "Core Maths",
+    "slug": "core_maths",
+    "overview": "Fundamentals of mathematics",
+    "created": "2021-01-29T10:20:55.695Z",
+    "students": [
+      3,
+      4,
+      5,
+      7
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "owner": 1,
+    "subject": 1,
+    "title": "Advanced Maths",
+    "slug": "advanced_maths",
+    "overview": "A more advanced course on mathematics",
+    "created": "2021-01-29T10:20:55.706Z",
+    "students": [
+      3,
+      4,
+      7
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 3,
+  "fields": {
+    "owner": 6,
+    "subject": 1,
+    "title": "Computer Science",
+    "slug": "computer_science",
+    "overview": "The good one",
+    "created": "2021-01-29T10:20:55.714Z",
+    "students": [
+      4
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 4,
+  "fields": {
+    "owner": 6,
+    "subject": 2,
+    "title": "Natural Sciences",
+    "slug": "natural_sciences",
+    "overview": "Fundamentals of the natural sciences",
+    "created": "2021-01-29T10:20:55.719Z",
+    "students": [
+      3,
+      5
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 5,
+  "fields": {
+    "owner": 6,
+    "subject": 2,
+    "title": "Theoretical Physics",
+    "slug": "theoretical_physics",
+    "overview": "Physics. But that's just a theory. A PHYSICS THEORY",
+    "created": "2021-01-29T10:20:55.724Z",
+    "students": [
+      5
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 6,
+  "fields": {
+    "owner": 7,
+    "subject": 2,
+    "title": "Harry Potter",
+    "slug": "why",
+    "overview": "Why is this a real thing? Why is this here? IT'S NOT EVEN PHYSICS!",
+    "created": "2021-01-29T10:20:55.728Z",
+    "students": [
+      4,
+      7
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 7,
+  "fields": {
+    "owner": 6,
+    "subject": 3,
+    "title": "Basic Biology",
+    "slug": "basic_biology",
+    "overview": "Fundamentals of biology",
+    "created": "2021-01-29T10:20:55.734Z",
+    "students": [
+      5
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 8,
+  "fields": {
+    "owner": 6,
+    "subject": 3,
+    "title": "Medical Science",
+    "slug": "medical_science",
+    "overview": "Specialised course in medicinal science",
+    "created": "2021-01-29T10:20:55.738Z",
+    "students": [
+      3,
+      4,
+      5
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 9,
+  "fields": {
+    "owner": 1,
+    "subject": 4,
+    "title": "Basic Literature",
+    "slug": "basic_literature",
+    "overview": "Fundamental reading and writing skills",
+    "created": "2021-01-29T10:20:55.744Z",
+    "students": [
+      3,
+      5
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 10,
+  "fields": {
+    "owner": 7,
+    "subject": 4,
+    "title": "Fitnessgram Pacer Test",
+    "slug": "fitnessgram_pacer_test",
+    "overview": "I mean, in a way it IS literature. Technically.",
+    "created": "2021-01-29T10:20:55.749Z",
+    "students": [
+      4,
+      5,
+      7
+    ]
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 11,
+  "fields": {
+    "owner": 7,
+    "subject": 4,
+    "title": "The Longest Word",
+    "slug": "the_longest_word",
+    "overview": "Antidisestablishmentarianism",
+    "created": "2021-01-29T10:20:55.756Z",
+    "students": [
+      3,
+      7
+    ]
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 1,
+  "fields": {
+    "course": 1,
+    "title": "Arithmetic",
+    "description": "Basic numbers and arithmetic operations",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 2,
+  "fields": {
+    "course": 1,
+    "title": "Trigonometry",
+    "description": "Basically just pythagoras' theorem",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 3,
+  "fields": {
+    "course": 2,
+    "title": "Algebra",
+    "description": "Basics of algebra.",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 4,
+  "fields": {
+    "course": 2,
+    "title": "Calculus",
+    "description": "Basics of derivation and integration.",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 5,
+  "fields": {
+    "course": 2,
+    "title": "Statistics",
+    "description": "Fundamental statistical concepts and operations",
+    "order": 3
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 6,
+  "fields": {
+    "course": 3,
+    "title": "Sets",
+    "description": "I think this is a course we did last year",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 7,
+  "fields": {
+    "course": 3,
+    "title": "Python",
+    "description": "Can't remember what this even is",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 8,
+  "fields": {
+    "course": 3,
+    "title": "Python",
+    "description": "I do like a good cup of coffee just before bed",
+    "order": 3
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 9,
+  "fields": {
+    "course": 3,
+    "title": "Databases",
+    "description": "I think databases are a myth",
+    "order": 4
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 10,
+  "fields": {
+    "course": 3,
+    "title": "Architecture",
+    "description": "Ah yes! I definitely know this one ;). No lies here :P. None XD",
+    "order": 5
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 11,
+  "fields": {
+    "course": 4,
+    "title": "Boglogy",
+    "description": "We did this in school",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 12,
+  "fields": {
+    "course": 4,
+    "title": "Physik",
+    "description": "I think this is the hard one",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 13,
+  "fields": {
+    "course": 4,
+    "title": "Dru**",
+    "description": "I think I misread something. Is that the police?",
+    "order": 3
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 14,
+  "fields": {
+    "course": 5,
+    "title": "Astrophysics",
+    "description": "Modelling and understanding the wonders of the cosmos",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 15,
+  "fields": {
+    "course": 5,
+    "title": "Quantum Mechanics",
+    "description": "Understanding the nature of the very small",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 16,
+  "fields": {
+    "course": 6,
+    "title": "What Even?",
+    "description": "What do they even do in this course?",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 17,
+  "fields": {
+    "course": 7,
+    "title": "The Human Body",
+    "description": "Functions and anatomy of the different parts that make up a human",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 18,
+  "fields": {
+    "course": 7,
+    "title": "Genealogy",
+    "description": "The science behind evolution and the passing on of traits",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 19,
+  "fields": {
+    "course": 8,
+    "title": "Advanced Anatomy",
+    "description": "An advanced overview of the human anatomy",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 20,
+  "fields": {
+    "course": 8,
+    "title": "Medical Techniques",
+    "description": "Imma be real with you, I really don't know what subjects they do in medical sciences. I'm a programmer not a doctor.",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 21,
+  "fields": {
+    "course": 9,
+    "title": "Spelling",
+    "description": "Correct spelling and usage of words",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 22,
+  "fields": {
+    "course": 9,
+    "title": "Lord Of The Flies",
+    "description": "I swear I've read more books than just this...",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 23,
+  "fields": {
+    "course": 10,
+    "title": "The Fitnessgram Pacer Test",
+    "description": "The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start.",
+    "order": 1
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 24,
+  "fields": {
+    "course": 10,
+    "title": "Not The Fitnessgram Pacer Test",
+    "description": "This is not the FitnessGram™ Pacer Test. A multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start.",
+    "order": 2
+  }
+},
+{
+  "model": "courses.module",
+  "pk": 25,
+  "fields": {
+    "course": 11,
+    "title": "Now You Know",
+    "description": "Now you know the longest word",
+    "order": 1
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 1,
+  "fields": {
+    "module": 1,
+    "title": "Basic sums",
+    "description": "Answer the following and submit in a text document.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 2,
+  "fields": {
+    "module": 1,
+    "title": "Less basic sums",
+    "description": "What is 69 - 420?",
+    "order": 2,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 3,
+  "fields": {
+    "module": 1,
+    "title": "Lesserer basic sums",
+    "description": "What is 4(92-36(528*14-1+1)-(16+2e))+1?",
+    "order": 2,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 4,
+  "fields": {
+    "module": 2,
+    "title": "Pythagoras",
+    "description": "What is Pythagoras' theorem?",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 5,
+  "fields": {
+    "module": 2,
+    "title": "Basic Trig",
+    "description": "Answer the ",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 6,
+  "fields": {
+    "module": 3,
+    "title": "Simple algebra",
+    "description": "Given x = 20y - 4 and y = 16x, find x.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 7,
+  "fields": {
+    "module": 4,
+    "title": "Differentiation",
+    "description": "What is the derivation of y = 10(21x^2 + 6.9x) + 1",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 8,
+  "fields": {
+    "module": 5,
+    "title": "String",
+    "description": "How long is this piece of string?",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 9,
+  "fields": {
+    "module": 6,
+    "title": "Subsets?",
+    "description": "Set the subset of this set's sets to set setting sets in sets",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 10,
+  "fields": {
+    "module": 7,
+    "title": "Who knows?",
+    "description": "Surprise me",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 11,
+  "fields": {
+    "module": 8,
+    "title": "Coffee",
+    "description": "Get me a cup of coffee. This will be on your exam.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 12,
+  "fields": {
+    "module": 10,
+    "title": "Build it",
+    "description": "Build a computer. A whole computer.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 13,
+  "fields": {
+    "module": 11,
+    "title": "Wot",
+    "description": "Wot izza hoomin bean??!",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 14,
+  "fields": {
+    "module": 12,
+    "title": "Hou",
+    "description": "Hou blok do da floor smashing?!?",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 15,
+  "fields": {
+    "module": 13,
+    "title": "Brooooooo",
+    "description": "Like, what is up my dude. My main man. My primary individual.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 16,
+  "fields": {
+    "module": 14,
+    "title": "Newton",
+    "description": "Name each of Newton's laws of motion",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 17,
+  "fields": {
+    "module": 15,
+    "title": "Quarks",
+    "description": "Name each of the quarks",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 18,
+  "fields": {
+    "module": 16,
+    "title": "Umm",
+    "description": "Read chapter 1 I guess?",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 19,
+  "fields": {
+    "module": 17,
+    "title": "Assignment 1",
+    "description": "Given x=19x-27z^2, the speed of light c=300Mm/s, and the melting point of ice m0=273.15K what is the surface area of the Sun?",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 20,
+  "fields": {
+    "module": 18,
+    "title": "Ancestry",
+    "description": "Where are my parents?",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 21,
+  "fields": {
+    "module": 19,
+    "title": "Crab",
+    "description": "Dissect the stomatogastric ganglion from this crab.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 22,
+  "fields": {
+    "module": 20,
+    "title": "Qualifications",
+    "description": "I am not qualified to even try make a question for this",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 23,
+  "fields": {
+    "module": 21,
+    "title": "Spelling test",
+    "description": "Spell this word (book).",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 24,
+  "fields": {
+    "module": 22,
+    "title": "Analysis",
+    "description": "Describe the phallic nature of the pink rocks.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 25,
+  "fields": {
+    "module": 23,
+    "title": "Do a front flip",
+    "description": "Do it good.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 26,
+  "fields": {
+    "module": 23,
+    "title": "Do a back flip",
+    "description": "These are perfectly safe",
+    "order": 2,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 27,
+  "fields": {
+    "module": 24,
+    "title": "Do a funny dance",
+    "description": "Make me laugh.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.assignment",
+  "pk": 28,
+  "fields": {
+    "module": 25,
+    "title": "Know",
+    "description": "Show you know what you know.",
+    "order": 1,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 1,
+  "fields": {
+    "content_type": 11,
+    "object_id": 1,
+    "module": 1,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 2,
+  "fields": {
+    "content_type": 11,
+    "object_id": 2,
+    "module": 1,
+    "order": 2
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 3,
+  "fields": {
+    "content_type": 11,
+    "object_id": 3,
+    "module": 2,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 4,
+  "fields": {
+    "content_type": 11,
+    "object_id": 4,
+    "module": 3,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 5,
+  "fields": {
+    "content_type": 11,
+    "object_id": 5,
+    "module": 3,
+    "order": 2
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 6,
+  "fields": {
+    "content_type": 11,
+    "object_id": 6,
+    "module": 3,
+    "order": 3
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 7,
+  "fields": {
+    "content_type": 11,
+    "object_id": 7,
+    "module": 4,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 8,
+  "fields": {
+    "content_type": 11,
+    "object_id": 8,
+    "module": 4,
+    "order": 2
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 9,
+  "fields": {
+    "content_type": 11,
+    "object_id": 9,
+    "module": 4,
+    "order": 3
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 10,
+  "fields": {
+    "content_type": 11,
+    "object_id": 10,
+    "module": 5,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 11,
+  "fields": {
+    "content_type": 11,
+    "object_id": 11,
+    "module": 5,
+    "order": 2
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 12,
+  "fields": {
+    "content_type": 11,
+    "object_id": 12,
+    "module": 5,
+    "order": 3
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 13,
+  "fields": {
+    "content_type": 11,
+    "object_id": 13,
+    "module": 6,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 14,
+  "fields": {
+    "content_type": 11,
+    "object_id": 14,
+    "module": 6,
+    "order": 2
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 15,
+  "fields": {
+    "content_type": 11,
+    "object_id": 15,
+    "module": 6,
+    "order": 3
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 16,
+  "fields": {
+    "content_type": 10,
+    "object_id": 1,
+    "module": 7,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 17,
+  "fields": {
+    "content_type": 11,
+    "object_id": 16,
+    "module": 11,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 18,
+  "fields": {
+    "content_type": 10,
+    "object_id": 2,
+    "module": 11,
+    "order": 2
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 19,
+  "fields": {
+    "content_type": 11,
+    "object_id": 17,
+    "module": 12,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 20,
+  "fields": {
+    "content_type": 11,
+    "object_id": 18,
+    "module": 13,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 21,
+  "fields": {
+    "content_type": 11,
+    "object_id": 19,
+    "module": 13,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 22,
+  "fields": {
+    "content_type": 11,
+    "object_id": 20,
+    "module": 14,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 23,
+  "fields": {
+    "content_type": 10,
+    "object_id": 3,
+    "module": 23,
+    "order": 1
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 24,
+  "fields": {
+    "content_type": 11,
+    "object_id": 21,
+    "module": 23,
+    "order": 2
+  }
+},
+{
+  "model": "courses.modulecontent",
+  "pk": 25,
+  "fields": {
+    "content_type": 11,
+    "object_id": 22,
+    "module": 24,
+    "order": 2
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 1,
+  "fields": {
+    "content_type": 11,
+    "object_id": 23,
+    "assignment": 1,
+    "order": 1
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 2,
+  "fields": {
+    "content_type": 11,
+    "object_id": 24,
+    "assignment": 1,
+    "order": 2
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 3,
+  "fields": {
+    "content_type": 11,
+    "object_id": 25,
+    "assignment": 5,
+    "order": 1
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 4,
+  "fields": {
+    "content_type": 11,
+    "object_id": 26,
+    "assignment": 6,
+    "order": 1
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 5,
+  "fields": {
+    "content_type": 11,
+    "object_id": 27,
+    "assignment": 6,
+    "order": 2
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 6,
+  "fields": {
+    "content_type": 11,
+    "object_id": 28,
+    "assignment": 6,
+    "order": 3
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 7,
+  "fields": {
+    "content_type": 11,
+    "object_id": 29,
+    "assignment": 6,
+    "order": 4
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 8,
+  "fields": {
+    "content_type": 11,
+    "object_id": 30,
+    "assignment": 25,
+    "order": 1
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 9,
+  "fields": {
+    "content_type": 11,
+    "object_id": 31,
+    "assignment": 25,
+    "order": 2
+  }
+},
+{
+  "model": "courses.assignmentcontent",
+  "pk": 10,
+  "fields": {
+    "content_type": 11,
+    "object_id": 32,
+    "assignment": 26,
+    "order": 1
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 1,
+  "fields": {
+    "owner": 1,
+    "title": "What is 1 + 1?",
+    "created": "2021-01-29T10:20:55.903Z",
+    "updated": "2021-01-29T10:20:55.903Z",
+    "content": "To truly comprehend the question that is 'What is 1 + 1?', we must first ask the question; why do we truly want to know 1 + 1? What benefit do we gain from this knowledge? How does this make us feel? Only then can we truly enter a stat of mind in which 'What is 1 + 1' has a profound, and powerful answer."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 2,
+  "fields": {
+    "owner": 1,
+    "title": "The true meaning of 1 + 1",
+    "created": "2021-01-29T10:20:55.908Z",
+    "updated": "2021-01-29T10:20:55.908Z",
+    "content": "Vandals stole my lecture. Sorry."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 3,
+  "fields": {
+    "owner": 1,
+    "title": "The entire module",
+    "created": "2021-01-29T10:20:55.914Z",
+    "updated": "2021-01-29T10:20:55.914Z",
+    "content": "a² + b² = c².\n That's it. That's the entire module. Mabye a triangle or two for good measure"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 4,
+  "fields": {
+    "owner": 1,
+    "title": "Eights",
+    "created": "2021-01-29T10:20:55.921Z",
+    "updated": "2021-01-29T10:20:55.921Z",
+    "content": "888 + 88 + 8 + 8 + 8 = 1000.\nNow you know."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 5,
+  "fields": {
+    "owner": 1,
+    "title": "Multiply",
+    "created": "2021-01-29T10:20:55.924Z",
+    "updated": "2021-01-29T10:20:55.924Z",
+    "content": "1 + 2 + 3 = 1 x 2 x 3.\nNow you know."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 6,
+  "fields": {
+    "owner": 1,
+    "title": "Homework",
+    "created": "2021-01-29T10:20:55.927Z",
+    "updated": "2021-01-29T10:20:55.927Z",
+    "content": "If one ship can cross the pacific in six days, how long will it take for six ships?"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 7,
+  "fields": {
+    "owner": 1,
+    "title": "Eights",
+    "created": "2021-01-29T10:20:55.933Z",
+    "updated": "2021-01-29T10:20:55.933Z",
+    "content": "888 + 88 + 8 + 8 + 8 = 1000.\nNow you knowledge."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 8,
+  "fields": {
+    "owner": 1,
+    "title": "Multiply",
+    "created": "2021-01-29T10:20:55.936Z",
+    "updated": "2021-01-29T10:20:55.936Z",
+    "content": "1 + 2 + 3 = 1 x 2 x 3.\nI'm not copying anyone. You are."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 9,
+  "fields": {
+    "owner": 1,
+    "title": "Homework",
+    "created": "2021-01-29T10:20:55.939Z",
+    "updated": "2021-01-29T10:20:55.939Z",
+    "content": "If one ship can cross the pacific in six days, how long will it take for my pizza to cook?"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 10,
+  "fields": {
+    "owner": 1,
+    "title": "Eights",
+    "created": "2021-01-29T10:20:55.945Z",
+    "updated": "2021-01-29T10:20:55.945Z",
+    "content": "888 + 88 + 8 + 8 + 8 ⋍ 1000.\nNow you likely know."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 11,
+  "fields": {
+    "owner": 1,
+    "title": "Multiply",
+    "created": "2021-01-29T10:20:55.949Z",
+    "updated": "2021-01-29T10:20:55.949Z",
+    "content": "1 + 2 + 3 ⋍ 1 x 2 x 3.\nDo you know?"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 12,
+  "fields": {
+    "owner": 1,
+    "title": "Homework",
+    "created": "2021-01-29T10:20:55.953Z",
+    "updated": "2021-01-29T10:20:55.953Z",
+    "content": "If one ship can cross the pacific in six days, what are the odds of six ships crossing the pacific?"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 13,
+  "fields": {
+    "owner": 6,
+    "title": "Latin",
+    "created": "2021-01-29T10:20:55.959Z",
+    "updated": "2021-01-29T10:20:55.959Z",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 14,
+  "fields": {
+    "owner": 6,
+    "title": "Xhosa",
+    "created": "2021-01-29T10:20:55.962Z",
+    "updated": "2021-01-29T10:20:55.962Z",
+    "content": "I-Lorem ipsum dolor sit amet, i-consectetur adipiscing elit, i-sed tempor kunye namandla, ukuze umsebenzi kunye nosizi, izinto ezithile ezibalulekileyo zokwenza i-eiusmod. Ukutyhubela iminyaka, ndiza kuza, ngubani oya kuthi aphumeze ithuba lokuzilolonga, ukuze iinzame zokukhuthaza ukuba isithili sesikolo kunye nokuphila ixesha elide. Ufuna ukuba yintlungu kwi-cupidatat cillum ugxekiwe kwi-Duis et dolore magna abaleke ayivelisi siphumo sokonwaba. Ngaphandle kwekomityi emnyama abamnyama abekho ngaphandle, kuyathuthuzela emphefumlweni, oko kukuthi, bayekile imisebenzi yabo babekek 'ityala ngeengxaki zakho."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 15,
+  "fields": {
+    "owner": 6,
+    "title": "English",
+    "created": "2021-01-29T10:20:55.965Z",
+    "updated": "2021-01-29T10:20:55.965Z",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor and vitality, so that the labor and sorrow, some important things to do eiusmod. Over the years, I will come, who will nostrud aliquip out of her the advantage of exercise, so that stimulus efforts if the school district and longevity. Want to be a pain in the cupidatat cillum has been criticized in the Duis et dolore magna flee produces no resultant pleasure. Excepteur cupidatat blacks are not excepteur, is soothing to the soul, that is, they deserted the general duties of those who are to blame for your troubles."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 16,
+  "fields": {
+    "owner": 6,
+    "title": ".",
+    "created": "2021-01-29T10:20:55.986Z",
+    "updated": "2021-01-29T10:20:55.986Z",
+    "content": "┬──┬ ノ( ͡° ل͜ ͡°ノ)\n（╯ ͡° ل͜ ͡°）╯︵ ┻━┻"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 17,
+  "fields": {
+    "owner": 6,
+    "title": "Physikk",
+    "created": "2021-01-29T10:20:55.994Z",
+    "updated": "2021-01-29T10:20:55.994Z",
+    "content": "Physik stronk. Physic hav POUweR"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 18,
+  "fields": {
+    "owner": 6,
+    "title": "umm...",
+    "created": "2021-01-29T10:20:56.000Z",
+    "updated": "2021-01-29T10:20:56.000Z",
+    "content": "I think I'm going to jail for this"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 19,
+  "fields": {
+    "owner": 6,
+    "title": "[REDACTED]",
+    "created": "2021-01-29T10:20:56.003Z",
+    "updated": "2021-01-29T10:20:56.003Z",
+    "content": "[REDACTED][REDACTED][REDACTED]\n[REDACTED]\n[REDACTED][REDACTED]\n[REDACTED]\n[REDACTED]\n[REDACTED][REDACTED][REDACTED][REDACTED][REDACTED]"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 20,
+  "fields": {
+    "owner": 6,
+    "title": "Space",
+    "created": "2021-01-29T10:20:56.010Z",
+    "updated": "2021-01-29T10:20:56.010Z",
+    "content": "Space: the final frontier. These are the voyages of the starship Enterprise. Its five-year mission: to explore strange new worlds; to seek out new life and new civilisations; to boldly go where no man has gone before."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 21,
+  "fields": {
+    "owner": 7,
+    "title": "FitnessGram Pacer Test",
+    "created": "2021-01-29T10:20:56.039Z",
+    "updated": "2021-01-29T10:20:56.039Z",
+    "content": "The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 22,
+  "fields": {
+    "owner": 7,
+    "title": "FitnessGram Pacer Test",
+    "created": "2021-01-29T10:20:56.045Z",
+    "updated": "2021-01-29T10:20:56.045Z",
+    "content": "The FitnessGram™ Pacer Test is not a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 23,
+  "fields": {
+    "owner": 1,
+    "title": "q1",
+    "created": "2021-01-29T10:20:56.060Z",
+    "updated": "2021-01-29T10:20:56.060Z",
+    "content": "What is 420 - 69?"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 24,
+  "fields": {
+    "owner": 1,
+    "title": "q2",
+    "created": "2021-01-29T10:20:56.065Z",
+    "updated": "2021-01-29T10:20:56.065Z",
+    "content": "What is 8000000 + 8135"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 25,
+  "fields": {
+    "owner": 1,
+    "title": "",
+    "created": "2021-01-29T10:20:56.124Z",
+    "updated": "2021-01-29T10:20:56.124Z",
+    "content": "QUESTIoN"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 26,
+  "fields": {
+    "owner": 1,
+    "title": "This sample data is",
+    "created": "2021-01-29T10:20:56.141Z",
+    "updated": "2021-01-29T10:20:56.141Z",
+    "content": "not a job for one man alone. In basically one sitting."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 27,
+  "fields": {
+    "owner": 1,
+    "title": "I",
+    "created": "2021-01-29T10:20:56.146Z",
+    "updated": "2021-01-29T10:20:56.146Z",
+    "content": "should learn from this."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 28,
+  "fields": {
+    "owner": 1,
+    "title": "Per",
+    "created": "2021-01-29T10:20:56.150Z",
+    "updated": "2021-01-29T10:20:56.150Z",
+    "content": "hapse I can add this to my reflective report?"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 29,
+  "fields": {
+    "owner": 1,
+    "title": "Nah!",
+    "created": "2021-01-29T10:20:56.154Z",
+    "updated": "2021-01-29T10:20:56.154Z",
+    "content": "I already finished that."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 30,
+  "fields": {
+    "owner": 7,
+    "title": "Maybe not",
+    "created": "2021-01-29T10:20:56.204Z",
+    "updated": "2021-01-29T10:20:56.204Z",
+    "content": "Back flips are dangerouse. Do a front fliip instead!"
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 31,
+  "fields": {
+    "owner": 7,
+    "title": "Extension",
+    "created": "2021-01-29T10:20:56.207Z",
+    "updated": "2021-01-29T10:20:56.207Z",
+    "content": "Maybe do a little flair in the process. For the flex."
+  }
+},
+{
+  "model": "courses.text",
+  "pk": 32,
+  "fields": {
+    "owner": 7,
+    "title": "Certification",
+    "created": "2021-01-29T10:20:56.213Z",
+    "updated": "2021-01-29T10:20:56.213Z",
+    "content": "I am certified to say how safe this is. My mother said so."
+  }
+},
+{
+  "model": "courses.video",
+  "pk": 1,
+  "fields": {
+    "owner": 6,
+    "title": "Snek",
+    "created": "2021-01-29T10:20:55.972Z",
+    "updated": "2021-01-29T10:20:55.972Z",
+    "url": "https://www.youtube.com/watch?v=0arsPXEaIUY"
+  }
+},
+{
+  "model": "courses.video",
+  "pk": 2,
+  "fields": {
+    "owner": 6,
+    "title": "Important",
+    "created": "2021-01-29T10:20:55.989Z",
+    "updated": "2021-01-29T10:20:55.989Z",
+    "url": "https://www.youtube.com/watch?v=0arsPXEaIUY"
+  }
+},
+{
+  "model": "courses.video",
+  "pk": 3,
+  "fields": {
+    "owner": 7,
+    "title": "The fitnessgram pacer test",
+    "created": "2021-01-29T10:20:56.035Z",
+    "updated": "2021-01-29T10:20:56.035Z",
+    "url": "https://www.youtube.com/watch?v=Y82jDHRrswc"
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 1,
+  "fields": {
+    "title": "Also Basic sums",
+    "module": 1,
+    "description": "Answer the following",
+    "date_created": null,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 2,
+  "fields": {
+    "title": "Numericalifiers",
+    "module": 1,
+    "description": "Do thu numburials",
+    "date_created": null,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 3,
+  "fields": {
+    "title": "TRIANGLE",
+    "module": 2,
+    "description": "I want TRIANGLE",
+    "date_created": null,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 4,
+  "fields": {
+    "title": "Personal questions",
+    "module": 23,
+    "description": "These are life's most personal questions",
+    "date_created": null,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.quiz",
+  "pk": 5,
+  "fields": {
+    "title": "Difficult questions",
+    "module": 24,
+    "description": "These are life's most difficult questions",
+    "date_created": null,
+    "due_date": null
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 1,
+  "fields": {
+    "quiz": 1,
+    "number": 1,
+    "question_text": "What is 420 - 69"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 2,
+  "fields": {
+    "quiz": 1,
+    "number": 2,
+    "question_text": "What is 8000000 + 8135"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 3,
+  "fields": {
+    "quiz": 2,
+    "number": 1,
+    "question_text": "What is fourteen"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 4,
+  "fields": {
+    "quiz": 2,
+    "number": 2,
+    "question_text": "How old am I"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 5,
+  "fields": {
+    "quiz": 3,
+    "number": 1,
+    "question_text": "Sorry, I'm running out of ideas for this sample data."
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 6,
+  "fields": {
+    "quiz": 4,
+    "number": 1,
+    "question_text": "What is your name?"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 7,
+  "fields": {
+    "quiz": 4,
+    "number": 1,
+    "question_text": "How old are you?"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 8,
+  "fields": {
+    "quiz": 4,
+    "number": 1,
+    "question_text": "What is your first pet's name?"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 9,
+  "fields": {
+    "quiz": 4,
+    "number": 1,
+    "question_text": "What is your mothers maiden name?"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 10,
+  "fields": {
+    "quiz": 5,
+    "number": 1,
+    "question_text": "What is the meaning of liff"
+  }
+},
+{
+  "model": "courses.question",
+  "pk": 11,
+  "fields": {
+    "quiz": 5,
+    "number": 2,
+    "question_text": "What is love?"
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 1,
+  "fields": {
+    "question": 1,
+    "choice_text": "Nice",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 2,
+  "fields": {
+    "question": 1,
+    "choice_text": "Noice",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 3,
+  "fields": {
+    "question": 1,
+    "choice_text": "351",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 4,
+  "fields": {
+    "question": 1,
+    "choice_text": "Niiiiiiiiice",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 5,
+  "fields": {
+    "question": 2,
+    "choice_text": "8008135",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 6,
+  "fields": {
+    "question": 2,
+    "choice_text": "The funny number",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 7,
+  "fields": {
+    "question": 2,
+    "choice_text": "Immature",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 8,
+  "fields": {
+    "question": 2,
+    "choice_text": "Nice?",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 9,
+  "fields": {
+    "question": 3,
+    "choice_text": "number",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 10,
+  "fields": {
+    "question": 3,
+    "choice_text": "number",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 11,
+  "fields": {
+    "question": 3,
+    "choice_text": "nubmer",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 12,
+  "fields": {
+    "question": 4,
+    "choice_text": "1",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 13,
+  "fields": {
+    "question": 4,
+    "choice_text": "2",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 14,
+  "fields": {
+    "question": 4,
+    "choice_text": "4",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 15,
+  "fields": {
+    "question": 5,
+    "choice_text": "yes",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 16,
+  "fields": {
+    "question": 5,
+    "choice_text": "no",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 17,
+  "fields": {
+    "question": 6,
+    "choice_text": "Fransözich",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 18,
+  "fields": {
+    "question": 6,
+    "choice_text": "Froderickson",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 19,
+  "fields": {
+    "question": 6,
+    "choice_text": "Frodd",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 20,
+  "fields": {
+    "question": 6,
+    "choice_text": "Fredrikorisonicus III IVI IX",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 21,
+  "fields": {
+    "question": 6,
+    "choice_text": "Frambulia",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 22,
+  "fields": {
+    "question": 6,
+    "choice_text": "Froomoonuliolicus",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 23,
+  "fields": {
+    "question": 6,
+    "choice_text": "Fred",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 24,
+  "fields": {
+    "question": 7,
+    "choice_text": "yes",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 25,
+  "fields": {
+    "question": 7,
+    "choice_text": "no",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 26,
+  "fields": {
+    "question": 8,
+    "choice_text": "Ben",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 27,
+  "fields": {
+    "question": 9,
+    "choice_text": "Mother",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 28,
+  "fields": {
+    "question": 9,
+    "choice_text": "Mom",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 29,
+  "fields": {
+    "question": 9,
+    "choice_text": "Mum",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 30,
+  "fields": {
+    "question": 9,
+    "choice_text": "Mam",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 31,
+  "fields": {
+    "question": 10,
+    "choice_text": "42",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 32,
+  "fields": {
+    "question": 10,
+    "choice_text": "A book, the contents of which are totally belied by its cover",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 33,
+  "fields": {
+    "question": 11,
+    "choice_text": "Chemicals 'n stuff",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 34,
+  "fields": {
+    "question": 11,
+    "choice_text": "Baby don't hurt me",
+    "correct_answer": true
+  }
+},
+{
+  "model": "courses.choice",
+  "pk": 35,
+  "fields": {
+    "question": 11,
+    "choice_text": "The feeling I get when I look at beer",
+    "correct_answer": false
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 1,
+  "fields": {
+    "student": 3,
+    "teacher": 7,
+    "assignment": 28,
+    "grade": 83,
+    "datetime_started": "2020-05-31T04:47:45Z",
+    "datetime_submitted": "2020-05-31T04:57:12Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 2,
+  "fields": {
+    "student": 3,
+    "teacher": 7,
+    "assignment": 25,
+    "grade": 11,
+    "datetime_started": "2020-07-20T22:03:11Z",
+    "datetime_submitted": "2020-07-20T22:11:52Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 3,
+  "fields": {
+    "student": 3,
+    "teacher": 7,
+    "assignment": 27,
+    "grade": 11,
+    "datetime_started": "2020-05-07T03:19:01Z",
+    "datetime_submitted": "2020-05-07T03:53:04Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 4,
+  "fields": {
+    "student": 3,
+    "teacher": 1,
+    "assignment": 4,
+    "grade": 80,
+    "datetime_started": "2020-08-21T16:01:06Z",
+    "datetime_submitted": "2020-08-21T16:33:19Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 5,
+  "fields": {
+    "student": 3,
+    "teacher": 1,
+    "assignment": 5,
+    "grade": 100,
+    "datetime_started": "2020-06-19T18:57:10Z",
+    "datetime_submitted": "2020-06-19T19:40:56Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 6,
+  "fields": {
+    "student": 3,
+    "teacher": 1,
+    "assignment": 6,
+    "grade": 63,
+    "datetime_started": "2020-06-02T21:19:32Z",
+    "datetime_submitted": "2020-06-02T21:29:55Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 7,
+  "fields": {
+    "student": 3,
+    "teacher": 1,
+    "assignment": 7,
+    "grade": 32,
+    "datetime_started": "2020-05-08T07:01:49Z",
+    "datetime_submitted": "2020-05-08T07:49:57Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 8,
+  "fields": {
+    "student": 3,
+    "teacher": 1,
+    "assignment": 8,
+    "grade": 31,
+    "datetime_started": "2020-06-08T10:46:21Z",
+    "datetime_submitted": "2020-06-08T11:37:24Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 9,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 9,
+    "grade": 16,
+    "datetime_started": "2020-08-07T00:25:25Z",
+    "datetime_submitted": "2020-08-07T00:58:31Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 10,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 11,
+    "grade": 93,
+    "datetime_started": "2020-05-30T17:27:30Z",
+    "datetime_submitted": "2020-05-30T17:47:59Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 11,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 13,
+    "grade": 42,
+    "datetime_started": "2020-05-30T05:56:13Z",
+    "datetime_submitted": "2020-05-30T06:10:14Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 12,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 14,
+    "grade": 58,
+    "datetime_started": "2020-06-08T07:05:34Z",
+    "datetime_submitted": "2020-06-08T07:17:56Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 13,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 15,
+    "grade": 71,
+    "datetime_started": "2020-07-16T21:50:50Z",
+    "datetime_submitted": "2020-07-16T22:21:25Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 14,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 16,
+    "grade": 57,
+    "datetime_started": "2020-05-20T20:53:20Z",
+    "datetime_submitted": "2020-05-20T21:43:52Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 15,
+  "fields": {
+    "student": 3,
+    "teacher": 7,
+    "assignment": 18,
+    "grade": 83,
+    "datetime_started": "2020-06-12T16:05:31Z",
+    "datetime_submitted": "2020-06-12T16:25:01Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 16,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 19,
+    "grade": 60,
+    "datetime_started": "2020-08-09T08:53:18Z",
+    "datetime_submitted": "2020-08-09T09:21:07Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 17,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 20,
+    "grade": 68,
+    "datetime_started": "2020-06-14T22:25:39Z",
+    "datetime_submitted": "2020-06-14T23:11:44Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 18,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 21,
+    "grade": 33,
+    "datetime_started": "2020-05-30T11:02:57Z",
+    "datetime_submitted": "2020-05-30T11:25:22Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 19,
+  "fields": {
+    "student": 3,
+    "teacher": 6,
+    "assignment": 22,
+    "grade": 33,
+    "datetime_started": "2020-08-13T15:01:06Z",
+    "datetime_submitted": "2020-08-13T15:16:33Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 20,
+  "fields": {
+    "student": 3,
+    "teacher": 1,
+    "assignment": 2,
+    "grade": 65,
+    "datetime_started": "2020-08-31T09:14:58Z",
+    "datetime_submitted": "2020-08-31T09:59:55Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 21,
+  "fields": {
+    "student": 3,
+    "teacher": 1,
+    "assignment": 3,
+    "grade": 81,
+    "datetime_started": "2020-05-11T08:20:53Z",
+    "datetime_submitted": "2020-05-11T08:27:54Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 22,
+  "fields": {
+    "student": 3,
+    "teacher": 7,
+    "assignment": 26,
+    "grade": 9,
+    "datetime_started": "2020-05-23T10:53:34Z",
+    "datetime_submitted": "2020-05-23T11:33:35Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 23,
+  "fields": {
+    "student": 4,
+    "teacher": 7,
+    "assignment": 28,
+    "grade": 37,
+    "datetime_started": "2020-07-29T21:41:53Z",
+    "datetime_submitted": "2020-07-29T21:53:07Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 24,
+  "fields": {
+    "student": 4,
+    "teacher": 7,
+    "assignment": 27,
+    "grade": 55,
+    "datetime_started": "2020-06-25T03:45:16Z",
+    "datetime_submitted": "2020-06-25T04:12:48Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 25,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 1,
+    "grade": 84,
+    "datetime_started": "2020-06-16T23:50:17Z",
+    "datetime_submitted": "2020-06-17T00:40:57Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 26,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 4,
+    "grade": 7,
+    "datetime_started": "2020-06-05T02:41:46Z",
+    "datetime_submitted": "2020-06-05T02:58:51Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 27,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 5,
+    "grade": 75,
+    "datetime_started": "2020-06-28T19:06:53Z",
+    "datetime_submitted": "2020-06-28T19:18:26Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 28,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 6,
+    "grade": 39,
+    "datetime_started": "2020-07-15T12:23:13Z",
+    "datetime_submitted": "2020-07-15T12:54:36Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 29,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 7,
+    "grade": 66,
+    "datetime_started": "2020-05-05T18:51:11Z",
+    "datetime_submitted": "2020-05-05T19:30:49Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 30,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 8,
+    "grade": 38,
+    "datetime_started": "2020-07-02T19:09:13Z",
+    "datetime_submitted": "2020-07-02T19:25:41Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 31,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 9,
+    "grade": 40,
+    "datetime_started": "2020-05-21T03:20:19Z",
+    "datetime_submitted": "2020-05-21T04:02:01Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 32,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 10,
+    "grade": 31,
+    "datetime_started": "2020-07-31T04:44:08Z",
+    "datetime_submitted": "2020-07-31T05:09:13Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 33,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 11,
+    "grade": 2,
+    "datetime_started": "2020-08-01T07:22:07Z",
+    "datetime_submitted": "2020-08-01T07:40:31Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 34,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 12,
+    "grade": 89,
+    "datetime_started": "2020-08-21T23:49:02Z",
+    "datetime_submitted": "2020-08-22T00:05:41Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 35,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 13,
+    "grade": 94,
+    "datetime_started": "2020-07-22T16:29:21Z",
+    "datetime_submitted": "2020-07-22T16:38:24Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 36,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 14,
+    "grade": 15,
+    "datetime_started": "2020-09-03T03:08:35Z",
+    "datetime_submitted": "2020-09-03T03:31:09Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 37,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 15,
+    "grade": 79,
+    "datetime_started": "2020-08-31T15:54:25Z",
+    "datetime_submitted": "2020-08-31T16:23:31Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 38,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 16,
+    "grade": 64,
+    "datetime_started": "2020-06-01T10:21:09Z",
+    "datetime_submitted": "2020-06-01T10:26:44Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 39,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 17,
+    "grade": 59,
+    "datetime_started": "2020-05-22T23:25:39Z",
+    "datetime_submitted": "2020-05-23T00:01:25Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 40,
+  "fields": {
+    "student": 4,
+    "teacher": 7,
+    "assignment": 18,
+    "grade": 3,
+    "datetime_started": "2020-06-01T22:00:26Z",
+    "datetime_submitted": "2020-06-01T22:48:51Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 41,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 20,
+    "grade": 74,
+    "datetime_started": "2020-06-06T19:15:42Z",
+    "datetime_submitted": "2020-06-06T19:43:50Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 42,
+  "fields": {
+    "student": 4,
+    "teacher": 6,
+    "assignment": 22,
+    "grade": 93,
+    "datetime_started": "2020-07-14T14:45:10Z",
+    "datetime_submitted": "2020-07-14T15:16:18Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 43,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 23,
+    "grade": 73,
+    "datetime_started": "2020-06-15T19:18:50Z",
+    "datetime_submitted": "2020-06-15T20:08:17Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 44,
+  "fields": {
+    "student": 4,
+    "teacher": 1,
+    "assignment": 3,
+    "grade": 30,
+    "datetime_started": "2020-07-09T07:23:45Z",
+    "datetime_submitted": "2020-07-09T07:59:14Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 45,
+  "fields": {
+    "student": 5,
+    "teacher": 7,
+    "assignment": 25,
+    "grade": 95,
+    "datetime_started": "2020-09-05T15:41:12Z",
+    "datetime_submitted": "2020-09-05T16:22:50Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 46,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 1,
+    "grade": 58,
+    "datetime_started": "2020-07-14T02:04:36Z",
+    "datetime_submitted": "2020-07-14T02:54:53Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 47,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 4,
+    "grade": 73,
+    "datetime_started": "2020-08-26T19:24:38Z",
+    "datetime_submitted": "2020-08-26T19:39:48Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 48,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 5,
+    "grade": 62,
+    "datetime_started": "2020-05-21T19:03:25Z",
+    "datetime_submitted": "2020-05-21T19:38:37Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 49,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 6,
+    "grade": 16,
+    "datetime_started": "2020-07-29T15:29:58Z",
+    "datetime_submitted": "2020-07-29T15:45:21Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 50,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 7,
+    "grade": 5,
+    "datetime_started": "2020-05-20T09:53:31Z",
+    "datetime_submitted": "2020-05-20T10:20:52Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 51,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 8,
+    "grade": 52,
+    "datetime_started": "2020-05-14T18:46:36Z",
+    "datetime_submitted": "2020-05-14T18:56:09Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 52,
+  "fields": {
+    "student": 5,
+    "teacher": 6,
+    "assignment": 9,
+    "grade": 54,
+    "datetime_started": "2020-07-20T00:44:43Z",
+    "datetime_submitted": "2020-07-20T00:50:15Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 53,
+  "fields": {
+    "student": 5,
+    "teacher": 6,
+    "assignment": 11,
+    "grade": 27,
+    "datetime_started": "2020-06-25T08:17:41Z",
+    "datetime_submitted": "2020-06-25T08:35:32Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 54,
+  "fields": {
+    "student": 5,
+    "teacher": 6,
+    "assignment": 13,
+    "grade": 10,
+    "datetime_started": "2020-06-12T02:01:07Z",
+    "datetime_submitted": "2020-06-12T02:42:34Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 55,
+  "fields": {
+    "student": 5,
+    "teacher": 6,
+    "assignment": 14,
+    "grade": 62,
+    "datetime_started": "2020-06-27T16:00:40Z",
+    "datetime_submitted": "2020-06-27T16:07:00Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 56,
+  "fields": {
+    "student": 5,
+    "teacher": 7,
+    "assignment": 18,
+    "grade": 45,
+    "datetime_started": "2020-05-10T17:11:22Z",
+    "datetime_submitted": "2020-05-10T17:57:47Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 57,
+  "fields": {
+    "student": 5,
+    "teacher": 6,
+    "assignment": 19,
+    "grade": 89,
+    "datetime_started": "2020-08-20T14:46:16Z",
+    "datetime_submitted": "2020-08-20T15:22:42Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 58,
+  "fields": {
+    "student": 5,
+    "teacher": 6,
+    "assignment": 20,
+    "grade": 15,
+    "datetime_started": "2020-06-20T18:29:06Z",
+    "datetime_submitted": "2020-06-20T18:36:14Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 59,
+  "fields": {
+    "student": 5,
+    "teacher": 6,
+    "assignment": 21,
+    "grade": 81,
+    "datetime_started": "2020-07-10T17:54:33Z",
+    "datetime_submitted": "2020-07-10T18:14:31Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 60,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 23,
+    "grade": 67,
+    "datetime_started": "2020-08-30T09:54:23Z",
+    "datetime_submitted": "2020-08-30T10:47:19Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 61,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 24,
+    "grade": 1,
+    "datetime_started": "2020-05-14T06:25:12Z",
+    "datetime_submitted": "2020-05-14T06:46:59Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 62,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 2,
+    "grade": 58,
+    "datetime_started": "2020-05-20T10:47:53Z",
+    "datetime_submitted": "2020-05-20T11:16:27Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 63,
+  "fields": {
+    "student": 5,
+    "teacher": 1,
+    "assignment": 3,
+    "grade": 50,
+    "datetime_started": "2020-06-11T21:53:25Z",
+    "datetime_submitted": "2020-06-11T22:34:03Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 64,
+  "fields": {
+    "student": 5,
+    "teacher": 7,
+    "assignment": 26,
+    "grade": 74,
+    "datetime_started": "2020-06-14T12:27:14Z",
+    "datetime_submitted": "2020-06-14T12:34:48Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 65,
+  "fields": {
+    "student": 7,
+    "teacher": 7,
+    "assignment": 28,
+    "grade": 33,
+    "datetime_started": "2020-07-20T22:57:32Z",
+    "datetime_submitted": "2020-07-20T23:09:18Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 66,
+  "fields": {
+    "student": 7,
+    "teacher": 7,
+    "assignment": 25,
+    "grade": 4,
+    "datetime_started": "2020-08-05T17:44:14Z",
+    "datetime_submitted": "2020-08-05T18:12:54Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 67,
+  "fields": {
+    "student": 7,
+    "teacher": 7,
+    "assignment": 27,
+    "grade": 80,
+    "datetime_started": "2020-07-02T02:08:39Z",
+    "datetime_submitted": "2020-07-02T02:27:26Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 68,
+  "fields": {
+    "student": 7,
+    "teacher": 1,
+    "assignment": 1,
+    "grade": 88,
+    "datetime_started": "2020-06-23T15:30:32Z",
+    "datetime_submitted": "2020-06-23T15:44:43Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 69,
+  "fields": {
+    "student": 7,
+    "teacher": 1,
+    "assignment": 4,
+    "grade": 89,
+    "datetime_started": "2020-06-06T12:25:41Z",
+    "datetime_submitted": "2020-06-06T13:14:14Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 70,
+  "fields": {
+    "student": 7,
+    "teacher": 1,
+    "assignment": 7,
+    "grade": 72,
+    "datetime_started": "2020-05-30T20:27:00Z",
+    "datetime_submitted": "2020-05-30T21:04:05Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 71,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 9,
+    "grade": 13,
+    "datetime_started": "2020-05-25T05:21:32Z",
+    "datetime_submitted": "2020-05-25T06:06:31Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 72,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 11,
+    "grade": 49,
+    "datetime_started": "2020-07-02T13:26:48Z",
+    "datetime_submitted": "2020-07-02T13:37:04Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 73,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 12,
+    "grade": 78,
+    "datetime_started": "2020-07-03T15:14:00Z",
+    "datetime_submitted": "2020-07-03T15:31:14Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 74,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 13,
+    "grade": 100,
+    "datetime_started": "2020-08-22T01:19:33Z",
+    "datetime_submitted": "2020-08-22T01:53:09Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 75,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 14,
+    "grade": 73,
+    "datetime_started": "2020-07-03T02:31:45Z",
+    "datetime_submitted": "2020-07-03T03:24:30Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 76,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 15,
+    "grade": 66,
+    "datetime_started": "2020-09-06T09:32:00Z",
+    "datetime_submitted": "2020-09-06T10:00:32Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 77,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 20,
+    "grade": 76,
+    "datetime_started": "2020-07-15T02:38:24Z",
+    "datetime_submitted": "2020-07-15T02:45:06Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 78,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 21,
+    "grade": 72,
+    "datetime_started": "2020-07-27T08:14:01Z",
+    "datetime_submitted": "2020-07-27T08:55:26Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 79,
+  "fields": {
+    "student": 7,
+    "teacher": 6,
+    "assignment": 22,
+    "grade": 13,
+    "datetime_started": "2020-08-27T16:19:38Z",
+    "datetime_submitted": "2020-08-27T17:13:51Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 80,
+  "fields": {
+    "student": 7,
+    "teacher": 1,
+    "assignment": 23,
+    "grade": 7,
+    "datetime_started": "2020-07-10T17:54:44Z",
+    "datetime_submitted": "2020-07-10T18:30:21Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 81,
+  "fields": {
+    "student": 7,
+    "teacher": 1,
+    "assignment": 24,
+    "grade": 19,
+    "datetime_started": "2020-05-11T16:53:19Z",
+    "datetime_submitted": "2020-05-11T17:18:38Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 82,
+  "fields": {
+    "student": 7,
+    "teacher": 1,
+    "assignment": 2,
+    "grade": 41,
+    "datetime_started": "2020-06-02T19:28:51Z",
+    "datetime_submitted": "2020-06-02T19:53:05Z"
+  }
+},
+{
+  "model": "courses.grade",
+  "pk": 83,
+  "fields": {
+    "student": 7,
+    "teacher": 7,
+    "assignment": 26,
+    "grade": 5,
+    "datetime_started": "2020-07-29T04:41:36Z",
+    "datetime_submitted": "2020-07-29T04:56:40Z"
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$SlmOvp8WRdku$kzPWYo3RKx5WDrttWKR5Uc7BRBONOtci85d7kad5rV0=",
+    "last_login": null,
+    "is_superuser": true,
+    "userid": "admin1",
+    "first_name": "Admin",
+    "last_name": "The Guy",
+    "email": "admin1@email.com",
+    "phone_number": "12345678900",
+    "term_address": "Admins don't have houses. They live in the website!",
+    "date_joined": "2021-01-29T10:20:54.872Z",
+    "groups": [
+      2
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$9sKrynFP29em$SgzHmKQfBHlKbSGBoqmhZLjzD72x1PSgJtoLi3Vv95M=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "u1",
+    "first_name": "Account",
+    "last_name": "Person",
+    "email": "account@email.com",
+    "phone_number": "Did I do this right?",
+    "term_address": "A location, in a place.",
+    "date_joined": "2021-01-29T10:20:55.021Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$sxZIwZLHVJuy$V1vFNXE/VR82Xx6xo6J/8zBmt4/doUzhTknfgSDOR/o=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "u2",
+    "first_name": "Student1",
+    "last_name": "Person",
+    "email": "student1@email.com",
+    "phone_number": "00000000000",
+    "term_address": "Who even knows?",
+    "date_joined": "2021-01-29T10:20:55.151Z",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$eImQhomrVUoA$Mwo7atxqllUTzxYo6FyanTFM8gdsxQcfZHZg14Eb01A=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "u3",
+    "first_name": "Student2",
+    "last_name": "Person",
+    "email": "student2@email.com",
+    "phone_number": "11111111111",
+    "term_address": "Somewhere",
+    "date_joined": "2021-01-29T10:20:55.285Z",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$3dikYa2oQvvt$zt5VKOdHf3IFaEzV7gARtK0M+FPf7+U44wbs8AM5raI=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "u4",
+    "first_name": "Student3",
+    "last_name": "Person",
+    "email": "student3@email.com",
+    "phone_number": "22222222222",
+    "term_address": "What does it even mean to live? Can we truly define ourselves merely based on a location we refer to as home?",
+    "date_joined": "2021-01-29T10:20:55.415Z",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$Q1oWeHuRCaXt$thKTVHCSenVWe64cjjHtygrlmZ01AqSBij7KAKA5pvY=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "u5",
+    "first_name": "Staff",
+    "last_name": "Person",
+    "email": "staff@email.com",
+    "phone_number": "33333333333",
+    "term_address": "Somewhere",
+    "date_joined": "2021-01-29T10:20:55.546Z",
+    "groups": [
+      2
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$GD1ava8Dtoaq$zt9ZMyh0q6LbuohaUz8lte1+GzPkw9DFR/nxjEbkSzM=",
+    "last_login": null,
+    "is_superuser": false,
+    "userid": "u6",
+    "first_name": "Studentstaff",
+    "last_name": "Person",
+    "email": "studentstaff@email.com",
+    "phone_number": "800813542069",
+    "term_address": "Do you like pancakes?",
+    "date_joined": "2021-01-29T10:20:55.674Z",
+    "groups": [
+      1,
+      2
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.accountsubmission",
+  "pk": 1,
+  "fields": {
+    "email": "new.person@email.com",
+    "course": 1,
+    "valid": true,
+    "date_submitted": "2021-01-29T10:20:55.762Z"
+  }
+},
+{
+  "model": "accounts.accountsubmission",
+  "pk": 2,
+  "fields": {
+    "email": "newer.person@email.com",
+    "course": 1,
+    "valid": true,
+    "date_submitted": "2021-01-29T10:20:55.765Z"
+  }
+},
+{
+  "model": "accounts.accountsubmission",
+  "pk": 3,
+  "fields": {
+    "email": "newest.person@email.com",
+    "course": 1,
+    "valid": true,
+    "date_submitted": "2021-01-29T10:20:55.767Z"
+  }
+},
+{
+  "model": "accounts.accountsubmission",
+  "pk": 4,
+  "fields": {
+    "email": "iwannamedic@email.com",
+    "course": 8,
+    "valid": true,
+    "date_submitted": "2021-01-29T10:20:55.769Z"
+  }
+},
+{
+  "model": "accounts.accountsubmission",
+  "pk": 5,
+  "fields": {
+    "email": "legit.man@email.com",
+    "course": 11,
+    "valid": true,
+    "date_submitted": "2021-01-29T10:20:55.771Z"
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 1,
+  "fields": {
+    "title": "Welcome",
+    "author": 1,
+    "content": "Welcome to the core maths course",
+    "date_created": "2021-01-29T10:20:55.775Z",
+    "course": 1
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 2,
+  "fields": {
+    "title": "Did you know?",
+    "author": 1,
+    "content": "Did you know 1+4=6?",
+    "date_created": "2021-01-29T10:20:55.778Z",
+    "course": 1
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 3,
+  "fields": {
+    "title": "Correction",
+    "author": 1,
+    "content": "Sorry, it was 4 not 6. My bad.",
+    "date_created": "2021-01-29T10:20:55.780Z",
+    "course": 1
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 4,
+  "fields": {
+    "title": "sjdhfojhashduaiodshfadh",
+    "author": 1,
+    "content": "I am having a day.",
+    "date_created": "2021-01-29T10:20:55.783Z",
+    "course": 1
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 5,
+  "fields": {
+    "title": "Good Evening",
+    "author": 1,
+    "content": "Why hello there my good chaps. Many welcomes to the fantastical Advanced Mathematics course. Please enjoy your stay",
+    "date_created": "2021-01-29T10:20:55.786Z",
+    "course": 2
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 6,
+  "fields": {
+    "title": "How do you do?",
+    "author": 1,
+    "content": "Why hello there my good chaps. How do you do this fine evening? Have you completed all your homework? Did you sleep enough last night? Consider your answers carefully, this will be on the exam.",
+    "date_created": "2021-01-29T10:20:55.788Z",
+    "course": 2
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 7,
+  "fields": {
+    "title": "Welcome",
+    "author": 6,
+    "content": "Welcome",
+    "date_created": "2021-01-29T10:20:55.791Z",
+    "course": 3
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 8,
+  "fields": {
+    "title": "Game",
+    "author": 6,
+    "content": "I have a game",
+    "date_created": "2021-01-29T10:20:55.793Z",
+    "course": 3
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 9,
+  "fields": {
+    "title": "Game 2. Electric boogaloo.",
+    "author": 6,
+    "content": "I played a game",
+    "date_created": "2021-01-29T10:20:55.796Z",
+    "course": 3
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 10,
+  "fields": {
+    "title": "Game 3. In 3D.",
+    "author": 6,
+    "content": "I won a game",
+    "date_created": "2021-01-29T10:20:55.798Z",
+    "course": 3
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 11,
+  "fields": {
+    "title": "Game 5. The Empire Strikes Back.",
+    "author": 6,
+    "content": "I ate the game",
+    "date_created": "2021-01-29T10:20:55.801Z",
+    "course": 3
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 12,
+  "fields": {
+    "title": "Game 6.",
+    "author": 6,
+    "content": "Don't ask about game 4.",
+    "date_created": "2021-01-29T10:20:55.803Z",
+    "course": 3
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 13,
+  "fields": {
+    "title": "Welcome",
+    "author": 6,
+    "content": "What is up man. Let us make love, not war, and join together to extend our chakras to reach the next plane of reality.",
+    "date_created": "2021-01-29T10:20:55.806Z",
+    "course": 4
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 14,
+  "fields": {
+    "title": "Welcome",
+    "author": 6,
+    "content": "Welcome to the theoretical physics course",
+    "date_created": "2021-01-29T10:20:55.808Z",
+    "course": 5
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 15,
+  "fields": {
+    "title": "Theory",
+    "author": 6,
+    "content": "The Earth is clearly flat. Look at the horizon. Do you see a curve?",
+    "date_created": "2021-01-29T10:20:55.811Z",
+    "course": 5
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 16,
+  "fields": {
+    "title": "Response",
+    "author": 7,
+    "content": "I have taken a microscope and pointed it at a basket ball. By observing the horizon at a zoomed in scale proportional to the scale of a human to the Earth one can see no visible curve. Therefore by all science, basketballs are flat.",
+    "date_created": "2021-01-29T10:20:55.813Z",
+    "course": 5
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 17,
+  "fields": {
+    "title": "Welcome",
+    "author": 7,
+    "content": "Welcome to the harry potter course",
+    "date_created": "2021-01-29T10:20:55.815Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 18,
+  "fields": {
+    "title": "Day 1",
+    "author": 7,
+    "content": "They haven't noticed my infiltration.",
+    "date_created": "2021-01-29T10:20:55.818Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 19,
+  "fields": {
+    "title": "Day 2",
+    "author": 7,
+    "content": "They still think I'm actually studentstaff.",
+    "date_created": "2021-01-29T10:20:55.821Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 20,
+  "fields": {
+    "title": "Day 9",
+    "author": 7,
+    "content": "This is starting to get boring.",
+    "date_created": "2021-01-29T10:20:55.824Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 21,
+  "fields": {
+    "title": "Day 57",
+    "author": 7,
+    "content": "I think they're on to me. They're starting to look at me funny.",
+    "date_created": "2021-01-29T10:20:55.826Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 22,
+  "fields": {
+    "title": "Day 56",
+    "author": 7,
+    "content": "Nevermind. I just forgot my eyebrows at home.",
+    "date_created": "2021-01-29T10:20:55.829Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 23,
+  "fields": {
+    "title": "Day 192",
+    "author": 7,
+    "content": "I am starting to question myself. Who am I really? Am I an imposter? Or perhaps...",
+    "date_created": "2021-01-29T10:20:55.831Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 24,
+  "fields": {
+    "title": "Day 242",
+    "author": 7,
+    "content": "paint",
+    "date_created": "2021-01-29T10:20:55.834Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 25,
+  "fields": {
+    "title": "Day 491",
+    "author": 7,
+    "content": "I have accepted my position as an actual member of staff in this school. I don't know when things changed, or if they ever did. At this point I don't care. I'm just going to do some school stuff now. I am studentstaff.",
+    "date_created": "2021-01-29T10:20:55.837Z",
+    "course": 6
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 26,
+  "fields": {
+    "title": "Welcome",
+    "author": 6,
+    "content": "Welcome to the basic biology course",
+    "date_created": "2021-01-29T10:20:55.840Z",
+    "course": 7
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 27,
+  "fields": {
+    "title": "Welcome",
+    "author": 6,
+    "content": "Welcome to the medical science course",
+    "date_created": "2021-01-29T10:20:55.842Z",
+    "course": 8
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 28,
+  "fields": {
+    "title": "Actual Longest Word",
+    "author": 6,
+    "content": "Prof. Studentstaff claims antidisestablishmentarianism is the longest word. I disagree with this sentiment. The longest word is clearly pnumonoultramicroscopicsilicovolcanoconiosis",
+    "date_created": "2021-01-29T10:20:55.845Z",
+    "course": 8
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 29,
+  "fields": {
+    "title": "Staff Is A Nerd",
+    "author": 7,
+    "content": "Nuh uh, Antidisestablishmentarianism is clearly better!",
+    "date_created": "2021-01-29T10:20:55.848Z",
+    "course": 8
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 30,
+  "fields": {
+    "title": "A Disagreement",
+    "author": 6,
+    "content": "This is not a competition of the better word, rather it is a competition of length. In this regard pneumonoultramicroscopicsilicovolcanoconiosis is clearly superior.",
+    "date_created": "2021-01-29T10:20:55.851Z",
+    "course": 8
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 31,
+  "fields": {
+    "title": "Gottem",
+    "author": 7,
+    "content": "You're not a competition of the better word!",
+    "date_created": "2021-01-29T10:20:55.854Z",
+    "course": 8
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 32,
+  "fields": {
+    "title": "Warning",
+    "author": 1,
+    "content": "This is an announcement board, not your private DM's. Stop acting like children and take this discussion elsewhere",
+    "date_created": "2021-01-29T10:20:55.861Z",
+    "course": 8
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 33,
+  "fields": {
+    "title": "Welcome",
+    "author": 1,
+    "content": "Welcome to the basic literature course",
+    "date_created": "2021-01-29T10:20:55.864Z",
+    "course": 9
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 34,
+  "fields": {
+    "title": "PSA",
+    "author": 1,
+    "content": "It has come to my attention that many students in this school are unable to read or write. If this refers to you please send me an email to sign up for extracurricular english writing lessons.",
+    "date_created": "2021-01-29T10:20:55.867Z",
+    "course": 9
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 35,
+  "fields": {
+    "title": "Welcome",
+    "author": 7,
+    "content": "The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues.",
+    "date_created": "2021-01-29T10:20:55.870Z",
+    "course": 10
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 36,
+  "fields": {
+    "title": "Step 1",
+    "author": 7,
+    "content": "The 20 meter pacer test will begin in 30 seconds. Line up at the start.",
+    "date_created": "2021-01-29T10:20:55.872Z",
+    "course": 10
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 37,
+  "fields": {
+    "title": "Step 2",
+    "author": 7,
+    "content": "The running speed starts slowly, but gets faster each minute after you hear this signal. [beep]",
+    "date_created": "2021-01-29T10:20:55.875Z",
+    "course": 10
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 38,
+  "fields": {
+    "title": "Step 3",
+    "author": 7,
+    "content": "A single lap should be completed each time you hear this sound. [ding]",
+    "date_created": "2021-01-29T10:20:55.878Z",
+    "course": 10
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 39,
+  "fields": {
+    "title": "Step 4",
+    "author": 7,
+    "content": "Remember to run in a straight line, and run as long as possible.",
+    "date_created": "2021-01-29T10:20:55.881Z",
+    "course": 10
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 40,
+  "fields": {
+    "title": "Step 5",
+    "author": 7,
+    "content": "The second time you fail to complete a lap before the sound, your test is over.",
+    "date_created": "2021-01-29T10:20:55.884Z",
+    "course": 10
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 41,
+  "fields": {
+    "title": "Step 6",
+    "author": 7,
+    "content": "The test will begin on the word start. On your mark, get ready, start.",
+    "date_created": "2021-01-29T10:20:55.887Z",
+    "course": 10
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 42,
+  "fields": {
+    "title": "Welcome",
+    "author": 7,
+    "content": "What are you doing here? I already told you my longest word.",
+    "date_created": "2021-01-29T10:20:55.889Z",
+    "course": 11
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 43,
+  "fields": {
+    "title": "Do A Flip",
+    "author": 7,
+    "content": "Do a flip!",
+    "date_created": "2021-01-29T10:20:55.892Z",
+    "course": 11
+  }
+},
+{
+  "model": "announcements.announcement",
+  "pk": 44,
+  "fields": {
+    "title": "PSA",
+    "author": 1,
+    "content": "Please refrain from performing backflips on the courtyard.",
+    "date_created": "2021-01-29T10:20:55.894Z",
+    "course": 11
+  }
+}
+]

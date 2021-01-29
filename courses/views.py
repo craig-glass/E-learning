@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic.base import TemplateResponseMixin, View
 from students.forms import CourseEnrollForm
-from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet, QuestionFormSet
+from .forms import ModuleFormSet, AssignmentFormSet, QuizFormSet, ChoiceFormSet, QuestionFormSet, QuestionForm
 from .models import Course, ModuleContent, AssignmentContent, Quiz, Question, Choice
 from django.apps import apps
 from django.forms.models import modelform_factory, modelformset_factory
@@ -17,18 +17,34 @@ from django.views.generic.detail import DetailView
 
 
 class OwnerMixin(object):
+    """
+    Filters objects that belong to the current user.
+    To be used for views that interact with any model
+    that contains an owner attribute
+    """
+
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(owner=self.request.user)
 
 
 class OwnerEditMixin(object):
+    """
+    Sets the current user in the owner attribute of the object being saved.
+    To be used in form creation mixins to save the owner
+    attribute as current user
+    """
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
 class CoursePageMixin:
+    """
+    Adds all existing objects to view
+    """
+
     def get_context(self, request, course_slug=None, module_id=None,
                     assignment_id=None, quiz_id=None, subject_slug=None, **kwargs):
         context = {}
@@ -53,6 +69,10 @@ class CoursePageMixin:
 
 
 class OwnedCoursePageMixin(CoursePageMixin):
+    """
+    Adds all existing objects that are owned by current user
+    """
+
     def get_context(self, request, course_slug=None, module_id=None,
                     assignment_id=None, quiz_id=None, **kwargs):
         context = {}
@@ -73,16 +93,31 @@ class OwnedCoursePageMixin(CoursePageMixin):
 class OwnerCourseMixin(OwnerMixin,
                        LoginRequiredMixin,
                        PermissionRequiredMixin):
+    """
+    This adds the model used for querysets and ensures user
+    is logged in and has correct permissions
+    """
+
     model = Course
     fields = ['subject', 'title', 'slug', 'overview']
     success_url = reverse_lazy('courses:manage_course_list')
 
 
 class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
+    """
+    This combines OwnerCourseMixin and OwnerEditMixin
+    to define template that is used mutually by CreateView
+    and UpdateView
+    """
+
     template_name = 'courses/manage/course/form.html'
 
 
 class CourseListView(CoursePageMixin, View):
+    """
+    Lists courses
+    """
+
     template_name = 'courses/course/list.html'
 
     def get(self, request, subject=None):
@@ -91,6 +126,11 @@ class CourseListView(CoursePageMixin, View):
 
 
 class CourseDetailView(CoursePageMixin, View):
+    """
+    Renders a detailed view of courses and modules it
+    contains
+    """
+
     template_name = 'courses/course/detail.html'
 
     def get(self, request, slug):
@@ -100,8 +140,12 @@ class CourseDetailView(CoursePageMixin, View):
 
 class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
                            OwnedCoursePageMixin, View):
+    """
+    Lists courses created by the user
+    """
+
     template_name = 'courses/manage/course/list.html'
-    permission_required = 'courses.view_course'
+    permission_required = 'courses.create_course'
 
     def get(self, request):
         context = self.get_context(request)
@@ -109,19 +153,37 @@ class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
+    """
+    Checks the current user has correct permissions and
+    allows the user to create page if authenticated
+    """
+
     permission_required = 'courses.add_course'
 
 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
+    """
+    Checks current user's permissions to update course
+    """
+
     permission_required = 'courses.change_course'
 
 
 class CourseDeleteView(OwnerCourseMixin, DeleteView):
+    """
+    Checks user's permissions to delete course
+    """
+
     template_name = 'courses/manage/course/delete.html'
     permission_required = 'courses.delete_course'
 
 
 class CourseModuleUpdateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
+    """
+    Dispatches course object based on url and allows
+    user to update modules
+    """
+
     template_name = 'courses/manage/module/formset.html'
     course = None
     permission_required = 'courses.change_module'
@@ -151,6 +213,11 @@ class CourseModuleUpdateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
 
 
 class ContentCreateUpdateView(TemplateResponseMixin, View):
+    """
+    Dispatches module and allows user to create and update
+    content for module
+    """
+
     module = None
     model = None
     obj = None
@@ -209,6 +276,11 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 
 
 class ContentDeleteView(View):
+    """
+    Checks that the user is the course owner and allows
+    to delete module content if authenticated
+    """
+
     def post(self, request, id):
         content = get_object_or_404(ModuleContent,
                                     id=id,
@@ -220,6 +292,11 @@ class ContentDeleteView(View):
 
 
 class ModuleViewsMixin(TemplateResponseMixin, View):
+    """
+    Retrieves module related to course based on modules
+    id given in url
+    """
+
     def get(self, request, module_id):
         module = get_object_or_404(Module,
                                    id=module_id,
@@ -228,22 +305,43 @@ class ModuleViewsMixin(TemplateResponseMixin, View):
 
 
 class ModuleListView(ModuleViewsMixin):
+    """
+    Renders a list of modules
+    """
+
     template_name = 'courses/manage/module/list.html'
 
 
 class ModuleContentListView(ModuleViewsMixin):
+    """
+    Renders module content
+    """
+
     template_name = 'courses/manage/module/content_list.html'
 
 
 class AssignmentContentListView(ModuleViewsMixin):
+    """
+    Renders assignment content related to selected module
+    """
+
     template_name = 'courses/manage/assignments/list.html'
 
 
 class QuizListView(ModuleViewsMixin):
+    """
+    Renders list of quizzes related to selected module
+    """
+
     template_name = 'courses/manage/quizzes/list.html'
 
 
 class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View):
+    """
+    Gets selected module, checks permissions and renders
+    a formset
+    """
+
     module = None
     permission_required = 'courses.change_module'
 
@@ -260,6 +358,11 @@ class QuizAssignmentCreateView(TemplateResponseMixin, OwnerCourseEditMixin, View
 
 
 class QuizCreateView(QuizAssignmentCreateView):
+    """
+    Renders a quiz form set for users to create
+    quizzes for selected module
+    """
+
     template_name = 'courses/manage/quizzes/formset.html'
 
     def get_formset(self, data=None):
@@ -276,6 +379,11 @@ class QuizCreateView(QuizAssignmentCreateView):
 
 
 class CourseAssignmentUpdateView(QuizAssignmentCreateView):
+    """
+    Renders a formset for users to create assignments for
+    selected module
+    """
+
     template_name = 'courses/manage/assignments/formset.html'
 
     def get_formset(self, data=None):
@@ -292,6 +400,11 @@ class CourseAssignmentUpdateView(QuizAssignmentCreateView):
 
 
 class AssignmentUpdateView(TemplateResponseMixin, View):
+    """
+    Renders the contents of assignment that is selected and allows
+    user to add content
+    """
+
     template_name = 'courses/manage/assignments/content-list.html'
 
     def get(self, request, module_id, assignment_id):
@@ -306,6 +419,11 @@ class AssignmentUpdateView(TemplateResponseMixin, View):
 
 
 class QuizUpdateView(TemplateResponseMixin, View):
+    """
+    Renders the selected quiz with a list of current
+    questions with the option to add more questions
+    """
+
     template_name = 'courses/manage/quizzes/content-list.html'
 
     def get(self, request, module_id, quiz_id):
@@ -318,6 +436,11 @@ class QuizUpdateView(TemplateResponseMixin, View):
 
 
 class QuizCreateUpdateView(TemplateResponseMixin, View):
+    """
+    Allows users to create question and choices for
+    selected quiz
+    """
+
     model = None
     obj = None
     quiz = None
@@ -338,7 +461,7 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
         return super().dispatch(request, module_id, quiz_id, id)
 
     def get(self, request, module_id, quiz_id, id=None):
-        question_formset = QuestionFormSet(instance=self.quiz)
+        question_formset = QuestionFormSet(instance=self.quiz, queryset=Question.objects.none())
 
         return self.render_to_response({'question_formset': question_formset,
                                         'quiz': self.quiz,
@@ -359,6 +482,10 @@ class QuizCreateUpdateView(TemplateResponseMixin, View):
 
 
 class AddChoiceView(TemplateResponseMixin, View):
+    """
+    Allows user to edit choices of the question selected
+    """
+
     question = None
     module = None
     quiz = None
@@ -379,24 +506,53 @@ class AddChoiceView(TemplateResponseMixin, View):
         return super().dispatch(request, module_id, quiz_id, question_id)
 
     def get(self, request, *args, **kwargs):
+        form = QuestionForm(instance=self.question)
         formset = self.get_formset()
         return self.render_to_response({'module': self.module,
                                         'quiz': self.quiz,
+                                        'form': form,
                                         'question': self.question,
                                         'formset': formset})
 
     def post(self, request, *args, **kwargs):
+        form = QuestionForm(instance=self.question, data=request.POST)
         formset = self.get_formset(data=request.POST)
+        if form.is_valid():
+            form.instance.quiz = self.quiz
+            form.save()
         if formset.is_valid():
             formset.save()
             return redirect('courses:quiz_edit', self.module.id, self.quiz.id)
         return self.render_to_response({'module': self.module,
                                         'quiz': self.quiz,
+                                        'form': form,
                                         'question': self.question,
                                         'formset': formset})
 
 
+class QuestionDeleteView(View):
+    """
+    Checks that the user is the course owner and allows
+    to delete module content if authenticated
+    """
+
+    def post(self, request, id):
+        question = get_object_or_404(Question,
+                                     id=id,
+                                     quiz__module__course__owner=request.user)
+        quiz = question.quiz
+        module = quiz.module
+        print(quiz)
+        question.delete()
+        return redirect('courses:quiz_edit', module.id, quiz.id)
+
+
 class AssignmentCreateUpdateView(TemplateResponseMixin, View):
+    """
+    Renders a form for user to create content based on
+    what content type user would like to create
+    """
+
     model = None
     obj = None
     assignment = None
@@ -463,6 +619,11 @@ class AssignmentCreateUpdateView(TemplateResponseMixin, View):
 
 
 class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+    """
+    Used in conjuction with 'sortable' AJAX call to re-order
+    modules by drag and drop
+    """
+
     def post(self, request):
         for id, order in self.request_json.items():
             Module.objects.filter(id=id, course__owner=request.user).update(
@@ -471,6 +632,10 @@ class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
 
 
 class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+    """
+    Used in conjuction with 'sortable' AJAX call to re-order
+    content by drag and drop
+    """
     def post(self, request):
         for id, order in self.request_json.items():
             ModuleContent.objects.filter(id=id,

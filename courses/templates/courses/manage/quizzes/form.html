@@ -61,20 +61,29 @@
                                         {% endfor %}
                                     {% endif %}
                                 </div>
-
                             {% endfor %}
 
-                            <button id="add-choices-form" type="button">Add Choice</button>
-
-                            <button id="add-form" type="button">Add Question</button>
-                            <button type="submit">Save Questions</button>
+                            <button class="link-button-add" id="add-choices-form" type="button">
+                                <span class="fas fa-plus-square"></span> Add Choice
+                            </button>
+                            <button class="link-button-add" style="margin-left: 10px" id="add-form" type="button">
+                                <span class="fas fa-plus-square"></span> Add Question
+                            </button>
+                            <br>
+                            <hr>
+                            <button class="link-button-add" type="submit"><span
+                                    class="fas fa-check-circle"></span> Save Questions
+                            </button>
                         </form>
+                        <br>
                     </div>
                 </div>
             </div>
         </div>
     {% endwith %}
     <script>
+
+
         let questionForm = document.querySelectorAll(".question_formset")
         let choicesForm = document.querySelectorAll(".choices_formset")
         let choicesManagementForm = document.querySelectorAll(".choices_management_form")
@@ -85,15 +94,21 @@
         let totalChoicesForm = document.querySelector("#id_choices-questions-0-choices-TOTAL_FORMS")
 
 
-
         let formNum = questionForm.length - 1
         let choicesFormNum = choicesForm.length - 1
 
         let totalChoicesFormList = [
-            {label: formNum, value: totalChoicesForm} ]
+            {label: formNum, value: totalChoicesForm}]
 
         addButton.addEventListener('click', addForm)
         addButtonChoices.addEventListener('click', addChoicesForm)
+
+        /**
+         * Function activated when user clicks 'adds question'.
+         * When button is clicked a new form is created and rendered
+         * underneath the previous question
+         * @param e
+         */
 
         function addForm(e) {
             e.preventDefault()
@@ -108,7 +123,7 @@
             newChoiceForm.innerHTML = newChoiceForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
             newForm.innerHTML = newForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
             totalChoicesForm.innerHTML = totalChoicesForm.innerHTML.replace(formRegex, `questions-${formNum}-`)
-            totalChoicesFormList.push({label: formNum, value: totalChoicesForm })
+            totalChoicesFormList.push({label: formNum, value: totalChoicesForm})
 
 
             container.insertBefore(newForm, addButton)
@@ -117,6 +132,13 @@
             totalForms.setAttribute('value', `${formNum + 1}`)
 
         }
+
+        /**
+         * Function activated when user clicks on 'add choice'.
+         * When button is clicked a new choice form will appear
+         * underneath the previous choice form
+         * @param e
+         */
 
         function addChoicesForm(e) {
             e.preventDefault()
@@ -129,7 +151,6 @@
             container.insertBefore(newForm, addButtonChoices)
 
             totalChoicesFormList[formNum].value.setAttribute('value', `${choicesFormNum + 1}`)
-
         }
     </script>
 {% endblock %}

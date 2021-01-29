@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import Subject, Course, Module, Assignment, Quiz
 
-
+"""
+Registering models to be used in django admin.
+"""
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug']

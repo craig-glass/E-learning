@@ -1,0 +1,62 @@
+[
+{
+  "model": "courses.course",
+  "pk": 5,
+  "fields": {
+    "title": "Algebra",
+    "slug": "algebra",
+    "overview": "Everything Algebra",
+    "created": "2021-01-21 14:00:23.343294+00",
+    "owner_id": "1",
+    "subject": "3"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 6,
+  "fields": {
+    "title": "Cyber Security",
+    "slug": "cyber-security",
+    "overview": "Everything Security",
+    "created": "2021-01-21 14:00:23.343294+00",
+    "owner_id": "1",
+    "subject": "1"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 7,
+  "fields": {
+    "title": "English Literature",
+    "slug": "english-literature",
+    "overview": "Everything English Lit",
+    "created": "2021-01-21 14:00:23.343294+00",
+    "owner_id": "1",
+    "subject": "2"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 8,
+  "fields": {
+    "title": "Folk Music",
+    "slug": "folk",
+    "overview": "Everything Folk Music",
+    "created": "2021-01-21 14:00:23.343294+00",
+    "owner_id": "1",
+    "subject": "3"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 9,
+  "fields": {
+    "title": "Nursing",
+    "slug": "nursing",
+    "overview": "Everything nursing",
+    "created": "2021-01-21 14:00:23.343294+00",
+    "owner_id": "1",
+    "subject": "5"
+  }
+}
+]

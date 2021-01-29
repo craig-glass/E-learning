@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load course %}
 {% block title %}
     Module {{ module.order|add:1 }}: {{ module.title }}
 {% endblock %}
@@ -8,47 +9,47 @@
 {% endblock %}
 
 {% block content %}
-        <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
-        <a class="link-button" href="{% url 'courses:manage_course_list' %}"
-           style="width: 100%; display: inline-block">
-            Back to Course List
-        </a>
-        <div style="width: 100%">
-            <h2>Modules</h2>
-            <ul id="module-list" class="sortable-list" style="list-style: none">
-                {% for m in course.modules.all %}
-                    <li data-id="{{ m.id }}"{% if m == module %}
-                        class="selected"{% endif %}>
-                        <div class="plain-text-area">
-                            <a {% if not m == module %}href="{% url "courses:module_list" m.id %}"{% endif %}>
-                                <h3>Module {{ m.order|add:1 }}: {{ m.title }}</h3>
-                            </a>
-                            Assignments: {{ m.assignments.count }} - Content Objects: {{ m.contents.count }}
-                        </div>
-                    </li>
-                {% empty %}
-                    <li>This course has no modules</li>
-                {% endfor %}
-            </ul>
-        </div>
+    <h1>Course "{{ course.title }}"<br>Module {{ module.order|add:1 }} "{{ module.title }}"</h1>
+    <a class="link-button" href="{% url 'courses:manage_course_list' %}"
+       style="width: 100%; display: inline-block">
+        Back to Course List
+    </a>
+    <div style="width: 100%">
+        <h2>Modules</h2>
+        <ul id="module-list" class="sortable-list" style="list-style: none">
+            {% for m in course.modules.all %}
+                <li data-id="{{ m.id }}"{% if m == module %}
+                    class="selected"{% endif %}>
+                    <div class="plain-text-area">
+                        <a {% if not m == module %}href="{% url "courses:module_list" m.id %}"{% endif %}>
+                            <h3>Module {{ m.order|add:1 }}: {{ m.title }}</h3>
+                        </a>
+                        Assignments: {{ m.assignments.count }} - Content Objects: {{ m.contents.count }}
+                    </div>
+                </li>
+            {% empty %}
+                <li>This course has no modules</li>
+            {% endfor %}
+        </ul>
+    </div>
 
-        <h2>Actions</h2>
-        <a class="link-button" href="{% url "courses:course_module_update" course.id %}"
-           style="width: 100%; display: inline-block">
-            Edit modules
-        </a>
-        <a class="link-button" href="{% url 'courses:module_content_list' module.id %}"
-           style="width: 100%; display: inline-block">
-            <span class="fas fa-tasks"></span> Manage Module {{ module.order|add:1 }}:  "{{ module.title }}" Contents
-        </a>
-        <a class="link-button" href="{% url 'courses:assignment_content_list' module.id %}"
-           style="width: 100%; display: inline-block">
-            <span class="fas fa-tasks"></span> Manage Module {{ module.order|add:1 }}:  "{{ module.title }}" Assignments
-        </a>
-        <a class="link-button" href="{% url 'courses:quiz_list_view' module.id %}"
-           style="width: 100%; display: inline-block">
-            <span class="fas fa-tasks"></span> Manage Module {{ module.order|add:1 }}:  "{{ module.title }}" Quizzes
-        </a>
+    <h2>Actions</h2>
+    <a class="link-button" href="{% url "courses:course_module_update" course.id %}"
+       style="width: 100%; display: inline-block">
+        Edit modules
+    </a>
+    <a class="link-button" href="{% url 'courses:module_content_list' module.id %}"
+       style="width: 100%; display: inline-block">
+        <span class="fas fa-tasks"></span> Manage Module {{ module.order|add:1 }}: "{{ module.title }}" Contents
+    </a>
+    <a class="link-button" href="{% url 'courses:assignment_content_list' module.id %}"
+       style="width: 100%; display: inline-block">
+        <span class="fas fa-tasks"></span> Manage Module {{ module.order|add:1 }}: "{{ module.title }}" Assignments
+    </a>
+    <a class="link-button" href="{% url 'courses:quiz_list_view' module.id %}"
+       style="width: 100%; display: inline-block">
+        <span class="fas fa-tasks"></span> Manage Module {{ module.order|add:1 }}: "{{ module.title }}" Quizzes
+    </a>
 
 {% endblock %}
 

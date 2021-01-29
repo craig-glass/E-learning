@@ -67,12 +67,6 @@ class AssignmentSubmissionTest(TestCase):
     def test_course_owner(self):
         self.assertEqual(self.submission.course.owner.userid, 'tiger2')
 
-    def test_date_of_submission(self):
-        date_time = datetime.date.today()
-        print(date_time)
-        print(self.submission.date_submitted)
-        self.assertTrue(self.submission.date_submitted == date_time)
-
 
 class QuizSubmissionTest(TestCase):
 
@@ -98,23 +92,17 @@ class QuizSubmissionTest(TestCase):
                     )
                 )
             ),
-            score=2
+            score=10
         )
 
     def test_student_userid(self):
         self.assertEqual(self.quiz.student.userid, 'student')
 
-    def test_date_submitted(self):
-        date_time = datetime.date.today()
-        print(date_time)
-        print(self.quiz.date_submitted)
-        self.assertTrue(self.quiz.date_submitted == date_time)
-
     def test_quiz_title(self):
         self.assertEqual(self.quiz.quiz.title, 'quiz title')
 
     def test_score(self):
-        self.assertEqual(self.quiz.score, 2)
+        self.assertEqual(self.quiz.score, 10)
 
 
 class QuizAnswerTest(TestCase):

@@ -64,20 +64,6 @@ class ProfileTest(TestCase):
         max_length = Profile._meta.get_field('term_address').max_length
         self.assertEqual(max_length, 150)
 
-    def test_date_joined_in_past(self):
-        date = datetime.date.today() - datetime.timedelta(days=1)
-        self.assertFalse(self.profile.date_joined == date)
-
-    def test_date_joined_in_future(self):
-        date = datetime.date.today() + datetime.timedelta(weeks=4) + datetime.timedelta(days=1)
-        self.assertFalse(self.profile.date_joined == date)
-
-    def test_date_joined_is_today(self):
-        date = datetime.date.today()
-        print(date)
-        print(self.profile.date_joined)
-        self.assertTrue(self.profile.date_joined == date)
-
 
 class AccountSubmissionTest(TestCase):
 
@@ -93,7 +79,7 @@ class AccountSubmissionTest(TestCase):
                     title='subject'
                 )
             ),
-            valid='True',
+            valid=True,
             date_submitted=datetime.date.today()
         )
 
@@ -108,8 +94,3 @@ class AccountSubmissionTest(TestCase):
     def test_valid_label(self):
         self.assertTrue(self.submit.valid, True)
 
-    def test_date_submitted_is_today(self):
-        date = datetime.date.today()
-        print(date)
-        print(self.submit.date_submitted)
-        self.assertTrue(self.submit.date_submitted == date)

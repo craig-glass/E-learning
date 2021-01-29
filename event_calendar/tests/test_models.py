@@ -44,7 +44,21 @@ class EventTest(TestCase):
 
     def test_end_time(self):
         e_date = datetime.date.today()
+        print(e_date)
+        print(self.event.end_time)
         self.assertTrue(self.event.end_time == e_date)
+
+    def test_end_date_in_past(self):
+        date = datetime.date.today() - datetime.timedelta(days=1)
+        print(date)
+        print(self.event.end_time)
+        self.assertFalse(self.event.end_time == date)
+
+    def test_end_date_in_future(self):
+        date = datetime.date.today() + datetime.timedelta(weeks=4) + datetime.timedelta(days=1)
+        print(date)
+        print(self.event.end_time)
+        self.assertFalse(self.event.end_time == date)
 
     def test_course_title(self):
         self.assertEqual(self.event.course.title, 'course title')

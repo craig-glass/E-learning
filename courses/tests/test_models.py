@@ -1,5 +1,7 @@
 import datetime
 
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from accounts.models import Profile
 from courses.models import Subject, Text, Course, Module, Assignment, Content, ModuleContent, ItemBase, Quiz, Question,\
@@ -132,6 +134,23 @@ class AssignmentTest(TestCase):
         self.assertEqual(self.assignment.description, 'description')
 
 
+# class ContentTest(TestCase):
+#
+#     @classmethod
+#     def setUpTestData(cls):
+#         cls.content_type=Content.objects.create(
+#             ContentType='text',
+#             object_id=2,
+#             item=GenericForeignKey
+#         )
+#
+#     def test_content_type(self):
+#         self.assertEqual(self.content_type.ContentType, 'text')
+#
+#     def test_object_id(self):
+#         self.assertEqual(self.content_type.object_id, 2)
+
+
 # class ItemBaseTest(TestCase):
 #
 #     @classmethod
@@ -163,7 +182,7 @@ class AssignmentTest(TestCase):
 #     def test_updated(self):
 #         date = datetime.date.today()
 #         self.assertTrue(self.item_base.updated == date)
-#
+
 
 class TextFieldTest(TestCase):
 
@@ -314,11 +333,11 @@ class GradeTest(TestCase):
 
                         )
                     )
-                ),
-                due_date=datetime.date.today()
-
+                )
             ),
-            grade='2'
+            grade=10,
+            datetime_started=datetime.date.today(),
+            datetime_submitted=datetime.date.today()
         )
 
     def test_student_userid(self):
@@ -331,5 +350,5 @@ class GradeTest(TestCase):
         self.assertEqual(self.grade.assignment.module.title, 'assignment')
 
     def test_grade(self):
-        self.assertEqual(self.grade.grade, '2')
+        self.assertEqual(self.grade.grade, 10)
 

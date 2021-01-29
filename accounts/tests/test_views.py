@@ -17,9 +17,9 @@ class RegistrationTest(TestCase):
             password='password'
         )
 
-    def test_logged_in_profile_page(self):
-        request = self.factory.get('/account/profile/1/')
-        request.user = self.user
+    def test_authenticated_profile_page(self):
+        request = self.factory.get('/account/profile/', kwargs={'userid': 'test1'})
+        request.user = self.user.is_authenticated
         response = AccountDisplayView.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.template_name[0], 'accounts/account_view/account_view.html')
@@ -43,4 +43,26 @@ class RegistrationTest(TestCase):
         response = self.client.get('/account/register/')
         self.assertEquals(response.status_code, 200)
 
+    def test_account_view_status_code(self):
+        url = self.factory.post(reverse('accounts:account_view', kwargs={'userid': 'test1'}))
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed('accounts/account_view/account_view.html')
 
+    def test_account_edit_page_status_code(self):
+        url = self.factory.post(reverse('accounts:account_edit', kwargs={'userid': 'test1'}))
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed('accounts/account_view/account_view.html')
+
+    def test_account_analytics_page_status_code(self):
+        url = self.factory.post(reverse('accounts:account_analytics', kwargs={'userid': 'test1'}))
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed('accounts/account_view/account_analytics.html')
+
+    def test_course_register_autocourse_page_status_code(self):
+        url = self.factory.post(reverse('accounts:course_register_autocourse', kwargs={'course_id': 1}))
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed('accounts/account_view/account_view.html')

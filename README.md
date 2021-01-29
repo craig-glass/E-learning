@@ -15,7 +15,15 @@ enrolled courses. The website can also be download on mobile devices as a
 Progressive Web Application by visiting the website and pressing the "Add to
 Home Screen" button.
 
+## Notes for examiners
+
+The testing document can be found in the `E-learning/TESTINGDOCUMENT.md` file.
+
+Domain name for the heroku site is
+[https://e-learning-epic.herokuapp.com/](https://e-learning-epic.herokuapp.com/)
+
 ## Installation
+### Pulling From Git
 
 To begin installing, open a command line prompt and move to the directory you
 wish to clone this repository into using the command: `cd your/directory/path`
@@ -80,8 +88,8 @@ Now you can navigate into your database with:
 To connect to your database you will need to configure it in your
 config.settings.py file.
 
-This is done in
-the config.settings.py file. Add the following to the settings.py file:
+This is done in the config.settings.py file. Add the following to the
+settings.py file:
 
 ``` Python
 DATABASES = {
@@ -96,9 +104,8 @@ DATABASES = {
 ```
 
 Now the database is setup you will need to run migrations to populate the
-database with the models from the project:
-Make sure you are out of the psql command prompt and back in your project root
-directory and type:
+database with the models from the project: Make sure you are out of the psql
+command prompt and back in your project root directory and type:
 ```
 python manage.py makemigrations
 ```
@@ -110,8 +117,8 @@ To populate the database with sample data simply type the command:
 ```
 python manage.py loaddata db.json
 ```
-The project should now be ready to run locally at localhost:<port>. 
-Run the project with the following command:
+The project should now be ready to run locally at `localhost:<port>`. Run the
+project with the following command:
 ```
 python manage.py runserver
 ```
@@ -123,7 +130,8 @@ python manage.py runserver 700
 ```
 Here I have chosen port 700 but any port that is not already in use will work.
 
-That's it, you should have now successfully deployed the app on your local machine.
+That's it, you should have now successfully deployed the app on your local
+machine.
 
 ### Remote Setup
 
@@ -142,11 +150,11 @@ resources tab and chose find more add-ons. Find heroku postgres and add the
 add-on to your app. You should now see heroku postgres in your list of
 installed add-ons on your app dashboard. Click on it, then click on settings,
 then 'view credentials'. Here you will find the necessary information to set
-your variables in the config.setting.py file.
+your variables in the `config/setting.py` file.
 
 Most of the configuration is already setup to deploy in a production
 environment to heroku so only a few things will need changing in the
-config.settings.py file. 
+`config/settings.py` file. 
 
 First, change the DEBUG variable to False. We don't want any sensitive data
 shown to users. Second, change the variables in DATABASES to match your

@@ -139,7 +139,7 @@ class CourseDetailView(CoursePageMixin, View):
 
 
 class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
-                           View):
+                           OwnedCoursePageMixin, View):
     """
     Lists courses created by the user
     """

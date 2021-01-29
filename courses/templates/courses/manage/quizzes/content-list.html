@@ -7,74 +7,39 @@
 {% block content %}
     {% with course=module.course %}
         <h1>Course "{{ course.title }}"</h1>
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-3 col-centered">
-                    <div class="contents">
-                        <h3>Modules</h3>
-                        <ul id="modules">
-                            {% for m in course.modules.all %}
-                                <li data-id="{{ m.id }}"{% if m == module %}
-                                    class="selected"{% endif %}>
-                                    <a href="{% url "courses:module_list" m.id %}">
-                                    <span>
-                                        Module<span class="order">
-                                        {{ m.order|add:1 }}
-                                    </span>
-                                    </span>
-                                        <br>
-                                        {{ m.title }}
-                                    </a>
-                                </li>
-                            {% empty %}
-                                <li>No modules yet</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+        <h2>Quiz {{ quiz.id }}</h2>
+        <h3>Questions:</h3>
+        <div>
+            {% for question in quiz.questions.all %}
+                <div id="module-contents">
+                    <p>{{ question.number }}. {{ question.question_text }}</p>
+                    {% for choice in question.choices.all %}
+                        <p>{{ choice.choice_text }}</p>
+                    {% endfor %}
+                    <a class="link-button" style="float:left; color: #000000;"
+                       href="{% url 'courses:edit_choices' module.id quiz.id question.id %}"><span
+                            class="fas fa-edit"></span>Edit
+                        Question</a>
+                    <form action="{% url "courses:question_delete" question.id %}" method="post">
+                        <br>
+                        <button class="link-button" style="margin-left: 10px" type="submit"
+                                value="Delete Question"><span
+                                class="fas fa-check-circle"></span>Delete Question
+                        </button>
+                        {% csrf_token %}
+                    </form>
                 </div>
-
-                <div class="col-12 col-md-9 ">
-
-                    <div class="module" style="margin-bottom:40px;">
-                        <h2>Quiz {{ quiz.id }}</h2>
-                        <h3>Questions:</h3>
-                        <div>
-                            {% for question in quiz.questions.all %}
-                                <div id="module-contents">
-                                    <p>{{ question.number }}. {{ question.question_text }}</p>
-                                    {% for choice in question.choices.all %}
-                                        <p>{{ choice.choice_text }}</p>
-                                    {% endfor %}
-                                    <a class="link-button" style="float:left; color: #000000;"
-                                       href="{% url 'courses:edit_choices' module.id quiz.id question.id %}"><span
-                                            class="fas fa-edit"></span>Edit
-                                        Question</a>
-                                    <form action="{% url "courses:question_delete" question.id %}" method="post">
-                                        <br>
-                                        <button class="link-button" style="margin-left: 10px" type="submit"
-                                                value="Delete Question"><span
-                                                class="fas fa-check-circle"></span>Delete Question
-                                        </button>
-                                        {% csrf_token %}
-                                    </form>
-                                </div>
-                            {% empty %}
-                                <p>This quiz has no questions yet</p>
-                            {% endfor %}
-                            <hr>
-                            <div>
-                                <a class="link-button"
-                                   href="{% url 'courses:quiz_questions_create' module.id quiz.id %}">
-                                    <span class="fas fa-plus-square"></span> Add Questions</a>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                </div>
-
+            {% empty %}
+                <p>This quiz has no questions yet</p>
+            {% endfor %}
+            <hr>
+            <div>
+                <a class="link-button"
+                   href="{% url 'courses:quiz_questions_create' module.id quiz.id %}">
+                    <span class="fas fa-plus-square"></span> Add Questions</a>
             </div>
+            <br>
         </div>
-
     {% endwith %}
 {% endblock %}
 {% block extrajavascript %}

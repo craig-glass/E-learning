@@ -22,6 +22,20 @@ The testing document can be found in the `E-learning/TESTINGDOCUMENT.md` file.
 Domain name for the heroku site is
 [https://e-learning-epic.herokuapp.com/](https://e-learning-epic.herokuapp.com/)
 
+## Notes about sample data
+
+The sample data contains 7 users with the following logins:
+
+| username | password | permissions      |
+| -------- |:--------:| ----------------:|
+| admin1   | account  | Superuser, Staff |
+| u1       | account  |                  |
+| u2       | account  | Student          |
+| u3       | account  | Student          |
+| u4       | account  | Student          |
+| u5       | account  | Staff            |
+| u6       | account  | Student, Staff   |
+
 ## Installation
 ### Pulling From Git
 

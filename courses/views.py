@@ -145,7 +145,7 @@ class ManageCourseListView(LoginRequiredMixin, PermissionRequiredMixin,
     """
 
     template_name = 'courses/manage/course/list.html'
-    permission_required = 'courses.create_course'
+    permission_required = 'courses.add_course'
 
     def get(self, request):
         context = self.get_context(request)

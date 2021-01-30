@@ -30,32 +30,31 @@ class GetAnnouncementsAjax(LoginRequiredMixin, View):
     Ajax request for list of announcements for a given course
     """
 
-
-def post(self, request: HttpRequest) -> JsonResponse:
-    if not request.user.is_authenticated:
-        response = JsonResponse({})
-        response.status_code = 401
-        return response
-    course = request.POST.get('course')
-    announcements = Announcement.objects.filter(course=course)
-    context = {"announcements": []}
-    for announcement in announcements:
-        # Parse announcement details into json format dict
-        author = announcement.author.userid
-        print(announcement.author.first_name, announcement.author.last_name, announcement.author.userid)
-        if announcement.author.last_name:
-            author += ":" + announcement.author.last_name[0]
-            if announcement.author.first_name:
-                author += "." + announcement.author.first_name
-        elif announcement.author.first_name:
-            author += ":" + announcement.author.first_name
-        context["announcements"].append({
-            "title": announcement.title,
-            "author": author,
-            "content": announcement.content,
-            "created": announcement.date_created
-        })
-    return JsonResponse(context)
+    def post(self, request: HttpRequest) -> JsonResponse:
+        if not request.user.is_authenticated:
+            response = JsonResponse({})
+            response.status_code = 401
+            return response
+        course = request.POST.get('course')
+        announcements = Announcement.objects.filter(course=course)
+        context = {"announcements": []}
+        for announcement in announcements:
+            # Parse announcement details into json format dict
+            author = announcement.author.userid
+            print(announcement.author.first_name, announcement.author.last_name, announcement.author.userid)
+            if announcement.author.last_name:
+                author += ":" + announcement.author.last_name[0]
+                if announcement.author.first_name:
+                    author += "." + announcement.author.first_name
+            elif announcement.author.first_name:
+                author += ":" + announcement.author.first_name
+            context["announcements"].append({
+                "title": announcement.title,
+                "author": author,
+                "content": announcement.content,
+                "created": announcement.date_created
+            })
+        return JsonResponse(context)
 
 
 def addAnnouncements(request):
